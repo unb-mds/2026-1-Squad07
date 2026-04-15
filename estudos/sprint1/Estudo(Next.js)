@@ -1,0 +1,155 @@
+Next.js
+
+**O que é?**
+O Next.js é um framework para React que fornece uma estrutura pronta para desenvolvimento de aplicações web. Ele já vem com diversas funcionalidades pré-configuradas, como roteamento automático e renderização no servidor (SSR), facilitando e agilizando o processo de desenvolvimento, especialmente para iniciantes.
+
+**Como funciona?**
+O Next.js funciona combinando renderização no cliente e no servidor. Diferente de aplicações React tradicionais (SPA), ele permite que páginas sejam renderizadas no servidor antes de serem enviadas ao usuário (SSR), melhorando desempenho e SEO.
+Além disso, utiliza o sistema de arquivos para definir rotas automaticamente, ou seja, a estrutura de pastas do projeto define as páginas da aplicação sem necessidade de configuração manual.
+
+**Quem será o coelho?**
+Victor Alexim Amaral
+**Tópicos a serem estudados:**
+
+- [x] O que é SSR (Server-Side Rendering)
+- [x] Diferença entre SPA e SSR
+- [x] Estrutura de pastas do Next.js
+- [x] File System Routing (roteamento automático)
+- [x] Criação de projetos com create-next-app
+- [x] Integração com CSS (ex: Tailwind)
+- [x] Diferença entre App Router e Pages Router
+
+# Estudo: Next.js
+
+## 1. O que é SSR (Server-Side Rendering)
+
+SSR (Server-Side Rendering) é uma técnica em que o HTML da página é gerado no servidor antes de ser enviado ao navegador.
+
+Funcionamento:
+1. O usuário faz uma requisição
+2. O servidor processa o código da página
+3. O HTML é gerado no servidor
+4. O navegador recebe o conteúdo pronto
+
+Vantagens:
+- Melhor indexação por mecanismos de busca (SEO)
+- Carregamento inicial mais rápido
+- Melhor experiência do usuário
+
+---
+
+## 2. Diferença entre SPA e SSR
+
+SPA (Single Page Application):
+- Renderização acontece no navegador
+- A página é carregada uma vez e atualizada dinamicamente
+- Exemplo: React tradicional
+
+SSR:
+- Renderização acontece no servidor
+- O conteúdo já chega pronto ao navegador
+
+Principais diferenças:
+- SPA depende mais do cliente
+- SSR melhora o carregamento inicial e SEO
+
+---
+
+## 3. Estrutura de pastas do Next.js
+
+Principais diretórios:
+- /app: contém as páginas (App Router)
+- /pages: estrutura antiga de rotas
+- /public: arquivos estáticos (imagens, ícones)
+- /styles: arquivos de estilo
+
+Arquivos importantes:
+- page.js: define uma página
+- layout.js: define o layout padrão
+- globals.css: estilos globais
+
+A estrutura de pastas define o comportamento da aplicação.
+
+---
+
+## 4. File System Routing (Roteamento automático)
+
+O Next.js cria rotas automaticamente com base na estrutura de arquivos.
+
+Exemplos:
+/app/sobre/page.js corresponde à rota /sobre
+/app/contato/page.js corresponde à rota /contato
+
+Rotas dinâmicas:
+/app/produto/[id]/page.js
+
+Permite acessar:
+/produto/1
+/produto/2
+
+---
+
+## 5. Criação de projetos com create-next-app
+
+Comandos:
+pnpm create-next-app meu-projeto
+cd meu-projeto
+pnpm run dev
+
+Durante a criação do projeto, é possível configurar:
+- TypeScript
+- ESLint
+- Tailwind CSS
+- App Router
+
+Após iniciar, o projeto pode ser acessado em:
+http://localhost:3000
+
+---
+
+## 6. Integração com CSS (ex: Tailwind)
+
+CSS tradicional:
+Permite estilização através de arquivos CSS separados.
+
+Tailwind CSS:
+Permite estilização diretamente nas classes dos elementos HTML.
+
+Vantagens do Tailwind:
+- Agilidade no desenvolvimento
+- Menor necessidade de arquivos CSS separados
+- Amplamente utilizado no mercado
+
+---
+
+## 7. Diferença entre App Router e Pages Router
+
+Pages Router:
+- Utiliza a pasta /pages
+- Modelo mais antigo
+- Menos recursos
+
+App Router:
+- Utiliza a pasta /app
+- Suporte a layouts
+- Melhor organização
+- Abordagem mais moderna e recomendada
+
+---
+
+## Prática sugerida
+
+Criar um projeto com:
+- Página inicial
+- Página "Sobre"
+- Página dinâmica de produto
+
+Adicionar estilização com Tailwind CSS
+
+Testar renderização no servidor com dados simples
+
+---
+
+## Resumo
+
+Next.js é um framework para React que facilita o desenvolvimento de aplicações web, oferecendo recursos como renderização no servidor, roteamento automático e estrutura pré-configurada. Essas características tornam o desenvolvimento mais rápido e organizado.
