@@ -1,3 +1,4 @@
+
 ## 1. O que é CI/CD?
 
 CI/CD (Continuous Integration / Continuous Deployment) é a prática de automatizar a integração de código e a entrega da aplicação. São os "robôs" que garantem que o código está funcionando e o enviam para o ar automaticamente, eliminando trabalho manual, repetitivo e arriscado de juntar e publicar código. O objetivo é entregar software mais rápido, com menos bugs e sem esgotar a equipe.
