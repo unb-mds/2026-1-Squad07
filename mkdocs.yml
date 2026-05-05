@@ -1,0 +1,39 @@
+site_name: Squad 07 - 2026
+site_url: https://unb-mds.github.io/2026-1-Squad07/
+site_description: Documentação do Projeto Squad 07
+site_author: Squad 07
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotate
+
+plugins:
+  - search
+  - offline
+
+nav:
+  - Início: index.md
+
+markdown_extensions:
+  - pymdownx.emoji
+  - pymdownx.tasklist
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - tables
+  - toc:
+      toc_depth: 3
