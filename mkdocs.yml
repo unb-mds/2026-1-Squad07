@@ -28,6 +28,8 @@ plugins:
 
 nav:
   - Início: index.md
+  - Requisitos:
+    - User Story Map: user_story_map.md
 
 markdown_extensions:
   - pymdownx.emoji
