@@ -8,3 +8,4 @@ pytest-cov
 httpx
 flake8
 black
+mkdocs
