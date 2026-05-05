@@ -1,0 +1,22 @@
+backend/
+├── app/
+│   ├── api/          # Rotas do FastAPI (ex: user_routes.py)
+│   ├── core/         # Configurações globais, segurança, variáveis de ambiente
+│   ├── models/       # Schemas Pydantic (validação de entrada/saída)
+│   ├── services/     # Regras de negócio e lógica da aplicação
+│   ├── db/           # Configuração do cliente Prisma
+│   └── main.py       # Ponto de entrada do FastAPI
+├── prisma/
+│   └── schema.prisma # Modelagem do banco de dados
+├── requirements.txt  # (Ou pyproject.toml) dependências do Python
+└── Dockerfile
+
+frontend/
+├── src/
+│   ├── app/          # Rotas e páginas da aplicação
+│   ├── components/   # Componentes reutilizáveis (Botões, Modais, etc)
+│   ├── lib/          # Funções utilitárias, chamadas de API (axios/fetch)
+│   └── types/        # Definições de tipagem global
+├── tailwind.config.js
+├── package.json
+└── Dockerfile
