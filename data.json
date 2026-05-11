@@ -1,0 +1,51 @@
+{
+  "project": "dashboard-scrum-health",
+  "generatedAt": "2026-05-11",
+  "metrics": [
+    {
+      "date": "2026-05-01",
+      "commits": 5,
+      "issuesOpened": 3,
+      "issuesClosed": 2,
+      "additions": 220,
+      "deletions": 55,
+      "charCountAverage": 145
+    },
+    {
+      "date": "2026-05-02",
+      "commits": 8,
+      "issuesOpened": 1,
+      "issuesClosed": 4,
+      "additions": 310,
+      "deletions": 90,
+      "charCountAverage": 168
+    },
+    {
+      "date": "2026-05-03",
+      "commits": 4,
+      "issuesOpened": 2,
+      "issuesClosed": 1,
+      "additions": 180,
+      "deletions": 40,
+      "charCountAverage": 153
+    },
+    {
+      "date": "2026-05-04",
+      "commits": 7,
+      "issuesOpened": 2,
+      "issuesClosed": 3,
+      "additions": 265,
+      "deletions": 70,
+      "charCountAverage": 172
+    },
+    {
+      "date": "2026-05-05",
+      "commits": 6,
+      "issuesOpened": 4,
+      "issuesClosed": 2,
+      "additions": 290,
+      "deletions": 95,
+      "charCountAverage": 160
+    }
+  ]
+}

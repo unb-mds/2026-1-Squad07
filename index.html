@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard de Métricas Scrum</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Saúde do Projeto</h1>
+      <p>Dashboard de métricas de commits, issues, diffs e texto.</p>
+    </div>
+  </header>
+
+  <main class="dashboard-grid">
+    <section class="card">
+      <h2>Commits</h2>
+      <div id="commits-chart"></div>
+    </section>
+    <section class="card">
+      <h2>Diffs</h2>
+      <div id="diff-chart"></div>
+    </section>
+    <section class="card">
+      <h2>Issues</h2>
+      <div id="issues-chart"></div>
+    </section>
+    <section class="card">
+      <h2>Média de caracteres</h2>
+      <div id="chars-chart"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Dados atualizados automaticamente na branch <strong>dev</strong>.</p>
+  </footer>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
