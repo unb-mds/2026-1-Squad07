@@ -22,21 +22,26 @@ Tamanho e complexidade, clareza textual, uso de referências legais e consistên
 > **Meta da Release:** Validar a jornada do usuário e provar a integração de todas as camadas arquiteturais do sistema (Front-end, Back-end e Banco de Dados), utilizando dados simulados para a inteligência.
 
 **Épico 1: Infraestrutura e Setup**
+
 * **Tarefa:** Inicialização e configuração dos repositórios base (FastAPI no back e Next.js no front).
 * **Tarefa:** Definição e aplicação da identidade visual base do projeto.
 * **Tarefa:** Exportação e documentação final do User Story Mapping (USM).
 
 **Épico 2: Acesso e Identidade**
+
 * **User Story:** Como usuário, quero me autenticar de forma básica em uma tela simples de login para conseguir acessar o dashboard.
 
 **Épico 3: Descoberta (Submissão de Leis)**
+
 * **User Story:** Como sistema, preciso de um endpoint no backend para receber e salvar os textos enviados.
 * **User Story:** Como usuário, quero colar o texto da lei em uma área de submissão na tela Home para enviá-la para avaliação.
 
 **Épico 4: Motor de Inteligência (Simulação)**
+
 * **User Story:** Como sistema, preciso calcular um Score simulado no backend para alimentar os gráficos visuais na fase de MVP.
 
 **Épico 5: Visualização de Dados**
+
 * **User Story:** Como sistema, preciso integrar a biblioteca de visualização de dados (ex: D3.js) no frontend.
 * **User Story:** Como usuário, quero visualizar a Média Geral das Leis no topo da Home como referencial.
 * **User Story:** Como usuário, quero visualizar o texto submetido ao lado de um gráfico com a nota principal renderizada.
