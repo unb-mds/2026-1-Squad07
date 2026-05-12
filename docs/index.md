@@ -45,24 +45,29 @@ Tamanho e complexidade, clareza textual, uso de referências legais e consistên
 > **Meta da Fase:** Implementação do motor real de Processamento de Linguagem Natural (NLP), evolução da infraestrutura e aprofundamento da experiência do usuário.
 
 **Épico 1: Evolução de Infraestrutura e Arquitetura**
+
 * **Tarefa:** Configuração final do banco PostgreSQL utilizando Prisma ORM.
 * **Tarefa:** Containerização de ambientes estruturada para produção (Docker/Docker-compose).
 * **Tarefa:** Deploy automatizado e configuração de pipeline CI/CD robusto (lint, build, testes).
 
 **Épico 2: Acesso e Identidade Avançados**
+
 * **User Story:** Criação de tela de cadastro e visualização/edição de perfil (CRUD) para histórico de leis.
 * **User Story:** Implementação de fluxo de recuperação de senha por e-mail e login unificado via SSO (Google).
 
 **Épico 3: Descoberta Avançada**
+
 * **User Story:** Navegação em página de busca no catálogo com filtros avançados.
 * **User Story:** Suporte para envio de leis através de upload direto de arquivos (.pdf / .docx).
 
 **Épico 4: Motor de Inteligência (NLP Core)**
+
 * **User Story:** Implementação de algoritmos reais de análise de texto no backend para cálculo de legibilidade.
 * **User Story:** Geração automática de resumos curtos (leitura < 1 minuto) e sugestões de reescrita para trechos confusos.
 * **User Story:** Comparação textual com leis consolidadas para detecção de repetições.
 
 **Épico 5: Visualização de Dados Avançada**
+
 * **User Story:** Renderização de cards laterais detalhando problemas e marcações (*highlights*) aplicadas diretamente sobre o erro no texto original.
 * **User Story:** Exportação do resultado completo da análise em relatório PDF.
 
