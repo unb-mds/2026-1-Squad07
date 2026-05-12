@@ -1,9 +1,11 @@
-fastapi
+fastapi[all]
+prisma
+pydantic
+pydantic-settings
 uvicorn
-sqlalchemy
-psycopg2-binary
 pytest
 pytest-cov
 httpx
 flake8
 black
+mkdocs
