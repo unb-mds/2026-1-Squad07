@@ -115,7 +115,7 @@ Critérios de aceitação:
 2. O arquivo docs/metricas/metrics.json é gerado pelo workflow e contém todas as seções: issues_per_week, commit_message_histogram, coauthors_per_week, commit_heatmap, top_committers, top_pr_authors, top_issue_contributors.
 3. O workflow .github/workflows/metrics.yml executa com sucesso no GitHub Actions usando apenas GITHUB_TOKEN.
 4. O workflow roda automaticamente todo domingo às 03:00 UTC e pode ser disparado manualmente via workflow_dispatch.
-5. Após a execução, o workflow faz commit do metrics.json atualizado no branch main.
+5. Após a execução, o workflow faz commit do metrics.json atualizado no branch dev.
 6. Os gráficos renderizam corretamente com os dados do JSON (sem erros no console).
 7. A página é responsiva (funciona em mobile e desktop).
 8. O ranking exibe pelo menos os 10 primeiros ou todos os contribuidores (o que for menor).
@@ -155,9 +155,9 @@ Decisões técnicas:
   - Rationale: D3.js oferece controle total sobre SVG, permite customização avançada dos gráficos e escalas bem para visualizações futuras. Chart.js é mais simples mas menos flexível. Imagens estáticas perdem interatividade.
 
 - Persistência dos dados:
-  - Escolha: Arquivo JSON único commitado no repo pelo próprio workflow.
+  - Escolha: Arquivo JSON único commitado no branch dev pelo próprio workflow.
   - Alternativas consideradas: GitHub Pages artifact; branch separado gh-pages.
-  - Rationale: JSON no mesmo branch mantém histórico via git, é simples de debugar, e GitHub Pages pode servir de qualquer pasta configurada.
+  - Rationale: JSON no branch de integração mantém histórico via git, é simples de debugar, respeita o fluxo de Pull Requests antes da main, e GitHub Pages pode servir de qualquer pasta configurada.
 
 - Agendamento:
   - Escolha: cron: '0 3 * * 0' (domingo 03:00 UTC) + workflow_dispatch.
