@@ -4,6 +4,14 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 3 * * 0"
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/metrics.yml"
+      - "docs/metricas/collect_metrics.py"
+      - "docs/metricas/index.html"
+      - "docs/metricas/AGENT.md"
 
 permissions:
   contents: write
