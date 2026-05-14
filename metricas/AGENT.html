@@ -1,0 +1,631 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Squad 07">
+      
+      
+        <meta name="author" content="Squad 07">
+      
+      
+        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/metricas/AGENT.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Spec — Dashboard de Produtividade - Squad 07 - 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-dashboard-de-produtividade" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../index.html" title="Squad 07 - 2026" class="md-header__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Squad 07 - 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spec — Dashboard de Produtividade
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Squad 07 - 2026" class="md-nav__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Squad 07 - 2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Métricas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="spec-dashboard-de-produtividade">Spec — Dashboard de Produtividade</h1>
+<p>Status: spec</p>
+<hr />
+<h2 id="projeto">Projeto</h2>
+<p>Squad7 - A ideia central do projeto é desenvolver uma plataforma de monitoramento da qualidade de leis e proposições legislativas, permitindo que usuários submetam textos legislativos para análise técnica via IA</p>
+<hr />
+<h2 id="constituicao-principios-relevantes">Constituição (princípios relevantes)</h2>
+<h3 id="automacao-e-baixa-manutencao">Automação e Baixa Manutenção</h3>
+<ol>
+<li>O dashboard deve ser atualizado automaticamente sem intervenção humana.</li>
+<li>Não dependa de serviços pagos ou credenciais externas além do GITHUB_TOKEN padrão.</li>
+<li>Os dados devem ser reproduzíveis — qualquer pessoa pode re-gerar o JSON executando o workflow manualmente.</li>
+</ol>
+<h3 id="transparencia">Transparência</h3>
+<ol>
+<li>Todas as métricas devem ser derivadas exclusivamente de dados públicos do repositório (commits, issues, PRs).</li>
+<li>Não exiba métricas que possam ser manipuladas trivialmente para "gamificar" o ranking.</li>
+</ol>
+<h3 id="simplicidade">Simplicidade</h3>
+<ol>
+<li>A página deve ser um único index.html estático com zero dependências de back-end.</li>
+<li>Prefira bibliotecas leves via CDN; não introduza build steps (webpack, vite, etc.) para esta página.</li>
+</ol>
+<hr />
+<h2 id="convencoes-tecnicas">Convenções técnicas</h2>
+<ul>
+<li>Página: HTML5 estático (<code>docs/metricas/index.html</code>)</li>
+<li>Estilização: CSS inline ou <style> embutido; pode usar TailwindCSS via CDN.</li>
+<li>Gráficos: D3.js v7 via CDN (flexível, sem build).</li>
+<li>Paleta de cores (UnB institucional):</li>
+<li>Azul escuro: #003366 — header, séries "Abertas", barras empilhadas abertas.</li>
+<li>Verde: #005C37 — séries "Fechadas", barras empilhadas fechadas.</li>
+<li>Azul médio: #004A8C — histograma de commits.</li>
+<li>Dourado: #BFA630 — barras de co-autores.</li>
+<li>Dados: arquivo docs/metricas/metrics.json gerado pelo GitHub Action.</li>
+<li>CI: GitHub Actions workflow (<code>.github/workflows/metrics.yml</code>), roda semanalmente (cron), sob dispatch manual e em pushes controlados na branch dev para reconhecer/testar alterações de métricas.</li>
+<li>Linguagem do script coletor: Python 3.11+ (já presente no projeto).</li>
+<li>Dependências do script: PyGithub (acesso à API do GitHub).</li>
+<li>Deploy da página: GitHub Pages servindo a pasta docs/metricas/.</li>
+</ul>
+<hr />
+<h2 id="como-me-ajudar">Como me ajudar</h2>
+<ul>
+<li>Implemente uma tarefa por vez, na ordem descrita.</li>
+<li>O script Python deve ser idempotente — sempre gera o JSON completo do zero.</li>
+<li>Não altere nenhum arquivo fora de docs/metricas/ e .github/workflows/metrics.yml sem permissão.</li>
+<li>Mantenha o HTML legível; não minimize.</li>
+</ul>
+<hr />
+<h2 id="fora-de-escopo-padrao">Fora de escopo padrão</h2>
+<ul>
+<li>Não adicione autenticação ou back-end.</li>
+<li>Não altere o pipeline de CI/linter existente.</li>
+<li>Não mude a estrutura do projeto principal.</li>
+<li>Não colete métricas de repositórios externos.</li>
+</ul>
+<hr />
+<h2 id="funcionalidade-dashboard-de-produtividade">Funcionalidade: Dashboard de Produtividade</h2>
+<h3 id="spec">Spec</h3>
+<p>Contexto: A equipe (Squad 07) e a professora da disciplina MDS/UnB precisam visualizar a produtividade do projeto ao longo do tempo. A página é acessada via GitHub Pages e mostra gráficos e rankings atualizados semanalmente de forma automática.</p>
+<p>Comportamento observável (ponto de vista do usuário):</p>
+<p>O usuário acessa a URL do GitHub Pages e vê uma página responsiva contendo:</p>
+<ol>
+<li>Gráfico de linhas — Issues abertas vs. fechadas por semana</li>
+<li>Eixo X: semanas (formato <code>YYYY-WXX</code>).</li>
+<li>Eixo Y: quantidade.</li>
+<li>
+<p>Duas séries: "Abertas" e "Fechadas".</p>
+</li>
+<li>
+<p>Histograma — Quantidade de caracteres na mensagem de commit</p>
+</li>
+<li>Eixo X: faixas de caracteres (0–20, 21–50, 51–100, 101–200, 200+).</li>
+<li>
+<p>Eixo Y: número de commits naquela faixa.</p>
+</li>
+<li>
+<p>Gráfico de barras — Quantidade de co-autores por semana</p>
+</li>
+<li>Eixo X: semanas.</li>
+<li>
+<p>Eixo Y: total de linhas Co-authored-by encontradas nos commits daquela semana.</p>
+</li>
+<li>
+<p>Mapa de calor — Horário dos commits por dia da semana</p>
+</li>
+<li>Eixo X: horas do dia (0h–23h).</li>
+<li>Eixo Y: dias da semana (Seg–Dom).</li>
+<li>Cor: gradiente de #e8f4f8 (zero commits) a #003366 (máximo).</li>
+<li>
+<p>Tooltip mostra dia, hora e quantidade de commits.</p>
+</li>
+<li>
+<p>Gráfico de barras empilhadas — Issues abertas/fechadas por semana</p>
+</li>
+<li>
+<p>Mesmo dado do item 1, mas em formato de barras empilhadas para visualização alternativa.</p>
+</li>
+<li>
+<p>Ranking — Top committers</p>
+</li>
+<li>Tabela ordenada por número de commits (desc).</li>
+<li>Colunas: posição, nome/username, total de commits.</li>
+<li>Ranking — Top autores de PRs</li>
+<li>Tabela ordenada por número de PRs abertas (desc).</li>
+<li>
+<p>Colunas: posição, nome/username, total de PRs abertas.</p>
+</li>
+<li>
+<p>Ranking — Top em Issues (abertas + fechadas)</p>
+</li>
+<li>Tabela ordenada pela soma de issues abertas + issues fechadas pelo usuário (desc).</li>
+<li>Colunas: posição, nome/username, issues abertas, issues fechadas, total.</li>
+</ol>
+<p>Critérios de aceitação:</p>
+<ol>
+<li>O arquivo docs/metricas/index.html abre corretamente no navegador sem servidor local (protocolo file:// ou via GitHub Pages).</li>
+<li>O arquivo docs/metricas/metrics.json é gerado pelo workflow e contém todas as seções: issues_per_week, commit_message_histogram, coauthors_per_week, commit_heatmap, top_committers, top_pr_authors, top_issue_contributors.</li>
+<li>O workflow .github/workflows/metrics.yml executa com sucesso no GitHub Actions usando apenas GITHUB_TOKEN.</li>
+<li>O workflow roda automaticamente todo domingo às 03:00 UTC, pode ser disparado manualmente via workflow_dispatch e roda em push na dev quando arquivos de métricas/workflow forem alterados.</li>
+<li>Após a execução, o workflow faz commit do metrics.json atualizado no branch dev.</li>
+<li>Os gráficos renderizam corretamente com os dados do JSON (sem erros no console).</li>
+<li>A página é responsiva (funciona em mobile e desktop).</li>
+<li>O ranking exibe pelo menos os 10 primeiros ou todos os contribuidores (o que for menor).</li>
+</ol>
+<p>Casos de borda:</p>
+<ul>
+<li>Semana sem atividade: a semana aparece no eixo X com valor 0; não é omitida.</li>
+<li>Commit sem mensagem (squash vazio): conta como 0 caracteres na faixa 0–20.</li>
+<li>Usuário deletado (ghost): aparece como ghost nos rankings.</li>
+<li>Co-authored-by com formato inválido: é ignorado silenciosamente.</li>
+<li>Repositório com &lt; 1 semana de histórico: exibe os dados disponíveis sem erro.</li>
+</ul>
+<p>Fora de escopo desta spec:</p>
+<ul>
+<li>Métricas de code review (comments em PRs).</li>
+<li>Métricas de CI (tempo de build, falhas).</li>
+<li>Filtro interativo por período.</li>
+<li>Autenticação ou área restrita.</li>
+<li>Armazenamento histórico (o JSON é sempre reescrito por completo).</li>
+</ul>
+<hr />
+<h3 id="plano">Plano</h3>
+<p>Referência: spec acima. Constituição relevante: princípios 1, 2, 3, 6, 7.</p>
+<p>Decisões técnicas:</p>
+<ul>
+<li>Coleta de dados:</li>
+<li>Escolha: Script Python usando PyGithub para acessar a API REST do GitHub.</li>
+<li>Alternativas consideradas: GitHub GraphQL API; gh CLI direto no workflow.</li>
+<li>
+<p>Rationale: PyGithub é bem documentada, suporta paginação automática e o projeto já usa Python. A GraphQL seria mais eficiente mas adiciona complexidade de queries. O gh CLI limitaria a lógica a shell scripts.</p>
+</li>
+<li>
+<p>Visualização:</p>
+</li>
+<li>Escolha: D3.js v7 via CDN + tabelas HTML puras com estilo Tailwind CDN.</li>
+<li>Alternativas consideradas: Chart.js; Mermaid; imagens estáticas geradas por matplotlib.</li>
+<li>
+<p>Rationale: D3.js oferece controle total sobre SVG, permite customização avançada dos gráficos e escalas bem para visualizações futuras. Chart.js é mais simples mas menos flexível. Imagens estáticas perdem interatividade.</p>
+</li>
+<li>
+<p>Persistência dos dados:</p>
+</li>
+<li>Escolha: Arquivo JSON único commitado no branch dev pelo próprio workflow.</li>
+<li>Alternativas consideradas: GitHub Pages artifact; branch separado gh-pages.</li>
+<li>
+<p>Rationale: JSON no branch de integração mantém histórico via git, é simples de debugar, respeita o fluxo de Pull Requests antes da main, e GitHub Pages pode servir de qualquer pasta configurada.</p>
+</li>
+<li>
+<p>Agendamento:</p>
+</li>
+<li>Escolha: cron: '0 3 * * 0' (domingo 03:00 UTC) + workflow_dispatch + push controlado na dev.</li>
+<li>Rationale: Frequência semanal alinha com as sprints da disciplina; horário de madrugada evita conflitos com trabalho ativo. O push controlado permite que o GitHub Actions reconheça e teste o workflow quando ele é integrado na branch dev, sem disparar loop com o metrics.json.</li>
+</ul>
+<p>Tradeoffs aceitos:</p>
+<ol>
+<li>O JSON é reescrito do zero a cada execução — não há dados incrementais. Aceitável porque o repositório é pequeno e a API suporta o volume.</li>
+<li>D3.js via CDN exige internet para visualizar — aceitável porque o público-alvo acessa via GitHub Pages (já online).</li>
+<li>O commit automático pode gerar ruído no histórico — mitigado com mensagem padronizada [bot] atualiza métricas de produtividade.</li>
+</ol>
+<p>Dependências:
+- PyGithub (script coletor)
+- D3.js v7 (CDN, front-end)
+- TailwindCSS (CDN, estilização)
+- actions/checkout@v4 (workflow)
+- actions/setup-python@v5 (workflow)</p>
+<hr />
+<h3 id="tarefas">Tarefas</h3>
+<ol>
+<li>Criar script coletor (<code>docs/metricas/collect_metrics.py</code>)</li>
+<li>Depende de: —</li>
+<li>Pronto quando:<ul>
+<li>O script aceita variáveis de ambiente GITHUB_TOKEN e GITHUB_REPOSITORY.</li>
+<li>Gera docs/metricas/metrics.json com schema correto.</li>
+<li>Roda localmente com python collect_metrics.py (dado token válido).</li>
+</ul>
+</li>
+<li>
+<p>Fora de escopo: renderização HTML, workflow.</p>
+</li>
+<li>
+<p>Criar workflow (<code>.github/workflows/metrics.yml</code>)</p>
+</li>
+<li>Depende de: Tarefa 1.</li>
+<li>Pronto quando:<ul>
+<li>Instala dependências, executa o script, e commita o JSON atualizado.</li>
+<li>Roda no cron semanal, via dispatch manual e via push controlado na dev.</li>
+<li>Usa apenas GITHUB_TOKEN (permissões <code>contents: write</code>).</li>
+</ul>
+</li>
+<li>
+<p>Fora de escopo: a página HTML.</p>
+</li>
+<li>
+<p>Criar página HTML (<code>docs/metricas/index.html</code>)</p>
+</li>
+<li>Depende de: Tarefa 1 (precisa do schema do JSON para bindar os gráficos).</li>
+<li>Pronto quando:<ul>
+<li>Carrega metrics.json via fetch relativo.</li>
+<li>Renderiza todos os 7 componentes visuais descritos na spec.</li>
+<li>Responsivo (mobile-first com Tailwind).</li>
+<li>Sem erros no console do navegador.</li>
+</ul>
+</li>
+<li>
+<p>Fora de escopo: coleta de dados, CI.</p>
+</li>
+<li>
+<p>Configurar GitHub Pages</p>
+</li>
+<li>Depende de: Tarefas 2 e 3.</li>
+<li>Pronto quando:<ul>
+<li>A página é acessível via URL pública do GitHub Pages.</li>
+<li>O JSON é servido corretamente (sem CORS issues em mesmo domínio).</li>
+</ul>
+</li>
+<li>Fora de escopo: DNS customizado.</li>
+</ol>
+<hr />
+<h3 id="schema-do-metricsjson">Schema do metrics.json</h3>
+<p>JSON
+
+</p>
+<p>{
+  "generated_at": "2025-05-11T03:00:00Z",
+  "repository": "unb-mds/2026.1-ContraDito",
+  "issues_per_week": [
+    { "week": "2025-W01", "opened": 5, "closed": 3 }
+  ],
+  "commit_message_histogram": [
+    { "range": "0-20", "count": 12 },
+    { "range": "21-50", "count": 30 },
+    { "range": "51-100", "count": 45 },
+    { "range": "101-200", "count": 20 },
+    { "range": "200+", "count": 5 }
+  ],
+  "coauthors_per_week": [
+    { "week": "2025-W01", "count": 4 }
+  ],
+  "commit_heatmap": [
+    { "day": 0, "hour": 10, "count": 8 },
+    { "day": 6, "hour": 22, "count": 2 }
+  ],
+  "top_committers": [
+    { "username": "fulano", "name": "Fulano Silva", "commits": 42 }
+  ],
+  "top_pr_authors": [
+    { "username": "fulano", "name": "Fulano Silva", "prs_opened": 15 }
+  ],
+  "top_issue_contributors": [
+    { "username": "fulano", "name": "Fulano Silva", "opened": 10, "closed": 8, "total": 18 }
+  ]
+}</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
