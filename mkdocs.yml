@@ -28,6 +28,7 @@ plugins:
 
 nav:
   - Início: index.md
+  - Métricas: metricas/index.html
 
 markdown_extensions:
   - pymdownx.emoji
