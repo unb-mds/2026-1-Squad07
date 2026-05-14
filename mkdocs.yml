@@ -28,6 +28,8 @@ plugins:
 
 nav:
   - Início: index.md
+  - Requisitos:
+    - Requisitos Funcionais: requisitos/requisitos_funcionais.md
 
 markdown_extensions:
   - pymdownx.emoji
