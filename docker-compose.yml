@@ -1,6 +1,5 @@
 version: "3.9"
 
-
 services:
   db:
     image: postgres:16-alpine
@@ -15,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-app_db}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -28,9 +27,9 @@ services:
     container_name: fastapi_app
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "5432:5432"
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-app_db}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-app_db}?schema=public
     depends_on:
       db:
         condition: service_healthy
@@ -44,5 +43,3 @@ services:
 
 volumes:
   postgres_data:
-
-  
