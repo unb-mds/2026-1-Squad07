@@ -1,0 +1,1058 @@
+{
+  "generated_at": "2026-05-13T13:52:43+00:00",
+  "repository": "unb-mds/2026-1-Squad07",
+  "issues_per_week": [
+    {
+      "week": "2026-W12",
+      "opened": 4,
+      "closed": 0
+    },
+    {
+      "week": "2026-W13",
+      "opened": 3,
+      "closed": 2
+    },
+    {
+      "week": "2026-W14",
+      "opened": 7,
+      "closed": 11
+    },
+    {
+      "week": "2026-W15",
+      "opened": 2,
+      "closed": 2
+    },
+    {
+      "week": "2026-W16",
+      "opened": 5,
+      "closed": 1
+    },
+    {
+      "week": "2026-W17",
+      "opened": 24,
+      "closed": 4
+    },
+    {
+      "week": "2026-W18",
+      "opened": 7,
+      "closed": 6
+    },
+    {
+      "week": "2026-W19",
+      "opened": 5,
+      "closed": 2
+    },
+    {
+      "week": "2026-W20",
+      "opened": 1,
+      "closed": 10
+    }
+  ],
+  "commit_message_histogram": [
+    {
+      "range": "0-20",
+      "count": 4
+    },
+    {
+      "range": "21-50",
+      "count": 18
+    },
+    {
+      "range": "51-100",
+      "count": 13
+    },
+    {
+      "range": "101-200",
+      "count": 7
+    },
+    {
+      "range": "200+",
+      "count": 1
+    }
+  ],
+  "coauthors_per_week": [
+    {
+      "week": "2026-W12",
+      "count": 0
+    },
+    {
+      "week": "2026-W13",
+      "count": 0
+    },
+    {
+      "week": "2026-W14",
+      "count": 0
+    },
+    {
+      "week": "2026-W15",
+      "count": 0
+    },
+    {
+      "week": "2026-W16",
+      "count": 0
+    },
+    {
+      "week": "2026-W17",
+      "count": 0
+    },
+    {
+      "week": "2026-W18",
+      "count": 0
+    }
+  ],
+  "commit_heatmap": [
+    {
+      "day": 0,
+      "hour": 0,
+      "count": 1
+    },
+    {
+      "day": 0,
+      "hour": 1,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 12,
+      "count": 1
+    },
+    {
+      "day": 0,
+      "hour": 13,
+      "count": 2
+    },
+    {
+      "day": 0,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 15,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 17,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "day": 0,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 20,
+      "count": 3
+    },
+    {
+      "day": 0,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 22,
+      "count": 0
+    },
+    {
+      "day": 0,
+      "hour": 23,
+      "count": 1
+    },
+    {
+      "day": 1,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 1,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 13,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 15,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 17,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 18,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 1,
+      "hour": 22,
+      "count": 10
+    },
+    {
+      "day": 1,
+      "hour": 23,
+      "count": 6
+    },
+    {
+      "day": 2,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 1,
+      "count": 2
+    },
+    {
+      "day": 2,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 13,
+      "count": 2
+    },
+    {
+      "day": 2,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 15,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 17,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 22,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 23,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 1,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 2,
+      "count": 4
+    },
+    {
+      "day": 3,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 13,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 15,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 17,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 18,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 22,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 23,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 1,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 13,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 15,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 17,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "day": 4,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 22,
+      "count": 0
+    },
+    {
+      "day": 4,
+      "hour": 23,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 1,
+      "count": 3
+    },
+    {
+      "day": 5,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 13,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 15,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 17,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 18,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 22,
+      "count": 0
+    },
+    {
+      "day": 5,
+      "hour": 23,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 1,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 13,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 15,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 17,
+      "count": 2
+    },
+    {
+      "day": 6,
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "day": 6,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 22,
+      "count": 0
+    },
+    {
+      "day": 6,
+      "hour": 23,
+      "count": 0
+    }
+  ],
+  "top_committers": [
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "commits": 24
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "commits": 7
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "commits": 4
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "commits": 2
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "commits": 2
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "commits": 2
+    },
+    {
+      "username": "RochaCarla",
+      "name": "Carla Rocha",
+      "commits": 1
+    },
+    {
+      "username": "ghost",
+      "name": "ghost",
+      "commits": 1
+    }
+  ],
+  "top_pr_authors": [
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "prs_opened": 9
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "prs_opened": 3
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "prs_opened": 2
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "prs_opened": 1
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "prs_opened": 1
+    }
+  ],
+  "top_issue_contributors": [
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "opened": 27,
+      "closed": 13,
+      "total": 40
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "opened": 19,
+      "closed": 11,
+      "total": 30
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "opened": 4,
+      "closed": 6,
+      "total": 10
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "opened": 3,
+      "closed": 4,
+      "total": 7
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "opened": 3,
+      "closed": 2,
+      "total": 5
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "opened": 2,
+      "closed": 2,
+      "total": 4
+    }
+  ]
+}

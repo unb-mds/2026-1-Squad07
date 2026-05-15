@@ -32,6 +32,7 @@ nav:
     - Visão Geral: architecture/index.md
     - Estrutura de Pastas: architecture/directory-structure.md
     - Padrões de Projeto: architecture/design-patterns.md
+  - Métricas: metricas/index.html
 
 markdown_extensions:
   - pymdownx.emoji
