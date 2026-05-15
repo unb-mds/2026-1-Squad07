@@ -1,0 +1,820 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Squad 07">
+      
+      
+        <meta name="author" content="Squad 07">
+      
+      
+        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/architecture/index.html">
+      
+      
+        <link rel="prev" href="../index.html">
+      
+      
+        <link rel="next" href="directory-structure.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Visão Geral - Squad 07 - 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arquitetura" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../index.html" title="Squad 07 - 2026" class="md-header__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Squad 07 - 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Visão Geral
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Squad 07 - 2026" class="md-nav__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Squad 07 - 2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão Geral
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="index.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#leitura-rapida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leitura Rápida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Princípios Arquiteturais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexto-do-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contexto do Sistema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visao-de-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visão de Containers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-principal-de-requisicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxo Principal de Requisição
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsabilidades-por-camada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Responsabilidades por Camada
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diretrizes-de-evolucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diretrizes de Evolução
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso-da-documentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso da Documentação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencia-visual-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referência Visual Existente
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="directory-structure.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura de Pastas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="design-patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padrões de Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metricas/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Métricas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arquitetura">Arquitetura</h1>
+<p>Esta seção documenta a arquitetura proposta para o sistema, com foco em reduzir o tempo de onboarding, evitar organização ad hoc de pastas e registrar uma base técnica comum para as próximas implementações.</p>
+<h2 id="leitura-rapida">Leitura Rápida</h2>
+<p>Hoje o sistema possui duas aplicações principais:</p>
+<ul>
+<li><code>frontend</code>: interface web em Next.js, responsável pela experiência do usuário.</li>
+<li><code>backend</code>: API em FastAPI, responsável por regras de negócio, orquestração e acesso a dados.</li>
+</ul>
+<p>Arquiteturalmente, o projeto adota separação por camadas, contratos claros entre frontend e backend e crescimento incremental de módulos conforme surgem novos casos de uso.</p>
+<p>Observação: parte dos módulos descritos nesta página representa a organização arquitetural recomendada para a evolução de curto prazo do projeto.</p>
+<h2 id="principios-arquiteturais">Princípios Arquiteturais</h2>
+<ul>
+<li><strong>Separação de responsabilidades</strong>: interface, aplicação e persistência não devem se confundir.</li>
+<li><strong>Baixo acoplamento</strong>: regras de negócio não devem depender diretamente de detalhes de framework ou infraestrutura.</li>
+<li><strong>Crescimento guiado por estrutura</strong>: novas features devem reforçar o padrão do repositório, não criar convenções paralelas.</li>
+<li><strong>Clareza para onboarding</strong>: a arquitetura precisa ser legível por quem está entrando no projeto.</li>
+</ul>
+<h2 id="contexto-do-sistema">Contexto do Sistema</h2>
+<p>O diagrama abaixo mostra a visão de contexto do sistema, destacando quem usa a aplicação e quais blocos técnicos participam do fluxo principal.</p>
+<div class="mermaid">%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#E8F0FE',
+  'primaryTextColor': '#102A43',
+  'primaryBorderColor': '#3E7BFA',
+  'lineColor': '#5B6C8F',
+  'secondaryColor': '#EAF7F0',
+  'tertiaryColor': '#FFF4DB',
+  'fontSize': '15px'
+}}}%%
+flowchart LR
+    U([Usuário]):::person
+    F[Frontend&lt;br/&gt;Next.js 16]:::frontend
+    B[Backend&lt;br/&gt;FastAPI]:::backend
+    S[Camada de Serviços&lt;br/&gt;Casos de uso e validações]:::service
+    D[(Banco de Dados&lt;br/&gt;PostgreSQL / Prisma)]:::database
+
+    U --&gt; F
+    F --&gt;|HTTP / JSON| B
+    B --&gt; S
+    S --&gt; D
+
+    classDef person fill:#FFF4DB,stroke:#D4A72C,color:#4A3B00,stroke-width:2px;
+    classDef frontend fill:#E8F0FE,stroke:#3E7BFA,color:#102A43,stroke-width:2px;
+    classDef backend fill:#EAF7F0,stroke:#2F855A,color:#123524,stroke-width:2px;
+    classDef service fill:#F7ECFF,stroke:#8B5CF6,color:#3B1F66,stroke-width:2px;
+    classDef database fill:#FFE8E8,stroke:#D64545,color:#5C1B1B,stroke-width:2px;</div>
+<h2 id="visao-de-containers">Visão de Containers</h2>
+<p>O diagrama a seguir apresenta a organização arquitetural proposta para o repositório.</p>
+<div class="mermaid">%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#F8FAFC',
+  'primaryTextColor': '#0F172A',
+  'primaryBorderColor': '#64748B',
+  'lineColor': '#64748B',
+  'fontSize': '14px'
+}}}%%
+flowchart TB
+    subgraph Frontend["Frontend | Next.js"]
+        direction TB
+        A[app&lt;br/&gt;rotas, layouts e páginas]:::frontend
+        C[components&lt;br/&gt;componentes reutilizáveis]:::frontend
+        L[lib&lt;br/&gt;clientes HTTP e utilitários]:::frontend
+    end
+
+    subgraph Backend["Backend | FastAPI"]
+        direction TB
+        R[api&lt;br/&gt;rotas e contratos HTTP]:::backend
+        SV[services&lt;br/&gt;casos de uso]:::service
+        M[models&lt;br/&gt;schemas e contratos]:::support
+        DB[db&lt;br/&gt;persistência e integrações]:::database
+    end
+
+    A --&gt; C
+    L --&gt;|HTTP/JSON| R
+    A --&gt; L
+    R --&gt; SV
+    SV --&gt; M
+    SV --&gt; DB
+    DB --&gt; P[(PostgreSQL / persistência)]:::database
+
+    classDef frontend fill:#E8F0FE,stroke:#3E7BFA,color:#102A43,stroke-width:2px;
+    classDef backend fill:#EAF7F0,stroke:#2F855A,color:#123524,stroke-width:2px;
+    classDef service fill:#F7ECFF,stroke:#8B5CF6,color:#3B1F66,stroke-width:2px;
+    classDef support fill:#FFF7E6,stroke:#D97706,color:#5A3A00,stroke-width:2px;
+    classDef database fill:#FFE8E8,stroke:#D64545,color:#5C1B1B,stroke-width:2px;</div>
+<h2 id="fluxo-principal-de-requisicao">Fluxo Principal de Requisição</h2>
+<p>O fluxo abaixo descreve a jornada principal de requisição entre as camadas da arquitetura proposta.</p>
+<div class="mermaid">sequenceDiagram
+    actor Usuário
+    participant Frontend as Frontend Next.js
+    participant Backend as Backend FastAPI
+    participant DB as Banco de Dados
+
+    Usuário-&gt;&gt;Frontend: Interage com a interface
+    Frontend-&gt;&gt;Backend: Requisição HTTP
+    Backend-&gt;&gt;Backend: Executa validações e regras de negócio
+    Backend-&gt;&gt;DB: Leitura ou escrita
+    DB--&gt;&gt;Backend: Resultado
+    Backend--&gt;&gt;Frontend: Resposta JSON
+    Frontend--&gt;&gt;Usuário: Atualiza a interface</div>
+<p>O fluxo acima resume a jornada esperada para as próximas features:</p>
+<ol>
+<li>o usuário interage com uma página do frontend;</li>
+<li>a página delega chamadas de integração para <code>lib/</code>;</li>
+<li>o backend recebe a requisição na camada <code>api/</code>;</li>
+<li>a regra de negócio é executada em <code>services/</code>;</li>
+<li>a persistência acontece em <code>db/</code>;</li>
+<li>a resposta retorna ao frontend com contrato explícito.</li>
+</ol>
+<h2 id="responsabilidades-por-camada">Responsabilidades por Camada</h2>
+<table>
+<thead>
+<tr>
+<th>Camada</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>frontend/src/app</code></td>
+<td>Rotas, páginas e composição da UI</td>
+</tr>
+<tr>
+<td><code>frontend/src/components</code></td>
+<td>Componentes reutilizáveis e padrões visuais</td>
+</tr>
+<tr>
+<td><code>frontend/src/lib</code></td>
+<td>Clientes HTTP, helpers e adaptadores de integração</td>
+</tr>
+<tr>
+<td><code>backend/app/api</code></td>
+<td>Endpoints, contratos HTTP e roteamento</td>
+</tr>
+<tr>
+<td><code>backend/app/services</code></td>
+<td>Casos de uso e regras de negócio</td>
+</tr>
+<tr>
+<td><code>backend/app/models</code></td>
+<td>Schemas Pydantic e contratos internos</td>
+</tr>
+<tr>
+<td><code>backend/app/db</code></td>
+<td>Integração com persistência e ORM</td>
+</tr>
+</tbody>
+</table>
+<h2 id="diretrizes-de-evolucao">Diretrizes de Evolução</h2>
+<p>Para as próximas entregas, a documentação assume a seguinte direção:</p>
+<ul>
+<li>cada feature deve nascer com rota, caso de uso e contrato bem definidos;</li>
+<li>o frontend deve mover integrações para <code>src/lib/</code> e concentrar composição visual em <code>components/</code>;</li>
+<li>o backend deve evoluir para uma service layer explícita;</li>
+<li>o acesso a dados deve permanecer encapsulado em uma fronteira própria.</li>
+</ul>
+<h2 id="uso-da-documentacao">Uso da Documentação</h2>
+<p>Esta seção serve como referência para:</p>
+<ul>
+<li>entender rapidamente onde uma nova feature deve ser implementada;</li>
+<li>decidir em qual camada um novo trecho de código pertence;</li>
+<li>revisar se uma mudança está respeitando a separação arquitetural do projeto;</li>
+<li>alinhar o repositório antes de abrir PRs maiores.</li>
+</ul>
+<h2 id="referencia-visual-existente">Referência Visual Existente</h2>
+<p>O repositório já possui uma imagem de contexto em <a href="c4_system_context.jpeg">c4_system_context.jpeg</a>, mas os diagramas Mermaid desta seção passam a ser a referência principal por serem versionáveis e mais fáceis de manter junto da documentação.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../js/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

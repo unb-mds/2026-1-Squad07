@@ -1,0 +1,751 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Squad 07">
+      
+      
+        <meta name="author" content="Squad 07">
+      
+      
+        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/como_atualizar_mkdocs.html">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Tutorial: Como atualizar a documentação do MkDocs - Squad 07 - 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-como-atualizar-a-documentacao-do-mkdocs" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="index.html" title="Squad 07 - 2026" class="md-header__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Squad 07 - 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tutorial: Como atualizar a documentação do MkDocs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Squad 07 - 2026" class="md-nav__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Squad 07 - 2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/directory-structure.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura de Pastas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/design-patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padrões de Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="metricas/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Métricas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tutorial-como-atualizar-a-documentacao-do-mkdocs">Tutorial: Como atualizar a documentação do MkDocs</h1>
+<p>Este tutorial explica o fluxo correto para atualizar a documentação do projeto usando MkDocs e GitHub Pages.</p>
+<h2 id="visao-geral">Visão geral</h2>
+<p>O projeto usa duas branches principais relacionadas à documentação:</p>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dev</code></td>
+<td>Guarda os arquivos-fonte da documentação</td>
+</tr>
+<tr>
+<td><code>gh-pages</code></td>
+<td>Guarda o site já construído pelo MkDocs</td>
+</tr>
+</tbody>
+</table>
+<p>A branch <code>dev</code> contém arquivos como:</p>
+<div class="highlight"><pre><span></span><code>docs/
+mkdocs.yml
+.github/
+</code></pre></div>
+<p>A branch <code>gh-pages</code> contém o site final publicado, com arquivos como:</p>
+<div class="highlight"><pre><span></span><code>index.html
+assets/
+search/
+metricas/
+architecture/
+</code></pre></div>
+<p>A pasta <code>docs/</code> não aparece na branch <code>gh-pages</code>, pois ela é usada apenas como fonte para gerar o site final.</p>
+<hr />
+<h2 id="fluxo-correto-para-atualizar-o-mkdocs">Fluxo correto para atualizar o MkDocs</h2>
+<h3 id="1-atualize-sua-branch-dev">1. Atualize sua branch <code>dev</code></h3>
+<p>Antes de começar qualquer alteração, vá para a branch <code>dev</code> e atualize o repositório local:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>dev
+git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>dev
+</code></pre></div>
+<hr />
+<h3 id="2-crie-uma-branch-para-sua-alteracao">2. Crie uma branch para sua alteração</h3>
+<p>Crie uma branch nova a partir da <code>dev</code>:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>docs/nome-da-alteracao
+</code></pre></div>
+<p>Exemplo:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>docs/adiciona-dashboard-metricas
+</code></pre></div>
+<hr />
+<h3 id="3-adicione-ou-edite-arquivos-dentro-da-pasta-docs">3. Adicione ou edite arquivos dentro da pasta <code>docs</code></h3>
+<p>Todos os arquivos da documentação devem ficar dentro da pasta <code>docs</code>.</p>
+<p>Exemplo de estrutura:</p>
+<div class="highlight"><pre><span></span><code>docs/
+├── index.md
+├── architecture/
+└── metricas/
+    ├── index.html
+    ├── metrics.json
+    └── collect_metrics.py
+</code></pre></div>
+<p>O arquivo <code>docs/index.md</code> é a página inicial da documentação.</p>
+<p>Se for criar uma nova página, crie um arquivo <code>.md</code> ou uma pasta dentro de <code>docs</code>.</p>
+<p>Exemplo:</p>
+<div class="highlight"><pre><span></span><code>docs/tutorial-atualizar-mkdocs.md
+</code></pre></div>
+<hr />
+<h3 id="4-atualize-o-mkdocsyml-se-criar-uma-nova-pagina">4. Atualize o <code>mkdocs.yml</code> se criar uma nova página</h3>
+<p>Se a nova página ainda não existir na navegação do site, adicione o caminho no arquivo <code>mkdocs.yml</code>.</p>
+<p>Exemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Início</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Tutorial MkDocs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tutorial-atualizar-mkdocs.md</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Métricas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metricas/index.html</span>
+</code></pre></div>
+<p>Se a página estiver dentro de uma pasta:</p>
+<div class="highlight"><pre><span></span><code>docs/guias/deploy.md
+</code></pre></div>
+<p>o caminho no <code>mkdocs.yml</code> deve ser:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Guias</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Deploy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guias/deploy.md</span>
+</code></pre></div>
+<p>Importante: os caminhos no <code>mkdocs.yml</code> são relativos à pasta <code>docs</code>.</p>
+<hr />
+<h3 id="5-teste-o-site-localmente">5. Teste o site localmente</h3>
+<p>Antes de publicar, teste se a documentação está funcionando.</p>
+<p>Para rodar localmente:</p>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>serve
+</code></pre></div>
+<p>Depois acesse no navegador:</p>
+<div class="highlight"><pre><span></span><code>http://127.0.0.1:8000
+</code></pre></div>
+<p>Também é possível testar apenas o build:</p>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>build
+</code></pre></div>
+<p>Esse comando gera uma pasta chamada <code>site/</code>.</p>
+<p>Se houver erro no <code>mkdocs.yml</code>, em links internos ou em arquivos ausentes, o MkDocs mostrará no terminal.</p>
+<hr />
+<h3 id="6-verifique-se-os-arquivos-foram-gerados-corretamente">6. Verifique se os arquivos foram gerados corretamente</h3>
+<p>Depois de rodar:</p>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>build
+</code></pre></div>
+<p>verifique se a pasta <code>site/</code> foi criada.</p>
+<p>Por exemplo, se existe:</p>
+<div class="highlight"><pre><span></span><code>docs/metricas/index.html
+</code></pre></div>
+<p>o MkDocs deve gerar:</p>
+<div class="highlight"><pre><span></span><code>site/metricas/index.html
+</code></pre></div>
+<p>Ou seja, a pasta <code>docs/</code> desaparece no site final. Isso é esperado.</p>
+<hr />
+<h3 id="7-publique-a-documentacao-no-github-pages">7. Publique a documentação no GitHub Pages</h3>
+<p>Depois que tudo estiver funcionando, rode:</p>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>gh-deploy<span class="w"> </span>--force
+</code></pre></div>
+<p>Esse comando gera o site e atualiza automaticamente a branch <code>gh-pages</code>.</p>
+<p>A branch <code>gh-pages</code> não deve ser editada manualmente. Ela deve ser tratada apenas como a saída gerada pelo MkDocs.</p>
+<hr />
+<h3 id="8-salve-suas-alteracoes-na-branch-de-trabalho">8. Salve suas alterações na branch de trabalho</h3>
+<p>Depois de publicar, faça commit dos arquivos alterados na sua branch.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>status
+git<span class="w"> </span>add<span class="w"> </span>docs<span class="w"> </span>mkdocs.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: atualiza documentação do MkDocs&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>docs/nome-da-alteracao
+</code></pre></div>
+<p>Exemplo:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>docs/adiciona-dashboard-metricas
+</code></pre></div>
+<hr />
+<h3 id="9-abra-um-pull-request-para-a-dev">9. Abra um Pull Request para a <code>dev</code></h3>
+<p>Depois do push, abra um Pull Request da sua branch para a branch <code>dev</code>.</p>
+<p>O Pull Request deve conter os arquivos-fonte da documentação, como:</p>
+<div class="highlight"><pre><span></span><code>docs/
+mkdocs.yml
+</code></pre></div>
+<p>Não é necessário abrir Pull Request para a branch <code>gh-pages</code>.</p>
+<hr />
+<h2 id="exemplo-adicionando-uma-nova-pagina">Exemplo: adicionando uma nova página</h2>
+<p>Suponha que queremos adicionar uma página chamada <code>planejamento.md</code>.</p>
+<h3 id="criar-o-arquivo">Criar o arquivo</h3>
+<div class="highlight"><pre><span></span><code>docs/planejamento.md
+</code></pre></div>
+<p>Conteúdo exemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="gh"># Planejamento</span>
+
+Esta página descreve o planejamento do projeto.
+</code></pre></div>
+<h3 id="atualizar-o-mkdocsyml">Atualizar o <code>mkdocs.yml</code></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Início</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Planejamento</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">planejamento.md</span>
+</code></pre></div>
+<h3 id="testar">Testar</h3>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>serve
+</code></pre></div>
+<p>ou:</p>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>build
+</code></pre></div>
+<h3 id="publicar">Publicar</h3>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>gh-deploy<span class="w"> </span>--force
+</code></pre></div>
+<h3 id="salvar-na-branch">Salvar na branch</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>docs/planejamento.md<span class="w"> </span>mkdocs.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: adiciona página de planejamento&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>docs/adiciona-planejamento
+</code></pre></div>
+<hr />
+<h2 id="exemplo-adicionando-uma-pagina-dentro-de-uma-pasta">Exemplo: adicionando uma página dentro de uma pasta</h2>
+<p>Suponha que queremos adicionar:</p>
+<div class="highlight"><pre><span></span><code>docs/guias/deploy.md
+</code></pre></div>
+<p>No <code>mkdocs.yml</code>, o caminho deve ser:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Guias</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Deploy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guias/deploy.md</span>
+</code></pre></div>
+<p>Depois, rode:</p>
+<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>build
+mkdocs<span class="w"> </span>gh-deploy<span class="w"> </span>--force
+</code></pre></div>
+<hr />
+<h2 id="como-funciona-o-dashboard-de-metricas">Como funciona o dashboard de métricas</h2>
+<p>O dashboard de métricas fica dentro da pasta:</p>
+<div class="highlight"><pre><span></span><code>docs/metricas/
+</code></pre></div>
+<p>Estrutura esperada:</p>
+<div class="highlight"><pre><span></span><code>docs/metricas/
+├── index.html
+├── metrics.json
+└── collect_metrics.py
+</code></pre></div>
+<p>No site publicado, ele fica acessível em:</p>
+<div class="highlight"><pre><span></span><code>/metricas/
+</code></pre></div>
+<p>ou:</p>
+<div class="highlight"><pre><span></span><code>/metricas/index.html
+</code></pre></div>
+<p>O arquivo <code>metrics.json</code> deve ficar na mesma pasta que o <code>index.html</code>, pois o dashboard carrega os dados com caminho relativo.</p>
+<p>No <code>mkdocs.yml</code>, o dashboard pode ser adicionado assim:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Métricas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metricas/index.html</span>
+</code></pre></div>
+<hr />
+<h2 id="o-que-nao-fazer">O que não fazer</h2>
+<p>Não edite manualmente a branch <code>gh-pages</code>.</p>
+<p>Não coloque os arquivos-fonte diretamente na branch <code>gh-pages</code>.</p>
+<p>Não configure o GitHub Pages para publicar apenas uma subpasta como:</p>
+<div class="highlight"><pre><span></span><code>docs/metricas
+</code></pre></div>
+<p>Isso pode fazer o dashboard funcionar isoladamente, mas quebra a documentação principal do MkDocs.</p>
+<p>A configuração correta do GitHub Pages deve apontar para:</p>
+<div class="highlight"><pre><span></span><code>Branch: gh-pages
+Folder: /root
+</code></pre></div>
+<hr />
+<h2 id="resumo-do-fluxo">Resumo do fluxo</h2>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>dev
+git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>dev
+
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>docs/nome-da-alteracao
+
+<span class="c1"># editar arquivos em docs/</span>
+<span class="c1"># editar mkdocs.yml, se necessário</span>
+
+mkdocs<span class="w"> </span>serve
+mkdocs<span class="w"> </span>build
+mkdocs<span class="w"> </span>gh-deploy<span class="w"> </span>--force
+
+git<span class="w"> </span>add<span class="w"> </span>docs<span class="w"> </span>mkdocs.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: descreve alteração feita&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>docs/nome-da-alteracao
+</code></pre></div>
+<p>Depois disso, abra um Pull Request para a branch <code>dev</code>.</p>
+<hr />
+<h2 id="observacao-importante">Observação importante</h2>
+<p>A branch <code>dev</code> guarda o conteúdo-fonte da documentação.</p>
+<p>A branch <code>gh-pages</code> guarda apenas o site gerado.</p>
+<p>Portanto, se uma pasta existe em <code>docs/</code> na branch <code>dev</code>, ela aparecerá na <code>gh-pages</code> sem o prefixo <code>docs</code>.</p>
+<p>Exemplo:</p>
+<div class="highlight"><pre><span></span><code>dev/docs/metricas/index.html
+</code></pre></div>
+<p>vira:</p>
+<div class="highlight"><pre><span></span><code>gh-pages/metricas/index.html
+</code></pre></div>
+<p>Isso é o comportamento esperado do MkDocs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.instant", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotate"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="js/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

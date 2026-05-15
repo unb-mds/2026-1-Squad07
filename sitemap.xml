@@ -2,10 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://unb-mds.github.io/2026-1-Squad07/index.html</loc>
-         <lastmod>2026-05-14</lastmod>
+         <lastmod>2026-05-15</lastmod>
+    </url>
+    <url>
+         <loc>https://unb-mds.github.io/2026-1-Squad07/como_atualizar_mkdocs.html</loc>
+         <lastmod>2026-05-15</lastmod>
+    </url>
+    <url>
+         <loc>https://unb-mds.github.io/2026-1-Squad07/architecture/index.html</loc>
+         <lastmod>2026-05-15</lastmod>
+    </url>
+    <url>
+         <loc>https://unb-mds.github.io/2026-1-Squad07/architecture/design-patterns.html</loc>
+         <lastmod>2026-05-15</lastmod>
+    </url>
+    <url>
+         <loc>https://unb-mds.github.io/2026-1-Squad07/architecture/directory-structure.html</loc>
+         <lastmod>2026-05-15</lastmod>
     </url>
     <url>
          <loc>https://unb-mds.github.io/2026-1-Squad07/metricas/AGENT.html</loc>
-         <lastmod>2026-05-14</lastmod>
+         <lastmod>2026-05-15</lastmod>
     </url>
 </urlset>
