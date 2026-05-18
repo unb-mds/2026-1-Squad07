@@ -1,0 +1,2 @@
+User Stories para Release 1
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/board/36xgX88dsxdaDOt55acXei/Squad7?node-id=7163-492&embed-host=share" allowfullscreen></iframe>
