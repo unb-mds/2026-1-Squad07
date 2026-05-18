@@ -1,6 +1,6 @@
-site_name: Squad 07 - 2026
+site_name: Squad 07 - Monitoramento de Qualidade de Leis
 site_url: https://unb-mds.github.io/2026-1-Squad07/
-site_description: Documentação do Projeto Squad 07
+site_description: Documentação do projeto Monitoramento de Qualidade de Leis
 site_author: Squad 07
 docs_dir: docs
 site_dir: site
@@ -28,6 +28,12 @@ plugins:
 
 nav:
   - Início: index.md
+  - Produto:
+      - Escopo do Projeto: escopo/escopo_projeto.md
+  - Requisitos:
+      - Requisitos Funcionais: requisitos/requisitos_funcionais.md
+      - Requisitos Não Funcionais: requisitos/requisitos_nao_funcionais.md
+      - Matriz de Rastreabilidade: requisitos/rastreabilidade.md
 
 markdown_extensions:
   - pymdownx.emoji
