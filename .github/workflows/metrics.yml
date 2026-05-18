@@ -1,0 +1,56 @@
+name: Metrics Dashboard
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 0"
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/metrics.yml"
+      - "docs/metricas/collect_metrics.py"
+      - "docs/metricas/index.html"
+      - "docs/metricas/AGENT.md"
+
+permissions:
+  contents: write
+
+jobs:
+  update-metrics:
+    name: Update productivity metrics
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip PyGithub
+
+      - name: Collect metrics
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python docs/metricas/collect_metrics.py
+
+      - name: Commit metrics.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/metricas/metrics.json
+          if git diff --cached --quiet; then
+            echo "No metrics changes to commit."
+          else
+            git commit -m "chore: atualiza métricas de produtividade [bot]"
+            git push origin dev
+          fi
