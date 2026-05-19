@@ -33,6 +33,26 @@ Squad 07 é um projeto 2026 que combina:
 - **Frontend** - Biblioteca de componentes, estilos e arquitetura do frontend
 - **Estudos** - Materiais de aprendizado sobre tecnologias, metodologias e melhores práticas
 
+## Arquitetura de Software
+
+A documentação técnica de arquitetura foi organizada para acelerar o onboarding e manter a evolução do repositório previsível.
+
+- **Visão Geral** - panorama das camadas, responsabilidades e fluxo principal entre frontend, backend e persistência
+- **Estrutura de Pastas** - folder tree recomendada e convenções para crescimento do projeto
+- **Padrões de Projeto** - separação por camadas, service layer, fronteira de repositório e contratos explícitos
+
+Essa seção foi escrita para responder rapidamente a três dúvidas comuns no início da implementação:
+
+- como o sistema está dividido;
+- onde cada nova feature deve entrar;
+- quais convenções arquiteturais o time deve preservar.
+
+Arquivos principais:
+
+- [Visão Geral da Arquitetura](architecture/index.md)
+- [Estrutura de Pastas](architecture/directory-structure.md)
+- [Padrões de Projeto](architecture/design-patterns.md)
+
 ## Contribuindo
 
 Ao adicionar documentação:
