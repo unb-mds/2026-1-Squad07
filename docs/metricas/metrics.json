@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-13T13:52:43+00:00",
+  "generated_at": "2026-05-19T02:43:43+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -44,8 +44,13 @@
     },
     {
       "week": "2026-W20",
-      "opened": 1,
-      "closed": 10
+      "opened": 5,
+      "closed": 11
+    },
+    {
+      "week": "2026-W21",
+      "opened": 0,
+      "closed": 2
     }
   ],
   "commit_message_histogram": [
@@ -988,12 +993,12 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "prs_opened": 9
+      "prs_opened": 10
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "prs_opened": 3
+      "prs_opened": 5
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1001,13 +1006,18 @@
       "prs_opened": 2
     },
     {
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "prs_opened": 2
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "prs_opened": 1
     },
     {
-      "username": "valexim",
-      "name": "Victor Amaral",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
       "prs_opened": 1
     }
   ],
@@ -1015,23 +1025,23 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "opened": 27,
-      "closed": 13,
-      "total": 40
+      "opened": 31,
+      "closed": 14,
+      "total": 45
     },
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
       "opened": 19,
-      "closed": 11,
-      "total": 30
+      "closed": 12,
+      "total": 31
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "opened": 4,
-      "closed": 6,
-      "total": 10
+      "closed": 7,
+      "total": 11
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1053,6 +1063,1074 @@
       "opened": 2,
       "closed": 2,
       "total": 4
+    }
+  ],
+  "people_metrics": [
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "issues_opened": 31,
+      "issues_assigned": 13,
+      "issues_closed": 9,
+      "issues_pending": 4,
+      "prs_opened": 10,
+      "prs_reviewed": 4,
+      "prs_merged": 6,
+      "commits": 24
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "issues_opened": 4,
+      "issues_assigned": 8,
+      "issues_closed": 7,
+      "issues_pending": 1,
+      "prs_opened": 5,
+      "prs_reviewed": 1,
+      "prs_merged": 4,
+      "commits": 7
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "issues_opened": 19,
+      "issues_assigned": 7,
+      "issues_closed": 6,
+      "issues_pending": 1,
+      "prs_opened": 1,
+      "prs_reviewed": 0,
+      "prs_merged": 0,
+      "commits": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "issues_opened": 3,
+      "issues_assigned": 9,
+      "issues_closed": 7,
+      "issues_pending": 2,
+      "prs_opened": 2,
+      "prs_reviewed": 0,
+      "prs_merged": 1,
+      "commits": 2
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "issues_opened": 3,
+      "issues_assigned": 8,
+      "issues_closed": 3,
+      "issues_pending": 5,
+      "prs_opened": 1,
+      "prs_reviewed": 0,
+      "prs_merged": 0,
+      "commits": 4
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "issues_opened": 2,
+      "issues_assigned": 5,
+      "issues_closed": 3,
+      "issues_pending": 2,
+      "prs_opened": 2,
+      "prs_reviewed": 0,
+      "prs_merged": 0,
+      "commits": 2
+    },
+    {
+      "username": "RochaCarla",
+      "name": "Carla Rocha",
+      "issues_opened": 0,
+      "issues_assigned": 0,
+      "issues_closed": 0,
+      "issues_pending": 0,
+      "prs_opened": 0,
+      "prs_reviewed": 0,
+      "prs_merged": 0,
+      "commits": 1
+    },
+    {
+      "username": "ghost",
+      "name": "ghost",
+      "issues_opened": 0,
+      "issues_assigned": 0,
+      "issues_closed": 0,
+      "issues_pending": 0,
+      "prs_opened": 0,
+      "prs_reviewed": 0,
+      "prs_merged": 0,
+      "commits": 1
+    }
+  ],
+  "labels_distribution": [
+    {
+      "label": "release: mvp",
+      "count": 29
+    },
+    {
+      "label": "priority: high 🔴",
+      "count": 23
+    },
+    {
+      "label": "type: feature ✨",
+      "count": 22
+    },
+    {
+      "label": "documentation",
+      "count": 20
+    },
+    {
+      "label": "priority: medium 🟠",
+      "count": 20
+    },
+    {
+      "label": "requirement",
+      "count": 18
+    },
+    {
+      "label": "rabbit 🐇",
+      "count": 15
+    },
+    {
+      "label": "area: frontend 🖥️",
+      "count": 14
+    },
+    {
+      "label": "to study 📖",
+      "count": 13
+    },
+    {
+      "label": "area: backend ⚙️",
+      "count": 12
+    },
+    {
+      "label": "area: database 🗄️",
+      "count": 5
+    },
+    {
+      "label": "epic: acesso-identidade",
+      "count": 5
+    },
+    {
+      "label": "epic: visualização-dados",
+      "count": 5
+    },
+    {
+      "label": "area: api 🔌",
+      "count": 4
+    },
+    {
+      "label": "area: architecture",
+      "count": 4
+    },
+    {
+      "label": "epic: motor-inteligência-nlp",
+      "count": 4
+    },
+    {
+      "label": "status: needs review 👀",
+      "count": 4
+    },
+    {
+      "label": "epic: descoberta-submissão",
+      "count": 3
+    },
+    {
+      "label": "epic: infraestrutura-setup",
+      "count": 2
+    },
+    {
+      "label": "good first issue",
+      "count": 2
+    },
+    {
+      "label": "bug",
+      "count": 1
+    },
+    {
+      "label": "status: in progress 🚧",
+      "count": 1
+    }
+  ],
+  "labels_by_person": [
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "documentation",
+      "count": 7
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "priority: high 🔴",
+      "count": 7
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "documentation",
+      "count": 6
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "area: frontend 🖥️",
+      "count": 6
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "priority: medium 🟠",
+      "count": 6
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "type: feature ✨",
+      "count": 5
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "priority: high 🔴",
+      "count": 5
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "type: feature ✨",
+      "count": 5
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "release: mvp",
+      "count": 5
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "type: feature ✨",
+      "count": 5
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "area: backend ⚙️",
+      "count": 4
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "area: frontend 🖥️",
+      "count": 4
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "priority: medium 🟠",
+      "count": 4
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "priority: high 🔴",
+      "count": 4
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "status: needs review 👀",
+      "count": 4
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "area: backend ⚙️",
+      "count": 4
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "priority: high 🔴",
+      "count": 4
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "priority: medium 🟠",
+      "count": 4
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "priority: high 🔴",
+      "count": 3
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "release: mvp",
+      "count": 3
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "priority: medium 🟠",
+      "count": 3
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "release: mvp",
+      "count": 3
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "rabbit 🐇",
+      "count": 3
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "area: database 🗄️",
+      "count": 3
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "documentation",
+      "count": 3
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "release: mvp",
+      "count": 3
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "type: feature ✨",
+      "count": 3
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "documentation",
+      "count": 3
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "priority: high 🔴",
+      "count": 3
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "release: mvp",
+      "count": 3
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "documentation",
+      "count": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "rabbit 🐇",
+      "count": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "requirement",
+      "count": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "to study 📖",
+      "count": 2
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "rabbit 🐇",
+      "count": 2
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "to study 📖",
+      "count": 2
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "documentation",
+      "count": 2
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "requirement",
+      "count": 2
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "area: frontend 🖥️",
+      "count": 2
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "good first issue",
+      "count": 2
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "to study 📖",
+      "count": 2
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "area: architecture",
+      "count": 2
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "rabbit 🐇",
+      "count": 2
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "area: frontend 🖥️",
+      "count": 2
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "priority: medium 🟠",
+      "count": 2
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "rabbit 🐇",
+      "count": 2
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "to study 📖",
+      "count": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "area: architecture",
+      "count": 1
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "area: database 🗄️",
+      "count": 1
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "epic: acesso-identidade",
+      "count": 1
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "status: needs review 👀",
+      "count": 1
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "area: database 🗄️",
+      "count": 1
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "release: mvp",
+      "count": 1
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "type: feature ✨",
+      "count": 1
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "epic: descoberta-submissão",
+      "count": 1
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "rabbit 🐇",
+      "count": 1
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "to study 📖",
+      "count": 1
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "area: api 🔌",
+      "count": 1
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "area: architecture",
+      "count": 1
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "area: backend ⚙️",
+      "count": 1
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "epic: acesso-identidade",
+      "count": 1
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "requirement",
+      "count": 1
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "status: in progress 🚧",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "area: api 🔌",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "area: frontend 🖥️",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "bug",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "epic: acesso-identidade",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "epic: infraestrutura-setup",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "requirement",
+      "count": 1
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "label": "to study 📖",
+      "count": 1
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "area: architecture",
+      "count": 1
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "epic: acesso-identidade",
+      "count": 1
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "requirement",
+      "count": 1
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "type: feature ✨",
+      "count": 1
+    }
+  ],
+  "documentation_contributions": [
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "issues": 7,
+      "pull_requests": 1,
+      "commits": 11,
+      "total": 19
+    },
+    {
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "issues": 3,
+      "pull_requests": 1,
+      "commits": 7,
+      "total": 11
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "issues": 6,
+      "pull_requests": 1,
+      "commits": 2,
+      "total": 9
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "issues": 2,
+      "pull_requests": 1,
+      "commits": 2,
+      "total": 5
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "issues": 2,
+      "pull_requests": 0,
+      "commits": 3,
+      "total": 5
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "issues": 3,
+      "pull_requests": 1,
+      "commits": 1,
+      "total": 5
+    },
+    {
+      "username": "RochaCarla",
+      "name": "Carla Rocha",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 1,
+      "total": 1
+    },
+    {
+      "username": "ghost",
+      "name": "ghost",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 1,
+      "total": 1
+    }
+  ],
+  "milestone_progress": [
+    {
+      "milestone": "Sem milestone",
+      "opened": 16,
+      "closed": 9,
+      "pending": 7
+    },
+    {
+      "milestone": "Sprint 01",
+      "opened": 7,
+      "closed": 7,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 00",
+      "opened": 5,
+      "closed": 5,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 05",
+      "opened": 5,
+      "closed": 5,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "opened": 4,
+      "closed": 4,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 08",
+      "opened": 16,
+      "closed": 3,
+      "pending": 13
+    },
+    {
+      "milestone": "Sprint 02",
+      "opened": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 03",
+      "opened": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 06",
+      "opened": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 07",
+      "opened": 3,
+      "closed": 2,
+      "pending": 1
+    }
+  ],
+  "milestone_progress_by_person": [
+    {
+      "milestone": "Sem milestone",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sem milestone",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sem milestone",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
+    },
+    {
+      "milestone": "Sem milestone",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
+    },
+    {
+      "milestone": "Sem milestone",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 00",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 00",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 00",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 01",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 01",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 01",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 01",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 01",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 02",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 03",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 03",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 04",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 05",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "assigned": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 05",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 05",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 05",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 06",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 06",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 06",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 06",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 07",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 07",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 1,
+      "closed": 1,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 08",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "assigned": 2,
+      "closed": 1,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 08",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 4,
+      "closed": 1,
+      "pending": 3
+    },
+    {
+      "milestone": "Sprint 08",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
+      "assigned": 2,
+      "closed": 1,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 08",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 2,
+      "closed": 0,
+      "pending": 2
+    },
+    {
+      "milestone": "Sprint 08",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 4,
+      "closed": 0,
+      "pending": 4
+    },
+    {
+      "milestone": "Sprint 08",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
     }
   ]
 }

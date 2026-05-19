@@ -8,11 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <style>
       :root {
-        --unb-blue-dark: #003366;
-        --unb-blue-medium: #004a8c;
-        --unb-green: #005c37;
-        --unb-gold: #bfa630;
-        --heatmap-empty: #e8f4f8;
+        --brand-navy: #1e3a5f;
+        --brand-white: #ffffff;
+        --brand-border: #ececf0;
+        --brand-input: #f3f3f5;
+        --brand-success: #22c55e;
+        --brand-error: #ef4444;
+        --brand-warning: #eab308;
+        --brand-text: #030213;
       }
 
       body {
@@ -22,75 +25,101 @@
       }
 
       .chart-card {
-        background: #ffffff;
-        border: 1px solid #dbe4ee;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0, 51, 102, 0.08);
+        background: var(--brand-white);
+        border: 1px solid var(--brand-border);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(30, 58, 95, 0.08);
       }
 
       .chart-title {
-        color: var(--unb-blue-dark);
+        color: var(--brand-navy);
         font-weight: 700;
       }
 
       .tooltip {
         position: absolute;
         pointer-events: none;
-        background: #0f172a;
-        color: #ffffff;
+        background: var(--brand-text);
+        color: var(--brand-white);
         border-radius: 8px;
-        padding: 8px 10px;
-        font-size: 12px;
+        padding: 12px 14px;
+        font-size: 13px;
+        line-height: 1.45;
+        min-width: 180px;
+        max-width: 280px;
         opacity: 0;
         transform: translate(-50%, -110%);
         transition: opacity 120ms ease;
         z-index: 20;
       }
 
+      .tooltip strong {
+        display: block;
+        color: var(--brand-warning);
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      .interactive-mark {
+        cursor: pointer;
+        transition:
+          opacity 120ms ease,
+          stroke-width 120ms ease,
+          filter 120ms ease;
+      }
+
+      .interactive-mark:hover {
+        filter: drop-shadow(0 4px 8px rgba(30, 58, 95, 0.24));
+        opacity: 0.86;
+      }
+
       svg text {
-        fill: #334155;
+        fill: var(--brand-text);
         font-size: 12px;
       }
     </style>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-800">
-    <header class="bg-[#003366] text-white">
+  <body class="min-h-screen bg-white text-[#030213]">
+    <header class="bg-[#1e3a5f] text-white">
       <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <p class="text-sm font-medium uppercase tracking-wide text-[#BFA630]">
+        <p class="text-sm font-medium uppercase tracking-wide text-[#eab308]">
           Squad 07 - MDS/UnB
         </p>
         <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
           Dashboard de Produtividade
         </h1>
-        <p class="mt-3 max-w-3xl text-sm leading-6 text-blue-50 sm:text-base">
+        <p class="mt-3 max-w-3xl text-sm leading-6 text-white sm:text-base">
           Métricas públicas do repositório calculadas a partir de commits,
-          issues e pull requests. Os dados são atualizados automaticamente pelo
-          GitHub Actions.
+          issues, pull requests, labels, reviews e milestones. Os dados são
+          atualizados automaticamente pelo GitHub Actions.
         </p>
       </div>
     </header>
 
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <section
-        class="mb-8 grid gap-4 rounded-xl border border-slate-200 bg-white p-4 sm:grid-cols-3"
+        class="mb-8 grid gap-4 rounded-lg border border-[#ececf0] bg-white p-4 sm:grid-cols-3"
       >
         <div>
-          <p class="text-sm text-slate-500">Repositório</p>
-          <p id="repository" class="mt-1 font-semibold text-[#003366]">-</p>
+          <p class="text-sm text-[#1e3a5f]">Repositório</p>
+          <p id="repository" class="mt-1 font-semibold text-[#030213]">-</p>
         </div>
         <div>
-          <p class="text-sm text-slate-500">Última atualização</p>
-          <p id="generated-at" class="mt-1 font-semibold text-[#003366]">-</p>
+          <p class="text-sm text-[#1e3a5f]">Última atualização</p>
+          <p id="generated-at" class="mt-1 font-semibold text-[#030213]">-</p>
         </div>
         <div>
-          <p class="text-sm text-slate-500">Fonte</p>
-          <p class="mt-1 font-semibold text-[#003366]">GitHub API</p>
+          <p class="text-sm text-[#1e3a5f]">Fonte</p>
+          <p class="mt-1 font-semibold text-[#030213]">GitHub API</p>
         </div>
       </section>
 
-      <section id="error" class="hidden rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+      <section
+        id="error"
+        class="hidden rounded-lg border border-[#ef4444] bg-[#f3f3f5] p-4 text-[#ef4444]"
+      >
         Não foi possível carregar <code>metrics.json</code>. Execute o workflow
-        de métricas ou gere o arquivo localmente.
+        de métricas ou aguarde a publicação via GitHub Pages.
       </section>
 
       <section class="grid gap-6 lg:grid-cols-2">
@@ -136,17 +165,61 @@
           <div id="top-issue-contributors" class="mt-4 overflow-x-auto"></div>
         </article>
       </section>
+
+      <section class="mt-6 grid gap-6 lg:grid-cols-2">
+        <article class="chart-card p-5 lg:col-span-2">
+          <h2 class="chart-title text-lg">Métricas por pessoa</h2>
+          <div id="people-metrics" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Distribuição por labels</h2>
+          <div id="labels-distribution" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Labels por pessoa</h2>
+          <div id="labels-by-person" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Contribuição em documentação</h2>
+          <div id="documentation-contributions" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Progresso por sprint</h2>
+          <div id="milestone-progress" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5 lg:col-span-2">
+          <h2 class="chart-title text-lg">Sprint por pessoa</h2>
+          <div class="mt-4 flex flex-wrap items-center gap-3">
+            <label class="text-sm font-semibold text-[#1e3a5f]" for="milestone-filter">
+              Selecionar sprint
+            </label>
+            <select
+              id="milestone-filter"
+              class="rounded-lg border border-[#ececf0] bg-[#f3f3f5] px-3 py-2 text-sm text-[#030213]"
+            ></select>
+          </div>
+          <div id="milestone-progress-by-person" class="mt-4 overflow-x-auto"></div>
+        </article>
+      </section>
     </main>
 
     <div id="tooltip" class="tooltip"></div>
 
     <script>
       const COLORS = {
-        blueDark: "#003366",
-        blueMedium: "#004A8C",
-        green: "#005C37",
-        gold: "#BFA630",
-        heatEmpty: "#e8f4f8",
+        navy: "#1e3a5f",
+        white: "#ffffff",
+        border: "#ececf0",
+        input: "#f3f3f5",
+        success: "#22c55e",
+        error: "#ef4444",
+        warning: "#eab308",
+        text: "#030213",
       };
       const DAYS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
@@ -165,12 +238,25 @@
         d3.select(containerSelector).selectAll("*").remove();
       }
 
-      function showTooltip(event, text) {
+      function valueOrDash(value) {
+        return value === undefined || value === null || value === "" ? "-" : value;
+      }
+
+      function showTooltip(event, content) {
         tooltip
           .style("left", `${event.pageX}px`)
           .style("top", `${event.pageY}px`)
-          .style("opacity", 1)
-          .text(text);
+          .style("opacity", 1);
+
+        if (Array.isArray(content)) {
+          tooltip.html(
+            content
+              .map((line, index) => (index === 0 ? `<strong>${line}</strong>` : `<span>${line}</span>`))
+              .join("<br />"),
+          );
+        } else {
+          tooltip.text(content);
+        }
       }
 
       function hideTooltip() {
@@ -201,12 +287,7 @@
 
         const x = d3.scalePoint().domain(weeks).range([0, innerWidth]).padding(0.5);
         const y = d3.scaleLinear().domain([0, maxY]).nice().range([innerHeight, 0]);
-
-        const svg = d3
-          .select(selector)
-          .append("svg")
-          .attr("width", width)
-          .attr("height", height);
+        const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
 
         drawAxes(
           svg,
@@ -217,29 +298,29 @@
         );
 
         const line = (key) =>
-          d3
-            .line()
-            .x((d) => margin.left + x(d.week))
-            .y((d) => margin.top + y(d[key]));
+          d3.line().x((d) => margin.left + x(d.week)).y((d) => margin.top + y(d[key]));
 
-        svg
-          .append("path")
-          .datum(data)
-          .attr("fill", "none")
-          .attr("stroke", COLORS.blueDark)
-          .attr("stroke-width", 3)
-          .attr("d", line("opened"));
-        svg
-          .append("path")
-          .datum(data)
-          .attr("fill", "none")
-          .attr("stroke", COLORS.green)
-          .attr("stroke-width", 3)
-          .attr("d", line("closed"));
+        svg.append("path").datum(data).attr("fill", "none").attr("stroke", COLORS.navy).attr("stroke-width", 3).attr("d", line("opened"));
+        svg.append("path").datum(data).attr("fill", "none").attr("stroke", COLORS.success).attr("stroke-width", 3).attr("d", line("closed"));
+
+        ["opened", "closed"].forEach((key) => {
+          const color = key === "opened" ? COLORS.navy : COLORS.success;
+          const label = key === "opened" ? "Abertas" : "Fechadas";
+          svg.selectAll(`circle.${key}`)
+            .data(data)
+            .join("circle")
+            .attr("class", `interactive-mark ${key}`)
+            .attr("cx", (d) => margin.left + x(d.week))
+            .attr("cy", (d) => margin.top + y(d[key]))
+            .attr("r", 4)
+            .attr("fill", color)
+            .on("mousemove", (event, d) => showTooltip(event, [d.week, `${label}: ${d[key]}`]))
+            .on("mouseleave", hideTooltip);
+        });
 
         [
-          ["Abertas", COLORS.blueDark],
-          ["Fechadas", COLORS.green],
+          ["Abertas", COLORS.navy],
+          ["Fechadas", COLORS.success],
         ].forEach(([label, color], index) => {
           svg.append("circle").attr("cx", margin.left + index * 92).attr("cy", 12).attr("r", 5).attr("fill", color);
           svg.append("text").attr("x", margin.left + 10 + index * 92).attr("y", 16).text(label);
@@ -266,7 +347,8 @@
           .attr("width", x.bandwidth())
           .attr("height", (d) => innerHeight - y(d[yKey]))
           .attr("fill", color)
-          .on("mousemove", (event, d) => showTooltip(event, `${d[xKey]}: ${d[yKey]}`))
+          .attr("class", "interactive-mark")
+          .on("mousemove", (event, d) => showTooltip(event, [d[xKey], `Total: ${d[yKey]}`]))
           .on("mouseleave", hideTooltip);
       }
 
@@ -278,35 +360,22 @@
         const width = margin.left + margin.right + cellSize * 24;
         const height = margin.top + margin.bottom + cellSize * 7;
         const max = d3.max(data, (d) => d.count) || 1;
-        const color = d3.scaleLinear().domain([0, max]).range([COLORS.heatEmpty, COLORS.blueDark]);
+        const color = d3.scaleLinear().domain([0, max]).range([COLORS.input, COLORS.navy]);
         const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
 
-        svg.selectAll("text.hour")
-          .data(d3.range(24))
-          .join("text")
-          .attr("x", (d) => margin.left + d * cellSize + cellSize / 2)
-          .attr("y", 18)
-          .attr("text-anchor", "middle")
-          .text((d) => d);
-
-        svg.selectAll("text.day")
-          .data(DAYS)
-          .join("text")
-          .attr("x", 0)
-          .attr("y", (_, i) => margin.top + i * cellSize + 15)
-          .text((d) => d);
-
+        svg.selectAll("text.hour").data(d3.range(24)).join("text").attr("x", (d) => margin.left + d * cellSize + cellSize / 2).attr("y", 18).attr("text-anchor", "middle").text((d) => d);
+        svg.selectAll("text.day").data(DAYS).join("text").attr("x", 0).attr("y", (_, i) => margin.top + i * cellSize + 15).text((d) => d);
         svg.selectAll("rect.cell")
           .data(data)
           .join("rect")
-          .attr("class", "cell")
+          .attr("class", "interactive-mark cell")
           .attr("x", (d) => margin.left + d.hour * cellSize)
           .attr("y", (d) => margin.top + d.day * cellSize)
           .attr("width", cellSize - 2)
           .attr("height", cellSize - 2)
           .attr("rx", 3)
           .attr("fill", (d) => color(d.count))
-          .on("mousemove", (event, d) => showTooltip(event, `${DAYS[d.day]}, ${d.hour}h: ${d.count} commits`))
+          .on("mousemove", (event, d) => showTooltip(event, [`${DAYS[d.day]}, ${d.hour}h`, `${d.count} commits`]))
           .on("mouseleave", hideTooltip);
       }
 
@@ -319,17 +388,9 @@
         const innerHeight = height - margin.top - margin.bottom;
         const keys = ["opened", "closed"];
         const stacked = d3.stack().keys(keys)(data);
-        const x = d3
-          .scaleBand()
-          .domain(data.map((d) => d.week))
-          .range([0, innerWidth])
-          .padding(0.2);
-        const y = d3
-          .scaleLinear()
-          .domain([0, d3.max(data, (d) => d.opened + d.closed) || 1])
-          .nice()
-          .range([innerHeight, 0]);
-        const color = d3.scaleOrdinal().domain(keys).range([COLORS.blueDark, COLORS.green]);
+        const x = d3.scaleBand().domain(data.map((d) => d.week)).range([0, innerWidth]).padding(0.2);
+        const y = d3.scaleLinear().domain([0, d3.max(data, (d) => d.opened + d.closed) || 1]).nice().range([innerHeight, 0]);
+        const color = d3.scaleOrdinal().domain(keys).range([COLORS.navy, COLORS.success]);
         const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
 
         drawAxes(svg, d3.axisBottom(x), d3.axisLeft(y).ticks(5), innerHeight, margin);
@@ -341,29 +402,130 @@
           .selectAll("rect")
           .data((d) => d)
           .join("rect")
+          .attr("class", "interactive-mark")
           .attr("x", (d) => margin.left + x(d.data.week))
           .attr("y", (d) => margin.top + y(d[1]))
           .attr("height", (d) => y(d[0]) - y(d[1]))
-          .attr("width", x.bandwidth());
+          .attr("width", x.bandwidth())
+          .on("mousemove", (event, d) => {
+            const key = d3.select(event.currentTarget.parentNode).datum().key;
+            const label = key === "opened" ? "Abertas" : "Fechadas";
+            showTooltip(event, [d.data.week, `${label}: ${d.data[key]}`]);
+          })
+          .on("mouseleave", hideTooltip);
       }
 
       function drawTable(selector, rows, columns) {
         clear(selector);
+        if (!rows.length) {
+          d3.select(selector)
+            .append("p")
+            .attr("class", "rounded-lg bg-[#f3f3f5] p-3 text-sm text-[#1e3a5f]")
+            .text("Métrica aguardando próxima geração do metrics.json.");
+          return;
+        }
+
         const table = d3.select(selector).append("table").attr("class", "min-w-full text-sm");
         table.append("thead")
           .append("tr")
           .selectAll("th")
           .data(columns)
           .join("th")
-          .attr("class", "border-b border-slate-200 px-2 py-2 text-left font-semibold text-slate-600")
+          .attr("class", "border-b border-[#ececf0] px-2 py-2 text-left font-semibold text-[#1e3a5f]")
           .text((d) => d.label);
 
         const bodyRows = table.append("tbody").selectAll("tr").data(rows.slice(0, 10)).join("tr");
         bodyRows.selectAll("td")
-          .data((row, index) => columns.map((column) => column.value(row, index)))
+          .data((row, index) => columns.map((column) => valueOrDash(column.value(row, index))))
           .join("td")
-          .attr("class", "border-b border-slate-100 px-2 py-2")
+          .attr("class", "border-b border-[#ececf0] px-2 py-2")
           .text((d) => d);
+      }
+
+      function groupBy(rows, getKey) {
+        return rows.reduce((groups, row) => {
+          const key = getKey(row);
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push(row);
+          return groups;
+        }, new Map());
+      }
+
+      function drawLabelsByPerson(rows) {
+        const selector = "#labels-by-person";
+        clear(selector);
+        if (!rows.length) {
+          d3.select(selector)
+            .append("p")
+            .attr("class", "rounded-lg bg-[#f3f3f5] p-3 text-sm text-[#1e3a5f]")
+            .text("Métrica aguardando próxima geração do metrics.json.");
+          return;
+        }
+
+        const groups = Array.from(groupBy(rows, (row) => row.name || row.username).entries())
+          .map(([person, labels]) => ({
+            person,
+            labels: labels.sort((a, b) => b.count - a.count || a.label.localeCompare(b.label)),
+            total: labels.reduce((sum, row) => sum + row.count, 0),
+          }))
+          .sort((a, b) => b.total - a.total || a.person.localeCompare(b.person));
+
+        const wrapper = d3.select(selector).append("div").attr("class", "grid gap-3 md:grid-cols-2");
+        const cards = wrapper.selectAll("section").data(groups).join("section").attr("class", "rounded-lg border border-[#ececf0] bg-white p-3");
+
+        cards.append("h3").attr("class", "font-semibold text-[#1e3a5f]").text((d) => d.person);
+        cards.append("p").attr("class", "text-xs text-[#030213]").text((d) => `${d.total} labels vinculadas`);
+        cards.append("div")
+          .attr("class", "mt-3 flex flex-wrap gap-2")
+          .selectAll("span")
+          .data((d) => d.labels)
+          .join("span")
+          .attr("class", "rounded-full bg-[#f3f3f5] px-2 py-1 text-xs text-[#030213]")
+          .text((d) => `${d.label}: ${d.count}`);
+      }
+
+      function setupMilestoneFilter(rows) {
+        const select = document.querySelector("#milestone-filter");
+        const target = "#milestone-progress-by-person";
+        clear(target);
+        select.innerHTML = "";
+
+        if (!rows.length) {
+          const option = document.createElement("option");
+          option.textContent = "Sem dados";
+          option.value = "";
+          select.appendChild(option);
+          drawTable(target, [], []);
+          return;
+        }
+
+        const milestones = [...new Set(rows.map((row) => row.milestone))].sort((a, b) =>
+          a.localeCompare(b, "pt-BR", { numeric: true, sensitivity: "base" }),
+        );
+        milestones.forEach((milestone) => {
+          const option = document.createElement("option");
+          option.value = milestone;
+          option.textContent = milestone;
+          select.appendChild(option);
+        });
+
+        const renderMilestone = () => {
+          const selected = select.value || milestones[0];
+          const filtered = rows
+            .filter((row) => row.milestone === selected)
+            .sort((a, b) => b.closed - a.closed || b.assigned - a.assigned || (a.name || a.username).localeCompare(b.name || b.username));
+
+          drawTable(target, filtered, [
+            { label: "#", value: (_, index) => index + 1 },
+            { label: "Usuário", value: (row) => row.name || row.username },
+            { label: "Atribuídas", value: (row) => row.assigned },
+            { label: "Concluídas", value: (row) => row.closed },
+            { label: "Pendentes", value: (row) => row.pending },
+          ]);
+        };
+
+        select.addEventListener("change", renderMilestone);
+        renderMilestone();
       }
 
       function render(metrics) {
@@ -373,8 +535,8 @@
           : "-";
 
         drawIssuesLine(metrics.issues_per_week || []);
-        drawBarChart("#commit-histogram", metrics.commit_message_histogram || [], "range", "count", COLORS.blueMedium);
-        drawBarChart("#coauthors-bar", metrics.coauthors_per_week || [], "week", "count", COLORS.gold);
+        drawBarChart("#commit-histogram", metrics.commit_message_histogram || [], "range", "count", COLORS.navy);
+        drawBarChart("#coauthors-bar", metrics.coauthors_per_week || [], "week", "count", COLORS.warning);
         drawHeatmap(metrics.commit_heatmap || []);
         drawStackedIssues(metrics.issues_per_week || []);
 
@@ -395,6 +557,43 @@
           { label: "Fechadas", value: (row) => row.closed },
           { label: "Total", value: (row) => row.total },
         ]);
+        drawTable("#people-metrics", metrics.people_metrics || [], [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Usuário", value: (row) => row.name || row.username },
+          { label: "Issues abertas", value: (row) => row.issues_opened },
+          { label: "Atribuídas", value: (row) => row.issues_assigned },
+          { label: "Fechadas", value: (row) => row.issues_closed },
+          { label: "Pendentes", value: (row) => row.issues_pending },
+          { label: "PRs abertos", value: (row) => row.prs_opened },
+          { label: "PRs revisados", value: (row) => row.prs_reviewed },
+          { label: "PRs mergeados", value: (row) => row.prs_merged },
+          { label: "Commits", value: (row) => row.commits },
+        ]);
+        drawTable("#labels-distribution", metrics.labels_distribution || [], [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Label", value: (row) => row.label },
+          { label: "Total", value: (row) => row.count },
+        ]);
+        drawLabelsByPerson(metrics.labels_by_person || []);
+        drawTable("#documentation-contributions", metrics.documentation_contributions || [], [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Usuário", value: (row) => row.name || row.username },
+          { label: "Issues", value: (row) => row.issues },
+          { label: "PRs", value: (row) => row.pull_requests },
+          { label: "Commits", value: (row) => row.commits },
+          { label: "Total", value: (row) => row.total },
+        ]);
+        const milestoneProgress = [...(metrics.milestone_progress || [])].sort((a, b) =>
+          a.milestone.localeCompare(b.milestone, "pt-BR", { numeric: true, sensitivity: "base" }),
+        );
+        drawTable("#milestone-progress", milestoneProgress, [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Sprint/Milestone", value: (row) => row.milestone },
+          { label: "Issues", value: (row) => row.opened },
+          { label: "Concluídas", value: (row) => row.closed },
+          { label: "Pendentes", value: (row) => row.pending },
+        ]);
+        setupMilestoneFilter(metrics.milestone_progress_by_person || []);
       }
 
       fetch("metrics.json")
