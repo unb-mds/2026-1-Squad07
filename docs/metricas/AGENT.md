@@ -1,4 +1,4 @@
-# Spec — Dashboard de Produtividade
+# Spec Driven Development - Dashboard de Produtividade
 
 Status: spec
 
@@ -6,225 +6,463 @@ Status: spec
 
 ## Projeto
 
-Squad7 - A ideia central do projeto é desenvolver uma plataforma de monitoramento da qualidade de leis e proposições legislativas, permitindo que usuários submetam textos legislativos para análise técnica via IA
+O projeto **Monitoramento de Qualidade de Leis** tem como objetivo desenvolver uma plataforma web para apoiar a avaliação técnica de leis e proposições legislativas. A proposta permite que usuários submetam textos legislativos para análise, organização e futura avaliação com apoio de inteligência artificial.
+
+O dashboard de produtividade existe para acompanhar o processo de desenvolvimento do Squad 07 durante a disciplina de Métodos de Desenvolvimento de Software. Ele deve facilitar a visualização de entregas, participação individual, evolução por sprint e distribuição de trabalho entre documentação, frontend, backend, banco e demais áreas do projeto.
 
 ---
 
-## Constituição (princípios relevantes)
+## Constituição da área de métricas
 
-### Automação e Baixa Manutenção
+### Automação e baixa manutenção
 
-1. O dashboard deve ser atualizado automaticamente sem intervenção humana.
-2. Não dependa de serviços pagos ou credenciais externas além do GITHUB_TOKEN padrão.
-3. Os dados devem ser reproduzíveis — qualquer pessoa pode re-gerar o JSON executando o workflow manualmente.
+1. O dashboard deve ser atualizado automaticamente sempre que possível.
+2. Não dependa de serviços pagos ou credenciais externas além do `GITHUB_TOKEN` padrão do GitHub Actions.
+3. Os dados devem ser reproduzíveis por meio do workflow de métricas.
+4. O painel deve continuar funcionando como página estática, sem backend próprio.
 
 ### Transparência
 
-4. Todas as métricas devem ser derivadas exclusivamente de dados públicos do repositório (commits, issues, PRs).
-5. Não exiba métricas que possam ser manipuladas trivialmente para "gamificar" o ranking.
+5. Todas as métricas devem ser derivadas de dados do próprio repositório: commits, issues, pull requests, labels, milestones e reviews.
+6. Métricas individuais devem facilitar a avaliação visual da professora, sem exigir interpretação técnica complexa.
+7. Rankings diretos são permitidos para facilitar comparação entre integrantes.
+8. Métricas devem ser apresentadas com nomes claros e sem abreviações ambíguas.
 
 ### Simplicidade
 
-6. A página deve ser um único index.html estático com zero dependências de back-end.
-7. Prefira bibliotecas leves via CDN; não introduza build steps (webpack, vite, etc.) para esta página.
+9. A página deve permanecer como um `index.html` estático em `docs/metricas/`.
+10. Não introduza build steps como Webpack, Vite ou similares para este painel.
+11. Prefira bibliotecas leves via CDN quando forem necessárias para visualização.
+12. Não altere a estrutura principal do projeto para resolver demandas do dashboard.
+
+### Identidade visual
+
+13. O painel de métricas deve seguir a identidade visual oficial do projeto.
+14. Alterações visuais devem priorizar clareza, contraste e consistência com a plataforma principal.
+15. Não use a paleta institucional antiga da UnB como base principal do painel.
 
 ---
 
 ## Convenções técnicas
 
-- Página: HTML5 estático (`docs/metricas/index.html`)
-- Estilização: CSS inline ou <style> embutido; pode usar TailwindCSS via CDN.
-- Gráficos: D3.js v7 via CDN (flexível, sem build).
-- Paleta de cores (UnB institucional):
-  - Azul escuro: #003366 — header, séries "Abertas", barras empilhadas abertas.
-  - Verde: #005C37 — séries "Fechadas", barras empilhadas fechadas.
-  - Azul médio: #004A8C — histograma de commits.
-  - Dourado: #BFA630 — barras de co-autores.
-- Dados: arquivo docs/metricas/metrics.json gerado pelo GitHub Action.
-- CI: GitHub Actions workflow (`.github/workflows/metrics.yml`), roda semanalmente (cron), sob dispatch manual e em pushes controlados na branch dev para reconhecer/testar alterações de métricas.
-- Linguagem do script coletor: Python 3.11+ (já presente no projeto).
-- Dependências do script: PyGithub (acesso à API do GitHub).
-- Deploy da página: GitHub Pages servindo a pasta docs/metricas/.
+- Página: HTML5 estático em `docs/metricas/index.html`.
+- Estilização: CSS embutido ou TailwindCSS via CDN.
+- Gráficos: D3.js v7 via CDN.
+- Dados: `docs/metricas/metrics.json`.
+- Coleta: `docs/metricas/collect_metrics.py`.
+- Workflow: `.github/workflows/metrics.yml`.
+- Linguagem do script coletor: Python 3.11+.
+- Dependência do script coletor: PyGithub.
+- Publicação oficial: GitHub Pages.
+- Branch de integração: `dev`.
+
+### Paleta oficial do projeto
+
+| Nome da cor | Código HEX | Aplicação |
+| --- | --- | --- |
+| Azul Marinho | `#1e3a5f` | Header, botões primários, títulos e séries principais. |
+| Branco Puro | `#ffffff` | Fundo de cards e background geral. |
+| Cinza claro | `#ececf0` | Divisórias e bordas sutis. |
+| Input Gray | `#f3f3f5` | Fundo de campos de busca, áreas neutras e estados sem dados. |
+| Success Green | `#22c55e` | Métricas positivas, concluídas ou notas acima de 70%. |
+| Error Red | `#ef4444` | Métricas críticas, erros ou notas abaixo de 40%. |
+| Warning yellow | `#eab308` | Métricas em aviso, entre 40% e 70%. |
+| Eigengrau | `#030213` | Texto principal e elementos de alto contraste. |
+
+### Aplicação da paleta no dashboard
+
+- Header e títulos principais: Azul Marinho.
+- Fundo geral e cards: Branco Puro.
+- Bordas, divisórias e linhas de tabela: Cinza claro.
+- Áreas neutras, campos e estados vazios: Input Gray.
+- Issues fechadas, progresso concluído e métricas positivas: Success Green.
+- Estados de erro no carregamento do JSON: Error Red.
+- Avisos, coautoria ou indicadores intermediários: Warning yellow.
+- Texto principal, tooltips e alto contraste: Eigengrau.
+- Mapa de calor: gradiente de Input Gray para Azul Marinho.
+
+### Interação e leitura dos dados
+
+- Gráficos devem responder ao mouse com tooltip legível.
+- Tooltips devem ter área suficiente para leitura confortável, com título e valor em linhas separadas.
+- Barras, pontos e células de heatmap devem indicar interatividade no hover.
+- Tabelas com agrupamento por pessoa devem evitar repetir o mesmo nome várias vezes quando os dados puderem ser apresentados em um único bloco.
+- Filtros devem ser usados quando a tabela completa dificultar a leitura, especialmente em métricas por sprint/milestone.
 
 ---
 
-## Como me ajudar
+## Como usar este arquivo
 
-- Implemente uma tarefa por vez, na ordem descrita.
-- O script Python deve ser idempotente — sempre gera o JSON completo do zero.
-- Não altere nenhum arquivo fora de docs/metricas/ e .github/workflows/metrics.yml sem permissão.
-- Mantenha o HTML legível; não minimize.
+Antes de qualquer alteração na área de métricas, leia este arquivo e siga o fluxo:
+
+1. Verifique a branch atual e confirme que não está na `main`.
+2. Leia o estado atual da implementação.
+3. Identifique qual funcionalidade de métricas será alterada.
+4. Confira o escopo permitido e o fora de escopo.
+5. Implemente apenas uma responsabilidade por tarefa.
+6. Atualize este arquivo se a decisão de produto, métrica, critério de aceite ou identidade visual mudar.
+
+Este arquivo é a referência de Spec Driven Development da área de métricas. Ele deve preservar o plano original de criação do dashboard e também indicar o que já foi implementado, o que está parcial e o que ainda será evoluído.
+
+---
+
+## Escopo permitido
+
+Arquivos permitidos por padrão:
+
+- `docs/metricas/AGENT.md`
+- `docs/metricas/collect_metrics.py`
+- `docs/metricas/metrics.json`
+- `docs/metricas/index.html`
+- `.github/workflows/metrics.yml`
+
+Alterações fora desses arquivos exigem permissão explícita.
 
 ---
 
 ## Fora de escopo padrão
 
-- Não adicione autenticação ou back-end.
-- Não altere o pipeline de CI/linter existente.
-- Não mude a estrutura do projeto principal.
-- Não colete métricas de repositórios externos.
+A menos que exista solicitação explícita, não faça:
+
+- adicionar autenticação;
+- criar backend para o dashboard;
+- alterar frontend principal do produto;
+- alterar backend principal do produto;
+- alterar banco de dados;
+- alterar documentação de requisitos, escopo ou arquitetura;
+- coletar métricas de repositórios externos;
+- adicionar serviços pagos;
+- adicionar dependências sem justificativa técnica;
+- criar build step para a página de métricas;
+- alterar pipelines de CI/CD não relacionados ao dashboard;
+- transformar métricas em julgamento absoluto de desempenho individual.
 
 ---
 
-## Funcionalidade: Dashboard de Produtividade
+## Estado atual da implementação
+
+### Implementado
+
+- Script coletor em `docs/metricas/collect_metrics.py`.
+- Arquivo de dados em `docs/metricas/metrics.json`.
+- Página estática em `docs/metricas/index.html`.
+- Workflow de atualização em `.github/workflows/metrics.yml`.
+- Publicação esperada via GitHub Pages.
+- Uso de PyGithub para coleta de dados do repositório.
+- Uso de D3.js e TailwindCSS via CDN na página HTML.
+- Coleta planejada de métricas por pessoa, labels, documentação e milestones.
+- Exibição das novas métricas no painel com fallback para JSON ainda não regenerado.
+- Identidade visual oficial aplicada à página do painel.
+
+### Métricas existentes no JSON
+
+- `generated_at`: data e horário de geração.
+- `repository`: repositório analisado.
+- `issues_per_week`: issues abertas e fechadas por semana.
+- `commit_message_histogram`: distribuição de tamanho das mensagens de commit.
+- `coauthors_per_week`: coautores por semana.
+- `commit_heatmap`: mapa de calor de commits por dia e hora.
+- `top_committers`: ranking de commits por pessoa.
+- `top_pr_authors`: ranking de autores de pull requests.
+- `top_issue_contributors`: ranking de contribuições em issues abertas e fechadas.
+
+### Parcialmente implementado
+
+- O `metrics.json` versionado possui as novas chaves com fallback, mas os valores reais dependem da próxima execução do coletor.
+- A validação local completa do coletor depende de um ambiente Python com PyGithub instalado.
+- A validação final do painel depende da publicação via GitHub Pages.
+
+### Pendente
+
+- Regenerar o `metrics.json` com dados reais das novas métricas.
+- Validar responsividade da página no GitHub Pages.
+- Validar o workflow após merge na `dev`.
+
+---
+
+## Funcionalidade: Dashboard base
 
 ### Spec
 
-Contexto: A equipe (Squad 07) e a professora da disciplina MDS/UnB precisam visualizar a produtividade do projeto ao longo do tempo. A página é acessada via GitHub Pages e mostra gráficos e rankings atualizados semanalmente de forma automática.
+O usuário acessa a página do dashboard via GitHub Pages e visualiza métricas públicas do repositório, geradas automaticamente pelo GitHub Actions.
 
-Comportamento observável (ponto de vista do usuário):
+O dashboard base deve exibir 8 componentes visuais:
 
-O usuário acessa a URL do GitHub Pages e vê uma página responsiva contendo:
+1. Gráfico de linhas de issues abertas vs. fechadas por semana.
+2. Histograma de tamanho das mensagens de commit.
+3. Gráfico de barras de coautores por semana.
+4. Mapa de calor de commits por dia da semana e horário.
+5. Gráfico de barras empilhadas de issues abertas e fechadas por semana.
+6. Ranking de top committers.
+7. Ranking de autores de pull requests.
+8. Ranking de contribuições em issues.
 
-1. Gráfico de linhas — Issues abertas vs. fechadas por semana
-   - Eixo X: semanas (formato `YYYY-WXX`).
-   - Eixo Y: quantidade.
-   - Duas séries: "Abertas" e "Fechadas".
+### Plano original preservado
 
-2. Histograma — Quantidade de caracteres na mensagem de commit
-   - Eixo X: faixas de caracteres (0–20, 21–50, 51–100, 101–200, 200+).
-   - Eixo Y: número de commits naquela faixa.
+O plano original do dashboard base era criar:
 
-3. Gráfico de barras — Quantidade de co-autores por semana
-   - Eixo X: semanas.
-   - Eixo Y: total de linhas Co-authored-by encontradas nos commits daquela semana.
+1. Script coletor (`docs/metricas/collect_metrics.py`).
+2. Workflow de atualização (`.github/workflows/metrics.yml`).
+3. Página HTML (`docs/metricas/index.html`).
+4. Publicação via GitHub Pages.
 
-4. Mapa de calor — Horário dos commits por dia da semana
-   - Eixo X: horas do dia (0h–23h).
-   - Eixo Y: dias da semana (Seg–Dom).
-   - Cor: gradiente de #e8f4f8 (zero commits) a #003366 (máximo).
-   - Tooltip mostra dia, hora e quantidade de commits.
+Esse plano permanece válido como fundação do dashboard. A diferença é que, no estado atual, esses artefatos já existem e devem ser tratados como base para evolução, correção e validação.
 
-5. Gráfico de barras empilhadas — Issues abertas/fechadas por semana
-   - Mesmo dado do item 1, mas em formato de barras empilhadas para visualização alternativa.
+### Critérios de aceite
 
-6. Ranking — Top committers
-   - Tabela ordenada por número de commits (desc).
-   - Colunas: posição, nome/username, total de commits.
-7. Ranking — Top autores de PRs
-   - Tabela ordenada por número de PRs abertas (desc).
-   - Colunas: posição, nome/username, total de PRs abertas.
-
-8. Ranking — Top em Issues (abertas + fechadas)
-   - Tabela ordenada pela soma de issues abertas + issues fechadas pelo usuário (desc).
-   - Colunas: posição, nome/username, issues abertas, issues fechadas, total.
-
-Critérios de aceitação:
-
-1. O arquivo docs/metricas/index.html abre corretamente no navegador sem servidor local (protocolo file:// ou via GitHub Pages).
-2. O arquivo docs/metricas/metrics.json é gerado pelo workflow e contém todas as seções: issues_per_week, commit_message_histogram, coauthors_per_week, commit_heatmap, top_committers, top_pr_authors, top_issue_contributors.
-3. O workflow .github/workflows/metrics.yml executa com sucesso no GitHub Actions usando apenas GITHUB_TOKEN.
-4. O workflow roda automaticamente todo domingo às 03:00 UTC, pode ser disparado manualmente via workflow_dispatch e roda em push na dev quando arquivos de métricas/workflow forem alterados.
-5. Após a execução, o workflow faz commit do metrics.json atualizado no branch dev.
-6. Os gráficos renderizam corretamente com os dados do JSON (sem erros no console).
-7. A página é responsiva (funciona em mobile e desktop).
-8. O ranking exibe pelo menos os 10 primeiros ou todos os contribuidores (o que for menor).
-
-Casos de borda:
-
-- Semana sem atividade: a semana aparece no eixo X com valor 0; não é omitida.
-- Commit sem mensagem (squash vazio): conta como 0 caracteres na faixa 0–20.
-- Usuário deletado (ghost): aparece como ghost nos rankings.
-- Co-authored-by com formato inválido: é ignorado silenciosamente.
-- Repositório com < 1 semana de histórico: exibe os dados disponíveis sem erro.
-
-Fora de escopo desta spec:
-
-- Métricas de code review (comments em PRs).
-- Métricas de CI (tempo de build, falhas).
-- Filtro interativo por período.
-- Autenticação ou área restrita.
-- Armazenamento histórico (o JSON é sempre reescrito por completo).
-
----
-
-### Plano
-
-Referência: spec acima. Constituição relevante: princípios 1, 2, 3, 6, 7.
-
-Decisões técnicas:
-
-- Coleta de dados:
-  - Escolha: Script Python usando PyGithub para acessar a API REST do GitHub.
-  - Alternativas consideradas: GitHub GraphQL API; gh CLI direto no workflow.
-  - Rationale: PyGithub é bem documentada, suporta paginação automática e o projeto já usa Python. A GraphQL seria mais eficiente mas adiciona complexidade de queries. O gh CLI limitaria a lógica a shell scripts.
-
-- Visualização:
-  - Escolha: D3.js v7 via CDN + tabelas HTML puras com estilo Tailwind CDN.
-  - Alternativas consideradas: Chart.js; Mermaid; imagens estáticas geradas por matplotlib.
-  - Rationale: D3.js oferece controle total sobre SVG, permite customização avançada dos gráficos e escalas bem para visualizações futuras. Chart.js é mais simples mas menos flexível. Imagens estáticas perdem interatividade.
-
-- Persistência dos dados:
-  - Escolha: Arquivo JSON único commitado no branch dev pelo próprio workflow.
-  - Alternativas consideradas: GitHub Pages artifact; branch separado gh-pages.
-  - Rationale: JSON no branch de integração mantém histórico via git, é simples de debugar, respeita o fluxo de Pull Requests antes da main, e GitHub Pages pode servir de qualquer pasta configurada.
-
-- Agendamento:
-  - Escolha: cron: '0 3 * * 0' (domingo 03:00 UTC) + workflow_dispatch + push controlado na dev.
-  - Rationale: Frequência semanal alinha com as sprints da disciplina; horário de madrugada evita conflitos com trabalho ativo. O push controlado permite que o GitHub Actions reconheça e teste o workflow quando ele é integrado na branch dev, sem disparar loop com o metrics.json.
-
-Tradeoffs aceitos:
-
-1. O JSON é reescrito do zero a cada execução — não há dados incrementais. Aceitável porque o repositório é pequeno e a API suporta o volume.
-2. D3.js via CDN exige internet para visualizar — aceitável porque o público-alvo acessa via GitHub Pages (já online).
-3. O commit automático pode gerar ruído no histórico — mitigado com mensagem padronizada [bot] atualiza métricas de produtividade.
-
-Dependências:
-- PyGithub (script coletor)
-- D3.js v7 (CDN, front-end)
-- TailwindCSS (CDN, estilização)
-- actions/checkout@v4 (workflow)
-- actions/setup-python@v5 (workflow)
-
----
+- O painel carrega `metrics.json` via GitHub Pages.
+- Todos os 8 componentes visuais são renderizados sem erro.
+- Gráficos possuem hover responsivo ao mouse.
+- Tooltips são legíveis e não ficam pequenos demais para os dados apresentados.
+- A página é responsiva em desktop e mobile.
+- A mensagem de erro aparece apenas quando o JSON não pode ser carregado.
+- O ranking exibe até 10 pessoas ou todos os registros disponíveis, o que for menor.
+- A interface utiliza a paleta oficial do projeto.
 
 ### Tarefas
 
-1. Criar script coletor (`docs/metricas/collect_metrics.py`)
-   - Depende de: —
-   - Pronto quando:
-     - O script aceita variáveis de ambiente GITHUB_TOKEN e GITHUB_REPOSITORY.
-     - Gera docs/metricas/metrics.json com schema correto.
-     - Roda localmente com python collect_metrics.py (dado token válido).
-   - Fora de escopo: renderização HTML, workflow.
-
-2. Criar workflow (`.github/workflows/metrics.yml`)
-   - Depende de: Tarefa 1.
-   - Pronto quando:
-     - Instala dependências, executa o script, e commita o JSON atualizado.
-     - Roda no cron semanal, via dispatch manual e via push controlado na dev.
-     - Usa apenas GITHUB_TOKEN (permissões `contents: write`).
-   - Fora de escopo: a página HTML.
-
-3. Criar página HTML (`docs/metricas/index.html`)
-   - Depende de: Tarefa 1 (precisa do schema do JSON para bindar os gráficos).
-   - Pronto quando:
-     - Carrega metrics.json via fetch relativo.
-     - Renderiza todos os 7 componentes visuais descritos na spec.
-     - Responsivo (mobile-first com Tailwind).
-     - Sem erros no console do navegador.
-   - Fora de escopo: coleta de dados, CI.
-
-4. Configurar GitHub Pages
-   - Depende de: Tarefas 2 e 3.
-   - Pronto quando:
-     - A página é acessível via URL pública do GitHub Pages.
-     - O JSON é servido corretamente (sem CORS issues em mesmo domínio).
-   - Fora de escopo: DNS customizado.
+- [x] Criar script coletor.
+- [x] Criar workflow.
+- [x] Criar página HTML.
+- [x] Gerar `metrics.json`.
+- [x] Aplicar identidade visual oficial no painel.
+- [ ] Validar renderização final no GitHub Pages.
+- [ ] Validar responsividade em desktop e mobile.
 
 ---
 
-### Schema do metrics.json
+## Funcionalidade: Métricas por pessoa
 
-JSON
-
-
+### Spec
 
+O painel deve permitir que a professora visualize a participação de cada integrante de forma direta. As métricas individuais devem ser apresentadas em rankings e tabelas de fácil leitura.
+
+### Métricas planejadas
+
+- Issues abertas por pessoa.
+- Issues atribuídas por pessoa.
+- Issues fechadas por pessoa.
+- Issues pendentes por pessoa.
+- Pull requests abertos por pessoa.
+- Pull requests revisados por pessoa.
+- Pull requests mergeados por pessoa.
+- Commits realizados por pessoa.
+
+### Critérios de aceite
+
+- O painel diferencia autoria de PR e participação em review.
+- O painel diferencia issues abertas, atribuídas, fechadas e pendentes.
+- O painel exibe rankings diretos por pessoa.
+- Usuários removidos ou indisponíveis aparecem como `ghost`.
+- Métricas ausentes não quebram a página.
+
+### Plano
+
+- Expandir o coletor para agregar métricas por usuário.
+- Consultar assignees das issues para medir atribuição e pendência.
+- Consultar pull requests para medir autoria, merge e reviews.
+- Atualizar o schema do JSON com uma seção específica de métricas por pessoa.
+- Atualizar o HTML para exibir ranking ou tabela consolidada.
+
+### Tarefas
+
+- [x] Coletar issues atribuídas por pessoa.
+- [x] Coletar issues pendentes por pessoa.
+- [x] Coletar PRs mergeados por pessoa.
+- [x] Coletar PRs revisados por pessoa.
+- [x] Criar tabela consolidada de métricas por pessoa.
+- [x] Atualizar critérios visuais do painel para ranking direto.
+- [ ] Validar dados reais após execução do workflow.
+
+---
+
+## Funcionalidade: Distribuição por labels
+
+### Spec
+
+O painel deve mostrar como o trabalho do projeto está distribuído entre áreas e tipos de tarefa por meio das labels do GitHub.
+
+### Métricas planejadas
+
+- Quantidade de issues por label.
+- Quantidade de issues por pessoa agrupadas por label.
+- Distribuição por labels como documentação, frontend, backend, banco, feature, bugfix, chore e prioridade.
+
+### Critérios de aceite
+
+- Labels sem issues não precisam aparecer.
+- Issues com múltiplas labels devem contar em todas as labels correspondentes.
+- A visualização deve permitir identificar rapidamente quais áreas concentram mais trabalho.
+- A distribuição por pessoa deve facilitar avaliação individual.
+- Labels por pessoa devem ser agrupadas pelo nome do integrante, com as labels listadas abaixo de cada nome.
+- A interface não deve repetir o nome da mesma pessoa em várias linhas para essa visualização.
+
+### Plano
+
+- Expandir a coleta de issues para registrar labels.
+- Criar agregação geral por label.
+- Criar agregação por pessoa e label com base em assignees.
+- Atualizar o JSON com seções específicas para labels.
+- Adicionar visualização de barras ou tabela no HTML.
+
+### Tarefas
+
+- [x] Coletar labels por issue.
+- [x] Gerar ranking geral de labels.
+- [x] Gerar distribuição de labels por pessoa.
+- [x] Exibir labels no painel.
+- [x] Agrupar labels por pessoa na visualização.
+- [ ] Validar dados reais após execução do workflow.
+
+---
+
+## Funcionalidade: Contribuição em documentação
+
+### Spec
+
+O painel deve destacar contribuições relacionadas à documentação, porque a documentação é parte central da avaliação da disciplina e da Release 1.
+
+### Métricas planejadas
+
+- Issues com label de documentação por pessoa.
+- Pull requests de documentação por pessoa.
+- Commits que alteram arquivos em `docs/`.
+- Commits que alteram arquivos `.md`.
+
+### Critérios de aceite
+
+- O painel diferencia contribuição geral de contribuição documental.
+- Alterações em `docs/` contam como documentação.
+- Alterações em arquivos `.md` contam como documentação.
+- PRs com label `documentation` ou título iniciando com `docs:` contam como documentação.
+
+### Plano
+
+- Coletar labels e títulos de PRs para identificar documentação.
+- Inspecionar arquivos alterados em commits ou PRs quando necessário.
+- Adicionar métricas documentais ao JSON.
+- Exibir ranking direto de documentação por pessoa.
+
+### Tarefas
+
+- [x] Identificar PRs de documentação.
+- [x] Identificar commits documentais.
+- [x] Identificar issues documentais por pessoa.
+- [x] Exibir ranking de contribuição em documentação.
+- [ ] Validar dados reais após execução do workflow.
+
+---
+
+## Funcionalidade: Progresso por sprint/milestone
+
+### Spec
+
+O painel deve mostrar a evolução do trabalho por sprint usando milestones do GitHub. Essa visão deve ajudar a equipe e a professora a entenderem o que foi planejado, concluído e pendente em cada sprint.
+
+### Métricas planejadas
+
+- Issues por milestone.
+- Issues concluídas por milestone.
+- Issues pendentes por milestone.
+- Distribuição de issues por pessoa dentro da milestone.
+
+### Critérios de aceite
+
+- Milestones sem issues podem ser omitidas.
+- Issues abertas contam como pendentes.
+- Issues fechadas contam como concluídas.
+- A visualização deve permitir comparar progresso entre sprints.
+- A distribuição por pessoa deve aparecer dentro da milestone.
+- A visualização por pessoa deve possuir filtro de sprint/milestone.
+- Após selecionar uma sprint, o painel deve mostrar cada integrante com suas colaborações naquela sprint.
+
+### Plano
+
+- Expandir a coleta de issues para incluir milestone.
+- Agrupar issues por milestone e status.
+- Agrupar issues por milestone e assignee.
+- Atualizar o JSON com progresso por sprint.
+- Exibir tabela ou gráfico por sprint/milestone.
+
+### Tarefas
+
+- [x] Coletar milestone de cada issue.
+- [x] Gerar progresso geral por milestone.
+- [x] Gerar progresso por pessoa dentro da milestone.
+- [x] Exibir progresso por sprint no painel.
+- [x] Adicionar filtro de sprint/milestone para progresso por pessoa.
+- [ ] Validar dados reais após execução do workflow.
+
+---
+
+## Funcionalidade: Workflow de atualização automática
+
+### Spec
+
+O workflow deve gerar o `metrics.json` automaticamente, usando apenas `GITHUB_TOKEN`, sem serviços externos e sem exigir intervenção manual para uso normal.
+
+### Critérios de aceite
+
+- O workflow roda por `workflow_dispatch`.
+- O workflow roda por cron semanal.
+- O workflow roda em push na `dev` quando arquivos de métricas forem alterados.
+- O workflow faz commit do `metrics.json` atualizado na `dev`.
+- O workflow não deve gerar loop infinito de commits.
+
+### Plano
+
+- Manter o workflow mínimo.
+- Instalar apenas dependências necessárias.
+- Executar o coletor.
+- Commitar apenas `docs/metricas/metrics.json` quando houver mudança.
+
+### Tarefas
+
+- [x] Criar workflow de métricas.
+- [x] Configurar `workflow_dispatch`.
+- [x] Configurar cron semanal.
+- [x] Configurar push controlado na `dev`.
+- [ ] Validar execução após merge na `dev`.
+
+---
+
+## Funcionalidade: Publicação via GitHub Pages
+
+### Spec
+
+O acesso oficial ao painel deve acontecer via GitHub Pages. O painel não deve depender de `file://` como critério oficial, porque navegadores podem bloquear `fetch("metrics.json")` quando o arquivo é aberto diretamente.
+
+### Critérios de aceite
+
+- A página é acessível via GitHub Pages.
+- O JSON é servido no mesmo domínio da página.
+- A página carrega os dados sem erro de CORS.
+- A navegação para o painel está disponível quando configurada no MkDocs.
+
+### Plano
+
+- Manter `docs/metricas/index.html` e `docs/metricas/metrics.json` juntos.
+- Usar `fetch("metrics.json")` com caminho relativo.
+- Validar acesso publicado via GitHub Pages.
+- Não tratar `file://` como ambiente oficial.
+
+### Tarefas
+
+- [x] Criar página estática.
+- [x] Criar JSON no mesmo diretório.
+- [ ] Validar publicação via GitHub Pages.
+- [ ] Validar navegação a partir da documentação do projeto.
+
+---
+
+## Schema atual do metrics.json
+
+```json
 {
-  "generated_at": "2025-05-11T03:00:00Z",
-  "repository": "unb-mds/2026.1-ContraDito",
+  "generated_at": "2026-05-11T03:00:00+00:00",
+  "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
-    { "week": "2025-W01", "opened": 5, "closed": 3 }
+    { "week": "2026-W18", "opened": 5, "closed": 3 }
   ],
   "commit_message_histogram": [
     { "range": "0-20", "count": 12 },
@@ -234,22 +472,103 @@ JSON
     { "range": "200+", "count": 5 }
   ],
   "coauthors_per_week": [
-    { "week": "2025-W01", "count": 4 }
+    { "week": "2026-W18", "count": 4 }
   ],
   "commit_heatmap": [
-    { "day": 0, "hour": 10, "count": 8 },
-    { "day": 6, "hour": 22, "count": 2 }
+    { "day": 0, "hour": 10, "count": 8 }
   ],
   "top_committers": [
-    { "username": "fulano", "name": "Fulano Silva", "commits": 42 }
+    { "username": "usuario", "name": "Usuario", "commits": 42 }
   ],
   "top_pr_authors": [
-    { "username": "fulano", "name": "Fulano Silva", "prs_opened": 15 }
+    { "username": "usuario", "name": "Usuario", "prs_opened": 15 }
   ],
   "top_issue_contributors": [
-    { "username": "fulano", "name": "Fulano Silva", "opened": 10, "closed": 8, "total": 18 }
+    { "username": "usuario", "name": "Usuario", "opened": 10, "closed": 8, "total": 18 }
   ]
 }
-
+```
 
 ---
+
+## Schema planejado para evolução
+
+As novas métricas devem ser adicionadas sem remover as chaves atuais, para preservar compatibilidade com o painel existente.
+
+```json
+{
+  "people_metrics": [
+    {
+      "username": "usuario",
+      "name": "Usuario",
+      "issues_opened": 4,
+      "issues_assigned": 6,
+      "issues_closed": 5,
+      "issues_pending": 1,
+      "prs_opened": 3,
+      "prs_reviewed": 2,
+      "prs_merged": 2,
+      "commits": 12
+    }
+  ],
+  "labels_distribution": [
+    { "label": "documentation", "count": 8 }
+  ],
+  "labels_by_person": [
+    { "username": "usuario", "label": "documentation", "count": 3 }
+  ],
+  "documentation_contributions": [
+    {
+      "username": "usuario",
+      "issues": 2,
+      "pull_requests": 1,
+      "commits": 5,
+      "total": 8
+    }
+  ],
+  "milestone_progress": [
+    {
+      "milestone": "Sprint 08",
+      "opened": 10,
+      "closed": 7,
+      "pending": 3
+    }
+  ],
+  "milestone_progress_by_person": [
+    {
+      "milestone": "Sprint 08",
+      "username": "usuario",
+      "assigned": 3,
+      "closed": 2,
+      "pending": 1
+    }
+  ]
+}
+```
+
+---
+
+## Critérios gerais de aceite
+
+- O `AGENT.md` continua explicando como criar o dashboard do zero.
+- O documento explica o estado atual da implementação.
+- Cada funcionalidade possui objetivo, comportamento esperado, critérios de aceite, plano e tarefas.
+- Métricas existentes ficam marcadas como implementadas ou parcialmente implementadas.
+- Novas métricas por pessoa ficam marcadas como pendentes ou evolução planejada.
+- Rankings diretos por pessoa são previstos para facilitar leitura da professora.
+- O acesso oficial é via GitHub Pages.
+- A identidade visual oficial do projeto está documentada e deve orientar o painel.
+- O escopo permanece limitado a métricas, salvo permissão explícita.
+
+---
+
+## Validação antes de finalizar uma alteração de métricas
+
+- Conferir se a alteração respeita este `AGENT.md`.
+- Conferir se a branch atual não é `main`.
+- Conferir se arquivos fora do escopo permitido não foram alterados.
+- Validar o schema do `metrics.json`.
+- Validar renderização da página quando houver mudança no HTML.
+- Conferir aplicação da paleta oficial quando houver mudança visual.
+- Conferir o workflow quando houver mudança em coleta ou automação.
+- Registrar no PR quais métricas foram alteradas, adicionadas ou apenas planejadas.
