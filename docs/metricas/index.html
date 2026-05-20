@@ -462,13 +462,14 @@
           return;
         }
 
-        const groups = Array.from(groupBy(rows, (row) => row.name || row.username).entries())
-          .map(([person, labels]) => ({
-            person,
+        const groups = Array.from(groupBy(rows, (row) => row.username || row.name || "ghost").entries())
+          .map(([username, labels]) => ({
+            username,
+            person: labels[0]?.name && labels[0].name !== username ? `${labels[0].name} (@${username})` : username,
             labels: labels.sort((a, b) => b.count - a.count || a.label.localeCompare(b.label)),
             total: labels.reduce((sum, row) => sum + row.count, 0),
           }))
-          .sort((a, b) => b.total - a.total || a.person.localeCompare(b.person));
+          .sort((a, b) => b.total - a.total || a.username.localeCompare(b.username));
 
         const wrapper = d3.select(selector).append("div").attr("class", "grid gap-3 md:grid-cols-2");
         const cards = wrapper.selectAll("section").data(groups).join("section").attr("class", "rounded-lg border border-[#ececf0] bg-white p-3");
@@ -562,7 +563,7 @@
           { label: "Usuário", value: (row) => row.name || row.username },
           { label: "Issues abertas", value: (row) => row.issues_opened },
           { label: "Atribuídas", value: (row) => row.issues_assigned },
-          { label: "Fechadas", value: (row) => row.issues_closed },
+          { label: "Atribuídas concluídas", value: (row) => row.issues_assigned_closed ?? row.issues_closed ?? 0 },
           { label: "Pendentes", value: (row) => row.issues_pending },
           { label: "PRs abertos", value: (row) => row.prs_opened },
           { label: "PRs revisados", value: (row) => row.prs_reviewed },

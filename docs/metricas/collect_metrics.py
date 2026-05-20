@@ -96,7 +96,7 @@ def person_metrics_row(username: str, name: str) -> dict[str, Any]:
         "name": name,
         "issues_opened": 0,
         "issues_assigned": 0,
-        "issues_closed": 0,
+        "issues_assigned_closed": 0,
         "issues_pending": 0,
         "prs_opened": 0,
         "prs_reviewed": 0,
@@ -260,7 +260,7 @@ def collect_issue_metrics(
         for assignee in issue.assignees:
             person = ensure_person(people, assignee)
             person["issues_assigned"] += 1
-            person["issues_closed"] += int(is_closed)
+            person["issues_assigned_closed"] += int(is_closed)
             person["issues_pending"] += int(is_open)
 
             username, name = user_key(assignee)
@@ -281,7 +281,10 @@ def collect_issue_metrics(
             milestone_progress_by_person[milestone_key]["closed"] += int(is_closed)
             milestone_progress_by_person[milestone_key]["pending"] += int(is_open)
 
-            if is_documentation:
+        if is_documentation and is_closed:
+            closer = getattr(issue, "closed_by", None)
+            if closer is not None:
+                username, name = user_key(closer)
                 doc_row = documentation.setdefault(
                     (username, name),
                     {

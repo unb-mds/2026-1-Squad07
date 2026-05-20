@@ -89,6 +89,18 @@ O dashboard de produtividade existe para acompanhar o processo de desenvolviment
 - Tabelas com agrupamento por pessoa devem evitar repetir o mesmo nome várias vezes quando os dados puderem ser apresentados em um único bloco.
 - Filtros devem ser usados quando a tabela completa dificultar a leitura, especialmente em métricas por sprint/milestone.
 
+### Semântica das métricas individuais
+
+- Agrupamentos por pessoa devem usar `username` como identificador interno confiável.
+- O `name` público do GitHub deve ser usado apenas como texto de exibição.
+- `issues_assigned_closed` representa issues atribuídas à pessoa que foram concluídas, não autoria do fechamento.
+- O rótulo visual dessa métrica deve ser `Atribuídas concluídas`.
+- Contribuição em documentação deve representar execução rastreável.
+- Issues de documentação contam para a pessoa que fechou a issue via `closed_by`.
+- PRs de documentação contam para o autor do pull request.
+- Commits de documentação contam para o autor do commit quando alteram `docs/` ou arquivos `.md`.
+- Issues de documentação sem `closed_by` confiável não devem ser contabilizadas como contribuição individual efetiva.
+
 ---
 
 ## Como usar este arquivo
@@ -324,7 +336,7 @@ O painel deve destacar contribuições relacionadas à documentação, porque a 
 
 ### Métricas planejadas
 
-- Issues com label de documentação por pessoa.
+- Issues de documentação fechadas por pessoa via `closed_by`.
 - Pull requests de documentação por pessoa.
 - Commits que alteram arquivos em `docs/`.
 - Commits que alteram arquivos `.md`.
@@ -334,11 +346,13 @@ O painel deve destacar contribuições relacionadas à documentação, porque a 
 - O painel diferencia contribuição geral de contribuição documental.
 - Alterações em `docs/` contam como documentação.
 - Alterações em arquivos `.md` contam como documentação.
-- PRs com label `documentation` ou título iniciando com `docs:` contam como documentação.
+- Issues de documentação fechadas contam para o usuário em `closed_by`.
+- PRs com label `documentation` ou título iniciando com `docs:` contam como documentação para o autor do PR.
 
 ### Plano
 
 - Coletar labels e títulos de PRs para identificar documentação.
+- Coletar `closed_by` das issues de documentação para evitar atribuição ambígua.
 - Inspecionar arquivos alterados em commits ou PRs quando necessário.
 - Adicionar métricas documentais ao JSON.
 - Exibir ranking direto de documentação por pessoa.
@@ -347,7 +361,7 @@ O painel deve destacar contribuições relacionadas à documentação, porque a 
 
 - [x] Identificar PRs de documentação.
 - [x] Identificar commits documentais.
-- [x] Identificar issues documentais por pessoa.
+- [x] Identificar issues documentais fechadas por pessoa.
 - [x] Exibir ranking de contribuição em documentação.
 - [ ] Validar dados reais após execução do workflow.
 
@@ -503,7 +517,7 @@ As novas métricas devem ser adicionadas sem remover as chaves atuais, para pres
       "name": "Usuario",
       "issues_opened": 4,
       "issues_assigned": 6,
-      "issues_closed": 5,
+      "issues_assigned_closed": 5,
       "issues_pending": 1,
       "prs_opened": 3,
       "prs_reviewed": 2,
@@ -515,7 +529,7 @@ As novas métricas devem ser adicionadas sem remover as chaves atuais, para pres
     { "label": "documentation", "count": 8 }
   ],
   "labels_by_person": [
-    { "username": "usuario", "label": "documentation", "count": 3 }
+    { "username": "usuario", "name": "Usuario", "label": "documentation", "count": 3 }
   ],
   "documentation_contributions": [
     {

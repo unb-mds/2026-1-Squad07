@@ -1071,96 +1071,96 @@
       "name": "ViniciusA05",
       "issues_opened": 31,
       "issues_assigned": 13,
-      "issues_closed": 9,
       "issues_pending": 4,
       "prs_opened": 10,
       "prs_reviewed": 4,
       "prs_merged": 6,
-      "commits": 24
+      "commits": 24,
+      "issues_assigned_closed": 9
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues_opened": 4,
       "issues_assigned": 8,
-      "issues_closed": 7,
       "issues_pending": 1,
       "prs_opened": 5,
       "prs_reviewed": 1,
       "prs_merged": 4,
-      "commits": 7
+      "commits": 7,
+      "issues_assigned_closed": 7
     },
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
       "issues_opened": 19,
       "issues_assigned": 7,
-      "issues_closed": 6,
       "issues_pending": 1,
       "prs_opened": 1,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 2
+      "commits": 2,
+      "issues_assigned_closed": 6
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "issues_opened": 3,
       "issues_assigned": 9,
-      "issues_closed": 7,
       "issues_pending": 2,
       "prs_opened": 2,
       "prs_reviewed": 0,
       "prs_merged": 1,
-      "commits": 2
+      "commits": 2,
+      "issues_assigned_closed": 7
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "issues_opened": 3,
       "issues_assigned": 8,
-      "issues_closed": 3,
       "issues_pending": 5,
       "prs_opened": 1,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 4
+      "commits": 4,
+      "issues_assigned_closed": 3
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
       "issues_opened": 2,
       "issues_assigned": 5,
-      "issues_closed": 3,
       "issues_pending": 2,
       "prs_opened": 2,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 2
+      "commits": 2,
+      "issues_assigned_closed": 3
     },
     {
       "username": "RochaCarla",
       "name": "Carla Rocha",
       "issues_opened": 0,
       "issues_assigned": 0,
-      "issues_closed": 0,
       "issues_pending": 0,
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 1
+      "commits": 1,
+      "issues_assigned_closed": 0
     },
     {
       "username": "ghost",
       "name": "ghost",
       "issues_opened": 0,
       "issues_assigned": 0,
-      "issues_closed": 0,
       "issues_pending": 0,
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 1
+      "commits": 1,
+      "issues_assigned_closed": 0
     }
   ],
   "labels_distribution": [
@@ -1703,50 +1703,50 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "issues": 7,
+      "issues": 0,
       "pull_requests": 1,
       "commits": 11,
-      "total": 19
+      "total": 12
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "issues": 3,
+      "issues": 0,
       "pull_requests": 1,
       "commits": 7,
-      "total": 11
+      "total": 8
     },
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
-      "issues": 6,
+      "issues": 0,
       "pull_requests": 1,
       "commits": 2,
-      "total": 9
+      "total": 3
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "issues": 2,
+      "issues": 0,
       "pull_requests": 1,
       "commits": 2,
-      "total": 5
+      "total": 3
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "issues": 2,
+      "issues": 0,
       "pull_requests": 0,
       "commits": 3,
-      "total": 5
+      "total": 3
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
-      "issues": 3,
+      "issues": 0,
       "pull_requests": 1,
       "commits": 1,
-      "total": 5
+      "total": 2
     },
     {
       "username": "RochaCarla",
