@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard de Produtividade - Squad 07</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+      :root {
+        --unb-blue-dark: #003366;
+        --unb-blue-medium: #004a8c;
+        --unb-green: #005c37;
+        --unb-gold: #bfa630;
+        --heatmap-empty: #e8f4f8;
+      }
+
+      body {
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      .chart-card {
+        background: #ffffff;
+        border: 1px solid #dbe4ee;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 51, 102, 0.08);
+      }
+
+      .chart-title {
+        color: var(--unb-blue-dark);
+        font-weight: 700;
+      }
+
+      .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: #0f172a;
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 8px 10px;
+        font-size: 12px;
+        opacity: 0;
+        transform: translate(-50%, -110%);
+        transition: opacity 120ms ease;
+        z-index: 20;
+      }
+
+      svg text {
+        fill: #334155;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800">
+    <header class="bg-[#003366] text-white">
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <p class="text-sm font-medium uppercase tracking-wide text-[#BFA630]">
+          Squad 07 - MDS/UnB
+        </p>
+        <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Dashboard de Produtividade
+        </h1>
+        <p class="mt-3 max-w-3xl text-sm leading-6 text-blue-50 sm:text-base">
+          Métricas públicas do repositório calculadas a partir de commits,
+          issues e pull requests. Os dados são atualizados automaticamente pelo
+          GitHub Actions.
+        </p>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <section
+        class="mb-8 grid gap-4 rounded-xl border border-slate-200 bg-white p-4 sm:grid-cols-3"
+      >
+        <div>
+          <p class="text-sm text-slate-500">Repositório</p>
+          <p id="repository" class="mt-1 font-semibold text-[#003366]">-</p>
+        </div>
+        <div>
+          <p class="text-sm text-slate-500">Última atualização</p>
+          <p id="generated-at" class="mt-1 font-semibold text-[#003366]">-</p>
+        </div>
+        <div>
+          <p class="text-sm text-slate-500">Fonte</p>
+          <p class="mt-1 font-semibold text-[#003366]">GitHub API</p>
+        </div>
+      </section>
+
+      <section id="error" class="hidden rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+        Não foi possível carregar <code>metrics.json</code>. Execute o workflow
+        de métricas ou gere o arquivo localmente.
+      </section>
+
+      <section class="grid gap-6 lg:grid-cols-2">
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Issues abertas vs. fechadas</h2>
+          <div id="issues-line" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Histograma de mensagens de commit</h2>
+          <div id="commit-histogram" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Coautores por semana</h2>
+          <div id="coauthors-bar" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Horário dos commits</h2>
+          <div id="commit-heatmap" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5 lg:col-span-2">
+          <h2 class="chart-title text-lg">Issues por semana</h2>
+          <div id="issues-stacked" class="mt-4 overflow-x-auto"></div>
+        </article>
+      </section>
+
+      <section class="mt-6 grid gap-6 lg:grid-cols-3">
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Top committers</h2>
+          <div id="top-committers" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Top autores de PRs</h2>
+          <div id="top-pr-authors" class="mt-4 overflow-x-auto"></div>
+        </article>
+
+        <article class="chart-card p-5">
+          <h2 class="chart-title text-lg">Top em issues</h2>
+          <div id="top-issue-contributors" class="mt-4 overflow-x-auto"></div>
+        </article>
+      </section>
+    </main>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+      const COLORS = {
+        blueDark: "#003366",
+        blueMedium: "#004A8C",
+        green: "#005C37",
+        gold: "#BFA630",
+        heatEmpty: "#e8f4f8",
+      };
+      const DAYS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
+      const tooltip = d3.select("#tooltip");
+
+      function chartSize(containerSelector, fallbackWidth = 640) {
+        const element = document.querySelector(containerSelector);
+        const width = Math.max(
+          320,
+          Math.min(fallbackWidth, element?.clientWidth || fallbackWidth),
+        );
+        return { width, height: 320 };
+      }
+
+      function clear(containerSelector) {
+        d3.select(containerSelector).selectAll("*").remove();
+      }
+
+      function showTooltip(event, text) {
+        tooltip
+          .style("left", `${event.pageX}px`)
+          .style("top", `${event.pageY}px`)
+          .style("opacity", 1)
+          .text(text);
+      }
+
+      function hideTooltip() {
+        tooltip.style("opacity", 0);
+      }
+
+      function drawAxes(svg, xAxis, yAxis, innerHeight, margin) {
+        svg
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top + innerHeight})`)
+          .call(xAxis);
+
+        svg
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`)
+          .call(yAxis);
+      }
+
+      function drawIssuesLine(data) {
+        const selector = "#issues-line";
+        clear(selector);
+        const { width, height } = chartSize(selector);
+        const margin = { top: 20, right: 24, bottom: 56, left: 48 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+        const weeks = data.map((d) => d.week);
+        const maxY = d3.max(data, (d) => Math.max(d.opened, d.closed)) || 1;
+
+        const x = d3.scalePoint().domain(weeks).range([0, innerWidth]).padding(0.5);
+        const y = d3.scaleLinear().domain([0, maxY]).nice().range([innerHeight, 0]);
+
+        const svg = d3
+          .select(selector)
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        drawAxes(
+          svg,
+          d3.axisBottom(x).tickValues(weeks.filter((_, i) => i % Math.ceil(weeks.length / 8 || 1) === 0)),
+          d3.axisLeft(y).ticks(5),
+          innerHeight,
+          margin,
+        );
+
+        const line = (key) =>
+          d3
+            .line()
+            .x((d) => margin.left + x(d.week))
+            .y((d) => margin.top + y(d[key]));
+
+        svg
+          .append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", COLORS.blueDark)
+          .attr("stroke-width", 3)
+          .attr("d", line("opened"));
+        svg
+          .append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", COLORS.green)
+          .attr("stroke-width", 3)
+          .attr("d", line("closed"));
+
+        [
+          ["Abertas", COLORS.blueDark],
+          ["Fechadas", COLORS.green],
+        ].forEach(([label, color], index) => {
+          svg.append("circle").attr("cx", margin.left + index * 92).attr("cy", 12).attr("r", 5).attr("fill", color);
+          svg.append("text").attr("x", margin.left + 10 + index * 92).attr("y", 16).text(label);
+        });
+      }
+
+      function drawBarChart(selector, data, xKey, yKey, color) {
+        clear(selector);
+        const { width, height } = chartSize(selector);
+        const margin = { top: 20, right: 16, bottom: 56, left: 48 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+        const x = d3.scaleBand().domain(data.map((d) => d[xKey])).range([0, innerWidth]).padding(0.24);
+        const y = d3.scaleLinear().domain([0, d3.max(data, (d) => d[yKey]) || 1]).nice().range([innerHeight, 0]);
+        const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
+
+        drawAxes(svg, d3.axisBottom(x), d3.axisLeft(y).ticks(5), innerHeight, margin);
+        svg.selectAll("rect.bar")
+          .data(data)
+          .join("rect")
+          .attr("class", "bar")
+          .attr("x", (d) => margin.left + x(d[xKey]))
+          .attr("y", (d) => margin.top + y(d[yKey]))
+          .attr("width", x.bandwidth())
+          .attr("height", (d) => innerHeight - y(d[yKey]))
+          .attr("fill", color)
+          .on("mousemove", (event, d) => showTooltip(event, `${d[xKey]}: ${d[yKey]}`))
+          .on("mouseleave", hideTooltip);
+      }
+
+      function drawHeatmap(data) {
+        const selector = "#commit-heatmap";
+        clear(selector);
+        const cellSize = 22;
+        const margin = { top: 28, right: 12, bottom: 20, left: 40 };
+        const width = margin.left + margin.right + cellSize * 24;
+        const height = margin.top + margin.bottom + cellSize * 7;
+        const max = d3.max(data, (d) => d.count) || 1;
+        const color = d3.scaleLinear().domain([0, max]).range([COLORS.heatEmpty, COLORS.blueDark]);
+        const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
+
+        svg.selectAll("text.hour")
+          .data(d3.range(24))
+          .join("text")
+          .attr("x", (d) => margin.left + d * cellSize + cellSize / 2)
+          .attr("y", 18)
+          .attr("text-anchor", "middle")
+          .text((d) => d);
+
+        svg.selectAll("text.day")
+          .data(DAYS)
+          .join("text")
+          .attr("x", 0)
+          .attr("y", (_, i) => margin.top + i * cellSize + 15)
+          .text((d) => d);
+
+        svg.selectAll("rect.cell")
+          .data(data)
+          .join("rect")
+          .attr("class", "cell")
+          .attr("x", (d) => margin.left + d.hour * cellSize)
+          .attr("y", (d) => margin.top + d.day * cellSize)
+          .attr("width", cellSize - 2)
+          .attr("height", cellSize - 2)
+          .attr("rx", 3)
+          .attr("fill", (d) => color(d.count))
+          .on("mousemove", (event, d) => showTooltip(event, `${DAYS[d.day]}, ${d.hour}h: ${d.count} commits`))
+          .on("mouseleave", hideTooltip);
+      }
+
+      function drawStackedIssues(data) {
+        const selector = "#issues-stacked";
+        clear(selector);
+        const { width, height } = chartSize(selector, 1100);
+        const margin = { top: 20, right: 20, bottom: 56, left: 48 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+        const keys = ["opened", "closed"];
+        const stacked = d3.stack().keys(keys)(data);
+        const x = d3
+          .scaleBand()
+          .domain(data.map((d) => d.week))
+          .range([0, innerWidth])
+          .padding(0.2);
+        const y = d3
+          .scaleLinear()
+          .domain([0, d3.max(data, (d) => d.opened + d.closed) || 1])
+          .nice()
+          .range([innerHeight, 0]);
+        const color = d3.scaleOrdinal().domain(keys).range([COLORS.blueDark, COLORS.green]);
+        const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
+
+        drawAxes(svg, d3.axisBottom(x), d3.axisLeft(y).ticks(5), innerHeight, margin);
+        svg.append("g")
+          .selectAll("g")
+          .data(stacked)
+          .join("g")
+          .attr("fill", (d) => color(d.key))
+          .selectAll("rect")
+          .data((d) => d)
+          .join("rect")
+          .attr("x", (d) => margin.left + x(d.data.week))
+          .attr("y", (d) => margin.top + y(d[1]))
+          .attr("height", (d) => y(d[0]) - y(d[1]))
+          .attr("width", x.bandwidth());
+      }
+
+      function drawTable(selector, rows, columns) {
+        clear(selector);
+        const table = d3.select(selector).append("table").attr("class", "min-w-full text-sm");
+        table.append("thead")
+          .append("tr")
+          .selectAll("th")
+          .data(columns)
+          .join("th")
+          .attr("class", "border-b border-slate-200 px-2 py-2 text-left font-semibold text-slate-600")
+          .text((d) => d.label);
+
+        const bodyRows = table.append("tbody").selectAll("tr").data(rows.slice(0, 10)).join("tr");
+        bodyRows.selectAll("td")
+          .data((row, index) => columns.map((column) => column.value(row, index)))
+          .join("td")
+          .attr("class", "border-b border-slate-100 px-2 py-2")
+          .text((d) => d);
+      }
+
+      function render(metrics) {
+        document.querySelector("#repository").textContent = metrics.repository || "-";
+        document.querySelector("#generated-at").textContent = metrics.generated_at
+          ? new Date(metrics.generated_at).toLocaleString("pt-BR")
+          : "-";
+
+        drawIssuesLine(metrics.issues_per_week || []);
+        drawBarChart("#commit-histogram", metrics.commit_message_histogram || [], "range", "count", COLORS.blueMedium);
+        drawBarChart("#coauthors-bar", metrics.coauthors_per_week || [], "week", "count", COLORS.gold);
+        drawHeatmap(metrics.commit_heatmap || []);
+        drawStackedIssues(metrics.issues_per_week || []);
+
+        drawTable("#top-committers", metrics.top_committers || [], [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Usuário", value: (row) => row.name || row.username },
+          { label: "Commits", value: (row) => row.commits },
+        ]);
+        drawTable("#top-pr-authors", metrics.top_pr_authors || [], [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Usuário", value: (row) => row.name || row.username },
+          { label: "PRs", value: (row) => row.prs_opened },
+        ]);
+        drawTable("#top-issue-contributors", metrics.top_issue_contributors || [], [
+          { label: "#", value: (_, index) => index + 1 },
+          { label: "Usuário", value: (row) => row.name || row.username },
+          { label: "Abertas", value: (row) => row.opened },
+          { label: "Fechadas", value: (row) => row.closed },
+          { label: "Total", value: (row) => row.total },
+        ]);
+      }
+
+      fetch("metrics.json")
+        .then((response) => {
+          if (!response.ok) throw new Error("metrics.json not found");
+          return response.json();
+        })
+        .then(render)
+        .catch(() => {
+          document.querySelector("#error").classList.remove("hidden");
+        });
+    </script>
+  </body>
+</html>
