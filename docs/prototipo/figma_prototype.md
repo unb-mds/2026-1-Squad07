@@ -7,7 +7,7 @@ Esta seção documenta a interface do usuário (UI) e a experiência do usuário
 Para visualizar e interagir com o design do sistema, utilize os acessos oficiais abaixo:
 
 * **[Modo de Visualização (Design Completo)](https://www.figma.com/design/kRHZNwrYNd6eAsXkTj9822/CrivoAi_Hi_fidelity_prototype?node-id=0-1&t=KAyvU6ndHKre9HwP-1)**: Utilize este link para inspecionar componentes, verificar espaçamentos, cores e tipografia para a implementação no Next.js.
-* **[Modo de Demonstração (Protótipo Interativo)](https://www.figma.com/make/dyXjTsHGOboz8OK90JZVYo/CrivoAI_hi_fidelity_pototype_figma?code-node-id=0-9&p=f&t=eisk4blj6Pp2lSX4-0&fullscreen=1)**: Utilize este link para experimentar o fluxo de navegação e as transições simuladas em tela cheia.
+* **[Modo de Demonstração (Protótipo Interativo)](https://hurry-dash-52266534.figma.site)**: Utilize este link para experimentar o fluxo de navegação e as transições simuladas em tela cheia.
 
 ---
 
@@ -29,9 +29,9 @@ Se o seu navegador bloquear a incorporação direta do Figma, você pode conferi
 
 ![Preview do Protótipo CrivoAI](preview.png)
 
-Para inspecionar propriedades de CSS, tamanhos de fontes e paddings, utilize o **[Modo de Visualização (Design Completo)](https://www.figma.com/design/kRHZNwrYNd6eAsXkTj9822/CrivoAi_Hi_fidelity_prototype?node-id=0-1&t=KAyvU6ndHKre9HwP-1)** diretamente na plataforma do Figma.
+Para inspecionar propriedades de CSS, tamanhos de fontes e paddings, utilize o **[Modo de Visualização (Design Completo)](https://hurry-dash-52266534.figma.site)** diretamente na plataforma do Figma.
 
 
 Se o seu navegador permitir cookies de terceiros, você pode interagir com o Figma diretamente por aqui:
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="600" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FkRHZNwrYNd6eAsXkTj9822%2FCrivoAi_Hi_fidelity_prototype%3Fnode-id%3D0-1" allowfullscreen></iframe>
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="600" src="https://hurry-dash-52266534.figma.site" allowfullscreen></iframe>
