@@ -1,5 +1,5 @@
 "use client";
-import { Search, FileText, TrendingUp } from "lucide-react";
+import { Search, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -36,8 +36,9 @@ export default function Home() {
           />
           <button 
             onClick={() => router.push('/search')}
-            className="bg-[#1e3a5f] text-white px-8 rounded-2xl font-bold"
+            className="bg-[#1e3a5f] text-white px-8 rounded-2xl font-bold inline-flex items-center gap-2"
           >
+            <Search className="h-5 w-5" />
             Pesquisar
           </button>
         </div>
