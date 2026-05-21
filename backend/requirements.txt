@@ -1,4 +1,5 @@
 fastapi[all]
+bcrypt
 prisma
 pydantic
 pydantic-settings
