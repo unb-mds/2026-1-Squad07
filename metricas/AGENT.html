@@ -25,7 +25,7 @@
     
     
       
-        <title>Spec — Dashboard de Produtividade - Squad 07 - 2026</title>
+        <title>Spec Driven Development - Dashboard de Produtividade - Squad 07 - 2026</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spec-dashboard-de-produtividade" class="md-skip">
+        <a href="#spec-driven-development-dashboard-de-produtividade" class="md-skip">
           Ir para o conteúdo
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Spec — Dashboard de Produtividade
+              Spec Driven Development - Dashboard de Produtividade
             
           </span>
         </div>
@@ -520,280 +520,574 @@
 
 
 
-<h1 id="spec-dashboard-de-produtividade">Spec — Dashboard de Produtividade</h1>
+<h1 id="spec-driven-development-dashboard-de-produtividade">Spec Driven Development - Dashboard de Produtividade</h1>
 <p>Status: spec</p>
 <hr />
 <h2 id="projeto">Projeto</h2>
-<p>Squad7 - A ideia central do projeto é desenvolver uma plataforma de monitoramento da qualidade de leis e proposições legislativas, permitindo que usuários submetam textos legislativos para análise técnica via IA</p>
+<p>O projeto <strong>Monitoramento de Qualidade de Leis</strong> tem como objetivo desenvolver uma plataforma web para apoiar a avaliação técnica de leis e proposições legislativas. A proposta permite que usuários submetam textos legislativos para análise, organização e futura avaliação com apoio de inteligência artificial.</p>
+<p>O dashboard de produtividade existe para acompanhar o processo de desenvolvimento do Squad 07 durante a disciplina de Métodos de Desenvolvimento de Software. Ele deve facilitar a visualização de entregas, participação individual, evolução por sprint e distribuição de trabalho entre documentação, frontend, backend, banco e demais áreas do projeto.</p>
 <hr />
-<h2 id="constituicao-principios-relevantes">Constituição (princípios relevantes)</h2>
-<h3 id="automacao-e-baixa-manutencao">Automação e Baixa Manutenção</h3>
+<h2 id="constituicao-da-area-de-metricas">Constituição da área de métricas</h2>
+<h3 id="automacao-e-baixa-manutencao">Automação e baixa manutenção</h3>
 <ol>
-<li>O dashboard deve ser atualizado automaticamente sem intervenção humana.</li>
-<li>Não dependa de serviços pagos ou credenciais externas além do GITHUB_TOKEN padrão.</li>
-<li>Os dados devem ser reproduzíveis — qualquer pessoa pode re-gerar o JSON executando o workflow manualmente.</li>
+<li>O dashboard deve ser atualizado automaticamente sempre que possível.</li>
+<li>Não dependa de serviços pagos ou credenciais externas além do <code>GITHUB_TOKEN</code> padrão do GitHub Actions.</li>
+<li>Os dados devem ser reproduzíveis por meio do workflow de métricas.</li>
+<li>O painel deve continuar funcionando como página estática, sem backend próprio.</li>
 </ol>
 <h3 id="transparencia">Transparência</h3>
 <ol>
-<li>Todas as métricas devem ser derivadas exclusivamente de dados públicos do repositório (commits, issues, PRs).</li>
-<li>Não exiba métricas que possam ser manipuladas trivialmente para "gamificar" o ranking.</li>
+<li>Todas as métricas devem ser derivadas de dados do próprio repositório: commits, issues, pull requests, labels, milestones e reviews.</li>
+<li>Métricas individuais devem facilitar a avaliação visual da professora, sem exigir interpretação técnica complexa.</li>
+<li>Rankings diretos são permitidos para facilitar comparação entre integrantes.</li>
+<li>Métricas devem ser apresentadas com nomes claros e sem abreviações ambíguas.</li>
 </ol>
 <h3 id="simplicidade">Simplicidade</h3>
 <ol>
-<li>A página deve ser um único index.html estático com zero dependências de back-end.</li>
-<li>Prefira bibliotecas leves via CDN; não introduza build steps (webpack, vite, etc.) para esta página.</li>
+<li>A página deve permanecer como um <code>index.html</code> estático em <code>docs/metricas/</code>.</li>
+<li>Não introduza build steps como Webpack, Vite ou similares para este painel.</li>
+<li>Prefira bibliotecas leves via CDN quando forem necessárias para visualização.</li>
+<li>Não altere a estrutura principal do projeto para resolver demandas do dashboard.</li>
+</ol>
+<h3 id="identidade-visual">Identidade visual</h3>
+<ol>
+<li>O painel de métricas deve seguir a identidade visual oficial do projeto.</li>
+<li>Alterações visuais devem priorizar clareza, contraste e consistência com a plataforma principal.</li>
+<li>Não use a paleta institucional antiga da UnB como base principal do painel.</li>
 </ol>
 <hr />
 <h2 id="convencoes-tecnicas">Convenções técnicas</h2>
 <ul>
-<li>Página: HTML5 estático (<code>docs/metricas/index.html</code>)</li>
-<li>Estilização: CSS inline ou <style> embutido; pode usar TailwindCSS via CDN.</li>
-<li>Gráficos: D3.js v7 via CDN (flexível, sem build).</li>
-<li>Paleta de cores (UnB institucional):</li>
-<li>Azul escuro: #003366 — header, séries "Abertas", barras empilhadas abertas.</li>
-<li>Verde: #005C37 — séries "Fechadas", barras empilhadas fechadas.</li>
-<li>Azul médio: #004A8C — histograma de commits.</li>
-<li>Dourado: #BFA630 — barras de co-autores.</li>
-<li>Dados: arquivo docs/metricas/metrics.json gerado pelo GitHub Action.</li>
-<li>CI: GitHub Actions workflow (<code>.github/workflows/metrics.yml</code>), roda semanalmente (cron), sob dispatch manual e em pushes controlados na branch dev para reconhecer/testar alterações de métricas.</li>
-<li>Linguagem do script coletor: Python 3.11+ (já presente no projeto).</li>
-<li>Dependências do script: PyGithub (acesso à API do GitHub).</li>
-<li>Deploy da página: GitHub Pages servindo a pasta docs/metricas/.</li>
+<li>Página: HTML5 estático em <code>docs/metricas/index.html</code>.</li>
+<li>Estilização: CSS embutido ou TailwindCSS via CDN.</li>
+<li>Gráficos: D3.js v7 via CDN.</li>
+<li>Dados: <code>docs/metricas/metrics.json</code>.</li>
+<li>Coleta: <code>docs/metricas/collect_metrics.py</code>.</li>
+<li>Workflow: <code>.github/workflows/metrics.yml</code>.</li>
+<li>Linguagem do script coletor: Python 3.11+.</li>
+<li>Dependência do script coletor: PyGithub.</li>
+<li>Publicação oficial: GitHub Pages.</li>
+<li>Branch de integração: <code>dev</code>.</li>
+</ul>
+<h3 id="paleta-oficial-do-projeto">Paleta oficial do projeto</h3>
+<table>
+<thead>
+<tr>
+<th>Nome da cor</th>
+<th>Código HEX</th>
+<th>Aplicação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Azul Marinho</td>
+<td><code>#1e3a5f</code></td>
+<td>Header, botões primários, títulos e séries principais.</td>
+</tr>
+<tr>
+<td>Branco Puro</td>
+<td><code>#ffffff</code></td>
+<td>Fundo de cards e background geral.</td>
+</tr>
+<tr>
+<td>Cinza claro</td>
+<td><code>#ececf0</code></td>
+<td>Divisórias e bordas sutis.</td>
+</tr>
+<tr>
+<td>Input Gray</td>
+<td><code>#f3f3f5</code></td>
+<td>Fundo de campos de busca, áreas neutras e estados sem dados.</td>
+</tr>
+<tr>
+<td>Success Green</td>
+<td><code>#22c55e</code></td>
+<td>Métricas positivas, concluídas ou notas acima de 70%.</td>
+</tr>
+<tr>
+<td>Error Red</td>
+<td><code>#ef4444</code></td>
+<td>Métricas críticas, erros ou notas abaixo de 40%.</td>
+</tr>
+<tr>
+<td>Warning yellow</td>
+<td><code>#eab308</code></td>
+<td>Métricas em aviso, entre 40% e 70%.</td>
+</tr>
+<tr>
+<td>Eigengrau</td>
+<td><code>#030213</code></td>
+<td>Texto principal e elementos de alto contraste.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="aplicacao-da-paleta-no-dashboard">Aplicação da paleta no dashboard</h3>
+<ul>
+<li>Header e títulos principais: Azul Marinho.</li>
+<li>Fundo geral e cards: Branco Puro.</li>
+<li>Bordas, divisórias e linhas de tabela: Cinza claro.</li>
+<li>Áreas neutras, campos e estados vazios: Input Gray.</li>
+<li>Issues fechadas, progresso concluído e métricas positivas: Success Green.</li>
+<li>Estados de erro no carregamento do JSON: Error Red.</li>
+<li>Avisos, coautoria ou indicadores intermediários: Warning yellow.</li>
+<li>Texto principal, tooltips e alto contraste: Eigengrau.</li>
+<li>Mapa de calor: gradiente de Input Gray para Azul Marinho.</li>
+</ul>
+<h3 id="interacao-e-leitura-dos-dados">Interação e leitura dos dados</h3>
+<ul>
+<li>Gráficos devem responder ao mouse com tooltip legível.</li>
+<li>Tooltips devem ter área suficiente para leitura confortável, com título e valor em linhas separadas.</li>
+<li>Barras, pontos e células de heatmap devem indicar interatividade no hover.</li>
+<li>Tabelas com agrupamento por pessoa devem evitar repetir o mesmo nome várias vezes quando os dados puderem ser apresentados em um único bloco.</li>
+<li>Filtros devem ser usados quando a tabela completa dificultar a leitura, especialmente em métricas por sprint/milestone.</li>
+</ul>
+<h3 id="semantica-das-metricas-individuais">Semântica das métricas individuais</h3>
+<ul>
+<li>Agrupamentos por pessoa devem usar <code>username</code> como identificador interno confiável.</li>
+<li>O <code>name</code> público do GitHub deve ser usado apenas como texto de exibição.</li>
+<li><code>issues_assigned_closed</code> representa issues atribuídas à pessoa que foram concluídas, não autoria do fechamento.</li>
+<li>O rótulo visual dessa métrica deve ser <code>Atribuídas concluídas</code>.</li>
+<li>Contribuição em documentação deve representar execução rastreável.</li>
+<li>Issues de documentação contam para a pessoa que fechou a issue via <code>closed_by</code>.</li>
+<li>PRs de documentação contam para o autor do pull request.</li>
+<li>Commits de documentação contam para o autor do commit quando alteram <code>docs/</code> ou arquivos <code>.md</code>.</li>
+<li>Issues de documentação sem <code>closed_by</code> confiável não devem ser contabilizadas como contribuição individual efetiva.</li>
 </ul>
 <hr />
-<h2 id="como-me-ajudar">Como me ajudar</h2>
+<h2 id="como-usar-este-arquivo">Como usar este arquivo</h2>
+<p>Antes de qualquer alteração na área de métricas, leia este arquivo e siga o fluxo:</p>
+<ol>
+<li>Verifique a branch atual e confirme que não está na <code>main</code>.</li>
+<li>Leia o estado atual da implementação.</li>
+<li>Identifique qual funcionalidade de métricas será alterada.</li>
+<li>Confira o escopo permitido e o fora de escopo.</li>
+<li>Implemente apenas uma responsabilidade por tarefa.</li>
+<li>Atualize este arquivo se a decisão de produto, métrica, critério de aceite ou identidade visual mudar.</li>
+</ol>
+<p>Este arquivo é a referência de Spec Driven Development da área de métricas. Ele deve preservar o plano original de criação do dashboard e também indicar o que já foi implementado, o que está parcial e o que ainda será evoluído.</p>
+<hr />
+<h2 id="escopo-permitido">Escopo permitido</h2>
+<p>Arquivos permitidos por padrão:</p>
 <ul>
-<li>Implemente uma tarefa por vez, na ordem descrita.</li>
-<li>O script Python deve ser idempotente — sempre gera o JSON completo do zero.</li>
-<li>Não altere nenhum arquivo fora de docs/metricas/ e .github/workflows/metrics.yml sem permissão.</li>
-<li>Mantenha o HTML legível; não minimize.</li>
+<li><code>docs/metricas/AGENT.md</code></li>
+<li><code>docs/metricas/collect_metrics.py</code></li>
+<li><code>docs/metricas/metrics.json</code></li>
+<li><code>docs/metricas/index.html</code></li>
+<li><code>.github/workflows/metrics.yml</code></li>
 </ul>
+<p>Alterações fora desses arquivos exigem permissão explícita.</p>
 <hr />
 <h2 id="fora-de-escopo-padrao">Fora de escopo padrão</h2>
+<p>A menos que exista solicitação explícita, não faça:</p>
 <ul>
-<li>Não adicione autenticação ou back-end.</li>
-<li>Não altere o pipeline de CI/linter existente.</li>
-<li>Não mude a estrutura do projeto principal.</li>
-<li>Não colete métricas de repositórios externos.</li>
+<li>adicionar autenticação;</li>
+<li>criar backend para o dashboard;</li>
+<li>alterar frontend principal do produto;</li>
+<li>alterar backend principal do produto;</li>
+<li>alterar banco de dados;</li>
+<li>alterar documentação de requisitos, escopo ou arquitetura;</li>
+<li>coletar métricas de repositórios externos;</li>
+<li>adicionar serviços pagos;</li>
+<li>adicionar dependências sem justificativa técnica;</li>
+<li>criar build step para a página de métricas;</li>
+<li>alterar pipelines de CI/CD não relacionados ao dashboard;</li>
+<li>transformar métricas em julgamento absoluto de desempenho individual.</li>
 </ul>
 <hr />
-<h2 id="funcionalidade-dashboard-de-produtividade">Funcionalidade: Dashboard de Produtividade</h2>
+<h2 id="estado-atual-da-implementacao">Estado atual da implementação</h2>
+<h3 id="implementado">Implementado</h3>
+<ul>
+<li>Script coletor em <code>docs/metricas/collect_metrics.py</code>.</li>
+<li>Arquivo de dados em <code>docs/metricas/metrics.json</code>.</li>
+<li>Página estática em <code>docs/metricas/index.html</code>.</li>
+<li>Workflow de atualização em <code>.github/workflows/metrics.yml</code>.</li>
+<li>Publicação esperada via GitHub Pages.</li>
+<li>Uso de PyGithub para coleta de dados do repositório.</li>
+<li>Uso de D3.js e TailwindCSS via CDN na página HTML.</li>
+<li>Coleta planejada de métricas por pessoa, labels, documentação e milestones.</li>
+<li>Exibição das novas métricas no painel com fallback para JSON ainda não regenerado.</li>
+<li>Identidade visual oficial aplicada à página do painel.</li>
+</ul>
+<h3 id="metricas-existentes-no-json">Métricas existentes no JSON</h3>
+<ul>
+<li><code>generated_at</code>: data e horário de geração.</li>
+<li><code>repository</code>: repositório analisado.</li>
+<li><code>issues_per_week</code>: issues abertas e fechadas por semana.</li>
+<li><code>commit_message_histogram</code>: distribuição de tamanho das mensagens de commit.</li>
+<li><code>coauthors_per_week</code>: coautores por semana.</li>
+<li><code>commit_heatmap</code>: mapa de calor de commits por dia e hora.</li>
+<li><code>top_committers</code>: ranking de commits por pessoa.</li>
+<li><code>top_pr_authors</code>: ranking de autores de pull requests.</li>
+<li><code>top_issue_contributors</code>: ranking de contribuições em issues abertas e fechadas.</li>
+</ul>
+<h3 id="parcialmente-implementado">Parcialmente implementado</h3>
+<ul>
+<li>O <code>metrics.json</code> versionado possui as novas chaves com fallback, mas os valores reais dependem da próxima execução do coletor.</li>
+<li>A validação local completa do coletor depende de um ambiente Python com PyGithub instalado.</li>
+<li>A validação final do painel depende da publicação via GitHub Pages.</li>
+</ul>
+<h3 id="pendente">Pendente</h3>
+<ul>
+<li>Regenerar o <code>metrics.json</code> com dados reais das novas métricas.</li>
+<li>Validar responsividade da página no GitHub Pages.</li>
+<li>Validar o workflow após merge na <code>dev</code>.</li>
+</ul>
+<hr />
+<h2 id="funcionalidade-dashboard-base">Funcionalidade: Dashboard base</h2>
 <h3 id="spec">Spec</h3>
-<p>Contexto: A equipe (Squad 07) e a professora da disciplina MDS/UnB precisam visualizar a produtividade do projeto ao longo do tempo. A página é acessada via GitHub Pages e mostra gráficos e rankings atualizados semanalmente de forma automática.</p>
-<p>Comportamento observável (ponto de vista do usuário):</p>
-<p>O usuário acessa a URL do GitHub Pages e vê uma página responsiva contendo:</p>
+<p>O usuário acessa a página do dashboard via GitHub Pages e visualiza métricas públicas do repositório, geradas automaticamente pelo GitHub Actions.</p>
+<p>O dashboard base deve exibir 8 componentes visuais:</p>
 <ol>
-<li>Gráfico de linhas — Issues abertas vs. fechadas por semana</li>
-<li>Eixo X: semanas (formato <code>YYYY-WXX</code>).</li>
-<li>Eixo Y: quantidade.</li>
-<li>
-<p>Duas séries: "Abertas" e "Fechadas".</p>
-</li>
-<li>
-<p>Histograma — Quantidade de caracteres na mensagem de commit</p>
-</li>
-<li>Eixo X: faixas de caracteres (0–20, 21–50, 51–100, 101–200, 200+).</li>
-<li>
-<p>Eixo Y: número de commits naquela faixa.</p>
-</li>
-<li>
-<p>Gráfico de barras — Quantidade de co-autores por semana</p>
-</li>
-<li>Eixo X: semanas.</li>
-<li>
-<p>Eixo Y: total de linhas Co-authored-by encontradas nos commits daquela semana.</p>
-</li>
-<li>
-<p>Mapa de calor — Horário dos commits por dia da semana</p>
-</li>
-<li>Eixo X: horas do dia (0h–23h).</li>
-<li>Eixo Y: dias da semana (Seg–Dom).</li>
-<li>Cor: gradiente de #e8f4f8 (zero commits) a #003366 (máximo).</li>
-<li>
-<p>Tooltip mostra dia, hora e quantidade de commits.</p>
-</li>
-<li>
-<p>Gráfico de barras empilhadas — Issues abertas/fechadas por semana</p>
-</li>
-<li>
-<p>Mesmo dado do item 1, mas em formato de barras empilhadas para visualização alternativa.</p>
-</li>
-<li>
-<p>Ranking — Top committers</p>
-</li>
-<li>Tabela ordenada por número de commits (desc).</li>
-<li>Colunas: posição, nome/username, total de commits.</li>
-<li>Ranking — Top autores de PRs</li>
-<li>Tabela ordenada por número de PRs abertas (desc).</li>
-<li>
-<p>Colunas: posição, nome/username, total de PRs abertas.</p>
-</li>
-<li>
-<p>Ranking — Top em Issues (abertas + fechadas)</p>
-</li>
-<li>Tabela ordenada pela soma de issues abertas + issues fechadas pelo usuário (desc).</li>
-<li>Colunas: posição, nome/username, issues abertas, issues fechadas, total.</li>
+<li>Gráfico de linhas de issues abertas vs. fechadas por semana.</li>
+<li>Histograma de tamanho das mensagens de commit.</li>
+<li>Gráfico de barras de coautores por semana.</li>
+<li>Mapa de calor de commits por dia da semana e horário.</li>
+<li>Gráfico de barras empilhadas de issues abertas e fechadas por semana.</li>
+<li>Ranking de top committers.</li>
+<li>Ranking de autores de pull requests.</li>
+<li>Ranking de contribuições em issues.</li>
 </ol>
-<p>Critérios de aceitação:</p>
+<h3 id="plano-original-preservado">Plano original preservado</h3>
+<p>O plano original do dashboard base era criar:</p>
 <ol>
-<li>O arquivo docs/metricas/index.html abre corretamente no navegador sem servidor local (protocolo file:// ou via GitHub Pages).</li>
-<li>O arquivo docs/metricas/metrics.json é gerado pelo workflow e contém todas as seções: issues_per_week, commit_message_histogram, coauthors_per_week, commit_heatmap, top_committers, top_pr_authors, top_issue_contributors.</li>
-<li>O workflow .github/workflows/metrics.yml executa com sucesso no GitHub Actions usando apenas GITHUB_TOKEN.</li>
-<li>O workflow roda automaticamente todo domingo às 03:00 UTC, pode ser disparado manualmente via workflow_dispatch e roda em push na dev quando arquivos de métricas/workflow forem alterados.</li>
-<li>Após a execução, o workflow faz commit do metrics.json atualizado no branch dev.</li>
-<li>Os gráficos renderizam corretamente com os dados do JSON (sem erros no console).</li>
-<li>A página é responsiva (funciona em mobile e desktop).</li>
-<li>O ranking exibe pelo menos os 10 primeiros ou todos os contribuidores (o que for menor).</li>
+<li>Script coletor (<code>docs/metricas/collect_metrics.py</code>).</li>
+<li>Workflow de atualização (<code>.github/workflows/metrics.yml</code>).</li>
+<li>Página HTML (<code>docs/metricas/index.html</code>).</li>
+<li>Publicação via GitHub Pages.</li>
 </ol>
-<p>Casos de borda:</p>
+<p>Esse plano permanece válido como fundação do dashboard. A diferença é que, no estado atual, esses artefatos já existem e devem ser tratados como base para evolução, correção e validação.</p>
+<h3 id="criterios-de-aceite">Critérios de aceite</h3>
 <ul>
-<li>Semana sem atividade: a semana aparece no eixo X com valor 0; não é omitida.</li>
-<li>Commit sem mensagem (squash vazio): conta como 0 caracteres na faixa 0–20.</li>
-<li>Usuário deletado (ghost): aparece como ghost nos rankings.</li>
-<li>Co-authored-by com formato inválido: é ignorado silenciosamente.</li>
-<li>Repositório com &lt; 1 semana de histórico: exibe os dados disponíveis sem erro.</li>
+<li>O painel carrega <code>metrics.json</code> via GitHub Pages.</li>
+<li>Todos os 8 componentes visuais são renderizados sem erro.</li>
+<li>Gráficos possuem hover responsivo ao mouse.</li>
+<li>Tooltips são legíveis e não ficam pequenos demais para os dados apresentados.</li>
+<li>A página é responsiva em desktop e mobile.</li>
+<li>A mensagem de erro aparece apenas quando o JSON não pode ser carregado.</li>
+<li>O ranking exibe até 10 pessoas ou todos os registros disponíveis, o que for menor.</li>
+<li>A interface utiliza a paleta oficial do projeto.</li>
 </ul>
-<p>Fora de escopo desta spec:</p>
-<ul>
-<li>Métricas de code review (comments em PRs).</li>
-<li>Métricas de CI (tempo de build, falhas).</li>
-<li>Filtro interativo por período.</li>
-<li>Autenticação ou área restrita.</li>
-<li>Armazenamento histórico (o JSON é sempre reescrito por completo).</li>
-</ul>
-<hr />
-<h3 id="plano">Plano</h3>
-<p>Referência: spec acima. Constituição relevante: princípios 1, 2, 3, 6, 7.</p>
-<p>Decisões técnicas:</p>
-<ul>
-<li>Coleta de dados:</li>
-<li>Escolha: Script Python usando PyGithub para acessar a API REST do GitHub.</li>
-<li>Alternativas consideradas: GitHub GraphQL API; gh CLI direto no workflow.</li>
-<li>
-<p>Rationale: PyGithub é bem documentada, suporta paginação automática e o projeto já usa Python. A GraphQL seria mais eficiente mas adiciona complexidade de queries. O gh CLI limitaria a lógica a shell scripts.</p>
-</li>
-<li>
-<p>Visualização:</p>
-</li>
-<li>Escolha: D3.js v7 via CDN + tabelas HTML puras com estilo Tailwind CDN.</li>
-<li>Alternativas consideradas: Chart.js; Mermaid; imagens estáticas geradas por matplotlib.</li>
-<li>
-<p>Rationale: D3.js oferece controle total sobre SVG, permite customização avançada dos gráficos e escalas bem para visualizações futuras. Chart.js é mais simples mas menos flexível. Imagens estáticas perdem interatividade.</p>
-</li>
-<li>
-<p>Persistência dos dados:</p>
-</li>
-<li>Escolha: Arquivo JSON único commitado no branch dev pelo próprio workflow.</li>
-<li>Alternativas consideradas: GitHub Pages artifact; branch separado gh-pages.</li>
-<li>
-<p>Rationale: JSON no branch de integração mantém histórico via git, é simples de debugar, respeita o fluxo de Pull Requests antes da main, e GitHub Pages pode servir de qualquer pasta configurada.</p>
-</li>
-<li>
-<p>Agendamento:</p>
-</li>
-<li>Escolha: cron: '0 3 * * 0' (domingo 03:00 UTC) + workflow_dispatch + push controlado na dev.</li>
-<li>Rationale: Frequência semanal alinha com as sprints da disciplina; horário de madrugada evita conflitos com trabalho ativo. O push controlado permite que o GitHub Actions reconheça e teste o workflow quando ele é integrado na branch dev, sem disparar loop com o metrics.json.</li>
-</ul>
-<p>Tradeoffs aceitos:</p>
-<ol>
-<li>O JSON é reescrito do zero a cada execução — não há dados incrementais. Aceitável porque o repositório é pequeno e a API suporta o volume.</li>
-<li>D3.js via CDN exige internet para visualizar — aceitável porque o público-alvo acessa via GitHub Pages (já online).</li>
-<li>O commit automático pode gerar ruído no histórico — mitigado com mensagem padronizada [bot] atualiza métricas de produtividade.</li>
-</ol>
-<p>Dependências:
-- PyGithub (script coletor)
-- D3.js v7 (CDN, front-end)
-- TailwindCSS (CDN, estilização)
-- actions/checkout@v4 (workflow)
-- actions/setup-python@v5 (workflow)</p>
-<hr />
 <h3 id="tarefas">Tarefas</h3>
-<ol>
-<li>Criar script coletor (<code>docs/metricas/collect_metrics.py</code>)</li>
-<li>Depende de: —</li>
-<li>Pronto quando:<ul>
-<li>O script aceita variáveis de ambiente GITHUB_TOKEN e GITHUB_REPOSITORY.</li>
-<li>Gera docs/metricas/metrics.json com schema correto.</li>
-<li>Roda localmente com python collect_metrics.py (dado token válido).</li>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar script coletor.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar workflow.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar página HTML.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Gerar <code>metrics.json</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Aplicar identidade visual oficial no painel.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar renderização final no GitHub Pages.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar responsividade em desktop e mobile.</li>
 </ul>
-</li>
-<li>
-<p>Fora de escopo: renderização HTML, workflow.</p>
-</li>
-<li>
-<p>Criar workflow (<code>.github/workflows/metrics.yml</code>)</p>
-</li>
-<li>Depende de: Tarefa 1.</li>
-<li>Pronto quando:<ul>
-<li>Instala dependências, executa o script, e commita o JSON atualizado.</li>
-<li>Roda no cron semanal, via dispatch manual e via push controlado na dev.</li>
-<li>Usa apenas GITHUB_TOKEN (permissões <code>contents: write</code>).</li>
-</ul>
-</li>
-<li>
-<p>Fora de escopo: a página HTML.</p>
-</li>
-<li>
-<p>Criar página HTML (<code>docs/metricas/index.html</code>)</p>
-</li>
-<li>Depende de: Tarefa 1 (precisa do schema do JSON para bindar os gráficos).</li>
-<li>Pronto quando:<ul>
-<li>Carrega metrics.json via fetch relativo.</li>
-<li>Renderiza todos os 7 componentes visuais descritos na spec.</li>
-<li>Responsivo (mobile-first com Tailwind).</li>
-<li>Sem erros no console do navegador.</li>
-</ul>
-</li>
-<li>
-<p>Fora de escopo: coleta de dados, CI.</p>
-</li>
-<li>
-<p>Configurar GitHub Pages</p>
-</li>
-<li>Depende de: Tarefas 2 e 3.</li>
-<li>Pronto quando:<ul>
-<li>A página é acessível via URL pública do GitHub Pages.</li>
-<li>O JSON é servido corretamente (sem CORS issues em mesmo domínio).</li>
-</ul>
-</li>
-<li>Fora de escopo: DNS customizado.</li>
-</ol>
 <hr />
-<h3 id="schema-do-metricsjson">Schema do metrics.json</h3>
-<p>JSON
-
-</p>
-<p>{
-  "generated_at": "2025-05-11T03:00:00Z",
-  "repository": "unb-mds/2026.1-ContraDito",
-  "issues_per_week": [
-    { "week": "2025-W01", "opened": 5, "closed": 3 }
-  ],
-  "commit_message_histogram": [
-    { "range": "0-20", "count": 12 },
-    { "range": "21-50", "count": 30 },
-    { "range": "51-100", "count": 45 },
-    { "range": "101-200", "count": 20 },
-    { "range": "200+", "count": 5 }
-  ],
-  "coauthors_per_week": [
-    { "week": "2025-W01", "count": 4 }
-  ],
-  "commit_heatmap": [
-    { "day": 0, "hour": 10, "count": 8 },
-    { "day": 6, "hour": 22, "count": 2 }
-  ],
-  "top_committers": [
-    { "username": "fulano", "name": "Fulano Silva", "commits": 42 }
-  ],
-  "top_pr_authors": [
-    { "username": "fulano", "name": "Fulano Silva", "prs_opened": 15 }
-  ],
-  "top_issue_contributors": [
-    { "username": "fulano", "name": "Fulano Silva", "opened": 10, "closed": 8, "total": 18 }
-  ]
-}</p>
+<h2 id="funcionalidade-metricas-por-pessoa">Funcionalidade: Métricas por pessoa</h2>
+<h3 id="spec_1">Spec</h3>
+<p>O painel deve permitir que a professora visualize a participação de cada integrante de forma direta. As métricas individuais devem ser apresentadas em rankings e tabelas de fácil leitura.</p>
+<h3 id="metricas-planejadas">Métricas planejadas</h3>
+<ul>
+<li>Issues abertas por pessoa.</li>
+<li>Issues atribuídas por pessoa.</li>
+<li>Issues fechadas por pessoa.</li>
+<li>Issues pendentes por pessoa.</li>
+<li>Pull requests abertos por pessoa.</li>
+<li>Pull requests revisados por pessoa.</li>
+<li>Pull requests mergeados por pessoa.</li>
+<li>Commits realizados por pessoa.</li>
+</ul>
+<h3 id="criterios-de-aceite_1">Critérios de aceite</h3>
+<ul>
+<li>O painel diferencia autoria de PR e participação em review.</li>
+<li>O painel diferencia issues abertas, atribuídas, fechadas e pendentes.</li>
+<li>O painel exibe rankings diretos por pessoa.</li>
+<li>Usuários removidos ou indisponíveis aparecem como <code>ghost</code>.</li>
+<li>Métricas ausentes não quebram a página.</li>
+</ul>
+<h3 id="plano">Plano</h3>
+<ul>
+<li>Expandir o coletor para agregar métricas por usuário.</li>
+<li>Consultar assignees das issues para medir atribuição e pendência.</li>
+<li>Consultar pull requests para medir autoria, merge e reviews.</li>
+<li>Atualizar o schema do JSON com uma seção específica de métricas por pessoa.</li>
+<li>Atualizar o HTML para exibir ranking ou tabela consolidada.</li>
+</ul>
+<h3 id="tarefas_1">Tarefas</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Coletar issues atribuídas por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Coletar issues pendentes por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Coletar PRs mergeados por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Coletar PRs revisados por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar tabela consolidada de métricas por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Atualizar critérios visuais do painel para ranking direto.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar dados reais após execução do workflow.</li>
+</ul>
 <hr />
+<h2 id="funcionalidade-distribuicao-por-labels">Funcionalidade: Distribuição por labels</h2>
+<h3 id="spec_2">Spec</h3>
+<p>O painel deve mostrar como o trabalho do projeto está distribuído entre áreas e tipos de tarefa por meio das labels do GitHub.</p>
+<h3 id="metricas-planejadas_1">Métricas planejadas</h3>
+<ul>
+<li>Quantidade de issues por label.</li>
+<li>Quantidade de issues por pessoa agrupadas por label.</li>
+<li>Distribuição por labels como documentação, frontend, backend, banco, feature, bugfix, chore e prioridade.</li>
+</ul>
+<h3 id="criterios-de-aceite_2">Critérios de aceite</h3>
+<ul>
+<li>Labels sem issues não precisam aparecer.</li>
+<li>Issues com múltiplas labels devem contar em todas as labels correspondentes.</li>
+<li>A visualização deve permitir identificar rapidamente quais áreas concentram mais trabalho.</li>
+<li>A distribuição por pessoa deve facilitar avaliação individual.</li>
+<li>Labels por pessoa devem ser agrupadas pelo nome do integrante, com as labels listadas abaixo de cada nome.</li>
+<li>A interface não deve repetir o nome da mesma pessoa em várias linhas para essa visualização.</li>
+</ul>
+<h3 id="plano_1">Plano</h3>
+<ul>
+<li>Expandir a coleta de issues para registrar labels.</li>
+<li>Criar agregação geral por label.</li>
+<li>Criar agregação por pessoa e label com base em assignees.</li>
+<li>Atualizar o JSON com seções específicas para labels.</li>
+<li>Adicionar visualização de barras ou tabela no HTML.</li>
+</ul>
+<h3 id="tarefas_2">Tarefas</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Coletar labels por issue.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Gerar ranking geral de labels.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Gerar distribuição de labels por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Exibir labels no painel.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Agrupar labels por pessoa na visualização.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar dados reais após execução do workflow.</li>
+</ul>
+<hr />
+<h2 id="funcionalidade-contribuicao-em-documentacao">Funcionalidade: Contribuição em documentação</h2>
+<h3 id="spec_3">Spec</h3>
+<p>O painel deve destacar contribuições relacionadas à documentação, porque a documentação é parte central da avaliação da disciplina e da Release 1.</p>
+<h3 id="metricas-planejadas_2">Métricas planejadas</h3>
+<ul>
+<li>Issues de documentação fechadas por pessoa via <code>closed_by</code>.</li>
+<li>Pull requests de documentação por pessoa.</li>
+<li>Commits que alteram arquivos em <code>docs/</code>.</li>
+<li>Commits que alteram arquivos <code>.md</code>.</li>
+</ul>
+<h3 id="criterios-de-aceite_3">Critérios de aceite</h3>
+<ul>
+<li>O painel diferencia contribuição geral de contribuição documental.</li>
+<li>Alterações em <code>docs/</code> contam como documentação.</li>
+<li>Alterações em arquivos <code>.md</code> contam como documentação.</li>
+<li>Issues de documentação fechadas contam para o usuário em <code>closed_by</code>.</li>
+<li>PRs com label <code>documentation</code> ou título iniciando com <code>docs:</code> contam como documentação para o autor do PR.</li>
+</ul>
+<h3 id="plano_2">Plano</h3>
+<ul>
+<li>Coletar labels e títulos de PRs para identificar documentação.</li>
+<li>Coletar <code>closed_by</code> das issues de documentação para evitar atribuição ambígua.</li>
+<li>Inspecionar arquivos alterados em commits ou PRs quando necessário.</li>
+<li>Adicionar métricas documentais ao JSON.</li>
+<li>Exibir ranking direto de documentação por pessoa.</li>
+</ul>
+<h3 id="tarefas_3">Tarefas</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Identificar PRs de documentação.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Identificar commits documentais.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Identificar issues documentais fechadas por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Exibir ranking de contribuição em documentação.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar dados reais após execução do workflow.</li>
+</ul>
+<hr />
+<h2 id="funcionalidade-progresso-por-sprintmilestone">Funcionalidade: Progresso por sprint/milestone</h2>
+<h3 id="spec_4">Spec</h3>
+<p>O painel deve mostrar a evolução do trabalho por sprint usando milestones do GitHub. Essa visão deve ajudar a equipe e a professora a entenderem o que foi planejado, concluído e pendente em cada sprint.</p>
+<h3 id="metricas-planejadas_3">Métricas planejadas</h3>
+<ul>
+<li>Issues por milestone.</li>
+<li>Issues concluídas por milestone.</li>
+<li>Issues pendentes por milestone.</li>
+<li>Distribuição de issues por pessoa dentro da milestone.</li>
+</ul>
+<h3 id="criterios-de-aceite_4">Critérios de aceite</h3>
+<ul>
+<li>Milestones sem issues podem ser omitidas.</li>
+<li>Issues abertas contam como pendentes.</li>
+<li>Issues fechadas contam como concluídas.</li>
+<li>A visualização deve permitir comparar progresso entre sprints.</li>
+<li>A distribuição por pessoa deve aparecer dentro da milestone.</li>
+<li>A visualização por pessoa deve possuir filtro de sprint/milestone.</li>
+<li>Após selecionar uma sprint, o painel deve mostrar cada integrante com suas colaborações naquela sprint.</li>
+</ul>
+<h3 id="plano_3">Plano</h3>
+<ul>
+<li>Expandir a coleta de issues para incluir milestone.</li>
+<li>Agrupar issues por milestone e status.</li>
+<li>Agrupar issues por milestone e assignee.</li>
+<li>Atualizar o JSON com progresso por sprint.</li>
+<li>Exibir tabela ou gráfico por sprint/milestone.</li>
+</ul>
+<h3 id="tarefas_4">Tarefas</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Coletar milestone de cada issue.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Gerar progresso geral por milestone.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Gerar progresso por pessoa dentro da milestone.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Exibir progresso por sprint no painel.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Adicionar filtro de sprint/milestone para progresso por pessoa.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar dados reais após execução do workflow.</li>
+</ul>
+<hr />
+<h2 id="funcionalidade-workflow-de-atualizacao-automatica">Funcionalidade: Workflow de atualização automática</h2>
+<h3 id="spec_5">Spec</h3>
+<p>O workflow deve gerar o <code>metrics.json</code> automaticamente, usando apenas <code>GITHUB_TOKEN</code>, sem serviços externos e sem exigir intervenção manual para uso normal.</p>
+<h3 id="criterios-de-aceite_5">Critérios de aceite</h3>
+<ul>
+<li>O workflow roda por <code>workflow_dispatch</code>.</li>
+<li>O workflow roda por cron semanal.</li>
+<li>O workflow roda em push na <code>dev</code> quando arquivos de métricas forem alterados.</li>
+<li>O workflow faz commit do <code>metrics.json</code> atualizado na <code>dev</code>.</li>
+<li>O workflow não deve gerar loop infinito de commits.</li>
+</ul>
+<h3 id="plano_4">Plano</h3>
+<ul>
+<li>Manter o workflow mínimo.</li>
+<li>Instalar apenas dependências necessárias.</li>
+<li>Executar o coletor.</li>
+<li>Commitar apenas <code>docs/metricas/metrics.json</code> quando houver mudança.</li>
+</ul>
+<h3 id="tarefas_5">Tarefas</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar workflow de métricas.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Configurar <code>workflow_dispatch</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Configurar cron semanal.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Configurar push controlado na <code>dev</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar execução após merge na <code>dev</code>.</li>
+</ul>
+<hr />
+<h2 id="funcionalidade-publicacao-via-github-pages">Funcionalidade: Publicação via GitHub Pages</h2>
+<h3 id="spec_6">Spec</h3>
+<p>O acesso oficial ao painel deve acontecer via GitHub Pages. O painel não deve depender de <code>file://</code> como critério oficial, porque navegadores podem bloquear <code>fetch("metrics.json")</code> quando o arquivo é aberto diretamente.</p>
+<h3 id="criterios-de-aceite_6">Critérios de aceite</h3>
+<ul>
+<li>A página é acessível via GitHub Pages.</li>
+<li>O JSON é servido no mesmo domínio da página.</li>
+<li>A página carrega os dados sem erro de CORS.</li>
+<li>A navegação para o painel está disponível quando configurada no MkDocs.</li>
+</ul>
+<h3 id="plano_5">Plano</h3>
+<ul>
+<li>Manter <code>docs/metricas/index.html</code> e <code>docs/metricas/metrics.json</code> juntos.</li>
+<li>Usar <code>fetch("metrics.json")</code> com caminho relativo.</li>
+<li>Validar acesso publicado via GitHub Pages.</li>
+<li>Não tratar <code>file://</code> como ambiente oficial.</li>
+</ul>
+<h3 id="tarefas_6">Tarefas</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar página estática.</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> Criar JSON no mesmo diretório.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar publicação via GitHub Pages.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Validar navegação a partir da documentação do projeto.</li>
+</ul>
+<hr />
+<h2 id="schema-atual-do-metricsjson">Schema atual do metrics.json</h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;generated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-11T03:00:00+00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;repository&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unb-mds/2026-1-Squad07&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issues_per_week&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;week&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-W18&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;opened&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;closed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;commit_message_histogram&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;range&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0-20&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;range&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;21-50&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;range&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;51-100&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;range&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;101-200&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;range&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;200+&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;coauthors_per_week&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;week&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-W18&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;commit_heatmap&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;hour&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;top_committers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;top_pr_authors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;prs_opened&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;top_issue_contributors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;opened&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;closed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="schema-planejado-para-evolucao">Schema planejado para evolução</h2>
+<p>As novas métricas devem ser adicionadas sem remover as chaves atuais, para preservar compatibilidade com o painel existente.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;people_metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Usuario&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;issues_opened&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;issues_assigned&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;issues_assigned_closed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;issues_pending&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;prs_opened&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;prs_reviewed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;prs_merged&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;labels_distribution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;documentation&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;labels_by_person&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;documentation&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;documentation_contributions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;issues&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pull_requests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;milestone_progress&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;milestone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sprint 08&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;opened&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;closed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pending&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;milestone_progress_by_person&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;milestone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sprint 08&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usuario&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;assigned&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;closed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pending&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="criterios-gerais-de-aceite">Critérios gerais de aceite</h2>
+<ul>
+<li>O <code>AGENT.md</code> continua explicando como criar o dashboard do zero.</li>
+<li>O documento explica o estado atual da implementação.</li>
+<li>Cada funcionalidade possui objetivo, comportamento esperado, critérios de aceite, plano e tarefas.</li>
+<li>Métricas existentes ficam marcadas como implementadas ou parcialmente implementadas.</li>
+<li>Novas métricas por pessoa ficam marcadas como pendentes ou evolução planejada.</li>
+<li>Rankings diretos por pessoa são previstos para facilitar leitura da professora.</li>
+<li>O acesso oficial é via GitHub Pages.</li>
+<li>A identidade visual oficial do projeto está documentada e deve orientar o painel.</li>
+<li>O escopo permanece limitado a métricas, salvo permissão explícita.</li>
+</ul>
+<hr />
+<h2 id="validacao-antes-de-finalizar-uma-alteracao-de-metricas">Validação antes de finalizar uma alteração de métricas</h2>
+<ul>
+<li>Conferir se a alteração respeita este <code>AGENT.md</code>.</li>
+<li>Conferir se a branch atual não é <code>main</code>.</li>
+<li>Conferir se arquivos fora do escopo permitido não foram alterados.</li>
+<li>Validar o schema do <code>metrics.json</code>.</li>
+<li>Validar renderização da página quando houver mudança no HTML.</li>
+<li>Conferir aplicação da paleta oficial quando houver mudança visual.</li>
+<li>Conferir o workflow quando houver mudança em coleta ou automação.</li>
+<li>Registrar no PR quais métricas foram alteradas, adicionadas ou apenas planejadas.</li>
+</ul>
 
 
 
