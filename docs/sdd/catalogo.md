@@ -8,7 +8,19 @@ Este catálogo lista as specs SDD/TDD criadas para o projeto e indica o status d
 
 | Spec | Status | Objetivo | Relação |
 | --- | --- | --- | --- |
-| `000-documentacao-do-projeto` | Draft | Definir padrão de qualidade documental, SDD, TDD, AGENTS e skills. | Issue #86 |
+| `000-documentacao-do-projeto` | Em revisão | Definir padrão de qualidade documental, SDD, TDD, AGENTS e skills. | Issue #86 |
+
+## Ciclo de Vida de uma Spec
+
+| Status | Significado |
+| --- | --- |
+| `Draft` | A spec ainda está sendo escrita e pode conter ambiguidades. |
+| `Em revisão` | A spec já possui estrutura mínima e está pronta para revisão do time. |
+| `Ativa` | A spec foi aprovada e pode orientar implementação ou manutenção. |
+| `Implementada` | A funcionalidade ou processo descrito foi entregue e validado. |
+| `Obsoleta` | A spec foi substituída ou não representa mais a decisão atual do projeto. |
+
+Toda mudança de status deve ser feita por PR ou registrada em uma issue relacionada, para manter rastreabilidade.
 
 ## Próximas specs planejadas
 
@@ -33,3 +45,5 @@ Uma spec só deve entrar como ativa quando possuir:
 - `quickstart.md`;
 - status claro;
 - issue relacionada.
+
+Specs ligadas a issues, requisitos, arquitetura, sprint, release ou decisões do time devem ser versionadas no repositório.

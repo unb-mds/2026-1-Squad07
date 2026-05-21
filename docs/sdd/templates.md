@@ -12,7 +12,7 @@ Eles devem ser escritos de forma independente de ferramenta. A integração inic
 
 | Arquivo | Função |
 | --- | --- |
-| `spec-template.md` | Define problema, objetivo, escopo, R1/R2, cenários e requisitos. |
+| `spec-template.md` | Define problema, objetivo, escopo, R1/R2, cenários, requisitos, entradas, saídas, regras de negócio e casos de erro. |
 | `plan-template.md` | Define abordagem técnica ou documental. |
 | `test-plan-template.md` | Define TDD, validações e evidências esperadas. |
 | `tasks-template.md` | Define tarefas derivadas da spec, com testes antes da implementação. |
@@ -57,6 +57,33 @@ quickstart.md
 ```
 
 Use `contracts/` quando houver contrato de API, interface ou qualidade. Use `data-model.md` quando houver entidade, persistência ou vocabulário importante.
+
+## Checklist para criar uma spec
+
+1. Confirme a issue ou decisão que justifica a spec.
+2. Crie uma branch fora da `main`.
+3. Crie a pasta em `specs/` com número e nome curto.
+4. Preencha `spec.md` com objetivo, contexto, escopo, cenários, requisitos, entradas, saídas, regras de negócio e casos de erro.
+5. Preencha `plan.md` com abordagem técnica ou documental.
+6. Preencha `test-plan.md` antes de transformar a spec em tarefas.
+7. Crie `tasks.md` com validações antes das tarefas de implementação.
+8. Crie `quickstart.md` quando a spec precisar orientar execução, revisão ou demonstração.
+9. Atualize o catálogo de specs quando a spec entrar em revisão.
+10. Abra PR para revisão do time.
+
+## Como SDD vira implementação
+
+No fluxo do Squad 07, a issue registra a demanda e a spec transforma essa demanda em comportamento verificável. O `test-plan.md` define como a entrega será validada, e o `tasks.md` quebra o trabalho em passos executáveis.
+
+A implementação só deve começar quando:
+
+- a spec não possui ambiguidades centrais;
+- os critérios de aceite são verificáveis;
+- entradas, saídas, regras de negócio e erros esperados estão claros;
+- o plano de TDD ou validação está escrito;
+- as tarefas estão rastreáveis à issue e à spec.
+
+Toda spec ligada a issue, requisito, arquitetura, sprint, release ou decisão do time deve ser versionada no repositório.
 
 ## TDD por tipo de entrega
 

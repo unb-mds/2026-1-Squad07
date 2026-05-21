@@ -13,7 +13,7 @@
 **Tipo de mudança**: [documentação/backend/frontend/full-stack/processo]
 **Áreas afetadas**: [docs, specs, backend, frontend, banco, workflows]
 **Dependências existentes**: [MkDocs, FastAPI, Next.js, Prisma, pytest, npm, etc.]
-**Testes/validações**: [pytest, npm run build, mkdocs build, validação manual, etc.]
+**Testes/validações**: [pytest, npm run build, mkdocs serve, validação manual, etc.]
 **Restrições**: [limites de escopo, sem dependências novas, sem CI/CD, etc.]
 
 ## Constitution Check

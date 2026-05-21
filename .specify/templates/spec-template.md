@@ -56,6 +56,26 @@
 - **REQ-002**: O sistema/documentação DEVE [capacidade específica].
 - **REQ-003**: [NEEDS CLARIFICATION: detalhe pendente, se houver].
 
+## Dados de Entrada e Saída
+
+### Entradas
+
+- [Dados, ações do usuário, parâmetros, arquivos, eventos ou artefatos necessários para executar o fluxo.]
+
+### Saídas
+
+- [Resposta da API, mudança de estado, tela exibida, registro persistido, relatório, documento ou evidência gerada.]
+
+## Regras de Negócio
+
+- **RN-001**: [Regra verificável que precisa ser respeitada pela implementação ou documentação.]
+- **RN-002**: [Restrição, validação, cálculo, permissão ou decisão de produto.]
+
+## Casos de Erro e Estados Inválidos
+
+- **ERR-001**: **Dado** [entrada inválida ou estado problemático], **quando** [ação], **então** [comportamento esperado].
+- **ERR-002**: [NEEDS CLARIFICATION: comportamento de erro pendente, se houver].
+
 ## Entidades ou Conceitos
 
 - **[Conceito]**: [Definição e atributos relevantes sem impor implementação prematura.]
