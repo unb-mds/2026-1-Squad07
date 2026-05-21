@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import health
+from app.api import health, laws
 from app.db.client import db
 
 app = FastAPI()
@@ -20,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup():
     await db.connect()
@@ -31,3 +32,4 @@ async def shutdown():
 
 
 app.include_router(health.router)
+app.include_router(laws.router)
