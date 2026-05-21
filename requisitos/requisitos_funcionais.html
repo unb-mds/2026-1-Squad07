@@ -1,0 +1,1198 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Squad 07">
+      
+      
+        <meta name="author" content="Squad 07">
+      
+      
+        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/requisitos/requisitos_funcionais.html">
+      
+      
+        <link rel="prev" href="../index.html">
+      
+      
+        <link rel="next" href="../architecture/index.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Requisitos Funcionais - Squad 07 - 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#requisitos-funcionais" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../index.html" title="Squad 07 - 2026" class="md-header__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Squad 07 - 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Requisitos Funcionais
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Squad 07 - 2026" class="md-nav__button md-logo" aria-label="Squad 07 - 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Squad 07 - 2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="requisitos_funcionais.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos Funcionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visao-dos-arquivos-presentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visão dos arquivos presentes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#artefatos-de-planejamento-considerados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Artefatos de planejamento considerados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Artefatos de planejamento considerados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quadro-do-miro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quadro do Miro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escopo-funcional-da-release-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escopo funcional da Release 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-must-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Must Have
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requisitos Must Have">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf01-submeter-texto-legislativo-para-analise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF01 - Submeter texto legislativo para análise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf02-registrar-texto-submetido-para-analise-futura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF02 - Registrar texto submetido para análise futura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf03-calcular-indice-inicial-de-legibilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF03 - Calcular índice inicial de legibilidade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf04-calcular-score-final-de-qualidade-legislativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF04 - Calcular score final de qualidade legislativa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf05-exibir-resultado-da-analise-ao-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF05 - Exibir resultado da análise ao usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-should-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Should Have
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requisitos Should Have">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf06-consultar-textos-legislativos-de-exemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF06 - Consultar textos legislativos de exemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf07-exibir-media-geral-das-leis-analisadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF07 - Exibir média geral das leis analisadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-could-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Could Have
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requisitos Could Have">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rf08-exibir-grafico-circular-do-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF08 - Exibir gráfico circular do score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rf09-listar-leis-ja-avaliadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RF09 - Listar leis já avaliadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fora-do-escopo-da-release-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fora do escopo da Release 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rastreabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rastreabilidade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criterio-de-conclusao-da-issue-64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critério de conclusão da issue #64
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/directory-structure.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura de Pastas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/design-patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padrões de Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metricas/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Métricas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="requisitos-funcionais">Requisitos Funcionais</h1>
+<h2 id="objetivo">Objetivo</h2>
+<p>Este documento consolida os requisitos funcionais do projeto <strong>Monitoramento de Qualidade de Leis</strong> para a Release 1. A lista foi refinada a partir do backlog do GitHub, do User Story Map, do Figma, do quadro de planejamento no Miro e da estrutura real presente no repositório.</p>
+<p>O objetivo da Release 1 é entregar uma base documentada e validável para o produto: permitir que uma proposição legislativa seja submetida, analisada por métricas iniciais e apresentada ao usuário por meio de um relatório simples de qualidade.</p>
+<h2 id="visao-dos-arquivos-presentes">Visão dos arquivos presentes</h2>
+<p>A estrutura atual do projeto já separa as responsabilidades principais:</p>
+<table>
+<thead>
+<tr>
+<th>Área</th>
+<th>Arquivos observados</th>
+<th>Papel no produto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend</td>
+<td><code>backend/app/main.py</code>, <code>backend/app/api/health.py</code>, <code>backend/requirements.txt</code></td>
+<td>API FastAPI, configuração de CORS, rota de saúde e dependências Python.</td>
+</tr>
+<tr>
+<td>Testes</td>
+<td><code>backend/tests/test_health.py</code></td>
+<td>Validação automatizada inicial da rota <code>/health</code>.</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td><code>frontend/src/app/page.tsx</code>, <code>frontend/src/app/layout.tsx</code>, <code>frontend/src/app/globals.css</code>, <code>frontend/package.json</code></td>
+<td>Aplicação Next.js, layout, estilos globais e scripts de execução/build/lint.</td>
+</tr>
+<tr>
+<td>Infraestrutura</td>
+<td><code>docker-compose.yml</code>, <code>backend/Dockerfile</code></td>
+<td>Ambiente com PostgreSQL e backend containerizado.</td>
+</tr>
+<tr>
+<td>Documentação</td>
+<td><code>mkdocs.yml</code>, <code>docs/index.md</code>, <code>docs/architecture/estrutura_de_pastas.txt</code></td>
+<td>Portal MkDocs e documentação da organização arquitetural.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="artefatos-de-planejamento-considerados">Artefatos de planejamento considerados</h2>
+<p>Os requisitos funcionais foram derivados e organizados a partir dos seguintes artefatos de planejamento:</p>
+<table>
+<thead>
+<tr>
+<th>Artefato</th>
+<th>Uso na documentação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Issues do GitHub</td>
+<td>Fonte principal para identificação, rastreabilidade e critérios de aceite das funcionalidades.</td>
+</tr>
+<tr>
+<td>User Story Map</td>
+<td>Base para entender a jornada do usuário e priorizar o fluxo mínimo da Release 1.</td>
+</tr>
+<tr>
+<td>Figma/FigJam</td>
+<td>Referência para persona, wireframes, protótipos e organização visual das telas.</td>
+</tr>
+<tr>
+<td>Miro</td>
+<td>Apoio ao refinamento do Product Backlog e à priorização das histórias de usuário.</td>
+</tr>
+</tbody>
+</table>
+<p>Link do quadro de planejamento no Miro: <a href="https://miro.com/app/board/uXjVHdj61Cg=/">Product Backlog / User Story Mapping</a>.</p>
+<h3 id="quadro-do-miro">Quadro do Miro</h3>
+<p>O quadro abaixo reúne o planejamento visual utilizado para apoiar o refinamento dos requisitos. Caso a visualização incorporada não carregue, acesse o link direto do Miro.</p>
+<iframe width="768"
+ height="432" src="https://miro.com/app/live-embed/uXjVHdj61Cg=/?embedMode=view_only_without_ui&moveToViewport=-2711,-1001,2754,1419&embedId=347951037551" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+
+<h2 id="escopo-funcional-da-release-1">Escopo funcional da Release 1</h2>
+<p>Para manter a Release 1 viável até 27/05/2026, os requisitos abaixo estão organizados por prioridade:</p>
+<ul>
+<li><strong>Must have</strong>: necessário para demonstrar o fluxo mínimo do produto.</li>
+<li><strong>Should have</strong>: importante, mas pode ser simplificado se houver risco de prazo.</li>
+<li><strong>Could have</strong>: desejável, mas pode ficar para a Release 2.</li>
+<li><strong>Won't have na R1</strong>: explicitamente fora da Release 1.</li>
+</ul>
+<h2 id="requisitos-must-have">Requisitos Must Have</h2>
+<h3 id="rf01-submeter-texto-legislativo-para-analise">RF01 - Submeter texto legislativo para análise</h3>
+<p><strong>Origem:</strong> Issues <code>#39</code> e <code>#40</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve permitir que o usuário insira ou cole o texto de uma proposição legislativa para iniciar a avaliação de qualidade.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>A tela inicial deve apresentar uma área de texto ou campo equivalente para submissão da lei.</li>
+<li>O usuário deve conseguir acionar a análise por meio de um botão claro.</li>
+<li>O backend deve possuir uma rota preparada para receber o texto submetido.</li>
+<li>A submissão deve retornar uma resposta compreensível para o frontend.</li>
+</ul>
+<p><strong>Arquivos relacionados:</strong></p>
+<ul>
+<li><code>frontend/src/app/page.tsx</code></li>
+<li><code>backend/app/main.py</code></li>
+<li><code>backend/app/api/</code></li>
+</ul>
+<h3 id="rf02-registrar-texto-submetido-para-analise-futura">RF02 - Registrar texto submetido para análise futura</h3>
+<p><strong>Origem:</strong> Issues <code>#29</code> e <code>#40</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve persistir o texto legislativo recebido, permitindo que ele seja usado em análises posteriores.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>O modelo de dados deve contemplar uma entidade para leis ou proposições legislativas.</li>
+<li>O texto submetido deve ser associado a um registro persistente.</li>
+<li>A conexão com PostgreSQL deve usar configuração padronizada via ambiente.</li>
+</ul>
+<p><strong>Arquivos relacionados:</strong></p>
+<ul>
+<li><code>docker-compose.yml</code></li>
+<li><code>backend/requirements.txt</code></li>
+<li><code>backend/app/db/</code></li>
+</ul>
+<h3 id="rf03-calcular-indice-inicial-de-legibilidade">RF03 - Calcular índice inicial de legibilidade</h3>
+<p><strong>Origem:</strong> Issue <code>#41</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve calcular uma métrica inicial de dificuldade de leitura do texto legislativo.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>O sistema deve receber um texto e retornar um valor numérico de legibilidade.</li>
+<li>A regra de cálculo deve ser documentada.</li>
+<li>A implementação inicial pode usar uma fórmula simples adaptada para português, desde que seja reprodutível.</li>
+</ul>
+<p><strong>Arquivos relacionados:</strong></p>
+<ul>
+<li><code>backend/app/services/</code></li>
+<li><code>backend/tests/</code></li>
+</ul>
+<h3 id="rf04-calcular-score-final-de-qualidade-legislativa">RF04 - Calcular score final de qualidade legislativa</h3>
+<p><strong>Origem:</strong> Issue <code>#42</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve consolidar métricas de qualidade em uma nota final de 0 a 100.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>O score final deve estar no intervalo de 0 a 100.</li>
+<li>A regra de ponderação deve ser documentada.</li>
+<li>O score deve considerar, no mínimo, a legibilidade na versão inicial.</li>
+<li>O retorno deve ser utilizável pelo frontend.</li>
+</ul>
+<p><strong>Arquivos relacionados:</strong></p>
+<ul>
+<li><code>backend/app/services/</code></li>
+<li><code>frontend/src/app/page.tsx</code></li>
+</ul>
+<h3 id="rf05-exibir-resultado-da-analise-ao-usuario">RF05 - Exibir resultado da análise ao usuário</h3>
+<p><strong>Origem:</strong> Issues <code>#43</code> e <code>#44</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve apresentar ao usuário um relatório inicial com o texto analisado, a nota de qualidade e os principais problemas detectados.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>A interface deve exibir a nota principal da lei analisada.</li>
+<li>A interface deve destacar visualmente o resultado.</li>
+<li>A interface deve listar problemas simples, como frases muito longas ou termos marcados como ambíguos.</li>
+<li>O relatório pode ser simplificado na R1, desde que demonstre o fluxo ponta a ponta.</li>
+</ul>
+<p><strong>Arquivos relacionados:</strong></p>
+<ul>
+<li><code>frontend/src/app/page.tsx</code></li>
+<li><code>frontend/src/app/globals.css</code></li>
+</ul>
+<h2 id="requisitos-should-have">Requisitos Should Have</h2>
+<h3 id="rf06-consultar-textos-legislativos-de-exemplo">RF06 - Consultar textos legislativos de exemplo</h3>
+<p><strong>Origem:</strong> Issue <code>#60</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve utilizar uma base inicial de textos legislativos reais para demonstrar as análises da Release 1.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>A documentação deve indicar a fonte dos textos usados.</li>
+<li>A base inicial deve conter textos suficientes para demonstração.</li>
+<li>As fontes recomendadas são Dados Abertos da Câmara, Senado Federal e LexML.</li>
+</ul>
+<h3 id="rf07-exibir-media-geral-das-leis-analisadas">RF07 - Exibir média geral das leis analisadas</h3>
+<p><strong>Origem:</strong> Issue <code>#50</code>.</p>
+<p><strong>Descrição:</strong> O sistema deve apresentar uma média geral dos scores das leis analisadas.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>A tela inicial deve reservar espaço para a média geral.</li>
+<li>Na R1, a média pode ser demonstrativa caso a persistência completa ainda não esteja finalizada.</li>
+<li>A documentação deve deixar claro se o dado é real, calculado ou mockado.</li>
+</ul>
+<h2 id="requisitos-could-have">Requisitos Could Have</h2>
+<h3 id="rf08-exibir-grafico-circular-do-score">RF08 - Exibir gráfico circular do score</h3>
+<p><strong>Origem:</strong> Issue <code>#51</code>.</p>
+<p><strong>Descrição:</strong> O sistema pode apresentar a nota da lei por meio de um componente visual circular.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>O componente deve mudar de cor conforme a faixa da nota.</li>
+<li>A visualização deve ser consistente com a identidade visual do Figma.</li>
+</ul>
+<h3 id="rf09-listar-leis-ja-avaliadas">RF09 - Listar leis já avaliadas</h3>
+<p><strong>Origem:</strong> Issue <code>#47</code>.</p>
+<p><strong>Descrição:</strong> O sistema pode permitir que o usuário consulte leis previamente avaliadas.</p>
+<p><strong>Critérios de aceite:</strong></p>
+<ul>
+<li>A listagem deve exibir título, data e score.</li>
+<li>A busca deve permitir filtro simples por título ou data.</li>
+</ul>
+<h2 id="fora-do-escopo-da-release-1">Fora do escopo da Release 1</h2>
+<p>Os requisitos abaixo permanecem relevantes para o produto, mas devem ser planejados para a Release 2 ou sprints futuras:</p>
+<table>
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Issue</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cadastro de usuário</td>
+<td><code>#36</code></td>
+<td>Depende de fluxo de identidade mais completo.</td>
+</tr>
+<tr>
+<td>Login de usuário</td>
+<td><code>#37</code></td>
+<td>Depende de autenticação e persistência de usuários.</td>
+</tr>
+<tr>
+<td>Autenticação JWT</td>
+<td><code>#38</code></td>
+<td>Aumenta o risco técnico da R1.</td>
+</tr>
+<tr>
+<td>CRUD completo de usuário</td>
+<td><code>#45</code></td>
+<td>Não é essencial para demonstrar qualidade legislativa.</td>
+</tr>
+<tr>
+<td>Recuperação de senha</td>
+<td><code>#46</code></td>
+<td>Depende de envio de e-mail e segurança adicional.</td>
+</tr>
+<tr>
+<td>Detecção avançada de ambiguidade</td>
+<td><code>#48</code></td>
+<td>Pode exigir NLP mais sofisticado.</td>
+</tr>
+<tr>
+<td>Resumo inteligente com IA externa</td>
+<td><code>#49</code></td>
+<td>Depende de integração externa e política de uso de API.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rastreabilidade">Rastreabilidade</h2>
+<table>
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Issues relacionadas</th>
+<th>Prioridade R1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF01</td>
+<td><code>#39</code>, <code>#40</code></td>
+<td>Must have</td>
+</tr>
+<tr>
+<td>RF02</td>
+<td><code>#29</code>, <code>#40</code></td>
+<td>Must have</td>
+</tr>
+<tr>
+<td>RF03</td>
+<td><code>#41</code></td>
+<td>Must have</td>
+</tr>
+<tr>
+<td>RF04</td>
+<td><code>#42</code></td>
+<td>Must have</td>
+</tr>
+<tr>
+<td>RF05</td>
+<td><code>#43</code>, <code>#44</code></td>
+<td>Must have</td>
+</tr>
+<tr>
+<td>RF06</td>
+<td><code>#60</code></td>
+<td>Should have</td>
+</tr>
+<tr>
+<td>RF07</td>
+<td><code>#50</code></td>
+<td>Should have</td>
+</tr>
+<tr>
+<td>RF08</td>
+<td><code>#51</code></td>
+<td>Could have</td>
+</tr>
+<tr>
+<td>RF09</td>
+<td><code>#47</code></td>
+<td>Could have</td>
+</tr>
+</tbody>
+</table>
+<h2 id="criterio-de-conclusao-da-issue-64">Critério de conclusão da issue #64</h2>
+<p>A issue <code>#64</code> pode ser considerada concluída quando:</p>
+<ul>
+<li>Os requisitos funcionais estiverem descritos de forma clara.</li>
+<li>Cada requisito tiver origem, descrição, critérios de aceite e arquivos relacionados.</li>
+<li>A documentação estiver publicada no MkDocs.</li>
+<li>O escopo da Release 1 estiver separado do que fica para Release 2.</li>
+<li>A equipe conseguir usar esta página como referência para Sprint Planning, implementação e validação.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../js/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>
