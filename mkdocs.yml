@@ -35,6 +35,7 @@ nav:
     - Estrutura de Pastas: architecture/directory-structure.md
     - Padrões de Projeto: architecture/design-patterns.md
   - Métricas: metricas/index.html
+  - Protótipo do figma: prototipo/figma_prototype.md
 
 markdown_extensions:
   - pymdownx.emoji
