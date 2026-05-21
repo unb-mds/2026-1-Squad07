@@ -28,6 +28,8 @@ plugins:
 
 nav:
   - Início: index.md
+  - Requisitos:
+    - Requisitos Funcionais: requisitos/requisitos_funcionais.md
   - Arquitetura:
     - Visão Geral: architecture/index.md
     - Estrutura de Pastas: architecture/directory-structure.md
