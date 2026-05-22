@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.db.client import db
-from app.models.user import AuthResponse, UserCreateRequest, UserLoginRequest
+from app.models.user import AuthResponse, UserLoginRequest, UserRegisterRequest
 from app.services.security import create_access_token, hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
     response_model=AuthResponse,
     status_code=status.HTTP_201_CREATED,
 )
-async def register(user: UserCreateRequest):
+async def register(user: UserRegisterRequest):
     """Cadastra um usuario e retorna um token de acesso."""
     existing_user = await db.user.find_unique(where={"email": user.email})
     if existing_user:
@@ -22,6 +22,7 @@ async def register(user: UserCreateRequest):
         )
 
     data = user.model_dump(exclude={"password"})
+    data["role"] = "COMMON"
     data["passwordHash"] = hash_password(user.password)
     created_user = await db.user.create(data=data)
 

@@ -20,12 +20,15 @@ class EmailNormalizeMixin(BaseModel):
         return email.lower()
 
 
-class UserCreateRequest(EmailNormalizeMixin):
+class UserRegisterRequest(EmailNormalizeMixin):
     model_config = ConfigDict(str_strip_whitespace=True)
 
     name: str = Field(..., min_length=1)
     email: EmailStr
     password: str = Field(..., min_length=8)
+
+
+class UserCreateRequest(UserRegisterRequest):
     role: UserRole = "COMMON"
 
 

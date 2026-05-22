@@ -128,6 +128,27 @@ def test_register_normaliza_email_para_minusculas(monkeypatch):
     assert response.json()["user"]["email"] == "maria@example.com"
 
 
+def test_register_ignora_role_do_payload_publico(monkeypatch):
+    fake_user_delegate = FakeUserDelegate()
+    monkeypatch.setattr(auth, "db", SimpleNamespace(user=fake_user_delegate))
+    monkeypatch.setattr(auth, "hash_password", lambda password: f"hashed-{password}")
+    monkeypatch.setattr(auth, "create_access_token", lambda user: f"token-{user.id}")
+
+    response = client.post(
+        "/auth/register",
+        json={
+            "name": "Maria Silva",
+            "email": "maria@example.com",
+            "password": "senha-segura",
+            "role": "ADMIN",
+        },
+    )
+
+    assert response.status_code == 201
+    assert fake_user_delegate.created_data["role"] == "COMMON"
+    assert response.json()["user"]["role"] == "COMMON"
+
+
 def test_login_retorna_token_quando_credenciais_sao_validas(monkeypatch):
     fake_user_delegate = FakeUserDelegate([make_user()])
     monkeypatch.setattr(auth, "db", SimpleNamespace(user=fake_user_delegate))
