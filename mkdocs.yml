@@ -28,14 +28,30 @@ plugins:
 
 nav:
   - Início: index.md
+  - Requisitos:
+    - User Story Map: user_story_map.md
+    - Requisitos Funcionais: requisitos/requisitos_funcionais.md
+  - Arquitetura:
+    - Visão Geral: architecture/index.md
+    - Estrutura de Pastas: architecture/directory-structure.md
+    - Padrões de Projeto: architecture/design-patterns.md
   - Métricas: metricas/index.html
   - Matriz Esforço x Impacto: matriz.md
+  - Protótipo do figma: prototipo/figma_prototype.md
 
 markdown_extensions:
   - pymdownx.emoji
   - pymdownx.tasklist
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
   - tables
   - toc:
       toc_depth: 3
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - js/mermaid-init.js
