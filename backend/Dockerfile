@@ -28,7 +28,7 @@ ENV HOME=/home/appuser
 COPY --chown=appuser:appgroup . .
 
 RUN prisma generate --schema=prisma/schema.prisma \
-    && chown -R appuser:appgroup /home/appuser /app
+    && chown -R appuser:appgroup /home/appuser /app /usr/local/lib/python3.12/site-packages/prisma
 
 USER appuser
 
