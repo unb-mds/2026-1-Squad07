@@ -137,6 +137,25 @@ def test_create_user_retorna_409_quando_email_ja_existe(monkeypatch):
     assert fake_user_delegate.created_data is None
 
 
+def test_create_user_normaliza_email_para_minusculas(monkeypatch):
+    fake_user_delegate = FakeUserDelegate()
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    monkeypatch.setattr(users, "hash_password", lambda password: f"hashed-{password}")
+
+    response = client.post(
+        "/users",
+        json={
+            "name": "Maria Silva",
+            "email": "MARIA@EXAMPLE.COM",
+            "password": "senha-segura",
+        },
+    )
+
+    assert response.status_code == 201
+    assert fake_user_delegate.created_data["email"] == "maria@example.com"
+    assert response.json()["email"] == "maria@example.com"
+
+
 def test_list_users_retorna_usuarios_sem_password_hash(monkeypatch):
     fake_user_delegate = FakeUserDelegate([make_user()])
     monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
@@ -189,6 +208,27 @@ def test_update_user_retorna_409_quando_email_pertence_a_outro_usuario(monkeypat
     response = client.patch("/users/user-123", json={"email": "ana@example.com"})
 
     assert response.status_code == 409
+    assert fake_user_delegate.updated_data is None
+
+
+def test_update_user_normaliza_email_para_minusculas(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.patch("/users/user-123", json={"email": "MARIA@EXAMPLE.COM"})
+
+    assert response.status_code == 200
+    assert fake_user_delegate.updated_data == {"email": "maria@example.com"}
+    assert response.json()["email"] == "maria@example.com"
+
+
+def test_update_user_rejeita_campos_nulos(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.patch("/users/user-123", json={"password": None})
+
+    assert response.status_code == 422
     assert fake_user_delegate.updated_data is None
 
 

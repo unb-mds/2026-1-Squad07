@@ -108,6 +108,26 @@ def test_register_retorna_409_quando_email_ja_existe(monkeypatch):
     assert fake_user_delegate.created_data is None
 
 
+def test_register_normaliza_email_para_minusculas(monkeypatch):
+    fake_user_delegate = FakeUserDelegate()
+    monkeypatch.setattr(auth, "db", SimpleNamespace(user=fake_user_delegate))
+    monkeypatch.setattr(auth, "hash_password", lambda password: f"hashed-{password}")
+    monkeypatch.setattr(auth, "create_access_token", lambda user: f"token-{user.id}")
+
+    response = client.post(
+        "/auth/register",
+        json={
+            "name": "Maria Silva",
+            "email": "MARIA@EXAMPLE.COM",
+            "password": "senha-segura",
+        },
+    )
+
+    assert response.status_code == 201
+    assert fake_user_delegate.created_data["email"] == "maria@example.com"
+    assert response.json()["user"]["email"] == "maria@example.com"
+
+
 def test_login_retorna_token_quando_credenciais_sao_validas(monkeypatch):
     fake_user_delegate = FakeUserDelegate([make_user()])
     monkeypatch.setattr(auth, "db", SimpleNamespace(user=fake_user_delegate))
