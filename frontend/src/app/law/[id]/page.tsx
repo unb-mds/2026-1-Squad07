@@ -19,12 +19,12 @@ const issueStyles: Record<string, { box: string; title: string; text: string }> 
     title: "text-red-800",
     text: "text-red-700",
   },
-  "Complexidade Sintatica": {
+  "Complexidade Sintática": {
     box: "border-amber-400 from-amber-50 to-yellow-50",
     title: "text-amber-800",
     text: "text-amber-700",
   },
-  "Termo Tecnico Nao Definido": {
+  "Termo Técnico Não Definido": {
     box: "border-orange-400 from-orange-50 to-amber-50",
     title: "text-orange-800",
     text: "text-orange-700",
@@ -89,7 +89,7 @@ export default function LawDetailPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-200">
-              Analise Legislativa - CrivoAI
+              Análise Legislativa - CrivoAI
             </p>
             <h1 className="text-xl font-bold leading-snug">{law.title}</h1>
           </div>
@@ -110,7 +110,7 @@ export default function LawDetailPage() {
               {analysis.legalText.split("\n\n").map((block) => (
                 <p
                   key={block}
-                  className={block.startsWith("CAPITULO") ? "font-bold tracking-wide text-slate-900" : ""}
+                  className={block.startsWith("CAPÍTULO") ? "font-bold tracking-wide text-slate-900" : ""}
                 >
                   {block}
                 </p>
@@ -121,14 +121,14 @@ export default function LawDetailPage() {
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
             <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-slate-800">
               <BarChart3 className="size-5 text-[#1e3a5f]" />
-              Metricas de Qualidade
+              Métricas de Qualidade
             </h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               <RadialProgress value={analysis.metrics.readability} label="Legibilidade" />
-              <RadialProgress value={analysis.metrics.ambiguity} label="Ausencia de Ambiguidade" />
+              <RadialProgress value={analysis.metrics.ambiguity} label="Ausência de Ambiguidade" />
               <RadialProgress
                 value={analysis.metrics.technicalConformity}
-                label="Conformidade Tecnica"
+                label="Conformidade Técnica"
               />
             </div>
           </section>
@@ -136,7 +136,7 @@ export default function LawDetailPage() {
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
             <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
               <Brain className="size-5 text-[#1e3a5f]" />
-              Analise da IA
+              Análise da IA
             </h2>
             <p className="text-sm leading-relaxed text-slate-700">{analysis.aiSummary}</p>
           </section>
@@ -145,7 +145,7 @@ export default function LawDetailPage() {
         <aside className="space-y-6">
           <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md">
             <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
-              Pontuacao Geral
+              Pontuação Geral
             </p>
             <div className="relative inline-flex items-center justify-center">
               <div className={`flex size-36 items-center justify-center rounded-full ${overallColor} shadow-xl`}>
@@ -161,8 +161,8 @@ export default function LawDetailPage() {
               {analysis.overallScore >= 85
                 ? "Qualidade alta - lei bem redigida"
                 : analysis.overallScore >= 70
-                  ? "Qualidade media - melhorias recomendadas"
-                  : "Qualidade baixa - revisao necessaria"}
+                  ? "Qualidade média - melhorias recomendadas"
+                  : "Qualidade baixa - revisão necessária"}
             </p>
           </section>
 

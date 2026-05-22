@@ -4,7 +4,6 @@ import {
   AlertCircle,
   BookOpen,
   FileText,
-  RefreshCw,
   Search,
   TrendingUp,
   type LucideIcon,
@@ -22,22 +21,10 @@ const stats = [
     color: "text-blue-600 bg-blue-50",
   },
   {
-    label: "Pontuacao Media",
-    value: "67%",
-    icon: TrendingUp,
-    color: "text-green-600 bg-green-50",
-  },
-  {
-    label: "Leis Criticas",
+    label: "Leis Críticas",
     value: "23",
     icon: AlertCircle,
     color: "text-red-600 bg-red-50",
-  },
-  {
-    label: "Atualizadas (mes)",
-    value: "48",
-    icon: RefreshCw,
-    color: "text-purple-600 bg-purple-50",
   },
 ];
 
@@ -92,27 +79,29 @@ export default function Home() {
     <div className="mx-auto max-w-7xl space-y-8 px-4 py-10 sm:px-6">
       <section className="space-y-2 text-center">
         <h1 className="text-4xl font-black tracking-tight text-slate-800">
-          Analise de Qualidade Legislativa
+          Análise de Qualidade Legislativa
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-slate-500">
-          Inteligencia Artificial e NLP para avaliar legibilidade e ambiguidade
+          Inteligência Artificial e NLP para avaliar legibilidade e ambiguidade
           de textos legislativos brasileiros
         </p>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <article className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-md">
-          <div className="flex items-center gap-2 text-slate-700">
-            <TrendingUp className="size-5 text-[#1e3a5f]" />
-            <h2 className="text-lg font-bold">Media Geral das Leis</h2>
+      <section className="mx-auto max-w-4xl space-y-5">
+        <article className="flex flex-col items-center justify-center gap-6 rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md sm:flex-row sm:p-8 sm:text-left">
+          <RadialProgress value={67} size={168} strokeWidth={14} />
+          <div className="max-w-md">
+            <div className="mb-3 flex items-center justify-center gap-2 text-slate-700 sm:justify-start">
+              <TrendingUp className="size-5 text-[#1e3a5f]" />
+              <h2 className="text-xl font-bold">Média Geral das Leis</h2>
+            </div>
+            <p className="text-sm leading-relaxed text-slate-500 sm:text-base">
+              Baseado na análise de 1.247 textos legislativos brasileiros
+            </p>
           </div>
-          <RadialProgress value={67} size={180} strokeWidth={14} />
-          <p className="text-sm text-slate-500">
-            Baseado na analise de 1.247 textos legislativos brasileiros
-          </p>
         </article>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {stats.map((stat) => (
             <StatCard key={stat.label} {...stat} />
           ))}
@@ -122,7 +111,7 @@ export default function Home() {
       <section className="rounded-2xl bg-gradient-to-br from-[#1e3a5f] to-[#2d5a8c] p-6 text-white shadow-xl sm:p-8">
         <h2 className="text-center text-2xl font-bold">Pesquise uma Lei</h2>
         <p className="mb-6 mt-2 text-center text-sm text-blue-200">
-          Digite o numero, nome ou tema da lei para uma analise completa
+          Digite o número, nome ou tema da lei para uma análise completa
         </p>
 
         <div className="mx-auto max-w-2xl">
@@ -132,7 +121,7 @@ export default function Home() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Ex: Lei 13.709/2018 ou protecao de dados..."
+                placeholder="Ex: Lei 13.709/2018 ou proteção de dados..."
                 className="w-full rounded-xl border-2 border-transparent bg-white py-4 pl-12 pr-4 text-sm text-slate-800 outline-none transition-all focus:border-blue-300 focus:ring-4 focus:ring-blue-300/20"
                 onKeyDown={(event) => event.key === "Enter" && handleSearch()}
               />
@@ -200,7 +189,7 @@ export default function Home() {
           <div>
             <h2 className="text-lg font-bold text-slate-800">Avaliar Nova Lei</h2>
             <p className="mt-1 text-sm text-slate-500">
-              Envie ou cole um texto legislativo para simular a analise.
+              Envie ou cole um texto legislativo para simular a análise.
             </p>
           </div>
           <button
@@ -208,7 +197,7 @@ export default function Home() {
             onClick={() => router.push("/upload")}
             className="w-full rounded-xl bg-[#1e3a5f] py-3 text-sm font-bold text-white shadow-md transition-colors hover:bg-[#2d5a8c]"
           >
-            Comecar Analise
+            Começar Análise
           </button>
         </article>
       </section>

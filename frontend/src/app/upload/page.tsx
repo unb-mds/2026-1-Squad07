@@ -82,7 +82,7 @@ export default function UploadLawPage() {
             Avaliar Nova Lei
           </h1>
           <p className="mt-1 text-slate-500">
-            Envie um texto legislativo para simular a analise de qualidade.
+            Envie um texto legislativo para simular a análise de qualidade.
           </p>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function UploadLawPage() {
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
             <Hash className="size-4 text-[#1e3a5f]" />
-            Numero da Lei
+            Número da Lei
           </label>
           <input
             type="text"
@@ -111,11 +111,11 @@ export default function UploadLawPage() {
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
             <Type className="size-4 text-[#1e3a5f]" />
-            Titulo da Lei
+            Título da Lei
           </label>
           <input
             type="text"
-            placeholder="Ex: Lei Geral de Protecao de Dados Pessoais"
+            placeholder="Ex: Lei Geral de Proteção de Dados Pessoais"
             value={formData.lawTitle}
             onChange={(event) =>
               setFormData({ ...formData, lawTitle: event.target.value })
@@ -128,7 +128,7 @@ export default function UploadLawPage() {
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
             <Calendar className="size-4 text-[#1e3a5f]" />
-            Data de Publicacao (opcional)
+            Data de Publicação (opcional)
           </label>
           <input
             type="date"
@@ -186,7 +186,7 @@ export default function UploadLawPage() {
             Texto da Lei
           </label>
           <textarea
-            placeholder="Cole aqui o texto completo da lei para analise..."
+            placeholder="Cole aqui o texto completo da lei para análise..."
             value={formData.lawText}
             onChange={(event) =>
               setFormData({ ...formData, lawText: event.target.value })
@@ -220,10 +220,10 @@ export default function UploadLawPage() {
             ) : submitSuccess ? (
               <>
                 <CheckCircle2 className="size-4" />
-                Analise Concluida!
+                Análise Concluída!
               </>
             ) : (
-              "Iniciar Analise"
+              "Iniciar Análise"
             )}
           </button>
         </div>

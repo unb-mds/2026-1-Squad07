@@ -21,7 +21,6 @@ function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
-  const isAuthPage = pathname === "/login" || pathname === "/register";
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-[#1e3a5f] to-[#2d5a8c] text-white shadow-lg">
@@ -43,62 +42,60 @@ function Header() {
           </span>
         </Link>
 
-        {!isAuthPage && (
-          <nav className="flex items-center gap-3 sm:gap-6" aria-label="Principal">
-            <div className="hidden items-center gap-6 md:flex">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`border-b-2 pb-0.5 text-sm font-semibold transition-colors ${
-                    pathname === item.href
-                      ? "border-white text-white"
-                      : "border-transparent text-blue-200 hover:border-blue-300 hover:text-white"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+        <nav className="flex items-center gap-3 sm:gap-6" aria-label="Principal">
+          <div className="hidden items-center gap-6 md:flex">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`border-b-2 pb-0.5 text-sm font-semibold transition-colors ${
+                  pathname === item.href
+                    ? "border-white text-white"
+                    : "border-transparent text-blue-200 hover:border-blue-300 hover:text-white"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
 
-            {user ? (
-              <div className="flex items-center gap-2">
-                <span className="hidden items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white sm:flex">
-                  <User className="size-4" />
-                  {user.username}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    logout();
-                    router.push("/");
-                  }}
-                  className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold transition-colors hover:bg-white/20"
-                >
-                  <LogOut className="size-4" />
-                  <span className="hidden sm:inline">Sair</span>
-                </button>
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <Link
-                  href="/login"
-                  className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold transition-colors hover:bg-white/20"
-                >
-                  <LogIn className="size-4" />
-                  <span className="hidden sm:inline">Login</span>
-                </Link>
-                <Link
-                  href="/register"
-                  className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-[#1e3a5f] shadow-md transition-colors hover:bg-gray-50"
-                >
-                  <UserPlus className="size-4" />
-                  <span className="hidden sm:inline">Registro</span>
-                </Link>
-              </div>
-            )}
-          </nav>
-        )}
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white sm:flex">
+                <User className="size-4" />
+                {user.username}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  router.push("/");
+                }}
+                className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold transition-colors hover:bg-white/20"
+              >
+                <LogOut className="size-4" />
+                <span className="hidden sm:inline">Sair</span>
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold transition-colors hover:bg-white/20"
+              >
+                <LogIn className="size-4" />
+                <span className="hidden sm:inline">Login</span>
+              </Link>
+              <Link
+                href="/register"
+                className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-[#1e3a5f] shadow-md transition-colors hover:bg-gray-50"
+              >
+                <UserPlus className="size-4" />
+                <span className="hidden sm:inline">Registro</span>
+              </Link>
+            </div>
+          )}
+        </nav>
       </div>
     </header>
   );
@@ -111,7 +108,7 @@ function Footer() {
         <div className="flex items-center gap-2">
           <Scale className="size-4 text-[#1e3a5f]" />
           <span className="font-semibold text-[#1e3a5f]">CrivoAI</span>
-          <span>Analise de Qualidade Legislativa</span>
+          <span>Análise de Qualidade Legislativa</span>
         </div>
         <div className="flex items-center gap-4">
           <span>2026 Projeto UnB Gama</span>

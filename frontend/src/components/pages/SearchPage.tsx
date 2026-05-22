@@ -19,7 +19,7 @@ type ScoreFilter = "all" | "high" | "medium" | "low";
 const scoreFilters: { value: ScoreFilter; label: string; color: string }[] = [
   { value: "all", label: "Todos", color: "bg-slate-800 text-white" },
   { value: "high", label: "Alta (>=85)", color: "bg-green-600 text-white" },
-  { value: "medium", label: "Media (70-84)", color: "bg-yellow-500 text-white" },
+  { value: "medium", label: "Média (70-84)", color: "bg-yellow-500 text-white" },
   { value: "low", label: "Baixa (<70)", color: "bg-red-500 text-white" },
 ];
 
@@ -44,7 +44,7 @@ function ScoreBadge({ score }: { score: number }) {
   return (
     <div className="flex flex-col items-center gap-1">
       <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
-        Pontuacao
+        Pontuação
       </p>
       <div className={`relative flex size-20 items-center justify-center rounded-full ${bg} shadow-lg`}>
         <span className="text-2xl font-black text-white">{score}</span>
@@ -208,7 +208,7 @@ export function SearchPage() {
             className="flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200"
           >
             <SlidersHorizontal className="size-4" />
-            Filtrar por Pontuacao
+            Filtrar por Pontuação
             {showFilters ? <X className="size-4" /> : null}
           </button>
         </div>

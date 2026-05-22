@@ -21,7 +21,7 @@ export default function RegisterPage() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("As senhas nao coincidem");
+      setError("As senhas não coincidem");
       return;
     }
 
@@ -35,7 +35,7 @@ export default function RegisterPage() {
       if (register(username, email, password)) {
         router.push("/");
       } else {
-        setError("Este e-mail ja esta cadastrado");
+        setError("Este e-mail já está cadastrado");
         setLoading(false);
       }
     }, 400);
@@ -58,7 +58,7 @@ export default function RegisterPage() {
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="mb-2 block text-sm font-bold text-slate-700">
-                Nome de Usuario
+                Nome de Usuário
               </label>
               <div className="relative">
                 <User className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
@@ -148,9 +148,9 @@ export default function RegisterPage() {
 
           <div className="mt-6 border-t border-slate-100 pt-6 text-center">
             <p className="text-sm text-slate-500">
-              Ja tem uma conta?{" "}
+              Já tem uma conta?{" "}
               <Link href="/login" className="font-bold text-[#1e3a5f] hover:underline">
-                Faca login aqui
+                Faça login aqui
               </Link>
             </p>
           </div>

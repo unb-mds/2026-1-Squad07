@@ -3,21 +3,21 @@ import type { LawAnalysis, LawResult } from "@/types/law";
 export const laws: LawResult[] = [
   {
     id: 1,
-    title: "Lei n. 13.709/2018 - Lei Geral de Protecao de Dados Pessoais",
+    title: "Lei nº 13.709/2018 - Lei Geral de Proteção de Dados Pessoais",
     summary:
-      "Dispoe sobre o tratamento de dados pessoais, inclusive nos meios digitais, por pessoa natural ou juridica. A norma protege direitos fundamentais de liberdade, privacidade e livre desenvolvimento da personalidade.",
+      "Dispõe sobre o tratamento de dados pessoais, inclusive nos meios digitais, por pessoa natural ou jurídica. A norma protege direitos fundamentais de liberdade, privacidade e livre desenvolvimento da personalidade.",
     score: 87,
     readability: 85,
     ambiguity: 90,
     technicalConformity: 82,
     year: 2018,
-    category: "Protecao de Dados",
+    category: "Proteção de Dados",
   },
   {
     id: 2,
-    title: "Lei n. 8.078/1990 - Codigo de Defesa do Consumidor",
+    title: "Lei nº 8.078/1990 - Código de Defesa do Consumidor",
     summary:
-      "Estabelece normas de protecao e defesa do consumidor, com regras para fornecedores, produtos, servicos e responsabilidade civil nas relacoes de consumo.",
+      "Estabelece normas de proteção e defesa do consumidor, com regras para fornecedores, produtos, serviços e responsabilidade civil nas relações de consumo.",
     score: 92,
     readability: 90,
     ambiguity: 94,
@@ -27,9 +27,9 @@ export const laws: LawResult[] = [
   },
   {
     id: 3,
-    title: "Lei n. 12.965/2014 - Marco Civil da Internet",
+    title: "Lei nº 12.965/2014 - Marco Civil da Internet",
     summary:
-      "Define principios, garantias, direitos e deveres para o uso da internet no Brasil, incluindo neutralidade de rede, privacidade e responsabilidade de provedores.",
+      "Define princípios, garantias, direitos e deveres para o uso da internet no Brasil, incluindo neutralidade de rede, privacidade e responsabilidade de provedores.",
     score: 78,
     readability: 75,
     ambiguity: 80,
@@ -39,9 +39,9 @@ export const laws: LawResult[] = [
   },
   {
     id: 4,
-    title: "Lei n. 14.133/2021 - Nova Lei de Licitacoes",
+    title: "Lei nº 14.133/2021 - Nova Lei de Licitações",
     summary:
-      "Regula licitacoes e contratos administrativos, consolidando modalidades, fases de disputa, criterios de julgamento e instrumentos de governanca publica.",
+      "Regula licitações e contratos administrativos, consolidando modalidades, fases de disputa, critérios de julgamento e instrumentos de governança pública.",
     score: 68,
     readability: 64,
     ambiguity: 70,
@@ -53,9 +53,9 @@ export const laws: LawResult[] = [
 
 export const quickSearches = [
   "Lei 13.709/2018",
-  "Codigo de Defesa do Consumidor",
+  "Código de Defesa do Consumidor",
   "Marco Civil da Internet",
-  "Lei de Licitacoes",
+  "Lei de Licitações",
 ];
 
 export const defaultAnalysis: LawAnalysis = {
@@ -65,35 +65,35 @@ export const defaultAnalysis: LawAnalysis = {
     ambiguity: 90,
     technicalConformity: 82,
   },
-  legalText: `CAPITULO I - DISPOSICOES PRELIMINARES
+  legalText: `CAPÍTULO I - DISPOSIÇÕES PRELIMINARES
 
-Art. 1. Esta Lei dispoe sobre o tratamento de dados pessoais, inclusive nos meios digitais, por pessoa natural ou por pessoa juridica de direito publico ou privado, com o objetivo de proteger os direitos fundamentais de liberdade e de privacidade.
+Art. 1º Esta Lei dispõe sobre o tratamento de dados pessoais, inclusive nos meios digitais, por pessoa natural ou por pessoa jurídica de direito público ou privado, com o objetivo de proteger os direitos fundamentais de liberdade e de privacidade.
 
-Art. 2. A disciplina da protecao de dados pessoais tem como fundamentos o respeito a privacidade, a autodeterminacao informativa, a liberdade de expressao e a inviolabilidade da intimidade.
+Art. 2º A disciplina da proteção de dados pessoais tem como fundamentos o respeito à privacidade, a autodeterminação informativa, a liberdade de expressão e a inviolabilidade da intimidade.
 
-Art. 3. Esta Lei aplica-se a qualquer operacao de tratamento realizada por pessoa natural ou juridica, independentemente do meio, do pais de sua sede ou do pais onde estejam localizados os dados.`,
+Art. 3º Esta Lei aplica-se a qualquer operação de tratamento realizada por pessoa natural ou jurídica, independentemente do meio, do país de sua sede ou do país onde estejam localizados os dados.`,
   issues: [
     {
       type: "Ambiguidade Detectada",
-      excerpt: "O disposto neste artigo aplica-se tambem aos casos em que...",
+      excerpt: "O disposto neste artigo aplica-se também aos casos em que...",
       issue:
-        "A referencia interna exige leitura cruzada e pode gerar interpretacoes distintas sem uma remissao mais precisa.",
+        "A referência interna exige leitura cruzada e pode gerar interpretações distintas sem uma remissão mais precisa.",
     },
     {
-      type: "Complexidade Sintatica",
-      excerpt: "Considera-se tratamento toda operacao realizada com dados pessoais...",
+      type: "Complexidade Sintática",
+      excerpt: "Considera-se tratamento toda operação realizada com dados pessoais...",
       issue:
-        "A frase concentra muitos conceitos tecnicos em uma unica definicao, reduzindo a legibilidade para usuarios nao especialistas.",
+        "A frase concentra muitos conceitos técnicos em uma única definição, reduzindo a legibilidade para usuários não especialistas.",
     },
     {
-      type: "Termo Tecnico Nao Definido",
-      excerpt: "medidas tecnicas e administrativas aptas a proteger os dados pessoais",
+      type: "Termo Técnico Não Definido",
+      excerpt: "medidas técnicas e administrativas aptas a proteger os dados pessoais",
       issue:
-        "A expressao poderia indicar criterios minimos objetivos para reduzir discricionariedade na aplicacao da norma.",
+        "A expressão poderia indicar critérios mínimos objetivos para reduzir discricionariedade na aplicação da norma.",
     },
   ],
   aiSummary:
-    "A lei apresenta boa qualidade tecnica geral, com organizacao clara e definicoes essenciais para a aplicacao pratica. A analise indica boa conformidade normativa, mas ha trechos que podem se beneficiar de remissoes mais objetivas e simplificacao sintatica.",
+    "A lei apresenta boa qualidade técnica geral, com organização clara e definições essenciais para a aplicação prática. A análise indica boa conformidade normativa, mas há trechos que podem se beneficiar de remissões mais objetivas e simplificação sintática.",
 };
 
 export function searchMockLaws(query: string) {
