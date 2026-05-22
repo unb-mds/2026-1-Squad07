@@ -2,9 +2,9 @@ schema_version: "1.0"
 workflow:
   id: "speckit"
   name: "Full SDD Cycle"
-  version: "1.0.0"
+  version: "1.0.1"
   author: "GitHub"
-  description: "Runs specify → plan → tasks → implement with review gates"
+  description: "Runs specify -> plan -> test-plan gate -> tasks -> implement with review gates"
 
 requires:
   # 0.8.5 is the first release with engine-side resolution of the
@@ -61,6 +61,12 @@ steps:
   - id: review-plan
     type: gate
     message: "Review the plan before generating tasks."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: review-test-plan
+    type: gate
+    message: "Create or review test-plan.md before generating tasks. Approve only if it exists, is filled, and defines manual or automated validation."
     options: [approve, reject]
     on_reject: abort
 

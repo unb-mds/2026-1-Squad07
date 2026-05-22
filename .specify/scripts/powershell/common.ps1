@@ -69,7 +69,7 @@ function Get-CurrentBranch {
 
     # For non-git repos, try to find the latest feature directory
     $specsDir = Join-Path $repoRoot "specs"
-    
+
     if (Test-Path $specsDir) {
         $latestFeature = ""
         $highest = 0
@@ -99,7 +99,7 @@ function Get-CurrentBranch {
             return $latestFeature
         }
     }
-    
+
     # Final fallback
     return "main"
 }
@@ -137,12 +137,21 @@ function Get-SpecKitEffectiveBranchName {
     return $Branch
 }
 
+function Get-SquadIssueNumberFromBranchName {
+    param([string]$Branch)
+    $branchName = Get-SpecKitEffectiveBranchName $Branch
+    if ($branchName -match '(?i)(^|[-_])issue-(\d+)($|[-_])') {
+        return $Matches[2]
+    }
+    return $null
+}
+
 function Test-FeatureBranch {
     param(
         [string]$Branch,
         [bool]$HasGit = $true
     )
-    
+
     # For non-git repos, we can't enforce branch naming but still provide output
     if (-not $HasGit) {
         Write-Warning "[specify] Warning: Git repository not detected; skipped branch validation"
@@ -151,14 +160,16 @@ function Test-FeatureBranch {
 
     $raw = $Branch
     $Branch = Get-SpecKitEffectiveBranchName $raw
-    
+
     # Accept sequential prefix (3+ digits) but exclude malformed timestamps
     # Malformed: 7-or-8 digit date + 6-digit time with no trailing slug (e.g. "2026031-143022" or "20260319-143022")
     $hasMalformedTimestamp = ($Branch -match '^[0-9]{7}-[0-9]{6}-') -or ($Branch -match '^(?:\d{7}|\d{8})-\d{6}$')
     $isSequential = ($Branch -match '^[0-9]{3,}-') -and (-not $hasMalformedTimestamp)
-    if (-not $isSequential -and $Branch -notmatch '^\d{8}-\d{6}-') {
+    $isTimestamp = $Branch -match '^\d{8}-\d{6}-'
+    $isSquadIssueBranch = $null -ne (Get-SquadIssueNumberFromBranchName $raw)
+    if (-not $isSequential -and -not $isTimestamp -and -not $isSquadIssueBranch) {
         [Console]::Error.WriteLine("ERROR: Not on a feature branch. Current branch: $raw")
-        [Console]::Error.WriteLine("Feature branches should be named like: 001-feature-name, 1234-feature-name, or 20260319-143022-feature-name")
+        [Console]::Error.WriteLine("Feature branches should be named like: 001-feature-name, 1234-feature-name, 20260319-143022-feature-name, or Squad issue branches like docs/issue-86-sdd-documentacao")
         return $false
     }
     return $true
@@ -232,6 +243,41 @@ function Test-FeatureJsonMatchesFeatureDir {
     return [string]::Equals($normJson, $normActive, $comparison)
 }
 
+function Find-FeatureDirByIssueNumber {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$IssueNumber
+    )
+    $specsDir = Join-Path $RepoRoot 'specs'
+    if (-not (Test-Path -LiteralPath $specsDir -PathType Container)) {
+        return $null
+    }
+
+    $issuePattern = "(?im)^\s*\*\*Issue\*\*:\s*(?:#|.*?/issues/)?$IssueNumber\b"
+    $dirMatches = @()
+    foreach ($dir in Get-ChildItem -LiteralPath $specsDir -Directory -ErrorAction SilentlyContinue) {
+        $specPath = Join-Path $dir.FullName 'spec.md'
+        if (-not (Test-Path -LiteralPath $specPath -PathType Leaf)) {
+            continue
+        }
+        $content = Get-Content -LiteralPath $specPath -Raw
+        if ($content -match $issuePattern) {
+            $dirMatches += $dir
+        }
+    }
+
+    if ($dirMatches.Count -eq 0) {
+        return $null
+    }
+    if ($dirMatches.Count -eq 1) {
+        return $dirMatches[0].FullName
+    }
+    $names = ($dirMatches | ForEach-Object { $_.Name }) -join ' '
+    [Console]::Error.WriteLine("ERROR: Multiple spec directories found for issue #${IssueNumber}: $names")
+    [Console]::Error.WriteLine('Please ensure only one spec references each issue.')
+    return $null
+}
+
 # Resolve specs/<feature-dir> by numeric/timestamp prefix (mirrors scripts/bash/common.sh find_feature_dir_by_prefix).
 function Find-FeatureDirByPrefix {
     param(
@@ -240,6 +286,14 @@ function Find-FeatureDirByPrefix {
     )
     $specsDir = Join-Path $RepoRoot 'specs'
     $branchName = Get-SpecKitEffectiveBranchName $Branch
+
+    $issueNumber = Get-SquadIssueNumberFromBranchName $Branch
+    if ($null -ne $issueNumber) {
+        $issueDir = Find-FeatureDirByIssueNumber -RepoRoot $RepoRoot -IssueNumber $issueNumber
+        if ($null -ne $issueDir) {
+            return $issueDir
+        }
+    }
 
     $prefix = $null
     if ($branchName -match '^(\d{8}-\d{6})-') {
@@ -317,7 +371,7 @@ function Get-FeaturePathsEnv {
     } else {
         $featureDir = Get-FeatureDirFromBranchPrefixOrExit -RepoRoot $repoRoot -CurrentBranch $currentBranch
     }
-    
+
     [PSCustomObject]@{
         REPO_ROOT     = $repoRoot
         CURRENT_BRANCH = $currentBranch

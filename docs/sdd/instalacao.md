@@ -114,13 +114,26 @@ Antes de criar ou alterar uma spec:
 2. Leia o `AGENTS.md` da raiz.
 3. Leia `specs/AGENTS.md`.
 4. Verifique se já existe uma spec relacionada em `specs/`.
-5. Crie ou atualize a spec seguindo a ordem:
+5. Use uma branch fora da `main` compatível com os scripts do Spec Kit.
+6. Crie ou atualize a spec seguindo a ordem:
    - `spec.md`;
    - `plan.md`;
    - `test-plan.md`;
    - `tasks.md`;
    - `quickstart.md`.
-6. Só avance para implementação quando a spec estiver clara e sem ambiguidades centrais.
+7. Só avance para implementação quando a spec estiver clara e sem ambiguidades centrais.
+
+## Padrões de branch para specs
+
+Para usar os scripts PowerShell do Spec Kit, a branch deve seguir um dos padrões abaixo:
+
+- padrão numerado do Spec Kit, como `001-submissao-texto-legislativo`;
+- padrão timestamp do Spec Kit, como `20260319-143022-feature-name`;
+- padrão do Squad 07 com issue, como `docs/issue-86-sdd-documentacao` ou `codex/issue-72-metricas-dashboard`.
+
+No padrão com issue, os scripts buscam em `specs/` uma spec cujo `spec.md` contenha a referência `Issue: #N`. Por exemplo, a branch `docs/issue-86-sdd-documentacao` será associada à spec que declarar `Issue: #86`.
+
+Branches comuns fora da `main` continuam válidas para o trabalho normal do projeto. A exigência acima vale para quem pretende usar os scripts do Spec Kit.
 
 ## O que deve ser versionado
 

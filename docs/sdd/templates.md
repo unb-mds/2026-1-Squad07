@@ -61,7 +61,7 @@ Use `contracts/` quando houver contrato de API, interface ou qualidade. Use `dat
 ## Checklist para criar uma spec
 
 1. Confirme a issue ou decisão que justifica a spec.
-2. Crie uma branch fora da `main`.
+2. Crie uma branch fora da `main`, preferencialmente usando o padrão do Squad com issue, como `docs/issue-86-sdd-documentacao`.
 3. Crie a pasta em `specs/` com número e nome curto.
 4. Preencha `spec.md` com objetivo, contexto, escopo, cenários, requisitos, entradas, saídas, regras de negócio e casos de erro.
 5. Preencha `plan.md` com abordagem técnica ou documental.
@@ -84,6 +84,17 @@ A implementação só deve começar quando:
 - as tarefas estão rastreáveis à issue e à spec.
 
 Toda spec ligada a issue, requisito, arquitetura, sprint, release ou decisão do time deve ser versionada no repositório.
+
+## Padrões de branch aceitos pelos scripts
+
+Os scripts PowerShell do Spec Kit aceitam dois grupos de branch:
+
+- padrão numerado do Spec Kit, como `001-submissao-texto-legislativo` ou `20260319-143022-feature-name`;
+- padrão do Squad 07 com issue no nome, como `docs/issue-86-sdd-documentacao`, `codex/issue-72-metricas-dashboard` ou `feat/issue-90-endpoint-submissao`.
+
+Quando a branch contém `issue-N`, os scripts procuram em `specs/` uma spec cujo `spec.md` declare `Issue: #N`. Se exatamente uma spec for encontrada, ela será usada como diretório da feature.
+
+Branches fora da `main` continuam válidas para trabalho comum do projeto, mas o uso dos scripts do Spec Kit exige branch numerada/timestamp ou branch com `issue-N`.
 
 ## TDD por tipo de entrega
 
