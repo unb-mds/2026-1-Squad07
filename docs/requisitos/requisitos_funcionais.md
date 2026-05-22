@@ -2,9 +2,9 @@
 
 ## Objetivo
 
-Este documento consolida os requisitos funcionais do projeto **Monitoramento de Qualidade de Leis** para a Release 1. A lista foi refinada a partir do backlog do GitHub, do User Story Map, do Figma, do quadro de planejamento no Miro e da estrutura real presente no repositório.
+Este documento consolida os requisitos funcionais do projeto Monitoramento de Qualidade de Leis para a Release 1. A lista foi refinada a partir do backlog do GitHub, do User Story Map, do Figma/FigJam, do quadro de planejamento no Miro, da estrutura real presente no repositório e do planejamento da Sprint 8.
 
-O objetivo da Release 1 é entregar uma base documentada e validável para o produto: permitir que uma proposição legislativa seja submetida, analisada por métricas iniciais e apresentada ao usuário por meio de um relatório simples de qualidade.
+O objetivo da Release 1 é entregar um fluxo mínimo demonstrável: permitir que um usuário submeta um texto legislativo, que o backend receba e registre essa submissão, e que o sistema permita visualizar os registros cadastrados. As análises de qualidade legislativa mais avançadas permanecem como evolução planejada, mas a Release 1 deve deixar clara a base técnica, documental e visual para essa evolução.
 
 ## Visão dos arquivos presentes
 
@@ -17,10 +17,9 @@ A estrutura atual do projeto já separa as responsabilidades principais:
 | Frontend | `frontend/src/app/page.tsx`, `frontend/src/app/layout.tsx`, `frontend/src/app/globals.css`, `frontend/package.json` | Aplicação Next.js, layout, estilos globais e scripts de execução/build/lint. |
 | Infraestrutura | `docker-compose.yml`, `backend/Dockerfile` | Ambiente com PostgreSQL e backend containerizado. |
 | Documentação | `mkdocs.yml`, `docs/index.md`, `docs/architecture/estrutura_de_pastas.txt` | Portal MkDocs e documentação da organização arquitetural. |
+| Métricas | `docs/metricas/AGENT.md`, `docs/metricas/collect_metrics.py`, `docs/metricas/index.html` | Dashboard de métricas de produtividade do projeto. |
 
 ## Artefatos de planejamento considerados
-
-Os requisitos funcionais foram derivados e organizados a partir dos seguintes artefatos de planejamento:
 
 | Artefato | Uso na documentação |
 | --- | --- |
@@ -28,6 +27,7 @@ Os requisitos funcionais foram derivados e organizados a partir dos seguintes ar
 | User Story Map | Base para entender a jornada do usuário e priorizar o fluxo mínimo da Release 1. |
 | Figma/FigJam | Referência para persona, wireframes, protótipos e organização visual das telas. |
 | Miro | Apoio ao refinamento do Product Backlog e à priorização das histórias de usuário. |
+| Critérios da R1 | Referência para documentação, planejamento, processo e validação da entrega. |
 
 Link do quadro de planejamento no Miro: [Product Backlog / User Story Mapping](https://miro.com/app/board/uXjVHdj61Cg=/).
 
@@ -35,159 +35,211 @@ Link do quadro de planejamento no Miro: [Product Backlog / User Story Mapping](h
 
 O quadro abaixo reúne o planejamento visual utilizado para apoiar o refinamento dos requisitos. Caso a visualização incorporada não carregue, acesse o link direto do Miro.
 
-<iframe width="768"
- height="432" src="https://miro.com/app/live-embed/uXjVHdj61Cg=/?embedMode=view_only_without_ui&moveToViewport=-2711,-1001,2754,1419&embedId=347951037551" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVHdj61Cg=/?embedMode=view_only_without_ui&moveToViewport=-2711,-1001,2754,1419&embedId=347951037551" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
 
 ## Escopo funcional da Release 1
 
-Para manter a Release 1 viável até 27/05/2026, os requisitos abaixo estão organizados por prioridade:
+Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizados por prioridade MoSCoW:
 
 - **Must have**: necessário para demonstrar o fluxo mínimo do produto.
-- **Should have**: importante, mas pode ser simplificado se houver risco de prazo.
+- **Should have**: importante para a qualidade da apresentação, mas pode ser simplificado se houver risco de prazo.
 - **Could have**: desejável, mas pode ficar para a Release 2.
 - **Won't have na R1**: explicitamente fora da Release 1.
 
 ## Requisitos Must Have
 
-### RF01 - Submeter texto legislativo para análise
+### RF01 - Submeter texto legislativo
 
-**Origem:** Issues `#39` e `#40`.
+**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40) e [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75).
 
-**Descrição:** O sistema deve permitir que o usuário insira ou cole o texto de uma proposição legislativa para iniciar a avaliação de qualidade.
+**Descrição:** O sistema deve permitir que o usuário informe um título e o texto de uma proposição legislativa para cadastro e análise futura.
 
 **Critérios de aceite:**
 
-- A tela inicial deve apresentar uma área de texto ou campo equivalente para submissão da lei.
-- O usuário deve conseguir acionar a análise por meio de um botão claro.
-- O backend deve possuir uma rota preparada para receber o texto submetido.
-- A submissão deve retornar uma resposta compreensível para o frontend.
+- A interface deve possuir formulário com campos mínimos de título e texto legislativo.
+- O frontend deve validar os campos obrigatórios `título` e `texto legislativo` antes do envio.
+- O campo `título` não deve ser enviado vazio.
+- O campo `texto legislativo` não deve ser enviado vazio.
+- O usuário deve conseguir acionar o envio por meio de um botão claro.
+- O formulário deve enviar os dados para o endpoint de submissão.
+- A interface deve apresentar feedback de sucesso ou erro.
 
 **Arquivos relacionados:**
 
 - `frontend/src/app/page.tsx`
-- `backend/app/main.py`
+- `frontend/src/app/globals.css`
 - `backend/app/api/`
 
-### RF02 - Registrar texto submetido para análise futura
+### RF02 - Receber submissão legislativa via API
 
-**Origem:** Issues `#29` e `#40`.
+**Origem:** Issue [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40).
 
-**Descrição:** O sistema deve persistir o texto legislativo recebido, permitindo que ele seja usado em análises posteriores.
+**Descrição:** O backend deve disponibilizar uma rota para receber o texto legislativo enviado pelo frontend.
 
 **Critérios de aceite:**
 
-- O modelo de dados deve contemplar uma entidade para leis ou proposições legislativas.
+- Deve existir uma rota `POST` para submissões legislativas.
+- A rota deve aceitar payload com título e texto.
+- A rota deve validar dados obrigatórios.
+- A rota deve retornar resposta compreensível para o frontend.
+- Em caso de erro, a API deve retornar mensagem e código HTTP adequados.
+
+**Arquivos relacionados:**
+
+- `backend/app/main.py`
+- `backend/app/api/`
+- `backend/tests/`
+
+### RF03 - Persistir submissão legislativa
+
+**Origem:** Issues [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29) e [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40).
+
+**Descrição:** O sistema deve registrar a submissão recebida em uma estrutura persistente, permitindo consulta posterior.
+
+**Critérios de aceite:**
+
+- O modelo de dados deve contemplar uma entidade para leis, proposições ou submissões legislativas.
 - O texto submetido deve ser associado a um registro persistente.
-- A conexão com PostgreSQL deve usar configuração padronizada via ambiente.
+- A conexão com PostgreSQL deve usar configuração via variável de ambiente.
+- A persistência deve ser realizada por meio do Prisma, conforme definido na issue [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29).
 
 **Arquivos relacionados:**
 
 - `docker-compose.yml`
 - `backend/requirements.txt`
 - `backend/app/db/`
+- `backend/app/models/`
 
-### RF03 - Calcular índice inicial de legibilidade
+### RF04 - Listar submissões legislativas cadastradas
 
-**Origem:** Issue `#41`.
+**Origem:** Issue [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
 
-**Descrição:** O sistema deve calcular uma métrica inicial de dificuldade de leitura do texto legislativo.
-
-**Critérios de aceite:**
-
-- O sistema deve receber um texto e retornar um valor numérico de legibilidade.
-- A regra de cálculo deve ser documentada.
-- A implementação inicial pode usar uma fórmula simples adaptada para português, desde que seja reprodutível.
-
-**Arquivos relacionados:**
-
-- `backend/app/services/`
-- `backend/tests/`
-
-### RF04 - Calcular score final de qualidade legislativa
-
-**Origem:** Issue `#42`.
-
-**Descrição:** O sistema deve consolidar métricas de qualidade em uma nota final de 0 a 100.
+**Descrição:** O sistema deve permitir visualizar as submissões cadastradas para demonstrar que os textos enviados foram recebidos e registrados.
 
 **Critérios de aceite:**
 
-- O score final deve estar no intervalo de 0 a 100.
-- A regra de ponderação deve ser documentada.
-- O score deve considerar, no mínimo, a legibilidade na versão inicial.
-- O retorno deve ser utilizável pelo frontend.
+- Deve existir endpoint ou tela para listar submissões cadastradas.
+- A listagem deve exibir pelo menos título, data de criação e trecho do texto.
+- A listagem deve usar dados persistidos no banco ou mock temporário documentado.
+- A funcionalidade deve estar integrada ao fluxo de submissão.
 
 **Arquivos relacionados:**
 
-- `backend/app/services/`
-- `frontend/src/app/page.tsx`
-
-### RF05 - Exibir resultado da análise ao usuário
-
-**Origem:** Issues `#43` e `#44`.
-
-**Descrição:** O sistema deve apresentar ao usuário um relatório inicial com o texto analisado, a nota de qualidade e os principais problemas detectados.
-
-**Critérios de aceite:**
-
-- A interface deve exibir a nota principal da lei analisada.
-- A interface deve destacar visualmente o resultado.
-- A interface deve listar problemas simples, como frases muito longas ou termos marcados como ambíguos.
-- O relatório pode ser simplificado na R1, desde que demonstre o fluxo ponta a ponta.
-
-**Arquivos relacionados:**
-
+- `backend/app/api/`
 - `frontend/src/app/page.tsx`
 - `frontend/src/app/globals.css`
 
-## Requisitos Should Have
+### RF05 - Consultar detalhes de uma submissão
+
+**Origem:** Issue [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+
+**Descrição:** O sistema deve permitir consultar as informações principais de uma submissão específica.
+
+**Critérios de aceite:**
+
+- O usuário deve conseguir selecionar ou acessar uma submissão cadastrada.
+- O sistema deve exibir título, texto e data de criação.
+- A visualização deve ser suficiente para apoiar a demonstração da R1.
+- Caso a tela detalhada não seja implementada separadamente, a listagem deve exibir informações suficientes para cumprir a finalidade da R1.
+
+**Arquivos relacionados:**
+
+- `backend/app/api/`
+- `frontend/src/app/page.tsx`
 
 ### RF06 - Consultar textos legislativos de exemplo
 
-**Origem:** Issue `#60`.
+**Origem:** Issue [`#60`](https://github.com/unb-mds/2026-1-Squad07/issues/60).
 
-**Descrição:** O sistema deve utilizar uma base inicial de textos legislativos reais para demonstrar as análises da Release 1.
+**Descrição:** O projeto deve possuir uma base inicial de textos legislativos reais ou realistas para apoiar a demonstração da Release 1.
 
 **Critérios de aceite:**
 
 - A documentação deve indicar a fonte dos textos usados.
 - A base inicial deve conter textos suficientes para demonstração.
 - As fontes recomendadas são Dados Abertos da Câmara, Senado Federal e LexML.
+- Caso os dados sejam mockados, isso deve estar documentado.
 
-### RF07 - Exibir média geral das leis analisadas
+**Arquivos relacionados:**
 
-**Origem:** Issue `#50`.
+- `docs/`
+- `backend/app/services/`
 
-**Descrição:** O sistema deve apresentar uma média geral dos scores das leis analisadas.
+## Requisitos Should Have
+
+### RF07 - Exibir resultado básico ou status da submissão
+
+**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#60`](https://github.com/unb-mds/2026-1-Squad07/issues/60) e planejamento da Sprint 8.
+
+**Descrição:** O sistema deve exibir ao usuário um resultado simples após a submissão, mesmo que a análise avançada ainda não esteja disponível.
 
 **Critérios de aceite:**
 
-- A tela inicial deve reservar espaço para a média geral.
-- Na R1, a média pode ser demonstrativa caso a persistência completa ainda não esteja finalizada.
-- A documentação deve deixar claro se o dado é real, calculado ou mockado.
+- A interface deve indicar se a submissão foi registrada com sucesso.
+- O sistema pode exibir um status inicial, como "recebida" ou "pendente de análise".
+- Caso exista cálculo demonstrativo, a regra deve ser documentada.
+- A R1 não deve depender de IA externa para cumprir este requisito.
+
+**Arquivos relacionados:**
+
+- `frontend/src/app/page.tsx`
+- `backend/app/api/`
+
+### RF08 - Disponibilizar documentação da Release 1
+
+**Origem:** Issues [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#72`](https://github.com/unb-mds/2026-1-Squad07/issues/72) e issue de correção do MkDocs/GitHub Pages.
+
+**Descrição:** O projeto deve disponibilizar documentação navegável contendo requisitos, visão do produto, arquitetura, processo e métricas.
+
+**Critérios de aceite:**
+
+- A documentação deve conter requisitos funcionais e não funcionais.
+- A documentação deve deixar claro o escopo da R1 e o que fica para R2.
+- A documentação deve estar pronta para publicação no MkDocs/GitHub Pages.
+- A correção da configuração do MkDocs deve ser tratada em issue própria.
+
+**Arquivos relacionados:**
+
+- `docs/`
+- `mkdocs.yml`
 
 ## Requisitos Could Have
 
-### RF08 - Exibir gráfico circular do score
+### RF09 - Calcular índice inicial de legibilidade
 
-**Origem:** Issue `#51`.
+**Origem:** Issue [`#41`](https://github.com/unb-mds/2026-1-Squad07/issues/41).
 
-**Descrição:** O sistema pode apresentar a nota da lei por meio de um componente visual circular.
-
-**Critérios de aceite:**
-
-- O componente deve mudar de cor conforme a faixa da nota.
-- A visualização deve ser consistente com a identidade visual do Figma.
-
-### RF09 - Listar leis já avaliadas
-
-**Origem:** Issue `#47`.
-
-**Descrição:** O sistema pode permitir que o usuário consulte leis previamente avaliadas.
+**Descrição:** O sistema pode calcular uma métrica inicial de dificuldade de leitura do texto legislativo.
 
 **Critérios de aceite:**
 
-- A listagem deve exibir título, data e score.
-- A busca deve permitir filtro simples por título ou data.
+- O sistema deve receber um texto e retornar um valor numérico de legibilidade.
+- A regra de cálculo deve ser documentada.
+- A implementação inicial pode usar fórmula simples adaptada para português.
+
+### RF10 - Calcular score final de qualidade legislativa
+
+**Origem:** Issue [`#42`](https://github.com/unb-mds/2026-1-Squad07/issues/42).
+
+**Descrição:** O sistema pode consolidar métricas de qualidade em uma nota final de 0 a 100.
+
+**Critérios de aceite:**
+
+- O score final deve estar no intervalo de 0 a 100.
+- A regra de ponderação deve ser documentada.
+- O retorno deve ser utilizável pelo frontend.
+
+### RF11 - Exibir relatório visual de qualidade
+
+**Origem:** Issues [`#43`](https://github.com/unb-mds/2026-1-Squad07/issues/43), [`#44`](https://github.com/unb-mds/2026-1-Squad07/issues/44), [`#50`](https://github.com/unb-mds/2026-1-Squad07/issues/50) e [`#51`](https://github.com/unb-mds/2026-1-Squad07/issues/51).
+
+**Descrição:** O sistema pode apresentar relatório com nota, média geral, gráfico ou alertas visuais de qualidade legislativa.
+
+**Critérios de aceite:**
+
+- O relatório deve destacar visualmente o resultado principal.
+- A interface pode listar problemas simples, como frases longas ou termos ambíguos.
+- A visualização deve seguir a identidade visual definida no protótipo.
 
 ## Fora do escopo da Release 1
 
@@ -195,34 +247,17 @@ Os requisitos abaixo permanecem relevantes para o produto, mas devem ser planeja
 
 | Requisito | Issue | Justificativa |
 | --- | --- | --- |
-| Cadastro de usuário | `#36` | Depende de fluxo de identidade mais completo. |
-| Login de usuário | `#37` | Depende de autenticação e persistência de usuários. |
-| Autenticação JWT | `#38` | Aumenta o risco técnico da R1. |
-| CRUD completo de usuário | `#45` | Não é essencial para demonstrar qualidade legislativa. |
-| Recuperação de senha | `#46` | Depende de envio de e-mail e segurança adicional. |
-| Detecção avançada de ambiguidade | `#48` | Pode exigir NLP mais sofisticado. |
-| Resumo inteligente com IA externa | `#49` | Depende de integração externa e política de uso de API. |
+| Cadastro de usuário | [`#36`](https://github.com/unb-mds/2026-1-Squad07/issues/36) | Depende de fluxo de identidade mais completo e não é essencial para demonstrar submissão legislativa. |
+| Login de usuário | [`#37`](https://github.com/unb-mds/2026-1-Squad07/issues/37) | Depende de autenticação e persistência de usuários. |
+| Autenticação JWT | [`#38`](https://github.com/unb-mds/2026-1-Squad07/issues/38) | Aumenta o risco técnico da R1. |
+| CRUD completo de usuário | [`#45`](https://github.com/unb-mds/2026-1-Squad07/issues/45) | Não é essencial para demonstrar o fluxo de qualidade legislativa. |
+| Recuperação de senha | [`#46`](https://github.com/unb-mds/2026-1-Squad07/issues/46) | Depende de envio de e-mail e segurança adicional. |
+| Detecção avançada de ambiguidade | [`#48`](https://github.com/unb-mds/2026-1-Squad07/issues/48) | Pode exigir NLP mais sofisticado. |
+| Resumo inteligente com IA externa | [`#49`](https://github.com/unb-mds/2026-1-Squad07/issues/49) | Depende de integração externa e política de uso de API. |
+| Dashboard analítico completo de leis | [`#50`](https://github.com/unb-mds/2026-1-Squad07/issues/50), [`#51`](https://github.com/unb-mds/2026-1-Squad07/issues/51) | Pode ser evoluído após o fluxo mínimo de submissão e persistência. |
 
-## Rastreabilidade
+## Evolução dos requisitos
 
-| Requisito | Issues relacionadas | Prioridade R1 |
-| --- | --- | --- |
-| RF01 | `#39`, `#40` | Must have |
-| RF02 | `#29`, `#40` | Must have |
-| RF03 | `#41` | Must have |
-| RF04 | `#42` | Must have |
-| RF05 | `#43`, `#44` | Must have |
-| RF06 | `#60` | Should have |
-| RF07 | `#50` | Should have |
-| RF08 | `#51` | Could have |
-| RF09 | `#47` | Could have |
+Os requisitos descritos nesta documentação representam o entendimento atual do projeto para a Release 1 e o planejamento inicial da Release 2. Como o projeto segue uma abordagem ágil, estes requisitos podem ser refinados, reorganizados ou reavaliados ao longo das próximas sprints, conforme o time avance na implementação, valide o protótipo e receba novos feedbacks.
 
-## Critério de conclusão da issue #64
-
-A issue `#64` pode ser considerada concluída quando:
-
-- Os requisitos funcionais estiverem descritos de forma clara.
-- Cada requisito tiver origem, descrição, critérios de aceite e arquivos relacionados.
-- A documentação estiver publicada no MkDocs.
-- O escopo da Release 1 estiver separado do que fica para Release 2.
-- A equipe conseguir usar esta página como referência para Sprint Planning, implementação e validação.
+Dessa forma, os itens previstos para a R2 não devem ser entendidos como escopo imutável, mas como uma direção de evolução para a implementação completa do produto.
