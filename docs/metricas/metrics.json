@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-22T00:06:08+00:00",
+  "generated_at": "2026-05-22T12:48:46+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -49,8 +49,8 @@
     },
     {
       "week": "2026-W21",
-      "opened": 1,
-      "closed": 5
+      "opened": 2,
+      "closed": 6
     }
   ],
   "commit_message_histogram": [
@@ -1003,7 +1003,7 @@
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "prs_opened": 3
+      "prs_opened": 4
     },
     {
       "username": "Pedrop06",
@@ -1046,9 +1046,9 @@
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "opened": 3,
-      "closed": 6,
-      "total": 9
+      "opened": 4,
+      "closed": 7,
+      "total": 11
     },
     {
       "username": "Pedrop06",
@@ -1086,7 +1086,7 @@
       "issues_assigned_closed": 9,
       "issues_pending": 0,
       "prs_opened": 6,
-      "prs_reviewed": 3,
+      "prs_reviewed": 5,
       "prs_merged": 6,
       "commits": 7
     },
@@ -1105,13 +1105,13 @@
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "issues_opened": 3,
-      "issues_assigned": 9,
-      "issues_assigned_closed": 7,
+      "issues_opened": 4,
+      "issues_assigned": 10,
+      "issues_assigned_closed": 8,
       "issues_pending": 2,
-      "prs_opened": 3,
+      "prs_opened": 4,
       "prs_reviewed": 3,
-      "prs_merged": 2,
+      "prs_merged": 3,
       "commits": 2
     },
     {
@@ -1189,12 +1189,12 @@
       "count": 18
     },
     {
-      "label": "rabbit 🐇",
+      "label": "area: frontend 🖥️",
       "count": 15
     },
     {
-      "label": "area: frontend 🖥️",
-      "count": 14
+      "label": "rabbit 🐇",
+      "count": 15
     },
     {
       "label": "to study 📖",
@@ -1299,6 +1299,12 @@
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
+      "label": "area: frontend 🖥️",
+      "count": 5
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "label": "type: feature ✨",
       "count": 5
     },
@@ -1342,12 +1348,6 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "label": "area: backend ⚙️",
-      "count": 4
-    },
-    {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "label": "area: frontend 🖥️",
       "count": 4
     },
     {
@@ -1787,8 +1787,8 @@
     {
       "milestone": "Sprint 08",
       "opened": 13,
-      "closed": 6,
-      "pending": 7
+      "closed": 7,
+      "pending": 6
     },
     {
       "milestone": "Sprint 00",
@@ -1834,9 +1834,9 @@
     },
     {
       "milestone": "Sprint 09",
-      "opened": 4,
+      "opened": 5,
       "closed": 0,
-      "pending": 4
+      "pending": 5
     }
   ],
   "milestone_progress_by_person": [
@@ -2114,19 +2114,19 @@
     },
     {
       "milestone": "Sprint 08",
-      "username": "Paulodemczuk",
-      "name": "Paulo",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "assigned": 2,
       "closed": 1,
       "pending": 1
     },
     {
       "milestone": "Sprint 08",
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "assigned": 2,
-      "closed": 0,
-      "pending": 2
+      "closed": 1,
+      "pending": 1
     },
     {
       "milestone": "Sprint 08",
@@ -2140,6 +2140,14 @@
       "milestone": "Sprint 08",
       "username": "valexim",
       "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 09",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "assigned": 1,
       "closed": 0,
       "pending": 1
