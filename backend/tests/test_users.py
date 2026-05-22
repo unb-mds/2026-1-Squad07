@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from types import SimpleNamespace
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.api import users
@@ -91,6 +92,31 @@ class FakeUserDelegate:
     async def delete(self, where):
         self.deleted_where = where
         return self.users_by_id.pop(where["id"])
+
+
+@pytest.fixture(autouse=True)
+def admin_dependency_override():
+    app.dependency_overrides[users.require_admin_user] = lambda: make_user(role="ADMIN")
+    yield
+    app.dependency_overrides.pop(users.require_admin_user, None)
+
+
+def test_list_users_rejeita_requisicao_sem_token():
+    app.dependency_overrides.pop(users.require_admin_user, None)
+
+    response = client.get("/users")
+
+    assert response.status_code == 401
+
+
+def test_list_users_rejeita_usuario_sem_role_admin():
+    app.dependency_overrides[users.require_admin_user] = lambda: (_ for _ in ()).throw(
+        users.HTTPException(status_code=403, detail="Apenas administradores.")
+    )
+
+    response = client.get("/users")
+
+    assert response.status_code == 403
 
 
 def test_create_user_cria_usuario_e_nao_retorna_password_hash(monkeypatch):

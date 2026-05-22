@@ -1,10 +1,15 @@
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
+from app.api.dependencies import require_admin_user
 from app.db.client import db
 from app.models.user import UserCreateRequest, UserResponse, UserUpdateRequest
 from app.services.security import hash_password
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(
+    prefix="/users",
+    tags=["users"],
+    dependencies=[Depends(require_admin_user)],
+)
 
 
 @router.post("", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
