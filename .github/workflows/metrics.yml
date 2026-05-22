@@ -3,7 +3,7 @@ name: Metrics Dashboard
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 3 * * 0"
+    - cron: "0 3 * * *"
   push:
     branches:
       - dev
@@ -15,6 +15,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: metrics-dashboard
+  cancel-in-progress: false
 
 jobs:
   update-metrics:
@@ -52,5 +56,24 @@ jobs:
             echo "No metrics changes to commit."
           else
             git commit -m "chore: atualiza métricas de produtividade [bot]"
+            git pull --rebase origin dev
             git push origin dev
+          fi
+
+      - name: Publish metrics.json to GitHub Pages
+        run: |
+          cp docs/metricas/metrics.json /tmp/metrics.json
+          git fetch origin gh-pages
+          git worktree add -b gh-pages-update gh-pages-worktree origin/gh-pages
+          cp /tmp/metrics.json gh-pages-worktree/metricas/metrics.json
+          cd gh-pages-worktree
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add metricas/metrics.json
+          if git diff --cached --quiet; then
+            echo "No published metrics changes to commit."
+          else
+            git commit -m "chore: publica métricas atualizadas [bot]"
+            git pull --rebase origin gh-pages
+            git push origin HEAD:gh-pages
           fi

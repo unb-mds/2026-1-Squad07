@@ -1,8 +1,19 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import health
+from app.api import health, laws
+from app.db.client import db
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await db.connect()
+    yield
+    await db.disconnect()
+
+
+app = FastAPI(lifespan=lifespan)
 
 # Rotas que o backend vai aceitar requisições
 origins = [
@@ -19,4 +30,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 app.include_router(health.router)
+app.include_router(laws.router)
