@@ -29,12 +29,14 @@ plugins:
 nav:
   - Início: index.md
   - Requisitos:
+    - User Story Map: user_story_map.md
     - Requisitos Funcionais: requisitos/requisitos_funcionais.md
   - Arquitetura:
     - Visão Geral: architecture/index.md
     - Estrutura de Pastas: architecture/directory-structure.md
     - Padrões de Projeto: architecture/design-patterns.md
   - Métricas: metricas/index.html
+  - Protótipo do figma: prototipo/figma_prototype.md
 
 markdown_extensions:
   - pymdownx.emoji
