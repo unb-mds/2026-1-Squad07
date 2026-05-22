@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { AppShell } from "@/components/AppShell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LegisQ - Análise Legislativa",
-  description: "Plataforma de análise de qualidade de leis",
+  title: "CrivoAI - Monitoramento Legislativo",
+  description: "Analise de qualidade legislativa com IA e NLP",
 };
 
 export default function RootLayout({
@@ -11,18 +12,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-br" className="h-full">
-      <body className="min-h-full flex flex-col bg-slate-50">
-        <header className="w-full h-16 bg-[#030213] text-white flex items-center px-8">
-          <h1 className="text-xl font-bold">LegisQ</h1>
-        </header>
-        
-        <main className="flex-1">
-          {children}
-        </main>
-
-        <footer className="py-6 text-center text-slate-500 text-sm border-t border-slate-200">
-          © 2026 LegisQ - Projeto UnB Gama
-        </footer>
+      <body className="min-h-full bg-slate-50 text-slate-900 antialiased">
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
