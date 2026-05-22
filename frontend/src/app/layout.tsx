@@ -12,7 +12,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-br" className="h-full">
-      <body className="min-h-full bg-slate-50 text-slate-900 antialiased">
+      <body
+        className="min-h-full bg-slate-50 text-slate-900 antialiased"
+        suppressHydrationWarning
+      >
         <AppShell>{children}</AppShell>
       </body>
     </html>
