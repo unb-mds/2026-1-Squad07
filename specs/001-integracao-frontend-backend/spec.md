@@ -3,15 +3,15 @@
 **Branch**: `feat/integracao`  
 **Criado em**: 2026-05-26  
 **Status**: Em implementação  
-**Issues**: #75, #93, #94 e #95
+**Issues**: #75, #93, #94 e #95; evolução solicitada para eliminar mocks em 2026-05-26
 
 ## Objetivo
 
-Conectar as telas já existentes do CrivoAI às rotas reais disponíveis no backend, permitindo cadastro, login, submissão de texto legislativo e listagem das submissões persistidas na demonstração da R1.
+Conectar as telas já existentes do CrivoAI às rotas reais disponíveis no backend, permitindo cadastro, login, submissão, listagem e leitura de detalhe de textos legislativos persistidos na demonstração da R1.
 
 ## Contexto
 
-O backend já expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET /laws`, enquanto o frontend ainda usa usuários armazenados localmente, submissão simulada e leis mockadas. A integração deve preservar os mocks apenas para a análise/score demonstrativos, que não possuem contrato backend nesta etapa.
+O backend expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET /laws`, enquanto partes do frontend ainda exibem leis, análises e scores mockados. Após solicitação de evolução do escopo, a interface deve exibir apenas submissões persistidas; análise e score deixam de ser apresentados até existir contrato e processamento reais.
 
 ## Escopo
 
@@ -22,21 +22,22 @@ O backend já expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `
 - Cadastro e login reais com apresentação clara de erros.
 - Envio real do formulário de texto legislativo para `POST /laws`.
 - Exibição das submissões reais obtidas por `GET /laws`, com carregamento, vazio e falha.
+- Consulta de detalhe persistido por identificador para remover a página de análise mockada.
+- Dashboard composto por submissões obtidas pela API, sem estatísticas ou scores artificiais.
 
 ### Fora de Escopo
 
-- Criar endpoints novos no backend.
-- Detalhes reais de submissão, análise de IA ou cálculo de score.
+- Análise de IA ou cálculo de score.
 - Upload e parsing de PDF, DOC ou DOCX.
 - Painel administrativo de usuários.
 
 ## R1 Demonstrável
 
-Na R1, uma pessoa pode criar conta ou entrar, submeter texto digitado ou importado de arquivo `.txt` e verificar a submissão recém-persistida na listagem real. A interface informa explicitamente que análise e score permanecem demonstrativos quando exibidos.
+Na R1, uma pessoa pode criar conta ou entrar, submeter texto digitado ou importado de arquivo `.txt`, verificar a submissão recém-persistida na listagem e abrir seu texto armazenado. A interface não apresenta análise nem score simulados.
 
 ## R2 Completa
 
-Na R2, a integração pode incluir detalhes persistidos por submissão, autenticação aplicada à autoria da submissão, análise real e testes automatizados de componentes e fluxos no frontend.
+Na R2, a integração pode incluir autenticação aplicada à autoria da submissão, análise real e testes automatizados de componentes e fluxos no frontend.
 
 ## Futuro
 
@@ -71,7 +72,16 @@ Na R2, a integração pode incluir detalhes persistidos por submissão, autentic
 1. A tela de busca consulta `GET /laws` usando o cliente HTTP comum.
 2. Cada item real exibe `title`, `createdAt` e `textExcerpt`.
 3. Há estados visíveis de carregamento, lista vazia e erro de conexão.
-4. Dados demonstrativos de score não são apresentados como resultado persistido.
+4. Dados demonstrativos de score não são apresentados.
+
+### Cenário 4 - Detalhe persistido
+
+**Como** avaliador, **quero** abrir uma submissão, **para** ler o texto realmente armazenado.
+
+1. Ao selecionar um resultado, a interface consulta `GET /laws/{id}`.
+2. O detalhe exibe metadados e texto retornados pelo backend.
+3. Registro inexistente ou falha da API apresenta mensagem compreensível.
+4. A tela não exibe score, análise ou problemas simulados.
 
 ## Requisitos
 
@@ -81,11 +91,12 @@ Na R2, a integração pode incluir detalhes persistidos por submissão, autentic
 - **REQ-004**: Login e cadastro NÃO DEVEM usar base local simulada de usuários.
 - **REQ-005**: A submissão DEVE usar somente o contrato já aceito por `POST /laws`.
 - **REQ-006**: A listagem DEVE usar somente os campos já retornados por `GET /laws`.
-- **REQ-007**: Mocks de análise DEVEM permanecer identificados como demonstrativos e separados da listagem persistida.
+- **REQ-007**: A interface NÃO DEVE exibir dados mockados de análise, score, catálogo ou estatísticas.
+- **REQ-008**: O backend DEVE fornecer o detalhe persistido de uma submissão por `GET /laws/{id}`.
 
 ## Critérios de Sucesso
 
-- **SC-001**: Os quatro fluxos descritos nas issues são ligados aos endpoints existentes sem dependência nova.
+- **SC-001**: Os fluxos de autenticação, submissão, listagem e detalhe usam dados persistidos sem dependência nova.
 - **SC-002**: `pytest` do backend continua passando.
 - **SC-003**: `npm run lint` e `npm run build` do frontend passam.
 - **SC-004**: Uma validação manual confirma mensagens de carregamento, falha, sucesso e vazio.
@@ -97,4 +108,6 @@ Na R2, a integração pode incluir detalhes persistidos por submissão, autentic
 - `backend/app/api/laws.py`.
 - `frontend/src/contexts/AuthContext.tsx`.
 - `frontend/src/app/upload/page.tsx`.
+- `frontend/src/app/page.tsx`.
+- `frontend/src/app/law/[id]/page.tsx`.
 - `frontend/src/components/pages/SearchPage.tsx`.

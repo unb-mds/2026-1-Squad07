@@ -5,9 +5,9 @@
 
 ## Abordagem Técnica
 
-O backend existente é a fonte do contrato e não será ampliado nesta feature. O frontend receberá uma camada pequena em `src/lib/api/`, baseada em `fetch`, para concentrar URL, serialização JSON, envio opcional de token e erro HTTP padronizado.
+O backend é a fonte dos dados exibidos. O frontend usa uma camada pequena em `src/lib/api/`, baseada em `fetch`, para concentrar URL, serialização JSON, envio opcional de token e erro HTTP padronizado. A evolução solicitada elimina o conteúdo mockado restante por meio de leitura persistida do detalhe.
 
-## Contratos Existentes Consumidos
+## Contratos Consumidos
 
 | Operação | Endpoint | Entrada | Saída usada pelo frontend |
 | --- | --- | --- | --- |
@@ -15,13 +15,16 @@ O backend existente é a fonte do contrato e não será ampliado nesta feature. 
 | Login | `POST /auth/login` | `email`, `password` | `accessToken`, `tokenType`, `user` |
 | Submissão | `POST /laws` | `title`, `text`, `lawNumber`, `publicationDate?` | Confirmação da criação |
 | Listagem | `GET /laws` | - | `id`, `title`, `createdAt`, `textExcerpt` |
+| Detalhe | `GET /laws/{id}` | Identificador persistido | Dados completos da submissão |
 
 ## Decisões de Implementação
 
 - Não adicionar bibliotecas: `fetch` e APIs do navegador cobrem o escopo.
 - Manter token e usuário no `localStorage` apenas como sessão do frontend; credenciais não serão armazenadas.
 - A página `/search` passa a representar submissões reais, sem componentes de score mockado.
-- A página de detalhe e o dashboard de análise continuam demonstrativos, pois o backend ainda não fornece análise nem `GET /laws/{id}`.
+- A página inicial apresenta somente contagem e submissões persistidas disponíveis via API.
+- A página de detalhe apresenta somente metadados e texto persistidos por `GET /laws/{id}`.
+- Arquivos de leis, análise, scores e estatísticas simulados serão removidos; análise real permanece fora do escopo.
 - O formulário aceita texto digitado ou `.txt`; formatos sem parsing permanecem fora do fluxo real.
 
 ## Arquivos Previstos
@@ -33,7 +36,12 @@ O backend existente é a fonte do contrato e não será ampliado nesta feature. 
 - `frontend/src/app/login/page.tsx`
 - `frontend/src/app/register/page.tsx`
 - `frontend/src/app/upload/page.tsx`
+- `frontend/src/app/page.tsx`
+- `frontend/src/app/law/[id]/page.tsx`
 - `frontend/src/components/pages/SearchPage.tsx`
+- `backend/app/api/laws.py`
+- `backend/app/models/law.py`
+- `backend/tests/test_laws.py`
 - `frontend/.env.example`
 
 ## Riscos e Mitigações
@@ -41,5 +49,5 @@ O backend existente é a fonte do contrato e não será ampliado nesta feature. 
 | Risco | Mitigação |
 | --- | --- |
 | Backend indisponível durante demonstração | Mensagens de erro claras na UI e validação local do backend registrada no quickstart. |
-| Usuário interpretar mock como análise persistida | Remover score da listagem real e nomear o conteúdo demonstrativo onde permanecer. |
+| Usuário interpretar mock como análise persistida | Remover todo conteúdo de análise e score enquanto não houver processamento persistido real. |
 | Token inconsistente no navegador | Restaurar somente sessão válida serializável e limpar sessão no logout. |

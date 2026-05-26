@@ -2,7 +2,7 @@
 
 ## Finalidade
 
-Este roteiro valida o fluxo funcional da R1 sem confundi-lo com a análise de qualidade legislativa, que permanece demonstrativa.
+Este roteiro valida o fluxo funcional persistido da R1. Análise de qualidade legislativa não é apresentada enquanto não existir processamento real.
 
 ## Configuração
 
@@ -17,10 +17,11 @@ Este roteiro valida o fluxo funcional da R1 sem confundi-lo com a análise de qu
 3. Abra `/upload`, preencha número, título e texto de uma proposição e envie.
 4. Confirme a mensagem de sucesso e o redirecionamento para `/search`.
 5. Verifique que a nova submissão aparece com título, data e trecho do texto.
-6. Interrompa temporariamente a API e recarregue `/search` para confirmar mensagem de falha compreensível.
+6. Abra a submissão e verifique que o detalhe mostra o texto enviado, obtido da API.
+7. Interrompa temporariamente a API e recarregue `/search` para confirmar mensagem de falha compreensível.
 
 ## Limites Visíveis da R1
 
-- A listagem representa submissões persistidas, não análise automatizada.
-- A análise com score exibida em telas demonstrativas não é produzida pelo backend.
+- Dashboard, listagem e detalhe representam submissões persistidas, não análise automatizada.
+- A interface não exibe score ou análise sem processamento real.
 - Apenas texto digitado ou importado de `.txt` participa do envio real nesta etapa.

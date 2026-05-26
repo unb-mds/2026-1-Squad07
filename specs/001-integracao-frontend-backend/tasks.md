@@ -10,12 +10,15 @@
 
 ## Implementação
 
-- [ ] **T003** Criar cliente HTTP e tipos da API configuráveis por ambiente, atendendo à issue #93.
-- [ ] **T004** Integrar contexto e telas de autenticação, atendendo à issue #94.
-- [ ] **T005** Integrar envio do texto legislativo, atendendo à issue #75.
-- [ ] **T006** Integrar listagem persistida com estados de interface, atendendo à issue #95.
+- [x] **T003** Criar cliente HTTP e tipos da API configuráveis por ambiente, atendendo à issue #93.
+- [x] **T004** Integrar contexto e telas de autenticação, atendendo à issue #94.
+- [x] **T005** Integrar envio do texto legislativo, atendendo à issue #75.
+- [x] **T006** Integrar listagem persistida com estados de interface, atendendo à issue #95.
+- [x] **T007** Criar contrato testado de detalhe persistido em `GET /laws/{id}`.
+- [x] **T008** Substituir dashboard e detalhe simulados por consultas reais e remover módulos de mock.
 
 ## Verificação
 
-- [ ] **T007** Executar `pytest`, lint e build.
-- [ ] **T008** Registrar limitações da R1 e evidências de validação no PR para `dev`.
+- [x] **T009** Executar `pytest`, lint e build.
+- [x] **T010** Validar leitura de detalhe persistido contra PostgreSQL/API do container.
+- [ ] **T011** Registrar limitações da R1 e evidências de validação no PR para `dev`.
