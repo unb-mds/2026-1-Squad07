@@ -1,94 +1,216 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="bg-[#030213]">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- Meta tags para evitar cache durante testes locais e atualizacoes -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
     <title>Dashboard de Produtividade - Squad 07</title>
+    
+    <!-- Fontes modernas do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <!-- Ícones Lucide para modernização -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
       :root {
-        --brand-navy: #1e3a5f;
-        --brand-white: #ffffff;
-        --brand-border: #ececf0;
-        --brand-input: #f3f3f5;
-        --brand-success: #22c55e;
-        --brand-error: #ef4444;
-        --brand-warning: #eab308;
-        --brand-text: #030213;
+        --brand-navy: #38bdf8; /* Azul claro brilhante para títulos no modo escuro */
+        --brand-white: rgba(15, 23, 42, 0.7); /* Fundo dos cards escuro translúcido */
+        --brand-border: rgba(255, 255, 255, 0.08);
+        --brand-input: #1e293b;
+        --brand-success: #4ade80;
+        --brand-error: #f87171;
+        --brand-warning: #facc15;
+        --brand-text: #f1f5f9;
       }
 
-      body {
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
+      html, body {
+        font-family: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+        background-color: #030213 !important;
+      }
+
+      #bg-gradient {
+        background: radial-gradient(circle at 50% 0%, #0d1527, #030213) no-repeat;
+        background-color: #030213;
       }
 
       .chart-card {
-        background: var(--brand-white);
-        border: 1px solid var(--brand-border);
-        border-radius: 8px;
-        box-shadow: 0 8px 24px rgba(30, 58, 95, 0.08);
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.55), rgba(8, 12, 28, 0.75));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top-color: rgba(255, 255, 255, 0.16);
+        border-left-color: rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        box-shadow: 
+          0 10px 30px -10px rgba(0, 0, 0, 0.5), 
+          inset 0 1px 1px rgba(255, 255, 255, 0.12),
+          inset 0 -1px 1px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(28px) saturate(130%);
+        -webkit-backdrop-filter: blur(28px) saturate(130%);
+        transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      
+      .chart-card:hover {
+        transform: translateY(-5px);
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.65), rgba(8, 12, 28, 0.85));
+        border-color: rgba(56, 189, 248, 0.35);
+        border-top-color: rgba(255, 255, 255, 0.25);
+        border-left-color: rgba(255, 255, 255, 0.18);
+        box-shadow: 
+          0 30px 60px -15px rgba(0, 0, 0, 0.7), 
+          0 0 30px -5px rgba(56, 189, 248, 0.15),
+          inset 0 1px 1px rgba(255, 255, 255, 0.22),
+          inset 0 -1px 1px rgba(0, 0, 0, 0.3);
       }
 
       .chart-title {
-        color: var(--brand-navy);
-        font-weight: 700;
+        color: #ffffff;
+        font-weight: 800;
+        letter-spacing: -0.03em;
       }
 
       .tooltip {
         position: absolute;
         pointer-events: none;
-        background: var(--brand-text);
-        color: var(--brand-white);
-        border-radius: 8px;
-        padding: 12px 14px;
-        font-size: 13px;
-        line-height: 1.45;
-        min-width: 180px;
-        max-width: 280px;
+        background: rgba(15, 23, 42, 0.95);
+        color: #ffffff;
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-size: 12px;
+        line-height: 1.4;
+        min-width: 150px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         opacity: 0;
         transform: translate(-50%, -110%);
         transition: opacity 120ms ease;
-        z-index: 20;
+        z-index: 100;
       }
 
       .tooltip strong {
         display: block;
         color: var(--brand-warning);
-        font-size: 13px;
-        margin-bottom: 4px;
+        font-size: 12px;
+        margin-bottom: 2px;
+        font-weight: 800;
       }
 
       .interactive-mark {
         cursor: pointer;
-        transition:
-          opacity 120ms ease,
-          stroke-width 120ms ease,
-          filter 120ms ease;
+        transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .interactive-mark:hover {
-        filter: drop-shadow(0 4px 8px rgba(30, 58, 95, 0.24));
-        opacity: 0.86;
+        filter: drop-shadow(0 6px 12px rgba(56, 189, 248, 0.3));
+        opacity: 0.95;
       }
 
       svg text {
-        fill: var(--brand-text);
-        font-size: 12px;
+        fill: #94a3b8;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      /* Estilização dos eixos do D3 para Tema Escuro */
+      .domain, .tick line {
+        stroke: #334155 !important;
+      }
+      .tick text {
+        fill: #94a3b8 !important;
+      }
+
+      /* Animações de Entrada */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      .delay-75 { animation-delay: 75ms; }
+      .delay-100 { animation-delay: 100ms; }
+      .delay-150 { animation-delay: 150ms; }
+      .delay-200 { animation-delay: 200ms; }
+      .delay-250 { animation-delay: 250ms; }
+      .delay-300 { animation-delay: 300ms; }
+      .delay-400 { animation-delay: 400ms; }
+      .delay-500 { animation-delay: 500ms; }
+
+      /* Customizar Scrollbar para cards de vidro */
+      ::-webkit-scrollbar {
+        height: 5px;
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.2);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(56, 189, 248, 0.3);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(56, 189, 248, 0.5);
       }
     </style>
   </head>
-  <body class="min-h-screen bg-white text-[#030213]">
-    <header class="bg-[#1e3a5f] text-white">
-      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <p class="text-sm font-medium uppercase tracking-wide text-[#eab308]">
-          Squad 07 - MDS/UnB
-        </p>
-        <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+  <body class="min-h-screen text-[#f1f5f9] relative overflow-x-hidden bg-[#030213]">
+    <!-- Div de Background Fixo com Gradiente Radial Dinâmico (z-index -20) -->
+    <div id="bg-gradient" class="fixed inset-0 -z-20 pointer-events-none transition-all duration-500 ease-out"></div>
+
+    <!-- Elementos de Background Fluído / Glow Effect com Transição Paralaxe e Pulsação CSS (z-index -10) -->
+    <div id="blob1-wrapper" class="absolute top-[-100px] left-[5%] -z-10 pointer-events-none">
+      <div class="h-[600px] w-[600px] rounded-full bg-blue-500/10 blur-[130px] animate-[pulse_8s_infinite_alternate]"></div>
+    </div>
+    <div id="blob2-wrapper" class="absolute top-[600px] right-[10%] -z-10 pointer-events-none">
+      <div class="h-[500px] w-[500px] rounded-full bg-emerald-500/8 blur-[120px] animate-[pulse_10s_infinite_alternate-reverse]"></div>
+    </div>
+    <div id="blob3-wrapper" class="absolute top-[1050px] left-[35%] -z-10 pointer-events-none">
+      <div class="h-[550px] w-[550px] rounded-full bg-purple-500/7 blur-[130px] animate-[pulse_12s_infinite_alternate]"></div>
+    </div>
+    <div id="blob4-wrapper" class="absolute top-[1550px] left-[8%] -z-10 pointer-events-none">
+      <div class="h-[500px] w-[500px] rounded-full bg-indigo-500/10 blur-[110px] animate-[pulse_9s_infinite_alternate-reverse]"></div>
+    </div>
+    <div id="blob5-wrapper" class="absolute top-[2100px] right-[12%] -z-10 pointer-events-none">
+      <div class="h-[600px] w-[600px] rounded-full bg-cyan-500/9 blur-[130px] animate-[pulse_11s_infinite_alternate]"></div>
+    </div>
+    <div id="blob6-wrapper" class="absolute top-[2700px] left-[20%] -z-10 pointer-events-none">
+      <div class="h-[550px] w-[550px] rounded-full bg-emerald-500/6 blur-[120px] animate-[pulse_8s_infinite_alternate-reverse]"></div>
+    </div>
+
+    <header class="relative bg-transparent text-white pb-24 pt-12">
+      <!-- Glow no Header -->
+      <div class="absolute top-0 right-0 -mt-20 -mr-20 h-96 w-96 rounded-full bg-blue-500/20 blur-[120px] pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 -mb-20 h-72 w-72 rounded-full bg-emerald-500/15 blur-[100px] pointer-events-none"></div>
+      
+      <div class="relative mx-auto max-w-[1360px] px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center rounded-full bg-yellow-500/10 px-3.5 py-1 text-xs font-bold tracking-wider text-[#eab308] border border-yellow-500/20 uppercase">
+            Squad 07 - MDS/UnB
+          </span>
+        </div>
+        <h1 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-white">
           Dashboard de Produtividade
         </h1>
-        <p class="mt-3 max-w-3xl text-sm leading-6 text-white sm:text-base">
+        <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-300 sm:text-base">
           Métricas públicas do repositório calculadas a partir de commits,
           issues, pull requests, labels, reviews e milestones. Os dados são
           atualizados automaticamente pelo GitHub Actions.
@@ -96,21 +218,75 @@
       </div>
     </header>
 
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <section
-        class="mb-8 grid gap-4 rounded-lg border border-[#ececf0] bg-white p-4 sm:grid-cols-3"
-      >
-        <div>
-          <p class="text-sm text-[#1e3a5f]">Repositório</p>
-          <p id="repository" class="mt-1 font-semibold text-[#030213]">-</p>
+    <main class="mx-auto max-w-[1360px] px-4 py-8 sm:px-6 lg:px-8 -mt-12">
+      <!-- Seção de Meta-dados do Repositório -->
+      <section class="mb-8 grid gap-4 rounded-2xl border border-white/5 bg-slate-900/60 p-5 shadow-xl backdrop-blur-md sm:grid-cols-3 animate-fade-in-up">
+        <div class="flex items-center gap-3">
+          <div class="rounded-xl bg-slate-800/50 p-2.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="git-branch" class="h-5 w-5"></i>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Repositório</p>
+            <p id="repository" class="text-sm font-bold text-white">-</p>
+          </div>
         </div>
-        <div>
-          <p class="text-sm text-[#1e3a5f]">Última atualização</p>
-          <p id="generated-at" class="mt-1 font-semibold text-[#030213]">-</p>
+        <div class="flex items-center gap-3">
+          <div class="rounded-xl bg-slate-800/50 p-2.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="clock" class="h-5 w-5"></i>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Última Atualização</p>
+            <p id="generated-at" class="text-sm font-bold text-white">-</p>
+          </div>
         </div>
-        <div>
-          <p class="text-sm text-[#1e3a5f]">Fonte</p>
-          <p class="mt-1 font-semibold text-[#030213]">GitHub API</p>
+        <div class="flex items-center gap-3">
+          <div class="rounded-xl bg-slate-800/50 p-2.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="database" class="h-5 w-5"></i>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fonte</p>
+            <p class="text-sm font-bold text-white">GitHub API (dev)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção de KPIs Consolidados -->
+      <section class="mb-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="chart-card p-5 flex items-center justify-between animate-fade-in-up delay-75">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total de Commits (dev)</p>
+            <p id="kpi-commits" class="mt-2 text-3xl font-extrabold text-white tracking-tight">-</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 p-3.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="git-commit" class="h-6 w-6"></i>
+          </div>
+        </div>
+        <div class="chart-card p-5 flex items-center justify-between animate-fade-in-up delay-100">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Pull Requests</p>
+            <p id="kpi-prs" class="mt-2 text-3xl font-extrabold text-white tracking-tight">-</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 p-3.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="git-pull-request" class="h-6 w-6"></i>
+          </div>
+        </div>
+        <div class="chart-card p-5 flex items-center justify-between animate-fade-in-up delay-150">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Issues Resolvidas</p>
+            <p id="kpi-issues" class="mt-2 text-2xl font-extrabold text-white tracking-tight">-</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 p-3.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="check-square" class="h-6 w-6"></i>
+          </div>
+        </div>
+        <div class="chart-card p-5 flex items-center justify-between animate-fade-in-up delay-200">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Membros Ativos</p>
+            <p id="kpi-members" class="mt-2 text-3xl font-extrabold text-white tracking-tight">-</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 p-3.5 text-sky-400 border border-slate-700/50">
+            <i data-lucide="users" class="h-6 w-6"></i>
+          </div>
         </div>
       </section>
 
@@ -123,84 +299,84 @@
       </section>
 
       <section class="grid gap-6 lg:grid-cols-2">
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-250">
           <h2 class="chart-title text-lg">Issues abertas vs. fechadas</h2>
           <div id="issues-line" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-250">
           <h2 class="chart-title text-lg">Histograma de mensagens de commit</h2>
           <div id="commit-histogram" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-300">
           <h2 class="chart-title text-lg">Coautores por semana</h2>
           <div id="coauthors-bar" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-300">
           <h2 class="chart-title text-lg">Horário dos commits</h2>
           <div id="commit-heatmap" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5 lg:col-span-2">
+        <article class="chart-card p-5 lg:col-span-2 animate-fade-in-up delay-300">
           <h2 class="chart-title text-lg">Issues por semana</h2>
           <div id="issues-stacked" class="mt-4 overflow-x-auto"></div>
         </article>
       </section>
 
-      <section class="mt-6 grid gap-6 lg:grid-cols-3">
-        <article class="chart-card p-5">
+      <section class="mt-6 grid gap-4 lg:grid-cols-3">
+        <article class="chart-card p-3.5 md:p-4 animate-fade-in-up delay-400">
           <h2 class="chart-title text-lg">Top committers</h2>
-          <div id="top-committers" class="mt-4 overflow-x-auto"></div>
+          <div id="top-committers" class="mt-4"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-3.5 md:p-4 animate-fade-in-up delay-400">
           <h2 class="chart-title text-lg">Top autores de PRs</h2>
-          <div id="top-pr-authors" class="mt-4 overflow-x-auto"></div>
+          <div id="top-pr-authors" class="mt-4"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-3.5 md:p-4 animate-fade-in-up delay-400">
           <h2 class="chart-title text-lg">Top em issues</h2>
-          <div id="top-issue-contributors" class="mt-4 overflow-x-auto"></div>
+          <div id="top-issue-contributors" class="mt-4"></div>
         </article>
       </section>
 
       <section class="mt-6 grid gap-6 lg:grid-cols-2">
-        <article class="chart-card p-5 lg:col-span-2">
+        <article class="chart-card p-5 lg:col-span-2 animate-fade-in-up delay-500">
           <h2 class="chart-title text-lg">Métricas por pessoa</h2>
           <div id="people-metrics" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-500">
           <h2 class="chart-title text-lg">Distribuição por labels</h2>
           <div id="labels-distribution" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-500">
           <h2 class="chart-title text-lg">Labels por pessoa</h2>
           <div id="labels-by-person" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-500">
           <h2 class="chart-title text-lg">Contribuição em documentação</h2>
           <div id="documentation-contributions" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5">
+        <article class="chart-card p-5 animate-fade-in-up delay-500">
           <h2 class="chart-title text-lg">Progresso por sprint</h2>
           <div id="milestone-progress" class="mt-4 overflow-x-auto"></div>
         </article>
 
-        <article class="chart-card p-5 lg:col-span-2">
+        <article class="chart-card p-5 lg:col-span-2 animate-fade-in-up delay-500">
           <h2 class="chart-title text-lg">Sprint por pessoa</h2>
           <div class="mt-4 flex flex-wrap items-center gap-3">
-            <label class="text-sm font-semibold text-[#1e3a5f]" for="milestone-filter">
+            <label class="text-sm font-semibold text-slate-300" for="milestone-filter">
               Selecionar sprint
             </label>
             <select
               id="milestone-filter"
-              class="rounded-lg border border-[#ececf0] bg-[#f3f3f5] px-3 py-2 text-sm text-[#030213]"
+              class="rounded-xl border border-white/10 bg-slate-900 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-500 transition-all"
             ></select>
           </div>
           <div id="milestone-progress-by-person" class="mt-4 overflow-x-auto"></div>
@@ -212,14 +388,14 @@
 
     <script>
       const COLORS = {
-        navy: "#1e3a5f",
+        navy: "#38bdf8",
         white: "#ffffff",
-        border: "#ececf0",
-        input: "#f3f3f5",
-        success: "#22c55e",
-        error: "#ef4444",
-        warning: "#eab308",
-        text: "#030213",
+        border: "rgba(255,255,255,0.08)",
+        input: "#1e293b",
+        success: "#4ade80",
+        error: "#f87171",
+        warning: "#facc15",
+        text: "#f1f5f9",
       };
       const DAYS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
@@ -300,22 +476,41 @@
         const line = (key) =>
           d3.line().x((d) => margin.left + x(d.week)).y((d) => margin.top + y(d[key]));
 
-        svg.append("path").datum(data).attr("fill", "none").attr("stroke", COLORS.navy).attr("stroke-width", 3).attr("d", line("opened"));
-        svg.append("path").datum(data).attr("fill", "none").attr("stroke", COLORS.success).attr("stroke-width", 3).attr("d", line("closed"));
-
         ["opened", "closed"].forEach((key) => {
           const color = key === "opened" ? COLORS.navy : COLORS.success;
           const label = key === "opened" ? "Abertas" : "Fechadas";
+          
+          // Animação de linha desenhando-se
+          const path = svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", color)
+            .attr("stroke-width", 3)
+            .attr("d", line(key));
+            
+          const totalLength = path.node().getTotalLength();
+          path
+            .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+            .duration(1200)
+            .ease(d3.easeCubicOut)
+            .attr("stroke-dashoffset", 0);
+
           svg.selectAll(`circle.${key}`)
             .data(data)
             .join("circle")
             .attr("class", `interactive-mark ${key}`)
             .attr("cx", (d) => margin.left + x(d.week))
             .attr("cy", (d) => margin.top + y(d[key]))
-            .attr("r", 4)
+            .attr("r", 0) // Inicialmente zero para animação
             .attr("fill", color)
             .on("mousemove", (event, d) => showTooltip(event, [d.week, `${label}: ${d[key]}`]))
-            .on("mouseleave", hideTooltip);
+            .on("mouseleave", hideTooltip)
+            .transition()
+            .duration(600)
+            .delay((_, i) => i * 30 + 600) // Delay progressivo
+            .attr("r", 5);
         });
 
         [
@@ -341,15 +536,22 @@
         svg.selectAll("rect.bar")
           .data(data)
           .join("rect")
-          .attr("class", "bar")
           .attr("x", (d) => margin.left + x(d[xKey]))
-          .attr("y", (d) => margin.top + y(d[yKey]))
+          .attr("y", margin.top + innerHeight)
           .attr("width", x.bandwidth())
-          .attr("height", (d) => innerHeight - y(d[yKey]))
+          .attr("height", 0)
+          .attr("rx", 6)
+          .attr("ry", 6)
           .attr("fill", color)
-          .attr("class", "interactive-mark")
+          .attr("class", "interactive-mark bar")
           .on("mousemove", (event, d) => showTooltip(event, [d[xKey], `Total: ${d[yKey]}`]))
-          .on("mouseleave", hideTooltip);
+          .on("mouseleave", hideTooltip)
+          .transition()
+          .duration(1000)
+          .ease(d3.easeCubicOut)
+          .delay((_, i) => i * 50)
+          .attr("y", (d) => margin.top + y(d[yKey]))
+          .attr("height", (d) => innerHeight - y(d[yKey]));
       }
 
       function drawHeatmap(data) {
@@ -360,23 +562,32 @@
         const width = margin.left + margin.right + cellSize * 24;
         const height = margin.top + margin.bottom + cellSize * 7;
         const max = d3.max(data, (d) => d.count) || 1;
-        const color = d3.scaleLinear().domain([0, max]).range([COLORS.input, COLORS.navy]);
+        
+        // Escala de cores integrada ao tema escuro: transparente/escuro -> azul marinho -> azul claro neon
+        const color = d3.scaleLinear()
+          .domain([0, Math.max(1, max * 0.2), max])
+          .range(["rgba(255, 255, 255, 0.04)", "#1e3a5f", "#38bdf8"]);
+          
         const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
 
-        svg.selectAll("text.hour").data(d3.range(24)).join("text").attr("x", (d) => margin.left + d * cellSize + cellSize / 2).attr("y", 18).attr("text-anchor", "middle").text((d) => d);
-        svg.selectAll("text.day").data(DAYS).join("text").attr("x", 0).attr("y", (_, i) => margin.top + i * cellSize + 15).text((d) => d);
+        svg.selectAll("text.hour").data(d3.range(24)).join("text").attr("x", (d) => margin.left + d * cellSize + cellSize / 2).attr("y", 18).attr("text-anchor", "middle").attr("class", "text-[10px] fill-slate-400 font-bold").text((d) => d);
+        svg.selectAll("text.day").data(DAYS).join("text").attr("x", 0).attr("y", (_, i) => margin.top + i * cellSize + 15).attr("class", "text-[10px] fill-slate-500 font-bold").text((d) => d);
         svg.selectAll("rect.cell")
           .data(data)
           .join("rect")
           .attr("class", "interactive-mark cell")
           .attr("x", (d) => margin.left + d.hour * cellSize)
           .attr("y", (d) => margin.top + d.day * cellSize)
-          .attr("width", cellSize - 2)
-          .attr("height", cellSize - 2)
-          .attr("rx", 3)
-          .attr("fill", (d) => color(d.count))
+          .attr("width", cellSize - 3)
+          .attr("height", cellSize - 3)
+          .attr("rx", 4)
+          .attr("fill", "rgba(255, 255, 255, 0.04)")
           .on("mousemove", (event, d) => showTooltip(event, [`${DAYS[d.day]}, ${d.hour}h`, `${d.count} commits`]))
-          .on("mouseleave", hideTooltip);
+          .on("mouseleave", hideTooltip)
+          .transition()
+          .duration(800)
+          .delay((d) => (d.hour + d.day) * 30)
+          .attr("fill", (d) => color(d.count));
       }
 
       function drawStackedIssues(data) {
@@ -394,6 +605,7 @@
         const svg = d3.select(selector).append("svg").attr("width", width).attr("height", height);
 
         drawAxes(svg, d3.axisBottom(x), d3.axisLeft(y).ticks(5), innerHeight, margin);
+        
         svg.append("g")
           .selectAll("g")
           .data(stacked)
@@ -402,44 +614,134 @@
           .selectAll("rect")
           .data((d) => d)
           .join("rect")
-          .attr("class", "interactive-mark")
           .attr("x", (d) => margin.left + x(d.data.week))
-          .attr("y", (d) => margin.top + y(d[1]))
-          .attr("height", (d) => y(d[0]) - y(d[1]))
+          .attr("y", margin.top + innerHeight)
+          .attr("height", 0)
           .attr("width", x.bandwidth())
+          .attr("class", "interactive-mark stacked-bar")
           .on("mousemove", (event, d) => {
             const key = d3.select(event.currentTarget.parentNode).datum().key;
             const label = key === "opened" ? "Abertas" : "Fechadas";
             showTooltip(event, [d.data.week, `${label}: ${d.data[key]}`]);
           })
-          .on("mouseleave", hideTooltip);
+          .on("mouseleave", hideTooltip)
+          .transition()
+          .duration(1000)
+          .ease(d3.easeCubicOut)
+          .delay((_, i) => i * 30)
+          .attr("y", (d) => margin.top + y(d[1]))
+          .attr("height", (d) => y(d[0]) - y(d[1]));
+      }
+
+      function getInitials(name) {
+        return name
+          .split(" ")
+          .map((n) => n[0])
+          .slice(0, 2)
+          .join("")
+          .toUpperCase();
+      }
+
+      function getAvatarColor(name) {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const colors = [
+          "bg-blue-50 text-blue-600 border-blue-100/80",
+          "bg-emerald-50 text-emerald-600 border-emerald-100/80",
+          "bg-indigo-50 text-indigo-600 border-indigo-100/80",
+          "bg-purple-50 text-purple-600 border-purple-100/80",
+          "bg-amber-50 text-amber-600 border-amber-100/80",
+          "bg-rose-50 text-rose-600 border-rose-100/80",
+          "bg-teal-50 text-teal-600 border-teal-100/80",
+        ];
+        return colors[Math.abs(hash) % colors.length];
       }
 
       function drawTable(selector, rows, columns) {
         clear(selector);
         if (!rows.length) {
           d3.select(selector)
-            .append("p")
-            .attr("class", "rounded-lg bg-[#f3f3f5] p-3 text-sm text-[#1e3a5f]")
-            .text("Métrica aguardando próxima geração do metrics.json.");
+            .append("div")
+            .attr("class", "flex items-center gap-2 rounded-xl bg-slate-900/50 border border-white/5 p-4 text-sm text-slate-400")
+            .html(`<i data-lucide="info" class="h-4 w-4 text-[#38bdf8]"></i><span>Métrica aguardando geração de dados.</span>`);
+          if (window.lucide) lucide.createIcons();
           return;
         }
 
-        const table = d3.select(selector).append("table").attr("class", "min-w-full text-sm");
+        const isSmallTable = selector.startsWith("#top-") || selector === "#documentation-contributions" || selector === "#labels-distribution";
+        const paddingClass = isSmallTable ? "px-1.5 py-2" : "px-4 py-3";
+        const textClass = isSmallTable ? "text-xs" : "text-sm";
+
+        const wrapper = d3.select(selector).append("div").attr("class", "overflow-x-auto rounded-2xl border border-white/5 bg-slate-950/40 shadow-xl backdrop-blur-md");
+        const table = wrapper.append("table").attr("class", "min-w-full divide-y divide-white/5 text-sm");
+        
         table.append("thead")
+          .attr("class", "bg-slate-900/60")
           .append("tr")
           .selectAll("th")
           .data(columns)
           .join("th")
-          .attr("class", "border-b border-[#ececf0] px-2 py-2 text-left font-semibold text-[#1e3a5f]")
+          .attr("class", `${paddingClass} text-left ${isSmallTable ? 'text-[11px]' : 'text-xs'} font-bold text-slate-400 uppercase tracking-wider`)
           .text((d) => d.label);
 
-        const bodyRows = table.append("tbody").selectAll("tr").data(rows.slice(0, 10)).join("tr");
+        const bodyRows = table.append("tbody")
+          .attr("class", "divide-y divide-white/5 bg-slate-900/10")
+          .selectAll("tr")
+          .data(rows.slice(0, 10))
+          .join("tr")
+          .attr("class", "hover:bg-white/5 transition-colors duration-150");
+
         bodyRows.selectAll("td")
-          .data((row, index) => columns.map((column) => valueOrDash(column.value(row, index))))
+          .data((row, index) => columns.map((column) => {
+            const val = column.value(row, index);
+            return {
+              value: valueOrDash(val),
+              isNumber: typeof val === 'number',
+              isName: column.label === 'Usuário' || column.label === 'Label',
+              username: row.username
+            };
+          }))
           .join("td")
-          .attr("class", "border-b border-[#ececf0] px-2 py-2")
-          .text((d) => d);
+          .attr("class", `${paddingClass} text-slate-300 font-medium ${textClass}`)
+          .html((d) => {
+            if (d.isName) {
+              if (d.value !== "-" && d.value !== "ghost" && !d.value.startsWith("area:") && !d.value.startsWith("priority:") && !d.value.startsWith("type:")) {
+                const initials = getInitials(d.value);
+                const colorClass = getAvatarColor(d.value);
+                
+                // Se houver um username valido, tenta renderizar a foto do GitHub com fallback para iniciais coloridas
+                const isCarlaRocha = d.username && (d.username.toLowerCase() === "carla-rocha" || d.username.toLowerCase() === "rochacarla") || d.value.toLowerCase() === "carla rocha";
+                if (d.username && d.username !== "-" && !isCarlaRocha) {
+                  const avatarUrl = `https://github.com/${d.username}.png?size=64`;
+                  return `
+                    <div class="flex items-center ${isSmallTable ? 'gap-1.5' : 'gap-3'}">
+                      <img class="${isSmallTable ? 'h-7 w-7' : 'h-8 w-8'} rounded-full shrink-0 border border-white/10" 
+                           src="${avatarUrl}" 
+                           alt="${d.value}"
+                           onerror="this.onerror=null; this.outerHTML='<div class=\'flex ${isSmallTable ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 items-center justify-center rounded-full border ${colorClass} ${isSmallTable ? 'text-[10px]' : 'text-xs'} font-bold font-mono\'>${initials}</div>';" />
+                      <span class="${isSmallTable ? 'text-[11px] leading-tight font-semibold text-white' : 'font-semibold text-white'}">${d.value}</span>
+                    </div>
+                  `;
+                }
+                
+                return `
+                  <div class="flex items-center ${isSmallTable ? 'gap-1.5' : 'gap-3'}">
+                    <div class="flex ${isSmallTable ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 items-center justify-center rounded-full border ${colorClass} ${isSmallTable ? 'text-[10px]' : 'text-xs'} font-bold font-mono">
+                      ${initials}
+                    </div>
+                    <span class="${isSmallTable ? 'text-[11px] leading-tight font-semibold text-white' : 'font-semibold text-white'}">${d.value}</span>
+                  </div>
+                `;
+              }
+              return `<span class="${isSmallTable ? 'text-[11px] leading-tight font-semibold text-white' : 'font-semibold text-white'}">${d.value}</span>`;
+            }
+            if (d.isNumber) {
+              return `<span class="font-mono text-sky-400 bg-slate-800/80 ${isSmallTable ? 'px-1.5 py-0.5 text-[11px]' : 'px-2.5 py-0.5 text-xs'} rounded-lg border border-slate-700/50">${d.value}</span>`;
+            }
+            return d.value;
+          });
       }
 
       function groupBy(rows, getKey) {
@@ -456,9 +758,10 @@
         clear(selector);
         if (!rows.length) {
           d3.select(selector)
-            .append("p")
-            .attr("class", "rounded-lg bg-[#f3f3f5] p-3 text-sm text-[#1e3a5f]")
-            .text("Métrica aguardando próxima geração do metrics.json.");
+            .append("div")
+            .attr("class", "flex items-center gap-2 rounded-xl bg-slate-900/50 border border-white/5 p-4 text-sm text-slate-400")
+            .html(`<i data-lucide="info" class="h-4 w-4 text-[#38bdf8]"></i><span>Métrica aguardando geração de dados.</span>`);
+          if (window.lucide) lucide.createIcons();
           return;
         }
 
@@ -471,18 +774,18 @@
           }))
           .sort((a, b) => b.total - a.total || a.username.localeCompare(b.username));
 
-        const wrapper = d3.select(selector).append("div").attr("class", "grid gap-3 md:grid-cols-2");
-        const cards = wrapper.selectAll("section").data(groups).join("section").attr("class", "rounded-lg border border-[#ececf0] bg-white p-3");
+        const wrapper = d3.select(selector).append("div").attr("class", "grid gap-4 md:grid-cols-2");
+        const cards = wrapper.selectAll("section").data(groups).join("section").attr("class", "rounded-xl border border-white/5 bg-slate-950/40 p-4 shadow-lg transition-all duration-300 hover:shadow-2xl");
 
-        cards.append("h3").attr("class", "font-semibold text-[#1e3a5f]").text((d) => d.person);
-        cards.append("p").attr("class", "text-xs text-[#030213]").text((d) => `${d.total} labels vinculadas`);
+        cards.append("h3").attr("class", "font-bold text-white text-sm").text((d) => d.person);
+        cards.append("p").attr("class", "text-xs text-slate-400 mt-0.5").text((d) => `${d.total} labels vinculadas`);
         cards.append("div")
-          .attr("class", "mt-3 flex flex-wrap gap-2")
+          .attr("class", "mt-3 flex flex-wrap gap-1.5")
           .selectAll("span")
           .data((d) => d.labels)
           .join("span")
-          .attr("class", "rounded-full bg-[#f3f3f5] px-2 py-1 text-xs text-[#030213]")
-          .text((d) => `${d.label}: ${d.count}`);
+          .attr("class", "rounded-lg border border-white/5 bg-slate-900/60 px-2 py-0.5 text-[11px] font-semibold text-slate-300")
+          .text((d) => `${d.label} (${d.count})`);
       }
 
       function setupMilestoneFilter(rows) {
@@ -534,6 +837,18 @@
         document.querySelector("#generated-at").textContent = metrics.generated_at
           ? new Date(metrics.generated_at).toLocaleString("pt-BR")
           : "-";
+
+        // Cálculo dinâmico dos KPIs Consolidados
+        const totalCommits = d3.sum(metrics.top_committers || [], (d) => d.commits) || d3.sum(metrics.people_metrics || [], (d) => d.commits) || 0;
+        const totalPRs = d3.sum(metrics.top_pr_authors || [], (d) => d.prs_opened) || d3.sum(metrics.people_metrics || [], (d) => d.prs_opened) || 0;
+        const totalIssuesClosed = d3.sum(metrics.milestone_progress || [], (d) => d.closed) || 0;
+        const totalIssuesOpened = d3.sum(metrics.milestone_progress || [], (d) => d.opened) || 0;
+        const activeMembers = (metrics.people_metrics || []).length || (metrics.top_committers || []).length || 0;
+
+        document.querySelector("#kpi-commits").textContent = totalCommits;
+        document.querySelector("#kpi-prs").textContent = totalPRs;
+        document.querySelector("#kpi-issues").textContent = `${totalIssuesClosed} / ${totalIssuesOpened}`;
+        document.querySelector("#kpi-members").textContent = activeMembers;
 
         drawIssuesLine(metrics.issues_per_week || []);
         drawBarChart("#commit-histogram", metrics.commit_message_histogram || [], "range", "count", COLORS.navy);
@@ -595,6 +910,11 @@
           { label: "Pendentes", value: (row) => row.pending },
         ]);
         setupMilestoneFilter(metrics.milestone_progress_by_person || []);
+        
+        // Inicializa ícones do Lucide
+        if (window.lucide) {
+          lucide.createIcons();
+        }
       }
 
       fetch("metrics.json")
@@ -605,7 +925,111 @@
         .then(render)
         .catch(() => {
           document.querySelector("#error").classList.remove("hidden");
+          if (window.lucide) {
+            lucide.createIcons();
+          }
         });
+
+      // Efeito paralaxe e transição de gradiente dinâmico no background com base no scroll
+      let currentScroll = 0;
+      let targetScroll = 0;
+      const ease = 0.08; // Fator de suavização do paralaxe (damping/lerp)
+
+      window.addEventListener("scroll", () => {
+        targetScroll = window.scrollY || window.pageYOffset;
+      }, { passive: true });
+
+      function updateBackground() {
+        // Interpolação linear para movimento extremamente fluido e sem saltos
+        currentScroll += (targetScroll - currentScroll) * ease;
+        if (Math.abs(targetScroll - currentScroll) < 0.1) {
+          currentScroll = targetScroll;
+        }
+
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight || 1;
+        const scrollPercent = Math.min(Math.max(currentScroll / maxScroll, 0), 1);
+        
+        // 1. Mover o centro do gradiente radial verticalmente acompanhando a rolagem
+        const bg = document.getElementById("bg-gradient");
+        if (bg) {
+          const centerY = scrollPercent * 80; // Desloca a origem do brilho de 0% até 80%
+          
+          // Transição de cor HSL suave e contínua baseado no scroll (Azul -> Ciano -> Esmeralda)
+          const hue = 223 - (scrollPercent * 63); // 223 (Navy) -> 160 (Emerald)
+          const saturation = 50 + (scrollPercent * 10); // 50% -> 60%
+          const lightness = 10 - (scrollPercent * 2); // 10% -> 8%
+          bg.style.background = `radial-gradient(circle at 50% ${centerY}%, hsl(${hue}, ${saturation}%, ${lightness}%), #030213)`;
+        }
+        
+        // 2. Controlar os wrappers dos orbes com efeitos de paralaxe, escala, rotação e hue-rotate dinâmicos
+        const blob1 = document.getElementById("blob1-wrapper");
+        const blob2 = document.getElementById("blob2-wrapper");
+        const blob3 = document.getElementById("blob3-wrapper");
+        const blob4 = document.getElementById("blob4-wrapper");
+        const blob5 = document.getElementById("blob5-wrapper");
+        const blob6 = document.getElementById("blob6-wrapper");
+
+        // Escalas dinâmicas baseadas na senoide do scroll (dá um efeito orgânico de expansão/compressão tipo líquido)
+        const scale1 = 1 + Math.sin(scrollPercent * Math.PI) * 0.15;
+        const scale2 = 1 - Math.sin(scrollPercent * Math.PI) * 0.1;
+        const scale3 = 0.9 + Math.cos(scrollPercent * Math.PI) * 0.15;
+        const scale4 = 1.0 + Math.sin(scrollPercent * Math.PI * 1.5) * 0.12;
+        const scale5 = 0.95 + Math.cos(scrollPercent * Math.PI * 2) * 0.1;
+        const scale6 = 1.05 - Math.sin(scrollPercent * Math.PI) * 0.15;
+
+        // Rotações contínuas baseadas no scroll
+        const rotate1 = currentScroll * 0.05;
+        const rotate2 = currentScroll * -0.04;
+        const rotate3 = currentScroll * 0.03;
+        const rotate4 = currentScroll * -0.05;
+        const rotate5 = currentScroll * 0.04;
+        const rotate6 = currentScroll * -0.03;
+
+        // Efeito de alteração de tonalidade cromática (hue shifting) conforme rola, criando cores reativas
+        const hueShift = currentScroll * 0.08;
+        
+        if (blob1) {
+          const y = currentScroll * 0.35;
+          const x = currentScroll * 0.12;
+          blob1.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale1}) rotate(${rotate1}deg)`;
+          blob1.style.filter = `hue-rotate(${hueShift}deg)`;
+        }
+        if (blob2) {
+          const y = currentScroll * -0.22;
+          const x = currentScroll * -0.18;
+          blob2.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale2}) rotate(${rotate2}deg)`;
+          blob2.style.filter = `hue-rotate(${-hueShift * 0.8}deg)`;
+        }
+        if (blob3) {
+          const y = currentScroll * 0.28;
+          const x = currentScroll * -0.1;
+          blob3.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale3}) rotate(${rotate3}deg)`;
+          blob3.style.filter = `hue-rotate(${hueShift * 1.2}deg)`;
+        }
+        if (blob4) {
+          const y = currentScroll * -0.18;
+          const x = currentScroll * 0.14;
+          blob4.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale4}) rotate(${rotate4}deg)`;
+          blob4.style.filter = `hue-rotate(${-hueShift * 0.5}deg)`;
+        }
+        if (blob5) {
+          const y = currentScroll * 0.3;
+          const x = currentScroll * -0.08;
+          blob5.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale5}) rotate(${rotate5}deg)`;
+          blob5.style.filter = `hue-rotate(${hueShift * 0.9}deg)`;
+        }
+        if (blob6) {
+          const y = currentScroll * -0.12;
+          const x = currentScroll * 0.1;
+          blob6.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale6}) rotate(${rotate6}deg)`;
+          blob6.style.filter = `hue-rotate(${-hueShift * 1.1}deg)`;
+        }
+
+        requestAnimationFrame(updateBackground);
+      }
+
+      // Inicializa o loop de render
+      requestAnimationFrame(updateBackground);
     </script>
   </body>
 </html>

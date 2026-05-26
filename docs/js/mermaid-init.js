@@ -11,9 +11,7 @@ function renderMermaidDiagrams() {
 
   const diagrams = document.querySelectorAll(".mermaid");
   if (diagrams.length > 0) {
-    mermaid.run({
-      nodes: diagrams,
-    });
+    mermaid.init(undefined, diagrams);
   }
 }
 

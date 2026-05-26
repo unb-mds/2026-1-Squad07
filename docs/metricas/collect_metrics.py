@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import sys
 from collections import Counter, defaultdict
 from datetime import UTC, date, datetime, timedelta
@@ -40,6 +41,26 @@ def require_env(name: str) -> str:
     if not value:
         raise SystemExit(f"Missing required environment variable: {name}")
     return value
+
+
+def get_commit_files_local(sha: str) -> list[str] | None:
+    """Tenta obter a lista de arquivos modificados no commit usando o git local.
+    
+    Retorna None se falhar ou se não for um repositório git válido,
+    permitindo o fallback para a API do GitHub.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", sha],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
+            timeout=5
+        )
+        return result.stdout.strip().splitlines()
+    except Exception:
+        return None
 
 
 def iso_week(value: datetime | date) -> str:
@@ -369,7 +390,7 @@ def collect_commit_metrics(
     heatmap = empty_commit_heatmap()
     commit_dates: list[datetime] = []
 
-    for commit in repo.get_commits():
+    for commit in repo.get_commits(sha="dev"):
         commit_data = commit.commit
         message = commit_data.message or ""
         author_date = commit_data.author.date
@@ -385,15 +406,26 @@ def collect_commit_metrics(
         increment_user(committers, commit.author)
         author["commits"] += 1
 
-        try:
-            changed_files = getattr(commit, "files", []) or []
-        except GithubException:
-            changed_files = []
+        # Tenta obter os arquivos modificados usando git local primeiro
+        changed_files_list = get_commit_files_local(commit.sha)
+        is_doc = False
+        if changed_files_list is not None:
+            is_doc = any(
+                filename.startswith("docs/") or filename.endswith(".md")
+                for filename in changed_files_list
+            )
+        else:
+            # Fallback para a API do GitHub
+            try:
+                changed_files = getattr(commit, "files", []) or []
+                is_doc = any(
+                    file.filename.startswith("docs/") or file.filename.endswith(".md")
+                    for file in changed_files
+                )
+            except GithubException:
+                is_doc = False
 
-        if any(
-            file.filename.startswith("docs/") or file.filename.endswith(".md")
-            for file in changed_files
-        ):
+        if is_doc:
             username, name = user_key(commit.author)
             doc_row = documentation.setdefault(
                 (username, name),
@@ -492,12 +524,42 @@ def write_metrics(metrics: dict[str, Any]) -> None:
     )
 
 
+def get_repository_name_local() -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True
+        )
+        url = result.stdout.strip()
+        match = re.search(r"github\.com[:/](?P<owner>[^/]+)/(?P<repo>[^/.]+)(?:\.git)?", url)
+        if match:
+            return f"{match.group('owner')}/{match.group('repo')}"
+    except Exception:
+        pass
+    return None
+
+
 def main() -> int:
-    token = require_env("GITHUB_TOKEN")
-    repository_name = require_env("GITHUB_REPOSITORY")
+    token = os.getenv("GITHUB_TOKEN")
+    repository_name = os.getenv("GITHUB_REPOSITORY")
+
+    if not repository_name:
+        repository_name = get_repository_name_local()
+        if not repository_name:
+            print("Missing GITHUB_REPOSITORY and failed to detect from git config", file=sys.stderr)
+            return 1
 
     try:
-        repo = Github(auth=Auth.Token(token)).get_repo(repository_name)
+        if token:
+            g = Github(auth=Auth.Token(token))
+        else:
+            print("GITHUB_TOKEN not found. Running in anonymous mode (subject to lower rate limits)...")
+            g = Github()
+            
+        repo = g.get_repo(repository_name)
         (
             issues_per_week,
             top_issue_contributors,
