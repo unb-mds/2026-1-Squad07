@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { ApiError, apiErrorMessage } from "@/lib/api/client";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
 
@@ -25,20 +26,30 @@ export default function RegisterPage() {
       return;
     }
 
-    if (password.length < 6) {
-      setError("A senha deve ter pelo menos 6 caracteres");
+    if (password.length < 8) {
+      setError("A senha deve ter pelo menos 8 caracteres");
       return;
     }
 
     setLoading(true);
-    window.setTimeout(() => {
-      if (register(username, email, password)) {
-        router.push("/");
-      } else {
+    try {
+      await register(username, email, password);
+      router.push("/");
+    } catch (requestError) {
+      if (requestError instanceof ApiError && requestError.status === 409) {
         setError("Este e-mail já está cadastrado");
-        setLoading(false);
+      } else if (requestError instanceof ApiError && requestError.status === 422) {
+        setError("Informe nome, e-mail e uma senha válida.");
+      } else {
+        setError(
+          apiErrorMessage(
+            requestError,
+            "Não foi possível criar a conta. Tente novamente.",
+          ),
+        );
       }
-    }, 400);
+      setLoading(false);
+    }
   }
 
   return (
