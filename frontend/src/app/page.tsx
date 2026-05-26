@@ -154,8 +154,11 @@ export default function Home() {
         <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md lg:col-span-2">
           <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
             <BookOpen className="size-5 text-[#1e3a5f]" />
-            Leis Recentemente Analisadas
+            Demonstração de Análise
           </h2>
+          <p className="mb-4 text-sm text-slate-500">
+            Exemplos visuais com score simulado. As submissões reais estão em Buscar Leis.
+          </p>
           <div className="space-y-3">
             {laws.slice(0, 3).map((law) => (
               <button
@@ -187,9 +190,9 @@ export default function Home() {
             <FileText className="size-10 text-[#1e3a5f]" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-800">Avaliar Nova Lei</h2>
+            <h2 className="text-lg font-bold text-slate-800">Submeter Nova Lei</h2>
             <p className="mt-1 text-sm text-slate-500">
-              Envie ou cole um texto legislativo para simular a análise.
+              Envie ou cole um texto legislativo para registrá-lo no sistema.
             </p>
           </div>
           <button
@@ -197,7 +200,7 @@ export default function Home() {
             onClick={() => router.push("/upload")}
             className="w-full rounded-xl bg-[#1e3a5f] py-3 text-sm font-bold text-white shadow-md transition-colors hover:bg-[#2d5a8c]"
           >
-            Começar Análise
+            Registrar Texto
           </button>
         </article>
       </section>

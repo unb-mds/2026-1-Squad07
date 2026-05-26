@@ -12,9 +12,13 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { apiErrorMessage } from "@/lib/api/client";
+import { submitLaw } from "@/lib/api/laws";
 
 export default function UploadLawPage() {
   const router = useRouter();
+  const { token } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     lawNumber: "",
@@ -25,9 +29,10 @@ export default function UploadLawPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const isFormValid =
-    formData.lawNumber && formData.lawTitle && (formData.lawText || selectedFile);
+    formData.lawNumber.trim() && formData.lawTitle.trim() && formData.lawText.trim();
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -52,18 +57,34 @@ export default function UploadLawPage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmitError("");
+    setSubmitSuccess(false);
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-
-    window.setTimeout(() => {
-      router.push(
-        `/search?q=${encodeURIComponent(formData.lawNumber || formData.lawTitle)}`,
+    try {
+      await submitLaw(
+        {
+          title: formData.lawTitle.trim(),
+          text: formData.lawText.trim(),
+          lawNumber: formData.lawNumber.trim(),
+          ...(formData.lawDate
+            ? { publicationDate: `${formData.lawDate}T00:00:00` }
+            : {}),
+        },
+        token,
       );
-    }, 900);
+      setSubmitSuccess(true);
+      window.setTimeout(() => router.push("/search"), 900);
+    } catch (requestError) {
+      setSubmitError(
+        apiErrorMessage(
+          requestError,
+          "Não foi possível registrar a submissão. Tente novamente.",
+        ),
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -82,7 +103,7 @@ export default function UploadLawPage() {
             Avaliar Nova Lei
           </h1>
           <p className="mt-1 text-slate-500">
-            Envie um texto legislativo para simular a análise de qualidade.
+            Envie um texto legislativo para registrar uma submissão para análise.
           </p>
         </div>
       </div>
@@ -153,7 +174,7 @@ export default function UploadLawPage() {
             <input
               ref={fileInputRef}
               type="file"
-              accept=".txt,.pdf,.doc,.docx"
+              accept=".txt,text/plain"
               onChange={handleFileChange}
               className="hidden"
             />
@@ -173,7 +194,7 @@ export default function UploadLawPage() {
                   Clique para fazer upload de um arquivo
                 </p>
                 <p className="mt-1 text-xs text-slate-500">
-                  PDF, TXT, DOC ou DOCX
+                  TXT (PDF, DOC e DOCX serão suportados futuramente)
                 </p>
               </>
             )}
@@ -192,12 +213,18 @@ export default function UploadLawPage() {
               setFormData({ ...formData, lawText: event.target.value })
             }
             className="min-h-52 w-full resize-y rounded-xl border border-slate-300 px-4 py-3 font-serif text-sm outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#1e3a5f]"
-            required={!selectedFile}
+            required
           />
           <p className="text-xs text-slate-500">
             {formData.lawText.length} caracteres
           </p>
         </div>
+
+        {submitError && (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+            {submitError}
+          </div>
+        )}
 
         <div className="flex gap-3 pt-4">
           <button
@@ -220,10 +247,10 @@ export default function UploadLawPage() {
             ) : submitSuccess ? (
               <>
                 <CheckCircle2 className="size-4" />
-                Análise Concluída!
+                Submissão registrada!
               </>
             ) : (
-              "Iniciar Análise"
+              "Registrar Submissão"
             )}
           </button>
         </div>

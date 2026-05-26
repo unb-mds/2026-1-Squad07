@@ -14,7 +14,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { href: "/", label: "Dashboard" },
-  { href: "/search", label: "Buscar Leis" },
+  { href: "/search", label: "Submissões" },
 ];
 
 function Header() {
