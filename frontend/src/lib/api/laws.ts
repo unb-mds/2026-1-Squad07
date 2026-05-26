@@ -41,3 +41,7 @@ export function submitLaw(submission: LawSubmission, token?: string | null) {
 export function listLawSubmissions() {
   return apiRequest<LawSubmissionListItem[]>("/laws");
 }
+
+export function getLaw(id: string) {
+  return apiRequest<CreatedLaw>(`/laws/${encodeURIComponent(id)}`);
+}

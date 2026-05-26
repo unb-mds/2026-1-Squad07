@@ -108,7 +108,7 @@ function Footer() {
         <div className="flex items-center gap-2">
           <Scale className="size-4 text-[#1e3a5f]" />
           <span className="font-semibold text-[#1e3a5f]">CrivoAI</span>
-          <span>Análise de Qualidade Legislativa</span>
+          <span>Monitoramento Legislativo</span>
         </div>
         <div className="flex items-center gap-4">
           <span>2026 Projeto UnB Gama</span>

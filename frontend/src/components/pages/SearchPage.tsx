@@ -24,9 +24,19 @@ function formattedDate(value: string) {
   }).format(new Date(value));
 }
 
-function SubmissionCard({ law }: { law: LawSubmissionListItem }) {
+function SubmissionCard({
+  law,
+  onOpen,
+}: {
+  law: LawSubmissionListItem;
+  onOpen: () => void;
+}) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md sm:p-6">
+    <button
+      type="button"
+      onClick={onOpen}
+      className="w-full rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-md transition-colors hover:border-blue-200 hover:bg-blue-50/20 sm:p-6"
+    >
       <div className="flex items-start gap-4">
         <span className="rounded-xl bg-blue-50 p-3 text-[#1e3a5f]">
           <FileText className="size-5" />
@@ -45,7 +55,7 @@ function SubmissionCard({ law }: { law: LawSubmissionListItem }) {
           </p>
         </div>
       </div>
-    </article>
+    </button>
   );
 }
 
@@ -144,7 +154,7 @@ export function SearchPage() {
           )}
         </h1>
         <p className="mt-1 text-sm text-slate-500">
-          Dados persistidos pelo backend. A análise de qualidade ainda é demonstrativa.
+          Dados persistidos pelo backend. Abra um registro para consultar o texto armazenado.
         </p>
         {!loading && !error && (
           <p className="mt-3 text-sm font-semibold text-slate-600">
@@ -190,7 +200,11 @@ export function SearchPage() {
       ) : (
         <div className="space-y-4">
           {results.map((law) => (
-            <SubmissionCard key={law.id} law={law} />
+            <SubmissionCard
+              key={law.id}
+              law={law}
+              onOpen={() => router.push(`/law/${law.id}`)}
+            />
           ))}
         </div>
       )}
