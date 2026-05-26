@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-22T12:48:46+00:00",
+  "generated_at": "2026-05-26T22:38:16+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -60,15 +60,15 @@
     },
     {
       "range": "21-50",
-      "count": 18
+      "count": 49
     },
     {
       "range": "51-100",
-      "count": 13
+      "count": 55
     },
     {
       "range": "101-200",
-      "count": 7
+      "count": 21
     },
     {
       "range": "200+",
@@ -102,6 +102,22 @@
     },
     {
       "week": "2026-W18",
+      "count": 2
+    },
+    {
+      "week": "2026-W19",
+      "count": 0
+    },
+    {
+      "week": "2026-W20",
+      "count": 0
+    },
+    {
+      "week": "2026-W21",
+      "count": 1
+    },
+    {
+      "week": "2026-W22",
       "count": 0
     }
   ],
@@ -174,7 +190,7 @@
     {
       "day": 0,
       "hour": 13,
-      "count": 2
+      "count": 3
     },
     {
       "day": 0,
@@ -194,7 +210,7 @@
     {
       "day": 0,
       "hour": 17,
-      "count": 0
+      "count": 1
     },
     {
       "day": 0,
@@ -204,22 +220,22 @@
     {
       "day": 0,
       "hour": 19,
-      "count": 0
+      "count": 1
     },
     {
       "day": 0,
       "hour": 20,
-      "count": 3
+      "count": 4
     },
     {
       "day": 0,
       "hour": 21,
-      "count": 0
+      "count": 1
     },
     {
       "day": 0,
       "hour": 22,
-      "count": 0
+      "count": 1
     },
     {
       "day": 0,
@@ -229,32 +245,32 @@
     {
       "day": 1,
       "hour": 0,
-      "count": 0
+      "count": 2
     },
     {
       "day": 1,
       "hour": 1,
-      "count": 0
+      "count": 2
     },
     {
       "day": 1,
       "hour": 2,
-      "count": 0
+      "count": 1
     },
     {
       "day": 1,
       "hour": 3,
-      "count": 0
+      "count": 6
     },
     {
       "day": 1,
       "hour": 4,
-      "count": 0
+      "count": 1
     },
     {
       "day": 1,
       "hour": 5,
-      "count": 0
+      "count": 7
     },
     {
       "day": 1,
@@ -289,7 +305,7 @@
     {
       "day": 1,
       "hour": 12,
-      "count": 0
+      "count": 1
     },
     {
       "day": 1,
@@ -304,7 +320,7 @@
     {
       "day": 1,
       "hour": 15,
-      "count": 0
+      "count": 1
     },
     {
       "day": 1,
@@ -319,7 +335,7 @@
     {
       "day": 1,
       "hour": 18,
-      "count": 0
+      "count": 3
     },
     {
       "day": 1,
@@ -344,352 +360,352 @@
     {
       "day": 1,
       "hour": 23,
+      "count": 7
+    },
+    {
+      "day": 2,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 1,
+      "count": 2
+    },
+    {
+      "day": 2,
+      "hour": 2,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 3,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 4,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 13,
+      "count": 7
+    },
+    {
+      "day": 2,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 15,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 16,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 17,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 19,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 20,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 21,
+      "count": 0
+    },
+    {
+      "day": 2,
+      "hour": 22,
+      "count": 1
+    },
+    {
+      "day": 2,
+      "hour": 23,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 0,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 1,
+      "count": 2
+    },
+    {
+      "day": 3,
+      "hour": 2,
+      "count": 9
+    },
+    {
+      "day": 3,
+      "hour": 3,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 4,
+      "count": 2
+    },
+    {
+      "day": 3,
+      "hour": 5,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 6,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 7,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 8,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 9,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 10,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 11,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 12,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 13,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 14,
+      "count": 0
+    },
+    {
+      "day": 3,
+      "hour": 15,
+      "count": 2
+    },
+    {
+      "day": 3,
+      "hour": 16,
+      "count": 1
+    },
+    {
+      "day": 3,
+      "hour": 17,
+      "count": 1
+    },
+    {
+      "day": 3,
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "day": 3,
+      "hour": 19,
       "count": 6
     },
     {
-      "day": 2,
-      "hour": 0,
-      "count": 0
+      "day": 3,
+      "hour": 20,
+      "count": 2
     },
     {
-      "day": 2,
+      "day": 3,
+      "hour": 21,
+      "count": 2
+    },
+    {
+      "day": 3,
+      "hour": 22,
+      "count": 1
+    },
+    {
+      "day": 3,
+      "hour": 23,
+      "count": 5
+    },
+    {
+      "day": 4,
+      "hour": 0,
+      "count": 5
+    },
+    {
+      "day": 4,
       "hour": 1,
       "count": 2
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 2,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 3,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 4,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 5,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 6,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 7,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 8,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 9,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 10,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 11,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 12,
       "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 13,
-      "count": 2
+      "count": 0
     },
     {
-      "day": 2,
+      "day": 4,
       "hour": 14,
-      "count": 0
-    },
-    {
-      "day": 2,
-      "hour": 15,
-      "count": 1
-    },
-    {
-      "day": 2,
-      "hour": 16,
-      "count": 0
-    },
-    {
-      "day": 2,
-      "hour": 17,
-      "count": 1
-    },
-    {
-      "day": 2,
-      "hour": 18,
-      "count": 1
-    },
-    {
-      "day": 2,
-      "hour": 19,
-      "count": 0
-    },
-    {
-      "day": 2,
-      "hour": 20,
-      "count": 0
-    },
-    {
-      "day": 2,
-      "hour": 21,
-      "count": 0
-    },
-    {
-      "day": 2,
-      "hour": 22,
-      "count": 0
-    },
-    {
-      "day": 2,
-      "hour": 23,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 0,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 1,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 2,
       "count": 4
     },
     {
-      "day": 3,
-      "hour": 3,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 4,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 5,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 6,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 7,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 8,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 9,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 10,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 11,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 12,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 13,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 14,
-      "count": 0
-    },
-    {
-      "day": 3,
+      "day": 4,
       "hour": 15,
       "count": 0
     },
     {
-      "day": 3,
+      "day": 4,
       "hour": 16,
       "count": 0
     },
     {
-      "day": 3,
+      "day": 4,
       "hour": 17,
       "count": 0
     },
     {
-      "day": 3,
+      "day": 4,
       "hour": 18,
-      "count": 0
+      "count": 5
     },
     {
-      "day": 3,
+      "day": 4,
       "hour": 19,
-      "count": 0
+      "count": 3
     },
     {
-      "day": 3,
+      "day": 4,
       "hour": 20,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 21,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 22,
-      "count": 0
-    },
-    {
-      "day": 3,
-      "hour": 23,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 0,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 1,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 2,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 3,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 4,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 5,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 6,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 7,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 8,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 9,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 10,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 11,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 12,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 13,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 14,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 15,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 16,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 17,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 18,
       "count": 1
-    },
-    {
-      "day": 4,
-      "hour": 19,
-      "count": 0
-    },
-    {
-      "day": 4,
-      "hour": 20,
-      "count": 0
     },
     {
       "day": 4,
@@ -951,41 +967,36 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "commits": 24
+      "commits": 56
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "commits": 7
-    },
-    {
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
-      "commits": 4
+      "commits": 34
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "commits": 2
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "commits": 2
+      "commits": 16
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
-      "commits": 2
+      "commits": 10
     },
     {
-      "username": "RochaCarla",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "commits": 9
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "commits": 4
+    },
+    {
+      "username": "carla-rocha",
       "name": "Carla Rocha",
-      "commits": 1
-    },
-    {
-      "username": "ghost",
-      "name": "ghost",
       "commits": 1
     }
   ],
@@ -1076,7 +1087,7 @@
       "prs_opened": 12,
       "prs_reviewed": 9,
       "prs_merged": 8,
-      "commits": 24
+      "commits": 56
     },
     {
       "username": "pedrolrm",
@@ -1088,7 +1099,7 @@
       "prs_opened": 6,
       "prs_reviewed": 5,
       "prs_merged": 6,
-      "commits": 7
+      "commits": 34
     },
     {
       "username": "Paulodemczuk",
@@ -1100,7 +1111,7 @@
       "prs_opened": 1,
       "prs_reviewed": 2,
       "prs_merged": 0,
-      "commits": 2
+      "commits": 4
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1112,7 +1123,7 @@
       "prs_opened": 4,
       "prs_reviewed": 3,
       "prs_merged": 3,
-      "commits": 2
+      "commits": 16
     },
     {
       "username": "Pedrop06",
@@ -1124,7 +1135,7 @@
       "prs_opened": 2,
       "prs_reviewed": 0,
       "prs_merged": 2,
-      "commits": 4
+      "commits": 9
     },
     {
       "username": "valexim",
@@ -1136,7 +1147,7 @@
       "prs_opened": 2,
       "prs_reviewed": 0,
       "prs_merged": 1,
-      "commits": 2
+      "commits": 10
     },
     {
       "username": "RochaCarla",
@@ -1148,7 +1159,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 1
+      "commits": 0
     },
     {
       "username": "ghost",
@@ -1160,7 +1171,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 1
+      "commits": 0
     }
   ],
   "labels_distribution": [
@@ -1711,8 +1722,8 @@
       "name": "ViniciusA05",
       "issues": 6,
       "pull_requests": 2,
-      "commits": 11,
-      "total": 19
+      "commits": 18,
+      "total": 26
     },
     {
       "username": "pedrolrm",
@@ -1727,48 +1738,48 @@
       "name": "Paulo",
       "issues": 3,
       "pull_requests": 1,
-      "commits": 2,
-      "total": 6
+      "commits": 1,
+      "total": 5
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "issues": 2,
       "pull_requests": 1,
-      "commits": 3,
-      "total": 6
+      "commits": 2,
+      "total": 5
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "issues": 2,
       "pull_requests": 1,
-      "commits": 2,
-      "total": 5
+      "commits": 4,
+      "total": 7
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
       "issues": 0,
       "pull_requests": 1,
-      "commits": 1,
-      "total": 2
+      "commits": 6,
+      "total": 7
     },
     {
       "username": "RochaCarla",
       "name": "Carla Rocha",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 1,
-      "total": 1
+      "commits": 0,
+      "total": 0
     },
     {
       "username": "ghost",
       "name": "ghost",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 1,
-      "total": 1
+      "commits": 0,
+      "total": 0
     }
   ],
   "milestone_progress": [
