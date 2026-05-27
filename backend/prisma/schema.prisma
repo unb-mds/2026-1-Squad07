@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-py"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  COMMON
+  ADMIN
+}
+
+enum LawSourceType {
+  CATALOG
+  USER_UPLOAD
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         UserRole @default(COMMON)
+
+  laws         Law[]
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Law {
+  id              String        @id @default(uuid())
+  title           String
+  description     String?
+  text            String
+
+  sourceType      LawSourceType @map("source_type")
+  sourceUrl       String?       @map("source_url")
+
+  jurisdiction    String?
+  lawNumber       String?       @map("law_number")
+  publicationDate DateTime?     @map("publication_date")
+
+  uploadedByUserId String?      @map("uploaded_by_user_id")
+  uploadedBy       User?        @relation(fields: [uploadedByUserId], references: [id], onDelete: SetNull)
+
+  isPublic        Boolean       @default(false) @map("is_public")
+
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@map("laws")
+}

@@ -1,0 +1,66 @@
+site_name: CrivoAI - Qualidade Legislativa
+site_url: https://unb-mds.github.io/2026-1-Squad07/
+site_description: Documentação do CrivoAI, projeto de monitoramento de qualidade legislativa
+site_author: Squad 07
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotate
+
+plugins:
+  - search
+  - offline
+
+nav:
+  - Início: index.md
+  - Produto:
+      - Escopo do Projeto: escopo/escopo_projeto.md
+  - Requisitos:
+      - Requisitos Funcionais: requisitos/requisitos_funcionais.md
+      - Requisitos Não Funcionais: requisitos/requisitos_nao_funcionais.md
+      - Matriz de Rastreabilidade: requisitos/rastreabilidade.md
+      - User Story Map: user_story_map.md
+  - Arquitetura:
+    - Visão Geral: architecture/index.md
+    - Estrutura de Pastas: architecture/directory-structure.md
+    - Padrões de Projeto: architecture/design-patterns.md
+  - SDD e TDD:
+    - Visão Geral: sdd/index.md
+    - Templates: sdd/templates.md
+    - Instalação do Spec Kit: sdd/instalacao.md
+    - Catálogo de Specs: sdd/catalogo.md
+  - Métricas: metricas/index.html
+  - Matriz Esforço x Impacto: matriz.md
+  - Protótipo do figma: prototipo/figma_prototype.md
+
+markdown_extensions:
+  - pymdownx.emoji
+  - pymdownx.tasklist
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - tables
+  - toc:
+      toc_depth: 3
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - js/mermaid-init.js
