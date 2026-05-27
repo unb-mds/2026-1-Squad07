@@ -61,7 +61,7 @@ export default function RegisterPage() {
           </div>
           <h1 className="text-3xl font-black text-slate-800">Criar Conta</h1>
           <p className="mt-2 text-sm text-slate-500">
-            Acesse o monitoramento de textos legislativos
+            Acesse o monitoramento legislativo com indicadores de qualidade
           </p>
         </div>
 

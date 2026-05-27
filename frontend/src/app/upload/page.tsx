@@ -103,7 +103,7 @@ export default function UploadLawPage() {
             Avaliar Nova Lei
           </h1>
           <p className="mt-1 text-slate-500">
-            Envie um texto legislativo para persistir uma nova submissão.
+            Envie um texto legislativo para persistir uma nova submissão para análise.
           </p>
         </div>
       </div>
@@ -207,7 +207,7 @@ export default function UploadLawPage() {
             Texto da Lei
           </label>
           <textarea
-            placeholder="Cole aqui o texto completo da lei para registro..."
+            placeholder="Cole aqui o texto completo da lei para análise..."
             value={formData.lawText}
             onChange={(event) =>
               setFormData({ ...formData, lawText: event.target.value })

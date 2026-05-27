@@ -2,8 +2,11 @@
 
 import {
   AlertCircle,
+  AlertTriangle,
   ArrowLeft,
+  BarChart3,
   BookOpen,
+  Brain,
   CalendarDays,
   FileText,
   Hash,
@@ -11,8 +14,10 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
 import { getLaw, type CreatedLaw } from "@/lib/api/laws";
+import { getDemoAnalysis, scoreClass } from "@/lib/demo-analysis";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -27,6 +32,7 @@ export default function LawDetailPage() {
   const [law, setLaw] = useState<CreatedLaw | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const analysis = getDemoAnalysis(params.id);
 
   useEffect(() => {
     let active = true;
@@ -102,23 +108,98 @@ export default function LawDetailPage() {
                 <CalendarDays className="size-4" />
                 Registrada em {formattedDate(law.createdAt)}
               </span>
+              {analysis && (
+                <span className="rounded-full bg-white/15 px-3 py-1.5 font-bold">
+                  Score demonstrativo: {analysis.score}/100
+                </span>
+              )}
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-            <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-800">
-              <BookOpen className="size-5 text-[#1e3a5f]" />
-              Texto Armazenado
-            </h2>
-            <div className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
-              {law.text}
-            </div>
-          </section>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="space-y-6 lg:col-span-2">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+                <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-800">
+                  <BookOpen className="size-5 text-[#1e3a5f]" />
+                  Texto Armazenado
+                </h2>
+                <div className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
+                  {law.text}
+                </div>
+              </section>
 
-          <section className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm text-slate-700">
-            <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
-            Este detalhe apresenta somente os dados persistidos no sistema.
-          </section>
+              {analysis && (
+                <>
+                  <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+                    <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-slate-800">
+                      <BarChart3 className="size-5 text-[#1e3a5f]" />
+                      Métricas de Qualidade
+                    </h2>
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                      <RadialProgress value={analysis.readability} label="Legibilidade" />
+                      <RadialProgress value={analysis.ambiguity} label="Ausência de Ambiguidade" />
+                      <RadialProgress
+                        value={analysis.technicalConformity}
+                        label="Conformidade Técnica"
+                      />
+                    </div>
+                  </section>
+                  <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+                    <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
+                      <Brain className="size-5 text-[#1e3a5f]" />
+                      Análise Demonstrativa
+                    </h2>
+                    <p className="text-sm leading-relaxed text-slate-700">{analysis.summary}</p>
+                  </section>
+                </>
+              )}
+            </div>
+
+            <aside className="space-y-6">
+              {analysis ? (
+                <>
+                  <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
+                      Pontuação Simulada
+                    </p>
+                    <span
+                      className={`inline-block rounded-full px-8 py-7 text-5xl font-black ${scoreClass(analysis.score)}`}
+                    >
+                      {analysis.score}
+                    </span>
+                    <p className="mt-4 text-xs text-slate-500">
+                      Indicador visual para apresentação do protótipo.
+                    </p>
+                  </section>
+                  <section>
+                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-800">
+                      <AlertTriangle className="size-5 text-amber-500" />
+                      Pontos Observados
+                    </h2>
+                    <div className="space-y-3">
+                      {analysis.issues.map((issue) => (
+                        <article
+                          key={issue.type}
+                          className="rounded-xl border-l-4 border-amber-400 bg-amber-50 p-4 shadow-sm"
+                        >
+                          <h3 className="text-sm font-bold text-amber-800">{issue.type}</h3>
+                          <p className="my-2 text-sm italic text-slate-700">
+                            &quot;{issue.excerpt}&quot;
+                          </p>
+                          <p className="text-xs leading-relaxed text-amber-800">{issue.issue}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+                </>
+              ) : (
+                <section className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm text-slate-700">
+                  <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
+                  Este detalhe apresenta somente os dados persistidos no sistema.
+                </section>
+              )}
+            </aside>
+          </div>
         </>
       )}
     </div>

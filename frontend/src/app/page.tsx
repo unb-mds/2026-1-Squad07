@@ -8,14 +8,21 @@ import {
   Loader2,
   RefreshCw,
   Search,
+  TrendingUp,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
 import {
   listLawSubmissions,
   type LawSubmissionListItem,
 } from "@/lib/api/laws";
+import {
+  demoAnalyses,
+  demoDashboard,
+  scoreClass,
+} from "@/lib/demo-analysis";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
@@ -65,11 +72,39 @@ export default function Home() {
     <div className="mx-auto max-w-7xl space-y-8 px-4 py-10 sm:px-6">
       <section className="space-y-2 text-center">
         <h1 className="text-4xl font-black tracking-tight text-slate-800">
-          Monitoramento Legislativo
+          Análise de Qualidade Legislativa
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-slate-500">
-          Registre e consulte textos legislativos persistidos no sistema.
+          Registre proposições e apresente indicadores de qualidade do protótipo.
         </p>
+      </section>
+
+      <section className="mx-auto max-w-4xl space-y-5">
+        <p className="text-center text-xs font-semibold uppercase tracking-widest text-slate-400">
+          Indicadores simulados para demonstração
+        </p>
+        <article className="flex flex-col items-center justify-center gap-6 rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md sm:flex-row sm:p-8 sm:text-left">
+          <RadialProgress value={demoDashboard.averageScore} size={168} strokeWidth={14} />
+          <div className="max-w-md">
+            <div className="mb-3 flex items-center justify-center gap-2 text-slate-700 sm:justify-start">
+              <TrendingUp className="size-5 text-[#1e3a5f]" />
+              <h2 className="text-xl font-bold">Média Geral das Leis</h2>
+            </div>
+            <p className="text-sm leading-relaxed text-slate-500 sm:text-base">
+              Base demonstrativa de {demoDashboard.analyzedLaws} textos legislativos brasileiros.
+            </p>
+          </div>
+        </article>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+            <p className="text-3xl font-black text-slate-800">{demoDashboard.analyzedLaws}</p>
+            <p className="mt-1 text-sm font-medium text-slate-500">Leis Analisadas</p>
+          </article>
+          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+            <p className="text-3xl font-black text-red-600">{demoDashboard.criticalLaws}</p>
+            <p className="mt-1 text-sm font-medium text-slate-500">Leis Críticas</p>
+          </article>
+        </div>
       </section>
 
       <section className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-br from-[#1e3a5f] to-[#2d5a8c] p-6 text-white shadow-xl sm:p-8">
@@ -146,7 +181,7 @@ export default function Home() {
                   className="flex w-full items-start gap-3 rounded-xl p-3 text-left transition-colors hover:bg-slate-50"
                 >
                   <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
-                  <span className="min-w-0">
+                  <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-slate-700">
                       {law.title}
                     </span>
@@ -155,6 +190,13 @@ export default function Home() {
                       Registrada em {formattedDate(law.createdAt)}
                     </span>
                   </span>
+                  {demoAnalyses[law.id] && (
+                    <span
+                      className={`rounded-full px-3 py-1 text-sm font-black ${scoreClass(demoAnalyses[law.id].score)}`}
+                    >
+                      {demoAnalyses[law.id].score}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
