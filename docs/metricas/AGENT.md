@@ -37,8 +37,8 @@ O dashboard de produtividade existe para acompanhar o processo de desenvolviment
 
 ### Identidade visual
 
-13. O painel de métricas deve seguir a identidade visual oficial do projeto.
-14. Alterações visuais devem priorizar clareza, contraste e consistência com a plataforma principal.
+13. O painel de métricas deve seguir a identidade visual oficial do projeto, adotando um tema escuro imersivo de alta fidelidade (Eigengrau `#030213`).
+14. Alterações visuais devem priorizar clareza, contraste, legibilidade de dados D3.js e estética moderna de vidro translúcido ("liquid glass") com desfoque de fundo.
 15. Não use a paleta institucional antiga da UnB como base principal do painel.
 
 ---
@@ -54,7 +54,8 @@ O dashboard de produtividade existe para acompanhar o processo de desenvolviment
 - Linguagem do script coletor: Python 3.11+.
 - Dependência do script coletor: PyGithub.
 - Publicação oficial: GitHub Pages.
-- Branch de integração: `dev`.
+- Branch de integração e desenvolvimento: `dev` (as coletas de commits e dados analisam o histórico desta branch para capturar o progresso do time).
+- Suavização de Rolagem: Interpolação linear (LERP) executada com `requestAnimationFrame` para animar os orbes de fundo sem latência ou travamentos.
 
 ### Paleta oficial do projeto
 
@@ -71,28 +72,34 @@ O dashboard de produtividade existe para acompanhar o processo de desenvolviment
 
 ### Aplicação da paleta no dashboard
 
-- Header e títulos principais: Azul Marinho.
-- Fundo geral e cards: Branco Puro.
-- Bordas, divisórias e linhas de tabela: Cinza claro.
-- Áreas neutras, campos e estados vazios: Input Gray.
-- Issues fechadas, progresso concluído e métricas positivas: Success Green.
-- Estados de erro no carregamento do JSON: Error Red.
-- Avisos, coautoria ou indicadores intermediários: Warning yellow.
-- Texto principal, tooltips e alto contraste: Eigengrau.
-- Mapa de calor: gradiente de Input Gray para Azul Marinho.
+- Header e títulos principais: Branco Puro com glows/orbes de luz coloridos no fundo.
+- Fundo geral: Eigengrau (`#030213`) como base escura fixa.
+- Cards e Painéis: Vidro escuro translúcido (`rgba(15, 23, 42, 0.55)` a `rgba(8, 12, 28, 0.75)`) com desfoque de fundo de `28px` e saturação aumentada de `130%` (liquid glass).
+- Bordas, divisórias e linhas de tabela: Borda fina e translúcida (`rgba(255, 255, 255, 0.08)`) com bevel de reflexo superior (`rgba(255, 255, 255, 0.16)`) e esquerdo (`rgba(255, 255, 255, 0.12)`).
+- Hover de Cards: Deslocamento vertical suave (-5px), intensificação de bordas especulares, e projeção de brilho retroiluminado difuso azul-ciano no fundo.
+- Áreas neutras, campos e estados vazios: Slate escuro translúcido com contrastes suaves.
+- Issues fechadas, progresso concluído e métricas positivas: Success Green (`#4ade80`).
+- Estados de erro no carregamento do JSON: Error Red (`#f87171`).
+- Avisos, coautoria ou indicadores intermediários: Warning yellow (`#facc15`).
+- Texto principal: Branco Puro e Slate claro (`#f1f5f9`/`#94a3b8`).
+- Heatmap de commits: Gradiente partindo do tom escuro de card (`rgba(255, 255, 255, 0.04)`) para azul marinho escuro (`#1e3a5f`) e azul ciano neon (`#38bdf8`) nas atividades de pico.
+- Orbes de fundo (Blobs): 6 círculos coloridos desfocados móveis no plano de fundo (`-z-10`) com pulsação CSS infinita, translações paralaxe tridimensionais, escalas líquidas e deslocamento cromático (`hue-rotate`) ao rolar a página.
 
 ### Interação e leitura dos dados
 
-- Gráficos devem responder ao mouse com tooltip legível.
+- Gráficos devem responder ao mouse com tooltip legível e animações fluidas de entrada (fade-in-up, linhas se desenhando, barras crescendo).
 - Tooltips devem ter área suficiente para leitura confortável, com título e valor em linhas separadas.
 - Barras, pontos e células de heatmap devem indicar interatividade no hover.
 - Tabelas com agrupamento por pessoa devem evitar repetir o mesmo nome várias vezes quando os dados puderem ser apresentados em um único bloco.
 - Filtros devem ser usados quando a tabela completa dificultar a leitura, especialmente em métricas por sprint/milestone.
+- Layout Responsivo sem Scroll Horizontal: A largura máxima do site é fixada em `1360px` com grades mais compactas e fontes dimensionadas, eliminando cortes laterais e a necessidade de arrastar elementos em resoluções comuns.
 
-### Semântica das métricas individuais
+### Semântica das métricas individuais e Avatares
 
 - Agrupamentos por pessoa devem usar `username` como identificador interno confiável.
 - O `name` público do GitHub deve ser usado apenas como texto de exibição.
+- Cada integrante ativo deve ter sua foto de perfil oficial obtida dinamicamente da API pública do GitHub (`https://github.com/username.png?size=64`) com fallback para badge de iniciais em caso de falha de requisição.
+- **Privacidade do Professor:** Como política de respeito à privacidade, a foto de perfil da professora Carla Rocha (logins `carla-rocha`, `RochaCarla` ou nome `Carla Rocha`) **não deve ser buscada do GitHub** nem exposta, devendo-se utilizar obrigatoriamente e exclusivamente o badge estático de iniciais `CR` em seu lugar.
 - `issues_assigned_closed` representa issues atribuídas à pessoa que foram concluídas, não autoria do fechamento.
 - O rótulo visual dessa métrica deve ser `Atribuídas concluídas`.
 - Contribuição em documentação deve representar execução rastreável.
@@ -155,16 +162,17 @@ A menos que exista solicitação explícita, não faça:
 
 ### Implementado
 
-- Script coletor em `docs/metricas/collect_metrics.py`.
+- Script coletor em `docs/metricas/collect_metrics.py` (otimizado com Git local para arquivos alterados para evitar Rate Limit e leitura orientada à branch `dev`).
 - Arquivo de dados em `docs/metricas/metrics.json`.
 - Página estática em `docs/metricas/index.html`.
 - Workflow de atualização em `.github/workflows/metrics.yml`.
-- Publicação esperada via GitHub Pages.
+- Publicação via GitHub Pages.
 - Uso de PyGithub para coleta de dados do repositório.
 - Uso de D3.js e TailwindCSS via CDN na página HTML.
-- Coleta planejada de métricas por pessoa, labels, documentação e milestones.
-- Exibição das novas métricas no painel com fallback para JSON ainda não regenerado.
-- Identidade visual oficial aplicada à página do painel.
+- Coleta de métricas por pessoa, labels, documentação e milestones.
+- Exibição das novas métricas no painel com avatares reais do GitHub e exceção de privacidade.
+- Identidade visual escurecida e moderna aplicada ("liquid glass" e LERP).
+- Layout responsivo e adaptado para evitar barra de rolagem horizontal.
 
 ### Métricas existentes no JSON
 
@@ -180,9 +188,7 @@ A menos que exista solicitação explícita, não faça:
 
 ### Parcialmente implementado
 
-- O `metrics.json` versionado possui as novas chaves com fallback, mas os valores reais dependem da próxima execução do coletor.
-- A validação local completa do coletor depende de um ambiente Python com PyGithub instalado.
-- A validação final do painel depende da publicação via GitHub Pages.
+- (Nenhuma funcionalidade parcial pendente de código básico).
 
 ### Pendente
 
