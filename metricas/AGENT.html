@@ -920,8 +920,8 @@
 </ol>
 <h3 id="identidade-visual">Identidade visual</h3>
 <ol>
-<li>O painel de métricas deve seguir a identidade visual oficial do projeto.</li>
-<li>Alterações visuais devem priorizar clareza, contraste e consistência com a plataforma principal.</li>
+<li>O painel de métricas deve seguir a identidade visual oficial do projeto, adotando um tema escuro imersivo de alta fidelidade (Eigengrau <code>#030213</code>).</li>
+<li>Alterações visuais devem priorizar clareza, contraste, legibilidade de dados D3.js e estética moderna de vidro translúcido ("liquid glass") com desfoque de fundo.</li>
 <li>Não use a paleta institucional antiga da UnB como base principal do painel.</li>
 </ol>
 <hr />
@@ -936,7 +936,8 @@
 <li>Linguagem do script coletor: Python 3.11+.</li>
 <li>Dependência do script coletor: PyGithub.</li>
 <li>Publicação oficial: GitHub Pages.</li>
-<li>Branch de integração: <code>dev</code>.</li>
+<li>Branch de integração e desenvolvimento: <code>dev</code> (as coletas de commits e dados analisam o histórico desta branch para capturar o progresso do time).</li>
+<li>Suavização de Rolagem: Interpolação linear (LERP) executada com <code>requestAnimationFrame</code> para animar os orbes de fundo sem latência ou travamentos.</li>
 </ul>
 <h3 id="paleta-oficial-do-projeto">Paleta oficial do projeto</h3>
 <table>
@@ -992,28 +993,34 @@
 </table>
 <h3 id="aplicacao-da-paleta-no-dashboard">Aplicação da paleta no dashboard</h3>
 <ul>
-<li>Header e títulos principais: Azul Marinho.</li>
-<li>Fundo geral e cards: Branco Puro.</li>
-<li>Bordas, divisórias e linhas de tabela: Cinza claro.</li>
-<li>Áreas neutras, campos e estados vazios: Input Gray.</li>
-<li>Issues fechadas, progresso concluído e métricas positivas: Success Green.</li>
-<li>Estados de erro no carregamento do JSON: Error Red.</li>
-<li>Avisos, coautoria ou indicadores intermediários: Warning yellow.</li>
-<li>Texto principal, tooltips e alto contraste: Eigengrau.</li>
-<li>Mapa de calor: gradiente de Input Gray para Azul Marinho.</li>
+<li>Header e títulos principais: Branco Puro com glows/orbes de luz coloridos no fundo.</li>
+<li>Fundo geral: Eigengrau (<code>#030213</code>) como base escura fixa.</li>
+<li>Cards e Painéis: Vidro escuro translúcido (<code>rgba(15, 23, 42, 0.55)</code> a <code>rgba(8, 12, 28, 0.75)</code>) com desfoque de fundo de <code>28px</code> e saturação aumentada de <code>130%</code> (liquid glass).</li>
+<li>Bordas, divisórias e linhas de tabela: Borda fina e translúcida (<code>rgba(255, 255, 255, 0.08)</code>) com bevel de reflexo superior (<code>rgba(255, 255, 255, 0.16)</code>) e esquerdo (<code>rgba(255, 255, 255, 0.12)</code>).</li>
+<li>Hover de Cards: Deslocamento vertical suave (-5px), intensificação de bordas especulares, e projeção de brilho retroiluminado difuso azul-ciano no fundo.</li>
+<li>Áreas neutras, campos e estados vazios: Slate escuro translúcido com contrastes suaves.</li>
+<li>Issues fechadas, progresso concluído e métricas positivas: Success Green (<code>#4ade80</code>).</li>
+<li>Estados de erro no carregamento do JSON: Error Red (<code>#f87171</code>).</li>
+<li>Avisos, coautoria ou indicadores intermediários: Warning yellow (<code>#facc15</code>).</li>
+<li>Texto principal: Branco Puro e Slate claro (<code>#f1f5f9</code>/<code>#94a3b8</code>).</li>
+<li>Heatmap de commits: Gradiente partindo do tom escuro de card (<code>rgba(255, 255, 255, 0.04)</code>) para azul marinho escuro (<code>#1e3a5f</code>) e azul ciano neon (<code>#38bdf8</code>) nas atividades de pico.</li>
+<li>Orbes de fundo (Blobs): 6 círculos coloridos desfocados móveis no plano de fundo (<code>-z-10</code>) com pulsação CSS infinita, translações paralaxe tridimensionais, escalas líquidas e deslocamento cromático (<code>hue-rotate</code>) ao rolar a página.</li>
 </ul>
 <h3 id="interacao-e-leitura-dos-dados">Interação e leitura dos dados</h3>
 <ul>
-<li>Gráficos devem responder ao mouse com tooltip legível.</li>
+<li>Gráficos devem responder ao mouse com tooltip legível e animações fluidas de entrada (fade-in-up, linhas se desenhando, barras crescendo).</li>
 <li>Tooltips devem ter área suficiente para leitura confortável, com título e valor em linhas separadas.</li>
 <li>Barras, pontos e células de heatmap devem indicar interatividade no hover.</li>
 <li>Tabelas com agrupamento por pessoa devem evitar repetir o mesmo nome várias vezes quando os dados puderem ser apresentados em um único bloco.</li>
 <li>Filtros devem ser usados quando a tabela completa dificultar a leitura, especialmente em métricas por sprint/milestone.</li>
+<li>Layout Responsivo sem Scroll Horizontal: A largura máxima do site é fixada em <code>1360px</code> com grades mais compactas e fontes dimensionadas, eliminando cortes laterais e a necessidade de arrastar elementos em resoluções comuns.</li>
 </ul>
-<h3 id="semantica-das-metricas-individuais">Semântica das métricas individuais</h3>
+<h3 id="semantica-das-metricas-individuais-e-avatares">Semântica das métricas individuais e Avatares</h3>
 <ul>
 <li>Agrupamentos por pessoa devem usar <code>username</code> como identificador interno confiável.</li>
 <li>O <code>name</code> público do GitHub deve ser usado apenas como texto de exibição.</li>
+<li>Cada integrante ativo deve ter sua foto de perfil oficial obtida dinamicamente da API pública do GitHub (<code>https://github.com/username.png?size=64</code>) com fallback para badge de iniciais em caso de falha de requisição.</li>
+<li><strong>Privacidade do Professor:</strong> Como política de respeito à privacidade, a foto de perfil da professora Carla Rocha (logins <code>carla-rocha</code>, <code>RochaCarla</code> ou nome <code>Carla Rocha</code>) <strong>não deve ser buscada do GitHub</strong> nem exposta, devendo-se utilizar obrigatoriamente e exclusivamente o badge estático de iniciais <code>CR</code> em seu lugar.</li>
 <li><code>issues_assigned_closed</code> representa issues atribuídas à pessoa que foram concluídas, não autoria do fechamento.</li>
 <li>O rótulo visual dessa métrica deve ser <code>Atribuídas concluídas</code>.</li>
 <li>Contribuição em documentação deve representar execução rastreável.</li>
@@ -1066,16 +1073,17 @@
 <h2 id="estado-atual-da-implementacao">Estado atual da implementação</h2>
 <h3 id="implementado">Implementado</h3>
 <ul>
-<li>Script coletor em <code>docs/metricas/collect_metrics.py</code>.</li>
+<li>Script coletor em <code>docs/metricas/collect_metrics.py</code> (otimizado com Git local para arquivos alterados para evitar Rate Limit e leitura orientada à branch <code>dev</code>).</li>
 <li>Arquivo de dados em <code>docs/metricas/metrics.json</code>.</li>
 <li>Página estática em <code>docs/metricas/index.html</code>.</li>
 <li>Workflow de atualização em <code>.github/workflows/metrics.yml</code>.</li>
-<li>Publicação esperada via GitHub Pages.</li>
+<li>Publicação via GitHub Pages.</li>
 <li>Uso de PyGithub para coleta de dados do repositório.</li>
 <li>Uso de D3.js e TailwindCSS via CDN na página HTML.</li>
-<li>Coleta planejada de métricas por pessoa, labels, documentação e milestones.</li>
-<li>Exibição das novas métricas no painel com fallback para JSON ainda não regenerado.</li>
-<li>Identidade visual oficial aplicada à página do painel.</li>
+<li>Coleta de métricas por pessoa, labels, documentação e milestones.</li>
+<li>Exibição das novas métricas no painel com avatares reais do GitHub e exceção de privacidade.</li>
+<li>Identidade visual escurecida e moderna aplicada ("liquid glass" e LERP).</li>
+<li>Layout responsivo e adaptado para evitar barra de rolagem horizontal.</li>
 </ul>
 <h3 id="metricas-existentes-no-json">Métricas existentes no JSON</h3>
 <ul>
@@ -1091,9 +1099,7 @@
 </ul>
 <h3 id="parcialmente-implementado">Parcialmente implementado</h3>
 <ul>
-<li>O <code>metrics.json</code> versionado possui as novas chaves com fallback, mas os valores reais dependem da próxima execução do coletor.</li>
-<li>A validação local completa do coletor depende de um ambiente Python com PyGithub instalado.</li>
-<li>A validação final do painel depende da publicação via GitHub Pages.</li>
+<li>(Nenhuma funcionalidade parcial pendente de código básico).</li>
 </ul>
 <h3 id="pendente">Pendente</h3>
 <ul>
