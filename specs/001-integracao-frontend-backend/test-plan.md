@@ -25,6 +25,7 @@ Validar, antes da aprovação da implementação, que o frontend consome somente
 | INT-006 | REQ-006 | Manual | Executar listagem sem registros e com API indisponível | UI exibe estados vazio e de erro |
 | INT-007 | REQ-007 | Inspeção/build | Conferir dashboard, busca e detalhe | Nenhuma tela exibe score, análise, catálogo ou estatística mockada |
 | INT-008 | REQ-008 | Backend + manual | Abrir uma submissão criada por `/upload` | `GET /laws/{id}` retorna e a tela exibe o texto persistido |
+| INT-009 | REQ-009 | Backend + banco | Executar o seed duas vezes e consultar `GET /laws` | Registros `[Demonstração]` aparecem persistidos sem duplicação |
 
 ## Validação Automatizada
 
@@ -40,6 +41,7 @@ Validar, antes da aprovação da implementação, que o frontend consome somente
 - [ ] Listagem indica carregamento, vazio, falha e dados retornados.
 - [ ] Dashboard e detalhe consultam registros persistidos.
 - [ ] A interface não apresenta análise, score ou estatística simulados.
+- [x] Seed demonstrativo persiste registros identificados e pode ser repetido sem duplicação.
 
 ## Critério de Saída
 

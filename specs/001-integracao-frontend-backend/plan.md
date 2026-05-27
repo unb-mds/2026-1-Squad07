@@ -16,6 +16,7 @@ O backend é a fonte dos dados exibidos. O frontend usa uma camada pequena em `s
 | Submissão | `POST /laws` | `title`, `text`, `lawNumber`, `publicationDate?` | Confirmação da criação |
 | Listagem | `GET /laws` | - | `id`, `title`, `createdAt`, `textExcerpt` |
 | Detalhe | `GET /laws/{id}` | Identificador persistido | Dados completos da submissão |
+| Seed demonstrativo | Script backend + Prisma | Conjunto fixo identificado | Submissões persistidas reutilizáveis em apresentação |
 
 ## Decisões de Implementação
 
@@ -25,6 +26,7 @@ O backend é a fonte dos dados exibidos. O frontend usa uma camada pequena em `s
 - A página inicial apresenta somente contagem e submissões persistidas disponíveis via API.
 - A página de detalhe apresenta somente metadados e texto persistidos por `GET /laws/{id}`.
 - Arquivos de leis, análise, scores e estatísticas simulados serão removidos; análise real permanece fora do escopo.
+- Um seed com identificadores estáveis fará `create` ou `update` de submissões marcadas com `[Demonstração]`, evitando duplicação entre apresentações.
 - O formulário aceita texto digitado ou `.txt`; formatos sem parsing permanecem fora do fluxo real.
 
 ## Arquivos Previstos
@@ -42,6 +44,8 @@ O backend é a fonte dos dados exibidos. O frontend usa uma camada pequena em `s
 - `backend/app/api/laws.py`
 - `backend/app/models/law.py`
 - `backend/tests/test_laws.py`
+- `backend/scripts/seed_demo_laws.py`
+- `backend/tests/test_seed_demo_laws.py`
 - `frontend/.env.example`
 
 ## Riscos e Mitigações
@@ -50,4 +54,5 @@ O backend é a fonte dos dados exibidos. O frontend usa uma camada pequena em `s
 | --- | --- |
 | Backend indisponível durante demonstração | Mensagens de erro claras na UI e validação local do backend registrada no quickstart. |
 | Usuário interpretar mock como análise persistida | Remover todo conteúdo de análise e score enquanto não houver processamento persistido real. |
+| Seed gerar duplicatas a cada apresentação | Usar identificadores fixos e validar duas execuções consecutivas. |
 | Token inconsistente no navegador | Restaurar somente sessão válida serializável e limpar sessão no logout. |

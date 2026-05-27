@@ -21,4 +21,6 @@
 
 - [x] **T009** Executar `pytest`, lint e build.
 - [x] **T010** Validar leitura de detalhe persistido contra PostgreSQL/API do container.
-- [ ] **T011** Registrar limitações da R1 e evidências de validação no PR para `dev`.
+- [x] **T011** Criar seed idempotente de submissões demonstrativas persistidas.
+- [x] **T012** Executar o seed duas vezes e comprovar ausência de duplicação no PostgreSQL.
+- [ ] **T013** Registrar limitações da R1 e evidências de validação no PR para `dev`.

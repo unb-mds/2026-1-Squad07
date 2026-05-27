@@ -10,6 +10,16 @@ Este roteiro valida o fluxo funcional persistido da R1. Análise de qualidade le
 2. No frontend, defina `NEXT_PUBLIC_API_URL=http://localhost:8000`.
 3. Inicie o frontend e acesse `http://localhost:3000`.
 
+## Preparação do Protótipo
+
+Para carregar exemplos persistidos e identificados como demonstração:
+
+```bash
+docker compose exec app python -m scripts.seed_demo_laws
+```
+
+O comando pode ser repetido: ele atualiza os mesmos registros demonstrativos sem duplicá-los.
+
 ## Roteiro Manual
 
 1. Abra `/register`, crie um usuário comum e confirme que seu nome aparece no cabeçalho.
@@ -19,6 +29,7 @@ Este roteiro valida o fluxo funcional persistido da R1. Análise de qualidade le
 5. Verifique que a nova submissão aparece com título, data e trecho do texto.
 6. Abra a submissão e verifique que o detalhe mostra o texto enviado, obtido da API.
 7. Interrompa temporariamente a API e recarregue `/search` para confirmar mensagem de falha compreensível.
+8. Confirme que registros com prefixo `[Demonstração]` podem ser listados e abertos como dados persistidos do protótipo.
 
 ## Limites Visíveis da R1
 

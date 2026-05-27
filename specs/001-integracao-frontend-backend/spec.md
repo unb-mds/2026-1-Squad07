@@ -24,6 +24,7 @@ O backend expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET 
 - Exibição das submissões reais obtidas por `GET /laws`, com carregamento, vazio e falha.
 - Consulta de detalhe persistido por identificador para remover a página de análise mockada.
 - Dashboard composto por submissões obtidas pela API, sem estatísticas ou scores artificiais.
+- Seed idempotente de submissões demonstrativas persistidas, identificadas visivelmente para apresentação do protótipo.
 
 ### Fora de Escopo
 
@@ -33,7 +34,7 @@ O backend expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET 
 
 ## R1 Demonstrável
 
-Na R1, uma pessoa pode criar conta ou entrar, submeter texto digitado ou importado de arquivo `.txt`, verificar a submissão recém-persistida na listagem e abrir seu texto armazenado. A interface não apresenta análise nem score simulados.
+Na R1, uma pessoa pode criar conta ou entrar, submeter texto digitado ou importado de arquivo `.txt`, verificar a submissão recém-persistida na listagem e abrir seu texto armazenado. Para apresentações, o banco pode ser populado com submissões marcadas como demonstração; a interface não apresenta análise nem score simulados.
 
 ## R2 Completa
 
@@ -83,6 +84,15 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 3. Registro inexistente ou falha da API apresenta mensagem compreensível.
 4. A tela não exibe score, análise ou problemas simulados.
 
+### Cenário 5 - Base demonstrativa persistida
+
+**Como** apresentador, **quero** popular o banco com submissões identificadas como demonstração, **para** apresentar o protótipo sem depender de dados em memória.
+
+1. Um comando de seed cria registros demonstrativos no PostgreSQL.
+2. Os registros são visivelmente identificados como dados de demonstração.
+3. Executar o seed novamente atualiza os mesmos registros, sem duplicá-los.
+4. Os registros aparecem normalmente em `GET /laws` e podem ser abertos por detalhe.
+
 ## Requisitos
 
 - **REQ-001**: O frontend DEVE centralizar URL, parsing e erros HTTP da API.
@@ -93,6 +103,7 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 - **REQ-006**: A listagem DEVE usar somente os campos já retornados por `GET /laws`.
 - **REQ-007**: A interface NÃO DEVE exibir dados mockados de análise, score, catálogo ou estatísticas.
 - **REQ-008**: O backend DEVE fornecer o detalhe persistido de uma submissão por `GET /laws/{id}`.
+- **REQ-009**: O seed demonstrativo DEVE ser idempotente e persistir somente submissões explicitamente identificadas como demonstração.
 
 ## Critérios de Sucesso
 
