@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-O projeto Monitoramento de Qualidade de Leis tem como objetivo desenvolver uma plataforma web para apoiar a avaliação técnica de proposições legislativas. A proposta é permitir que textos relacionados a leis, projetos de lei e demais documentos legislativos sejam submetidos, organizados e analisados com base em critérios de qualidade textual, clareza, legibilidade, complexidade e consistência técnica.
+O **CrivoAI** tem como objetivo desenvolver uma plataforma web para apoiar a avaliação técnica de proposições legislativas. A proposta é permitir que textos relacionados a leis, projetos de lei e demais documentos legislativos sejam submetidos, organizados e futuramente analisados com base em critérios de qualidade textual, clareza, legibilidade, complexidade e consistência técnica.
 
 A longo prazo, a plataforma deve gerar um Score de Qualidade Legislativa, ajudando pessoas relacionadas ao campo do Direito, da jurisdição, da pesquisa legislativa e da análise normativa a compreenderem melhor a qualidade de um texto legal antes de sua discussão, revisão ou consolidação.
 
@@ -14,7 +14,7 @@ Esse cenário afeta estudantes, pesquisadores, profissionais do Direito, assesso
 
 ## Proposta de Solução
 
-A solução planejada é uma plataforma web em que o usuário possa submeter um texto legislativo, visualizar o registro dessa submissão e obter uma análise técnica sobre a qualidade da proposição. Essa análise deve evoluir para incluir métricas de legibilidade, detecção de ambiguidade, identificação de pontos críticos e cálculo de um score final.
+A solução planejada é uma plataforma web em que o usuário possa submeter um texto legislativo, visualizar o registro dessa submissão e obter, em versões futuras, uma análise técnica sobre a qualidade da proposição. Essa análise deve evoluir para incluir métricas de legibilidade, detecção de ambiguidade, identificação de pontos críticos, apoio de agente de IA e cálculo de um score final.
 
 
 ## Público-Alvo
@@ -44,9 +44,19 @@ O projeto foi planejado para avaliar aspectos técnicos de textos legislativos. 
 
 ## Escopo da Release 1
 
-A Release 1 tem como foco validar a visão do produto, consolidar a documentação e preparar a base para a implementação completa. Ela deve demonstrar que o time compreendeu o problema, definiu o escopo do MVP, estruturou os requisitos e projetou a experiência esperada da plataforma.
+A Release 1 tem como foco validar a visão do produto, consolidar a documentação e demonstrar a integração mínima entre frontend, backend e banco de dados. Ela deve mostrar que o time compreendeu o problema, definiu o escopo do MVP, estruturou os requisitos e conseguiu implementar uma base funcional para a experiência esperada da plataforma.
 
-Nesta etapa, o score de qualidade legislativa ainda não será implementado como funcionalidade real. O funcionamento completo da plataforma será representado no protótipo de alta fidelidade no Figma, mostrando como a experiência do usuário deve acontecer quando o sistema estiver implementado.
+Nesta etapa, o score de qualidade legislativa ainda não será implementado como funcionalidade real. O funcionamento completo da inteligência será representado no protótipo de alta fidelidade e em indicadores demonstrativos, deixando claro como a experiência deve evoluir quando a análise real for implementada.
+
+Na R1, o CrivoAI possui um **fluxo mínimo funcional persistido**:
+
+- autenticação básica com cadastro e login;
+- submissão de texto legislativo;
+- recebimento da submissão pelo backend;
+- persistência em banco de dados;
+- listagem de submissões cadastradas;
+- visualização de detalhes de uma submissão;
+- base demonstrativa com registros identificados para apresentação.
 
 ### Submissão, persistência e listagem
 
@@ -58,11 +68,11 @@ O fluxo de submissão, persistência e listagem representa a base operacional da
 
 **Listagem** é a visualização das submissões já registradas. Esse recurso permite que o usuário acompanhe quais textos foram enviados, identifique cada submissão por título ou data e acesse informações básicas sobre o conteúdo.
 
-Na R1, esse fluxo serve como referência para a implementação e para o protótipo. Na R2, ele deve ser implementado de forma funcional e integrada entre frontend, backend e banco de dados.
+Na R1, esse fluxo já existe de forma funcional e integrada entre frontend, backend e banco de dados. Na R2, ele deve ser refinado para incluir autoria mais completa, análise real, testes mais amplos e evolução da experiência do usuário.
 
 ### Análise básica demonstrativa
 
-A análise básica demonstrativa é uma representação inicial do que a plataforma deverá entregar nas próximas versões. Ela pode aparecer no protótipo como uma prévia de métricas, alertas ou indicadores, sem que o cálculo real esteja implementado na R1.
+A análise básica demonstrativa é uma representação inicial do que a plataforma deverá entregar nas próximas versões. Ela pode aparecer no protótipo ou em registros demonstrativos como uma prévia de métricas, alertas ou indicadores, sem que o cálculo real esteja implementado na R1.
 
 Essa análise pode demonstrar, por exemplo:
 
@@ -87,6 +97,8 @@ Na Release 1, o projeto deve entregar:
 - documentação da estratégia de implementação dos dados;
 - visão da arquitetura do sistema;
 - organização do processo de desenvolvimento;
+- fluxo funcional mínimo com autenticação, submissão, persistência, listagem e detalhe;
+- specs SDD/TDD para orientar a continuidade do projeto;
 - roteiro de apresentação da R1.
 
 ## Curadoria de Dados na R1
@@ -105,8 +117,10 @@ Não fazem parte da Release 1 como funcionalidades reais implementadas:
 - análise automatizada completa de legibilidade;
 - detecção real de ambiguidade;
 - comparação automática com leis consolidadas;
-- autenticação completa de usuários;
-- histórico individual por usuário;
+- agente de IA atuando dentro da plataforma;
+- recuperação de senha;
+- login social ou SSO;
+- fluxo completo de perfis e administração de usuários;
 - integração com IA externa;
 - dashboard analítico completo de leis;
 - relatório final robusto de qualidade legislativa.
@@ -115,15 +129,15 @@ Esses itens podem aparecer no protótipo como visão de produto, mas devem ser t
 
 ## Escopo da Release 2
 
-A Release 2 será focada na implementação completa do trabalho planejado. O objetivo será transformar a visão documentada na R1 em funcionalidades reais, integradas e testáveis.
+A Release 2 será focada na implementação completa do trabalho planejado. O objetivo será transformar a base funcional da R1 em uma plataforma mais robusta, com análise real, validações mais completas e experiência refinada.
 
 Na R2, o projeto deve avançar para:
 
-- implementação funcional da submissão de textos legislativos;
-- persistência das submissões no banco de dados;
-- listagem e consulta de submissões cadastradas;
+- refinamento da submissão, persistência, listagem e consulta;
+- associação mais completa entre usuário e submissões;
 - implementação das primeiras métricas de legibilidade;
 - cálculo inicial do score de qualidade legislativa;
+- agente de IA para apoiar a análise dentro da plataforma;
 - detecção de problemas textuais simples;
 - evolução da análise de ambiguidades;
 - integração entre frontend, backend e banco de dados;
@@ -132,7 +146,7 @@ Na R2, o projeto deve avançar para:
 - criação de relatórios iniciais de qualidade;
 - ampliação dos testes e validações do fluxo principal.
 
-A R2 deve ser entendida como a fase em que o produto deixa de ser apenas planejado e demonstrado visualmente para se tornar uma plataforma funcional.
+A R2 deve ser entendida como a fase em que o produto deixa de ter apenas indicadores demonstrativos de inteligência e passa a trabalhar com análise real, score calculado e apoio automatizado.
 
 ## Evolução do Escopo
 
@@ -150,8 +164,8 @@ O escopo do projeto considera as seguintes premissas:
 - o banco de dados armazenará submissões e dados necessários para análise;
 - a documentação deve ser mantida em português brasileiro;
 - todo desenvolvimento deve seguir o fluxo de branches e Pull Requests;
-- a R1 deve priorizar clareza, documentação e prototipação;
-- a R2 deve priorizar implementação funcional.
+- a R1 deve priorizar clareza, documentação, prototipação e fluxo mínimo funcional;
+- a R2 deve priorizar implementação real da inteligência e refinamento do produto.
 
 ## Restrições
 
@@ -173,5 +187,5 @@ A Release 1 será considerada bem-sucedida se:
 - a estratégia de curadoria de dados estiver documentada;
 - a arquitetura do sistema estiver compreensível;
 - a equipe conseguir explicar o que entra na R1 e o que fica para a R2;
-- a apresentação demonstrar a visão do produto e o caminho de implementação;
+- a apresentação demonstrar a visão do produto, o fluxo mínimo funcional e o caminho de implementação;
 - o projeto estiver preparado para iniciar a implementação completa na R2.

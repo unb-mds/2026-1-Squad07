@@ -8,7 +8,8 @@ Este catálogo lista as specs SDD/TDD criadas para o projeto e indica o status d
 
 | Spec | Status | Objetivo | Relação |
 | --- | --- | --- | --- |
-| `000-documentacao-do-projeto` | Em revisão | Definir padrão de qualidade documental, SDD, TDD, AGENTS e skills. | Issue #86 |
+| `000-documentacao-do-projeto` | Implementada/Ativa | Definir padrão de qualidade documental, SDD, TDD, AGENTS e skills. | Issue #86 |
+| `001-integracao-frontend-backend` | Implementada | Definir integração entre frontend, backend, autenticação, submissão, listagem, detalhe e validação da demo da R1. | Issues #93, #94, #95 e #96 |
 
 ## Ciclo de Vida de uma Spec
 
@@ -24,15 +25,14 @@ Toda mudança de status deve ser feita por PR ou registrada em uma issue relacio
 
 ## Próximas specs planejadas
 
-As specs abaixo serão criadas em etapas futuras, usando o padrão definido pela spec de documentação:
+As specs abaixo permanecem como próximas evoluções ou refinamentos específicos. A spec `001-integracao-frontend-backend` consolidou parte do fluxo que antes estava dividido em specs menores planejadas.
 
 | Spec planejada | Objetivo |
 | --- | --- |
-| `001-submissao-texto-legislativo` | Definir o fluxo de submissão de proposição legislativa. |
-| `002-persistencia-submissao` | Definir como a submissão será registrada e recuperada. |
-| `003-listagem-submissoes` | Definir listagem de submissões cadastradas. |
-| `004-visualizacao-detalhes-submissao` | Definir detalhes de uma submissão e resultado associado. |
-| `005-analise-demonstrativa-score` | Definir análise demonstrativa e evolução para score de qualidade legislativa. |
+| `002-analise-qualidade-legislativa` | Definir análise real de qualidade legislativa para a R2. |
+| `003-score-qualidade-legislativa` | Definir cálculo real do score e critérios de ponderação. |
+| `004-agente-ia-juridico` | Definir o agente de IA de apoio à interpretação e revisão legislativa. |
+| `005-dashboard-qualidade-legislativa` | Definir painel analítico real de qualidade das submissões. |
 
 ## Critério para adicionar uma spec ao catálogo
 

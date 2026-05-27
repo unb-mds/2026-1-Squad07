@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este documento registra os requisitos não funcionais da Release 1 do projeto Monitoramento de Qualidade de Leis. Eles definem restrições, qualidades esperadas e critérios mínimos para que o produto seja demonstrável, sustentável e coerente com a arquitetura definida pelo time.
+Este documento registra os requisitos não funcionais da Release 1 do **CrivoAI**. Eles definem restrições, qualidades esperadas e critérios mínimos para que o produto seja demonstrável, sustentável e coerente com a arquitetura definida pelo time.
 
 ## RNF01 - Interface responsiva
 
@@ -16,7 +16,7 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 - A interface não deve apresentar sobreposição de textos ou componentes.
 - O layout deve seguir o protótipo de alta fidelidade quando aplicável.
 
-**Issues relacionadas:** [`#65`](https://github.com/unb-mds/2026-1-Squad07/issues/65), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+**Issues relacionadas:** [`#65`](https://github.com/unb-mds/2026-1-Squad07/issues/65), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76), [`#93`](https://github.com/unb-mds/2026-1-Squad07/issues/93), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95), [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 ## RNF02 - API organizada e testável
 
@@ -28,9 +28,9 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 
 - As rotas da R1 devem estar separadas em módulos coerentes.
 - A rota `/health` deve continuar funcionando.
-- O endpoint de submissão deve ser testável localmente.
+- Os endpoints de autenticação, submissão, listagem e detalhe devem ser testáveis localmente.
 
-**Issues relacionadas:** [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40).
+**Issues relacionadas:** [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#92`](https://github.com/unb-mds/2026-1-Squad07/issues/92), [`#93`](https://github.com/unb-mds/2026-1-Squad07/issues/93), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95).
 
 ## RNF03 - Persistência estruturada
 
@@ -45,7 +45,7 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 - A modelagem deve estar alinhada ao Prisma e ao PostgreSQL definidos no projeto.
 - Toda alteração de estrutura no banco deve incluir o arquivo de migration do Prisma correspondente, junto com a alteração de schema.
 
-**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95), [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 ## RNF04 - Separação entre frontend, backend e banco
 
@@ -59,7 +59,7 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 - O backend deve concentrar validação, persistência e regras de negócio.
 - O banco deve ser acessado por meio da camada definida no backend.
 
-**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76), [`#93`](https://github.com/unb-mds/2026-1-Squad07/issues/93), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95), [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 ## RNF05 - Configuração por variáveis de ambiente
 
@@ -70,10 +70,11 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 **Critério de validação:**
 
 - A URL do banco deve ser configurada via `DATABASE_URL`.
+- A URL da API consumida pelo frontend deve ser configurada via variável de ambiente pública de desenvolvimento, como `NEXT_PUBLIC_API_URL`.
 - Credenciais não devem ser hardcoded no código-fonte.
 - Arquivos de exemplo podem documentar variáveis necessárias, sem expor segredos reais.
 
-**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29).
+**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#93`](https://github.com/unb-mds/2026-1-Squad07/issues/93), [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 ## RNF06 - Documentação navegável
 
@@ -87,7 +88,7 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 - O conteúdo deve estar em português brasileiro com acentuação adequada.
 - A integração com o MkDocs/GitHub Pages deve ser tratada na issue específica de correção da documentação.
 
-**Issues relacionadas:** [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#72`](https://github.com/unb-mds/2026-1-Squad07/issues/72).
+**Issues relacionadas:** [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#72`](https://github.com/unb-mds/2026-1-Squad07/issues/72), [`#86`](https://github.com/unb-mds/2026-1-Squad07/issues/86), [`#99`](https://github.com/unb-mds/2026-1-Squad07/issues/99).
 
 ## RNF07 - Fluxo versionado por Pull Requests
 
@@ -114,8 +115,9 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 - O backend deve possuir instrução ou comando de execução local.
 - O frontend deve possuir script de desenvolvimento.
 - O banco deve ser executável via Docker Compose ou instrução equivalente.
+- O fluxo mínimo da R1 deve poder ser validado com cadastro, login, submissão e consulta de submissões.
 
-**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+**Issues relacionadas:** [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75), [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76), [`#93`](https://github.com/unb-mds/2026-1-Squad07/issues/93), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95), [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 ## RNF09 - Escopo controlado para a R1
 
@@ -126,10 +128,11 @@ Este documento registra os requisitos não funcionais da Release 1 do projeto Mo
 **Critério de validação:**
 
 - O documento de requisitos deve separar R1 e R2.
-- Funcionalidades de autenticação, IA externa e análise avançada devem ficar fora do caminho crítico da R1.
+- A autenticação básica faz parte do fluxo mínimo da R1.
+- IA externa, score real, agente de IA, recuperação de senha, SSO e análise avançada devem ficar fora do caminho crítico da R1.
 - O PO e o Scrum Master devem validar qualquer mudança de escopo.
 
-**Issues relacionadas:** [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#77`](https://github.com/unb-mds/2026-1-Squad07/issues/77).
+**Issues relacionadas:** [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#77`](https://github.com/unb-mds/2026-1-Squad07/issues/77), [`#99`](https://github.com/unb-mds/2026-1-Squad07/issues/99).
 
 ## RNF10 - Métricas de acompanhamento do projeto
 

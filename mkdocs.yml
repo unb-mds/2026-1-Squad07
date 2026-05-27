@@ -1,6 +1,6 @@
-site_name: Squad 07 - Monitoramento de Qualidade de Leis
+site_name: CrivoAI - Qualidade Legislativa
 site_url: https://unb-mds.github.io/2026-1-Squad07/
-site_description: Documentação do projeto Monitoramento de Qualidade de Leis
+site_description: Documentação do CrivoAI, projeto de monitoramento de qualidade legislativa
 site_author: Squad 07
 docs_dir: docs
 site_dir: site

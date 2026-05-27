@@ -4,7 +4,7 @@
 
 Esta página explica como preparar o ambiente local para usar o **GitHub Spec Kit** no fluxo de **Spec Driven Development (SDD)** e **Test Driven Development (TDD)** do Squad 07.
 
-O objetivo é permitir que integrantes do grupo e agentes de IA consigam criar, revisar e manter specs com o mesmo padrão usado no projeto **Monitoramento de Qualidade de Leis**.
+O objetivo é permitir que integrantes do grupo e agentes de IA consigam criar, revisar e manter specs com o mesmo padrão usado no **CrivoAI**.
 
 ## O Spec Kit é obrigatório?
 
