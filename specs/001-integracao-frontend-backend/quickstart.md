@@ -30,9 +30,10 @@ O comando pode ser repetido: ele atualiza os mesmos registros demonstrativos sem
 6. Abra a submissão e verifique que o detalhe mostra o texto enviado, obtido da API.
 7. Interrompa temporariamente a API e recarregue `/search` para confirmar mensagem de falha compreensível.
 8. Confirme que registros com prefixo `[Demonstração]` podem ser listados e abertos como dados persistidos do protótipo.
+9. Confirme que score, métricas e observações aparecem somente nesses registros, com identificação de conteúdo simulado ou demonstrativo.
 
 ## Limites Visíveis da R1
 
-- Dashboard, listagem e detalhe representam submissões persistidas, não análise automatizada.
-- A interface não exibe score ou análise sem processamento real.
+- Dashboard, listagem e detalhe representam submissões persistidas; indicadores de apresentação são associados somente à base demonstrativa.
+- Score, métricas e observações exibidos em registros demonstrativos são simulados e não resultam de processamento real.
 - Apenas texto digitado ou importado de `.txt` participa do envio real nesta etapa.

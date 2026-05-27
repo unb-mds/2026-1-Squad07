@@ -1,9 +1,9 @@
 # Feature Specification: Integração Frontend-Backend da R1
 
-**Branch**: `feat/integracao`  
-**Criado em**: 2026-05-26  
-**Status**: Em implementação  
-**Issues**: #75, #93, #94 e #95; evolução solicitada para eliminar mocks em 2026-05-26
+**Branch**: `feat/integracao`
+**Criado em**: 2026-05-26
+**Status**: Em implementação
+**Issues**: #75, #93, #94 e #95; evolução solicitada para delimitar indicadores demonstrativos em 2026-05-26
 
 ## Objetivo
 
@@ -11,7 +11,7 @@ Conectar as telas já existentes do CrivoAI às rotas reais disponíveis no back
 
 ## Contexto
 
-O backend expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET /laws`, enquanto partes do frontend ainda exibem leis, análises e scores mockados. Após solicitação de evolução do escopo, a interface deve exibir apenas submissões persistidas; análise e score deixam de ser apresentados até existir contrato e processamento reais.
+O backend expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET /laws`. O protótipo apresenta submissões persistidas e, exclusivamente para registros semeados e identificados como demonstração, exibe indicadores simulados de qualidade. Esses indicadores apoiam a apresentação visual da R1 e não representam cálculo, processamento de IA ou resultado persistido pelo backend.
 
 ## Escopo
 
@@ -22,19 +22,19 @@ O backend expõe `POST /auth/register`, `POST /auth/login`, `POST /laws` e `GET 
 - Cadastro e login reais com apresentação clara de erros.
 - Envio real do formulário de texto legislativo para `POST /laws`.
 - Exibição das submissões reais obtidas por `GET /laws`, com carregamento, vazio e falha.
-- Consulta de detalhe persistido por identificador para remover a página de análise mockada.
-- Dashboard composto por submissões obtidas pela API, sem estatísticas ou scores artificiais.
+- Consulta de detalhe persistido por identificador, com texto e metadados reais do backend.
+- Dashboard e detalhe com indicadores simulados somente para registros demonstrativos, sinalizados como apresentação do protótipo.
 - Seed idempotente de submissões demonstrativas persistidas, identificadas visivelmente para apresentação do protótipo.
 
 ### Fora de Escopo
 
-- Análise de IA ou cálculo de score.
+- Análise de IA, cálculo real de score ou persistência de resultado analítico.
 - Upload e parsing de PDF, DOC ou DOCX.
 - Painel administrativo de usuários.
 
 ## R1 Demonstrável
 
-Na R1, uma pessoa pode criar conta ou entrar, submeter texto digitado ou importado de arquivo `.txt`, verificar a submissão recém-persistida na listagem e abrir seu texto armazenado. Para apresentações, o banco pode ser populado com submissões marcadas como demonstração; a interface não apresenta análise nem score simulados.
+Na R1, uma pessoa pode criar conta ou entrar, submeter texto digitado ou importado de arquivo `.txt`, verificar a submissão recém-persistida na listagem e abrir seu texto armazenado. Para apresentações, o banco pode ser populado com submissões marcadas como demonstração e a interface pode exibir, apenas para essas submissões, score, métricas e observações explicitamente rotulados como simulados ou demonstrativos.
 
 ## R2 Completa
 
@@ -73,7 +73,7 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 1. A tela de busca consulta `GET /laws` usando o cliente HTTP comum.
 2. Cada item real exibe `title`, `createdAt` e `textExcerpt`.
 3. Há estados visíveis de carregamento, lista vazia e erro de conexão.
-4. Dados demonstrativos de score não são apresentados.
+4. A listagem de busca mantém foco nos campos persistidos; indicadores demonstrativos podem aparecer no dashboard somente para registros da base de apresentação.
 
 ### Cenário 4 - Detalhe persistido
 
@@ -82,7 +82,7 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 1. Ao selecionar um resultado, a interface consulta `GET /laws/{id}`.
 2. O detalhe exibe metadados e texto retornados pelo backend.
 3. Registro inexistente ou falha da API apresenta mensagem compreensível.
-4. A tela não exibe score, análise ou problemas simulados.
+4. Para submissões demonstrativas identificadas, a tela pode exibir score, métricas e pontos observados com rotulagem inequívoca de conteúdo simulado ou demonstrativo.
 
 ### Cenário 5 - Base demonstrativa persistida
 
@@ -92,6 +92,7 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 2. Os registros são visivelmente identificados como dados de demonstração.
 3. Executar o seed novamente atualiza os mesmos registros, sem duplicá-los.
 4. Os registros aparecem normalmente em `GET /laws` e podem ser abertos por detalhe.
+5. Os indicadores associados aos registros demonstrativos são apresentados como simulação, sem sugerir análise real pelo backend.
 
 ## Requisitos
 
@@ -101,9 +102,10 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 - **REQ-004**: Login e cadastro NÃO DEVEM usar base local simulada de usuários.
 - **REQ-005**: A submissão DEVE usar somente o contrato já aceito por `POST /laws`.
 - **REQ-006**: A listagem DEVE usar somente os campos já retornados por `GET /laws`.
-- **REQ-007**: A interface NÃO DEVE exibir dados mockados de análise, score, catálogo ou estatísticas.
+- **REQ-007**: A interface NÃO DEVE apresentar indicadores simulados como resultado real; score, métricas e observações de apresentação só podem ser exibidos para registros demonstrativos, com identificação visual explícita.
 - **REQ-008**: O backend DEVE fornecer o detalhe persistido de uma submissão por `GET /laws/{id}`.
 - **REQ-009**: O seed demonstrativo DEVE ser idempotente e persistir somente submissões explicitamente identificadas como demonstração.
+- **REQ-010**: Os indicadores demonstrativos DEVEM permanecer dissociados de cálculo de score, análise de IA ou persistência analítica no backend.
 
 ## Critérios de Sucesso
 
@@ -111,6 +113,7 @@ Na R2, a integração pode incluir autenticação aplicada à autoria da submiss
 - **SC-002**: `pytest` do backend continua passando.
 - **SC-003**: `npm run lint` e `npm run build` do frontend passam.
 - **SC-004**: Uma validação manual confirma mensagens de carregamento, falha, sucesso e vazio.
+- **SC-005**: Uma validação manual confirma que score e observações aparecem apenas na base demonstrativa e são identificados como simulados.
 
 ## Referências
 

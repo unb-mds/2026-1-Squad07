@@ -1,6 +1,6 @@
 # Tasks: Integração Frontend-Backend da R1
 
-**Spec**: `specs/001-integracao-frontend-backend/spec.md`  
+**Spec**: `specs/001-integracao-frontend-backend/spec.md`
 **Issues**: #75, #93, #94 e #95
 
 ## Testes e Validação Primeiro
@@ -15,7 +15,7 @@
 - [x] **T005** Integrar envio do texto legislativo, atendendo à issue #75.
 - [x] **T006** Integrar listagem persistida com estados de interface, atendendo à issue #95.
 - [x] **T007** Criar contrato testado de detalhe persistido em `GET /laws/{id}`.
-- [x] **T008** Substituir dashboard e detalhe simulados por consultas reais e remover módulos de mock.
+- [x] **T008** Integrar dashboard e detalhe às submissões persistidas, restringindo indicadores simulados identificados à base demonstrativa.
 
 ## Verificação
 
