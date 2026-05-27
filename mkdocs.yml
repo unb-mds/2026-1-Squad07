@@ -45,6 +45,7 @@ nav:
     - Instalação do Spec Kit: sdd/instalacao.md
     - Catálogo de Specs: sdd/catalogo.md
   - Métricas: metricas/index.html
+  - Matriz Esforço x Impacto: matriz.md
   - Protótipo do figma: prototipo/figma_prototype.md
 
 markdown_extensions:
