@@ -14,7 +14,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { href: "/", label: "Dashboard" },
-  { href: "/search", label: "Buscar Leis" },
+  { href: "/search", label: "Submissões" },
 ];
 
 function Header() {
@@ -63,7 +63,7 @@ function Header() {
             <div className="flex items-center gap-2">
               <span className="hidden items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white sm:flex">
                 <User className="size-4" />
-                {user.username}
+                {user.name}
               </span>
               <button
                 type="button"

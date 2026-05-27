@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { ApiError, apiErrorMessage } from "@/lib/api/client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,19 +15,24 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setLoading(true);
 
-    window.setTimeout(() => {
-      if (login(email, password)) {
-        router.push("/");
-      } else {
+    try {
+      await login(email, password);
+      router.push("/");
+    } catch (requestError) {
+      if (requestError instanceof ApiError && requestError.status === 401) {
         setError("E-mail ou senha incorretos");
-        setLoading(false);
+      } else {
+        setError(
+          apiErrorMessage(requestError, "Não foi possível entrar. Tente novamente."),
+        );
       }
-    }, 400);
+      setLoading(false);
+    }
   }
 
   return (

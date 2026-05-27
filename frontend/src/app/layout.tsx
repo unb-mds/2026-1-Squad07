@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "CrivoAI - Monitoramento Legislativo",
-  description: "Análise de qualidade legislativa com IA e NLP",
+  description: "Análise de qualidade legislativa com dados demonstrativos",
 };
 
 export default function RootLayout({

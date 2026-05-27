@@ -13,6 +13,7 @@ class FakeLawDelegate:
     def __init__(self):
         self.created_data = None
         self.find_many_args = None
+        self.find_unique_args = None
 
     async def create(self, data):
         """Simula a criacao de uma lei pelo delegate do Prisma."""
@@ -49,6 +50,28 @@ class FakeLawDelegate:
                 createdAt=datetime(2026, 5, 20, 10, 0, tzinfo=timezone.utc),
             ),
         ]
+
+    async def find_unique(self, where):
+        """Simula a consulta detalhada de uma lei persistida."""
+        self.find_unique_args = where
+        if where["id"] == "law-inexistente":
+            return None
+
+        return SimpleNamespace(
+            id=where["id"],
+            title="Projeto de Lei sobre transparencia",
+            text="Art. 1 Esta lei promove transparencia.",
+            createdAt=datetime(2026, 5, 21, 10, 0, tzinfo=timezone.utc),
+            updatedAt=datetime(2026, 5, 21, 10, 0, tzinfo=timezone.utc),
+            description=None,
+            sourceType="USER_UPLOAD",
+            sourceUrl=None,
+            jurisdiction=None,
+            lawNumber="PL 123/2026",
+            publicationDate=None,
+            uploadedByUserId=None,
+            isPublic=False,
+        )
 
 
 def test_submit_law_cria_lei_como_user_upload(monkeypatch):
@@ -108,3 +131,27 @@ def test_list_law_submissions_retorna_resumo_das_submissoes(monkeypatch):
             "textExcerpt": "Texto menor para exibicao direta.",
         },
     ]
+
+
+def test_get_law_retorna_detalhe_persistido(monkeypatch):
+    """Verifica que um detalhe de lei e consultado por identificador."""
+    fake_law_delegate = FakeLawDelegate()
+    monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
+
+    response = client.get("/laws/law-123")
+
+    assert response.status_code == 200
+    assert fake_law_delegate.find_unique_args == {"id": "law-123"}
+    assert response.json()["id"] == "law-123"
+    assert response.json()["text"] == "Art. 1 Esta lei promove transparencia."
+    assert response.json()["lawNumber"] == "PL 123/2026"
+
+
+def test_get_law_retorna_404_quando_nao_encontra(monkeypatch):
+    """Verifica que identificador inexistente nao retorna dado artificial."""
+    fake_law_delegate = FakeLawDelegate()
+    monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
+
+    response = client.get("/laws/law-inexistente")
+
+    assert response.status_code == 404

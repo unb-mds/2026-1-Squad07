@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, HTTPException, status
 
 from app.db.client import db
 from app.models.law import LawListItem, LawResponse, LawSubmissionRequest
@@ -34,3 +34,13 @@ async def list_law_submissions():
         )
         for law in laws
     ]
+
+
+@router.get("/{law_id}", response_model=LawResponse)
+async def get_law(law_id: str):
+    """Retorna o texto e os metadados persistidos de uma lei."""
+    law = await db.law.find_unique(where={"id": law_id})
+    if law is None:
+        raise HTTPException(status_code=404, detail="Submissão não encontrada.")
+
+    return law

@@ -7,89 +7,72 @@ import {
   useEffect,
   useState,
 } from "react";
-
-type User = {
-  username: string;
-  email: string;
-};
-
-type StoredUser = User & {
-  password: string;
-};
+import {
+  loginUser,
+  registerUser,
+  type AuthSession,
+  type AuthUser,
+} from "@/lib/api/auth";
 
 type AuthContextType = {
-  user: User | null;
-  login: (email: string, password: string) => boolean;
-  register: (username: string, email: string, password: string) => boolean;
+  user: AuthUser | null;
+  token: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 };
 
-const USERS_KEY = "crivoai_users";
-const CURRENT_USER_KEY = "crivoai_current_user";
+const SESSION_KEY = "crivoai_session";
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<AuthSession | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const savedUser = window.localStorage.getItem(CURRENT_USER_KEY);
-      if (savedUser) {
-        setUser(JSON.parse(savedUser) as User);
+      const savedSession = window.localStorage.getItem(SESSION_KEY);
+      if (!savedSession) {
+        return;
+      }
+
+      try {
+        setSession(JSON.parse(savedSession) as AuthSession);
+      } catch {
+        window.localStorage.removeItem(SESSION_KEY);
       }
     }, 0);
 
     return () => window.clearTimeout(timer);
   }, []);
 
-  const register = (username: string, email: string, password: string) => {
-    const users = JSON.parse(
-      window.localStorage.getItem(USERS_KEY) || "[]",
-    ) as StoredUser[];
+  function saveSession(nextSession: AuthSession) {
+    window.localStorage.setItem(SESSION_KEY, JSON.stringify(nextSession));
+    setSession(nextSession);
+  }
 
-    if (users.some((storedUser) => storedUser.email === email)) {
-      return false;
-    }
+  async function register(name: string, email: string, password: string) {
+    saveSession(await registerUser(name, email, password));
+  }
 
-    const newUser = { username, email, password };
-    const currentUser = { username, email };
-
-    window.localStorage.setItem(USERS_KEY, JSON.stringify([...users, newUser]));
-    window.localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
-    setUser(currentUser);
-    return true;
-  };
-
-  const login = (email: string, password: string) => {
-    const users = JSON.parse(
-      window.localStorage.getItem(USERS_KEY) || "[]",
-    ) as StoredUser[];
-    const foundUser = users.find(
-      (storedUser) =>
-        storedUser.email === email && storedUser.password === password,
-    );
-
-    if (!foundUser) {
-      return false;
-    }
-
-    const currentUser = {
-      username: foundUser.username,
-      email: foundUser.email,
-    };
-
-    window.localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
-    setUser(currentUser);
-    return true;
-  };
+  async function login(email: string, password: string) {
+    saveSession(await loginUser(email, password));
+  }
 
   const logout = () => {
-    window.localStorage.removeItem(CURRENT_USER_KEY);
-    setUser(null);
+    window.localStorage.removeItem(SESSION_KEY);
+    setSession(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        user: session?.user ?? null,
+        token: session?.accessToken ?? null,
+        login,
+        register,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
