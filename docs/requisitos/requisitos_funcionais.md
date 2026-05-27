@@ -2,9 +2,9 @@
 
 ## Objetivo
 
-Este documento consolida os requisitos funcionais do projeto Monitoramento de Qualidade de Leis para a Release 1. A lista foi refinada a partir do backlog do GitHub, do User Story Map, do Figma/FigJam, do quadro de planejamento no Miro, da estrutura real presente no repositório e do planejamento da Sprint 8.
+Este documento consolida os requisitos funcionais do produto **CrivoAI** para a Release 1. A lista foi refinada a partir do backlog do GitHub, do User Story Map, do Figma/FigJam, do quadro de planejamento no Miro, da estrutura real presente no repositório e do planejamento das sprints da R1.
 
-O objetivo da Release 1 é entregar um fluxo mínimo demonstrável: permitir que um usuário submeta um texto legislativo, que o backend receba e registre essa submissão, e que o sistema permita visualizar os registros cadastrados. As análises de qualidade legislativa mais avançadas permanecem como evolução planejada, mas a Release 1 deve deixar clara a base técnica, documental e visual para essa evolução.
+O objetivo da Release 1 é entregar um fluxo mínimo demonstrável e persistido: permitir que um usuário se cadastre, faça login, submeta um texto legislativo, tenha essa submissão recebida pelo backend, registrada no banco de dados e visualizada posteriormente. As análises reais de qualidade legislativa, score calculado e agente de IA permanecem como evolução planejada para a R2, mas a Release 1 deve deixar clara a base técnica, documental e visual para essa evolução.
 
 ## Visão dos arquivos presentes
 
@@ -48,9 +48,31 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ## Requisitos Must Have
 
+### RF00 - Autenticar usuário de forma básica
+
+**Origem:** Issues [`#36`](https://github.com/unb-mds/2026-1-Squad07/issues/36), [`#37`](https://github.com/unb-mds/2026-1-Squad07/issues/37), [`#38`](https://github.com/unb-mds/2026-1-Squad07/issues/38), [`#92`](https://github.com/unb-mds/2026-1-Squad07/issues/92), [`#93`](https://github.com/unb-mds/2026-1-Squad07/issues/93) e spec `001-integracao-frontend-backend`.
+
+**Descrição:** O sistema deve permitir cadastro e login básicos para apoiar o fluxo integrado da R1, usando token de autenticação para manter o usuário autenticado durante a demonstração.
+
+**Critérios de aceite:**
+
+- O usuário deve conseguir criar uma conta comum por meio da interface.
+- O usuário deve conseguir realizar login com credenciais válidas.
+- A API deve retornar token de autenticação para sessões válidas.
+- O frontend deve armazenar o token de forma suficiente para a demonstração local.
+- Erros de credenciais inválidas, conflito de e-mail e payload inválido devem ser apresentados de forma compreensível.
+- Fluxos avançados de identidade, como SSO, recuperação de senha e administração completa de usuários, ficam fora da R1.
+
+**Arquivos relacionados:**
+
+- `frontend/src/app/login/`
+- `frontend/src/app/register/`
+- `backend/app/api/auth.py`
+- `backend/app/api/users.py`
+
 ### RF01 - Submeter texto legislativo
 
-**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40) e [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75).
+**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#75`](https://github.com/unb-mds/2026-1-Squad07/issues/75) e [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95).
 
 **Descrição:** O sistema deve permitir que o usuário informe um título e o texto de uma proposição legislativa para cadastro e análise futura.
 
@@ -62,6 +84,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 - O campo `texto legislativo` não deve ser enviado vazio.
 - O usuário deve conseguir acionar o envio por meio de um botão claro.
 - O formulário deve enviar os dados para o endpoint de submissão.
+- A submissão deve usar chamada real ao backend, não apenas simulação no frontend.
 - A interface deve apresentar feedback de sucesso ou erro.
 
 **Arquivos relacionados:**
@@ -72,7 +95,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ### RF02 - Receber submissão legislativa via API
 
-**Origem:** Issue [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40).
+**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40) e [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95).
 
 **Descrição:** O backend deve disponibilizar uma rota para receber o texto legislativo enviado pelo frontend.
 
@@ -92,7 +115,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ### RF03 - Persistir submissão legislativa
 
-**Origem:** Issues [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29) e [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40).
+**Origem:** Issues [`#29`](https://github.com/unb-mds/2026-1-Squad07/issues/29), [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95) e [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 **Descrição:** O sistema deve registrar a submissão recebida em uma estrutura persistente, permitindo consulta posterior.
 
@@ -112,7 +135,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ### RF04 - Listar submissões legislativas cadastradas
 
-**Origem:** Issue [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+**Origem:** Issues [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94) e [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 **Descrição:** O sistema deve permitir visualizar as submissões cadastradas para demonstrar que os textos enviados foram recebidos e registrados.
 
@@ -120,7 +143,8 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 - Deve existir endpoint ou tela para listar submissões cadastradas.
 - A listagem deve exibir pelo menos título, data de criação e trecho do texto.
-- A listagem deve usar dados persistidos no banco ou mock temporário documentado.
+- A listagem deve usar dados persistidos no banco.
+- Dados mockados podem permanecer apenas para indicadores demonstrativos de análise, não como fonte principal das submissões reais.
 - A funcionalidade deve estar integrada ao fluxo de submissão.
 
 **Arquivos relacionados:**
@@ -131,7 +155,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ### RF05 - Consultar detalhes de uma submissão
 
-**Origem:** Issue [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76).
+**Origem:** Issues [`#76`](https://github.com/unb-mds/2026-1-Squad07/issues/76), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94) e [`#96`](https://github.com/unb-mds/2026-1-Squad07/issues/96).
 
 **Descrição:** O sistema deve permitir consultar as informações principais de uma submissão específica.
 
@@ -140,7 +164,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 - O usuário deve conseguir selecionar ou acessar uma submissão cadastrada.
 - O sistema deve exibir título, texto e data de criação.
 - A visualização deve ser suficiente para apoiar a demonstração da R1.
-- Caso a tela detalhada não seja implementada separadamente, a listagem deve exibir informações suficientes para cumprir a finalidade da R1.
+- A visualização pode exibir indicadores demonstrativos, desde que fique claro que eles não são calculados por IA real na R1.
 
 **Arquivos relacionados:**
 
@@ -169,7 +193,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ### RF07 - Exibir resultado básico ou status da submissão
 
-**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#60`](https://github.com/unb-mds/2026-1-Squad07/issues/60) e planejamento da Sprint 8.
+**Origem:** Issues [`#40`](https://github.com/unb-mds/2026-1-Squad07/issues/40), [`#60`](https://github.com/unb-mds/2026-1-Squad07/issues/60), [`#94`](https://github.com/unb-mds/2026-1-Squad07/issues/94), [`#95`](https://github.com/unb-mds/2026-1-Squad07/issues/95) e planejamento da Sprint 8.
 
 **Descrição:** O sistema deve exibir ao usuário um resultado simples após a submissão, mesmo que a análise avançada ainda não esteja disponível.
 
@@ -177,7 +201,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 - A interface deve indicar se a submissão foi registrada com sucesso.
 - O sistema pode exibir um status inicial, como "recebida" ou "pendente de análise".
-- Caso exista cálculo demonstrativo, a regra deve ser documentada.
+- Caso existam indicadores demonstrativos, eles devem ser apresentados como simulação visual.
 - A R1 não deve depender de IA externa para cumprir este requisito.
 
 **Arquivos relacionados:**
@@ -187,7 +211,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 ### RF08 - Disponibilizar documentação da Release 1
 
-**Origem:** Issues [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#72`](https://github.com/unb-mds/2026-1-Squad07/issues/72) e issue de correção do MkDocs/GitHub Pages.
+**Origem:** Issues [`#57`](https://github.com/unb-mds/2026-1-Squad07/issues/57), [`#68`](https://github.com/unb-mds/2026-1-Squad07/issues/68), [`#72`](https://github.com/unb-mds/2026-1-Squad07/issues/72), [`#86`](https://github.com/unb-mds/2026-1-Squad07/issues/86), [`#99`](https://github.com/unb-mds/2026-1-Squad07/issues/99) e issue de correção do MkDocs/GitHub Pages.
 
 **Descrição:** O projeto deve disponibilizar documentação navegável contendo requisitos, visão do produto, arquitetura, processo e métricas.
 
@@ -203,13 +227,13 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 - `docs/`
 - `mkdocs.yml`
 
-## Requisitos Could Have
+## Requisitos Could Have e evolução para R2
 
 ### RF09 - Calcular índice inicial de legibilidade
 
 **Origem:** Issue [`#41`](https://github.com/unb-mds/2026-1-Squad07/issues/41).
 
-**Descrição:** O sistema pode calcular uma métrica inicial de dificuldade de leitura do texto legislativo.
+**Descrição:** O sistema deve evoluir para calcular uma métrica inicial de dificuldade de leitura do texto legislativo. Na R1, qualquer indicador exibido é demonstrativo e não representa cálculo real de NLP.
 
 **Critérios de aceite:**
 
@@ -221,7 +245,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 **Origem:** Issue [`#42`](https://github.com/unb-mds/2026-1-Squad07/issues/42).
 
-**Descrição:** O sistema pode consolidar métricas de qualidade em uma nota final de 0 a 100.
+**Descrição:** O sistema deve evoluir para consolidar métricas de qualidade em uma nota final de 0 a 100. Na R1, o score exibido no protótipo ou nos registros de demonstração é simulado.
 
 **Critérios de aceite:**
 
@@ -233,7 +257,7 @@ Para manter a Release 1 viável até 27/05/2026, os requisitos estão organizado
 
 **Origem:** Issues [`#43`](https://github.com/unb-mds/2026-1-Squad07/issues/43), [`#44`](https://github.com/unb-mds/2026-1-Squad07/issues/44), [`#50`](https://github.com/unb-mds/2026-1-Squad07/issues/50) e [`#51`](https://github.com/unb-mds/2026-1-Squad07/issues/51).
 
-**Descrição:** O sistema pode apresentar relatório com nota, média geral, gráfico ou alertas visuais de qualidade legislativa.
+**Descrição:** O sistema deve evoluir para apresentar relatório com nota, média geral, gráfico ou alertas visuais de qualidade legislativa. Na R1, a visualização serve para demonstrar a direção da experiência.
 
 **Critérios de aceite:**
 
@@ -247,13 +271,12 @@ Os requisitos abaixo permanecem relevantes para o produto, mas devem ser planeja
 
 | Requisito | Issue | Justificativa |
 | --- | --- | --- |
-| Cadastro de usuário | [`#36`](https://github.com/unb-mds/2026-1-Squad07/issues/36) | Depende de fluxo de identidade mais completo e não é essencial para demonstrar submissão legislativa. |
-| Login de usuário | [`#37`](https://github.com/unb-mds/2026-1-Squad07/issues/37) | Depende de autenticação e persistência de usuários. |
-| Autenticação JWT | [`#38`](https://github.com/unb-mds/2026-1-Squad07/issues/38) | Aumenta o risco técnico da R1. |
-| CRUD completo de usuário | [`#45`](https://github.com/unb-mds/2026-1-Squad07/issues/45) | Não é essencial para demonstrar o fluxo de qualidade legislativa. |
+| SSO e autenticação institucional | A definir | Não é necessário para a demonstração local da R1 e depende de integração externa. |
+| CRUD administrativo completo de usuários | [`#45`](https://github.com/unb-mds/2026-1-Squad07/issues/45) | A R1 entrega autenticação básica; administração completa fica para refinamento posterior. |
 | Recuperação de senha | [`#46`](https://github.com/unb-mds/2026-1-Squad07/issues/46) | Depende de envio de e-mail e segurança adicional. |
 | Detecção avançada de ambiguidade | [`#48`](https://github.com/unb-mds/2026-1-Squad07/issues/48) | Pode exigir NLP mais sofisticado. |
 | Resumo inteligente com IA externa | [`#49`](https://github.com/unb-mds/2026-1-Squad07/issues/49) | Depende de integração externa e política de uso de API. |
+| Agente de IA para apoio jurídico | A definir | Deve ser especificado e validado na R2, após estabilização do fluxo base. |
 | Dashboard analítico completo de leis | [`#50`](https://github.com/unb-mds/2026-1-Squad07/issues/50), [`#51`](https://github.com/unb-mds/2026-1-Squad07/issues/51) | Pode ser evoluído após o fluxo mínimo de submissão e persistência. |
 
 ## Evolução dos requisitos

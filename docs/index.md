@@ -1,132 +1,74 @@
-# Documentação do Projeto Squad 07
+# CrivoAI
 
-Bem-vindo à documentação do projeto Squad 07. Este site contém documentação abrangente sobre a arquitetura do nosso projeto, detalhes de implementação e materiais de estudo.
+Bem-vindo à documentação do **CrivoAI**, projeto desenvolvido pelo Squad 07 para apoiar o monitoramento da qualidade técnica de proposições legislativas.
 
-## Visão Geral do Projeto
+## Visão Geral
 
-Squad 07 é um projeto 2026 que combina:
-- **Backend**: FastAPI com PostgreSQL e Prisma ORM
-- **Frontend**: Next.js com TypeScript
-- **Infraestrutura**: Docker e pipelines CI/CD
-- **Componentes de IA**: Agentes de IA e processamento de linguagem natural
+O CrivoAI é uma plataforma web para organizar textos legislativos e preparar uma base de análise sobre clareza, legibilidade, complexidade, ambiguidade, referências legais e consistência normativa.
 
-### Escopo
+Na Release 1, o foco é demonstrar a viabilidade técnica do produto. O sistema já possui um fluxo mínimo funcional com frontend, backend e banco de dados integrados. A análise inteligente completa ainda não é real: scores, métricas legislativas e observações de qualidade exibidos em registros de demonstração são simulados.
 
-#### Objetivo
-Desenvolver um sistema de monitoramento para avaliar a qualidade técnica de proposições legislativas, gerando um "Score de Qualidade Legislativa".
+## Problema
 
-#### Foco da Análise
-Tamanho e complexidade, clareza textual, uso de referências legais e consistência com legislações existentes.
+Textos legislativos costumam ser longos, técnicos e difíceis de revisar. Isso dificulta o acompanhamento por estudantes, pesquisadores, profissionais do Direito, assessores, analistas legislativos e demais pessoas que precisam compreender a qualidade de uma proposição antes de sua discussão, revisão ou consolidação.
 
-#### Fase 1: Escopo do MVP (Release 1)
-> **Meta da Release:** Validar a jornada do usuário e provar a integração de todas as camadas arquiteturais do sistema (Front-end, Back-end e Banco de Dados), utilizando dados simulados para a inteligência.
+O problema central do projeto é reduzir a distância entre o texto legislativo bruto e uma leitura técnica mais clara, rastreável e acessível.
 
-**Épico 1: Infraestrutura e Setup**
+## Solução
 
-* **Tarefa:** Inicialização e configuração dos repositórios base (FastAPI no back e Next.js no front).
-* **Tarefa:** Definição e aplicação da identidade visual base do projeto.
-* **Tarefa:** Exportação e documentação final do User Story Mapping (USM).
+O CrivoAI organiza a jornada inicial de análise legislativa em uma plataforma com:
 
-**Épico 2: Acesso e Identidade**
+- cadastro e login básicos;
+- submissão de textos legislativos;
+- persistência das submissões no banco de dados;
+- listagem de registros cadastrados;
+- visualização de detalhes de uma submissão;
+- indicadores demonstrativos para comunicar a experiência planejada de análise.
 
-* **User Story:** Como usuário, quero me autenticar de forma básica em uma tela simples de login para conseguir acessar o dashboard.
+Essa base permite que a Release 2 avance para análise real com IA, cálculo de score, agente de apoio à interpretação legislativa e refinamentos de experiência.
 
-**Épico 3: Descoberta (Submissão de Leis)**
+## Estado Atual da Release 1
 
-* **User Story:** Como sistema, preciso de um endpoint no backend para receber e salvar os textos enviados.
-* **User Story:** Como usuário, quero colar o texto da lei em uma área de submissão na tela Home para enviá-la para avaliação.
+Na R1, o projeto entrega um **fluxo mínimo funcional persistido**:
 
-**Épico 4: Motor de Inteligência (Simulação)**
+1. a pessoa usuária cria uma conta ou realiza login;
+2. submete um texto legislativo;
+3. o backend recebe os dados por API;
+4. o banco armazena a submissão;
+5. o frontend lista os registros persistidos;
+6. a pessoa usuária abre o detalhe de uma submissão cadastrada.
 
-* **User Story:** Como sistema, preciso calcular um Score simulado no backend para alimentar os gráficos visuais na fase de MVP.
+Além disso, o projeto possui documentação em MkDocs, protótipo de alta fidelidade, métricas de produtividade e specs SDD/TDD para orientar a continuidade da implementação.
 
-**Épico 5: Visualização de Dados**
+## Limite da Demonstração
 
-* **User Story:** Como sistema, preciso integrar a biblioteca de visualização de dados (ex: D3.js) no frontend.
-* **User Story:** Como usuário, quero visualizar a Média Geral das Leis no topo da Home como referencial.
-* **User Story:** Como usuário, quero visualizar o texto submetido ao lado de um gráfico com a nota principal renderizada.
+Os scores, métricas legislativas e observações exibidos em registros de demonstração são **simulados**. Eles não representam processamento real de NLP, integração com IA externa ou cálculo persistido pelo backend.
 
-#### Fase 2: Roadmap Futuro (Pós-MVP)
-> **Meta da Fase:** Implementação do motor real de Processamento de Linguagem Natural (NLP), evolução da infraestrutura e aprofundamento da experiência do usuário.
+Na R1, esses indicadores existem para demonstrar a direção do produto. A implementação real da inteligência, do score e do agente de IA fica planejada para a R2.
 
-**Épico 1: Evolução de Infraestrutura e Arquitetura**
+## Links Principais
 
-* **Tarefa:** Configuração final do banco PostgreSQL utilizando Prisma ORM.
-* **Tarefa:** Containerização de ambientes estruturada para produção (Docker/Docker-compose).
-* **Tarefa:** Deploy automatizado e configuração de pipeline CI/CD robusto (lint, build, testes).
+- [Escopo do Projeto](escopo/escopo_projeto.md): fonte oficial sobre R1, R2, limites e critérios de sucesso.
+- [Requisitos Funcionais](requisitos/requisitos_funcionais.md): funcionalidades esperadas e status dentro da release.
+- [Requisitos Não Funcionais](requisitos/requisitos_nao_funcionais.md): restrições, qualidades e critérios técnicos.
+- [Matriz de Rastreabilidade](requisitos/rastreabilidade.md): relação entre requisitos, issues, specs e entregas.
+- [Arquitetura](architecture/index.md): visão técnica do frontend, backend e banco de dados.
+- [SDD e TDD](sdd/index.md): processo usado para orientar specs, testes e implementação.
+- [Métricas](metricas/index.html): painel de produtividade do time.
+- [Protótipo de Alta Fidelidade](prototipo/figma_prototype.md): referência visual e de experiência do produto.
 
-**Épico 2: Acesso e Identidade Avançados**
+## Como Executar Localmente
 
-* **User Story:** Criação de tela de cadastro e visualização/edição de perfil (CRUD) para histórico de leis.
-* **User Story:** Implementação de fluxo de recuperação de senha por e-mail e login unificado via SSO (Google).
+Para desenvolvimento e demonstração local:
 
-**Épico 3: Descoberta Avançada**
+1. configure as variáveis de ambiente conforme os arquivos `.env.example`;
+2. suba backend e banco com Docker;
+3. aplique o schema Prisma quando necessário;
+4. suba o frontend com `npm run dev`;
+5. abra a documentação com `mkdocs serve`.
 
-* **User Story:** Navegação em página de busca no catálogo com filtros avançados.
-* **User Story:** Suporte para envio de leis através de upload direto de arquivos (.pdf / .docx).
-
-**Épico 4: Motor de Inteligência (NLP Core)**
-
-* **User Story:** Implementação de algoritmos reais de análise de texto no backend para cálculo de legibilidade.
-* **User Story:** Geração automática de resumos curtos (leitura < 1 minuto) e sugestões de reescrita para trechos confusos.
-* **User Story:** Comparação textual com leis consolidadas para detecção de repetições.
-
-**Épico 5: Visualização de Dados Avançada**
-
-* **User Story:** Renderização de cards laterais detalhando problemas e marcações (*highlights*) aplicadas diretamente sobre o erro no texto original.
-* **User Story:** Exportação do resultado completo da análise em relatório PDF.
-
-## Começando
-
-### Pré-requisitos
-
-- Docker e Docker Compose
-- Python 3.x (para backend)
-- Node.js 18+ (para frontend)
-
-### Início Rápido
-
-1. Clone o repositório
-2. Execute `docker-compose up` para iniciar os serviços
-3. Backend: `http://localhost:8000`
-4. Frontend: `http://localhost:3000`
-5. Documentação: `http://localhost:8001` (execute `mkdocs serve`)
-
-## Estrutura da Documentação
-
-- **Arquitetura** - Design do sistema, diagramas C4 e organização de pastas
-- **Backend** - Endpoints da API, esquema de banco de dados e documentação de serviços
-- **Frontend** - Biblioteca de componentes, estilos e arquitetura do frontend
-- **Estudos** - Materiais de aprendizado sobre tecnologias, metodologias e melhores práticas
-
-## Arquitetura de Software
-
-A documentação técnica de arquitetura foi organizada para acelerar o onboarding e manter a evolução do repositório previsível.
-
-- **Visão Geral** - panorama das camadas, responsabilidades e fluxo principal entre frontend, backend e persistência
-- **Estrutura de Pastas** - folder tree recomendada e convenções para crescimento do projeto
-- **Padrões de Projeto** - separação por camadas, service layer, fronteira de repositório e contratos explícitos
-
-Essa seção foi escrita para responder rapidamente a três dúvidas comuns no início da implementação:
-
-- como o sistema está dividido;
-- onde cada nova feature deve entrar;
-- quais convenções arquiteturais o time deve preservar.
-
-Arquivos principais:
-
-- [Visão Geral da Arquitetura](architecture/index.md)
-- [Estrutura de Pastas](architecture/directory-structure.md)
-- [Padrões de Projeto](architecture/design-patterns.md)
-
-## Contribuindo
-
-Ao adicionar documentação:
-1. Crie arquivos markdown no diretório apropriado
-2. Atualize a navegação do `mkdocs.yml`
-3. Siga as melhores práticas de markdown
-4. Inclua exemplos de código quando relevante
+As instruções detalhadas de cada área ficam nas páginas específicas de arquitetura, requisitos, specs e validação.
 
 ---
 
-Última Atualização: 2026-05-12
+Última atualização: 2026-05-27

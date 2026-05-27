@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Esta seção define como o Squad 07 usa **Spec Driven Development (SDD)** e **Test Driven Development (TDD)** para organizar o desenvolvimento do projeto Monitoramento de Qualidade de Leis.
+Esta seção define como o Squad 07 usa **Spec Driven Development (SDD)** e **Test Driven Development (TDD)** para organizar o desenvolvimento do **CrivoAI**.
 
 O objetivo não é criar burocracia. A intenção é reduzir ambiguidades antes da implementação, melhorar a qualidade da documentação e permitir que devs, PO, Scrum Master, professora e agentes de IA entendam o que deve ser feito antes de alterar código.
 
