@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T08:29:47+00:00",
+  "generated_at": "2026-06-02T07:21:22+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -56,6 +56,11 @@
       "week": "2026-W22",
       "opened": 5,
       "closed": 11
+    },
+    {
+      "week": "2026-W23",
+      "opened": 16,
+      "closed": 1
     }
   ],
   "commit_message_histogram": [
@@ -65,7 +70,7 @@
     },
     {
       "range": "21-50",
-      "count": 68
+      "count": 69
     },
     {
       "range": "51-100",
@@ -124,6 +129,10 @@
     {
       "week": "2026-W22",
       "count": 3
+    },
+    {
+      "week": "2026-W23",
+      "count": 0
     }
   ],
   "commit_heatmap": [
@@ -170,7 +179,7 @@
     {
       "day": 0,
       "hour": 8,
-      "count": 0
+      "count": 1
     },
     {
       "day": 0,
@@ -992,7 +1001,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 10
+      "commits": 11
     },
     {
       "username": "valexim",
@@ -1051,9 +1060,9 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "opened": 37,
-      "closed": 23,
-      "total": 60
+      "opened": 53,
+      "closed": 24,
+      "total": 77
     },
     {
       "username": "Paulodemczuk",
@@ -1095,7 +1104,7 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "issues_opened": 37,
+      "issues_opened": 53,
       "issues_assigned": 14,
       "issues_assigned_closed": 14,
       "issues_pending": 0,
@@ -1174,7 +1183,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 10
+      "commits": 11
     },
     {
       "username": "RochaCarla",
@@ -1203,20 +1212,20 @@
   ],
   "labels_distribution": [
     {
+      "label": "type: feature ✨",
+      "count": 38
+    },
+    {
       "label": "release: mvp",
       "count": 35
     },
     {
+      "label": "documentation",
+      "count": 30
+    },
+    {
       "label": "priority: high 🔴",
       "count": 29
-    },
-    {
-      "label": "type: feature ✨",
-      "count": 25
-    },
-    {
-      "label": "documentation",
-      "count": 22
     },
     {
       "label": "priority: medium 🟠",
@@ -1228,15 +1237,15 @@
     },
     {
       "label": "requirement",
+      "count": 19
+    },
+    {
+      "label": "rabbit 🐇",
       "count": 18
     },
     {
       "label": "area: backend ⚙️",
-      "count": 16
-    },
-    {
-      "label": "rabbit 🐇",
-      "count": 15
+      "count": 17
     },
     {
       "label": "to study 📖",
@@ -1247,11 +1256,23 @@
       "count": 9
     },
     {
+      "label": "epic: motor-inteligência-nlp",
+      "count": 8
+    },
+    {
       "label": "epic: acesso-identidade",
       "count": 6
     },
     {
+      "label": "area: architecture",
+      "count": 5
+    },
+    {
       "label": "area: database 🗄️",
+      "count": 5
+    },
+    {
+      "label": "epic: tdd-testing",
       "count": 5
     },
     {
@@ -1263,7 +1284,7 @@
       "count": 5
     },
     {
-      "label": "area: architecture",
+      "label": "devOps",
       "count": 4
     },
     {
@@ -1271,12 +1292,8 @@
       "count": 4
     },
     {
-      "label": "epic: motor-inteligência-nlp",
-      "count": 4
-    },
-    {
       "label": "epic: infraestrutura-setup",
-      "count": 3
+      "count": 4
     },
     {
       "label": "good first issue",
@@ -1284,6 +1301,14 @@
     },
     {
       "label": "bug",
+      "count": 1
+    },
+    {
+      "label": "epic: usm-requirements",
+      "count": 1
+    },
+    {
+      "label": "release: v2",
       "count": 1
     },
     {
@@ -1771,10 +1796,10 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "issues": 10,
+      "issues": 11,
       "pull_requests": 3,
       "commits": 30,
-      "total": 43
+      "total": 44
     },
     {
       "username": "pedrolrm",
@@ -1801,19 +1826,19 @@
       "total": 13
     },
     {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 10,
+      "total": 10
+    },
+    {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "issues": 2,
       "pull_requests": 1,
       "commits": 6,
-      "total": 9
-    },
-    {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 9,
       "total": 9
     },
     {
@@ -1850,15 +1875,15 @@
     },
     {
       "milestone": "Sem milestone",
-      "opened": 16,
+      "opened": 22,
       "closed": 11,
-      "pending": 5
+      "pending": 11
     },
     {
       "milestone": "Sprint 09",
       "opened": 11,
-      "closed": 9,
-      "pending": 2
+      "closed": 10,
+      "pending": 1
     },
     {
       "milestone": "Sprint 01",
@@ -1907,6 +1932,12 @@
       "opened": 3,
       "closed": 2,
       "pending": 1
+    },
+    {
+      "milestone": "Sprint 10",
+      "opened": 10,
+      "closed": 0,
+      "pending": 10
     }
   ],
   "milestone_progress_by_person": [
