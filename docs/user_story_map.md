@@ -5,6 +5,7 @@
 O **User Story Mapping (USM)** é uma técnica visual e colaborativa utilizada para organizar o backlog do produto a partir da perspectiva da jornada do usuário. Diferente de uma lista linear de requisitos, o USM permite visualizar o quadro geral do sistema, garantindo que as entregas agreguem valor contínuo e façam sentido na experiência final.
 
 No contexto deste projeto, o objetivo do sistema é desenvolver uma plataforma de monitoramento para avaliar a qualidade técnica de proposições legislativas, gerando um **"Score de Qualidade Legislativa"**. O foco da análise recai sobre métricas como:
+
 * Tamanho e complexidade;
 * Clareza textual;
 * Uso de referências legais;
@@ -41,22 +42,22 @@ Expansão vertical do sistema, substituindo a lógica estática e simulada por p
 #### Infraestrutura & DevOps
 * **Tarefa Técnica:** Configurar ambientes local e de produção utilizando Docker e Docker-compose.
 * **Tarefa Técnica:** Configurar o PRISMA ORM para o backend em Python.
-  * Mapeamento de Dependência: Esta tarefa é bloqueante. O banco de dados precisa estar estruturado e integrado antes de liberar o desenvolvimento das telas de cadastro real e busca do catálogo.
+    * Mapeamento de Dependência: Esta tarefa é bloqueante. O banco de dados precisa estar estruturado e integrado antes de liberar o desenvolvimento das telas de cadastro real e busca do catálogo.
 
 #### Acesso e Identidade
 * **US:** Como usuário, quero criar meu perfil em uma tela de cadastro para salvar meu histórico.
-  * Mapeamento de Dependência: Depende da configuração do Prisma ORM para persistência dos dados cadastrais.
+    * Mapeamento de Dependência: Depende da configuração do Prisma ORM para persistência dos dados cadastrais.
 * **US:** Como usuário, quero visualizar e editar meus dados de perfil (CRUD) para mantê-los atualizados e garantir conformidade com regras de dados.
 
 #### Descoberta & Gestão de Acervo
 * **US:** Como usuário, quero navegar por uma página de busca para pesquisar leis do catálogo.
-  * Mapeamento de Dependência: Depende da configuração do Prisma ORM para consulta e listagem dos registros do banco.
+    * Mapeamento de Dependência: Depende da configuração do Prisma ORM para consulta e listagem dos registros do banco.
 
 #### Inteligência Artificial (NLP)
 * **US:** Como usuário, quero visualizar uma nota de legibilidade da lei, para saber o quão difícil é a sua leitura.
-  * Mapeamento de Dependência: Bloqueia a interface. O processamento real do algoritmo métrico (como Flesch-Kincaid) precisa fornecer os dados para que o componente de marcações de texto funcione.
+    * Mapeamento de Dependência: Bloqueia a interface. O processamento real do algoritmo métrico (como Flesch-Kincaid) precisa fornecer os dados para que o componente de marcações de texto funcione.
 * **US:** Como usuário, quero ler um resumo curto gerado automaticamente, para entender a pauta em menos de 1 minuto.
-  * Mapeamento de Dependência: Bloqueia a interface. A integração com LLM para sumarização alimenta os cards laterais de ambiguidade.
+    * Mapeamento de Dependência: Bloqueia a interface. A integração com LLM para sumarização alimenta os cards laterais de ambiguidade.
 
 #### Visualização de Dados & Relatórios
 * **US:** Como usuário, quero visualizar cards laterais detalhando os problemas de ambiguidade.
