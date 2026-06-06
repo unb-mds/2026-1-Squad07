@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T07:03:42+00:00",
+  "generated_at": "2026-06-06T06:25:56+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -70,7 +70,7 @@
     },
     {
       "range": "21-50",
-      "count": 72
+      "count": 73
     },
     {
       "range": "51-100",
@@ -654,7 +654,7 @@
     {
       "day": 4,
       "hour": 7,
-      "count": 0
+      "count": 1
     },
     {
       "day": 4,
@@ -996,7 +996,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 14
+      "commits": 15
     },
     {
       "username": "Paulodemczuk",
@@ -1041,6 +1041,11 @@
       "prs_opened": 5
     },
     {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "prs_opened": 2
+    },
+    {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "prs_opened": 2
@@ -1049,11 +1054,6 @@
       "username": "valexim",
       "name": "Victor Amaral",
       "prs_opened": 2
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "prs_opened": 1
     }
   ],
   "top_issue_contributors": [
@@ -1144,7 +1144,7 @@
       "issues_assigned": 9,
       "issues_assigned_closed": 7,
       "issues_pending": 2,
-      "prs_opened": 1,
+      "prs_opened": 2,
       "prs_reviewed": 4,
       "prs_merged": 1,
       "commits": 11
@@ -1183,7 +1183,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 14
+      "commits": 15
     },
     {
       "username": "RochaCarla",
@@ -1867,9 +1867,17 @@
       "username": "Paulodemczuk",
       "name": "Paulo",
       "issues": 3,
-      "pull_requests": 1,
+      "pull_requests": 2,
       "commits": 11,
-      "total": 15
+      "total": 16
+    },
+    {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 14,
+      "total": 14
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1877,14 +1885,6 @@
       "issues": 2,
       "pull_requests": 2,
       "commits": 9,
-      "total": 13
-    },
-    {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 13,
       "total": 13
     },
     {
