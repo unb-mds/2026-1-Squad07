@@ -1,4 +1,4 @@
-# Comparação de Ferramentas de CI/CD
+# Comparação de Ferramentas de CI/CD e pipelines
 
 
 ## 1. Comparação: GitHub Actions vs. GitLab CI vs. Jenkins vs. CircleCI
@@ -65,17 +65,15 @@ Jobs independentes rodam em paralelo automaticamente. Para sequências, usa-se `
 
 Evita baixar dependências repetidamente a cada execução:
 ```yaml
-strategy:
-  - uses: actions/cache@v3
-  with:
-    path: ~/.npm
-    key: $ runner.os -node-$ hashFiles('**/package-lock.json') 
+steps:
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 ```
 O cache é invalidado automaticamente quando o arquivo de lock muda, garantindo builds corretos e mais rápidos.
 
 ## 4. Lint Tools (ESLint, Prettier, Black, Flake8)
-
----
 
 Ferramentas de lint analisam o código estaticamente para garantir qualidade e padronização antes de qualquer execução.
 
@@ -113,7 +111,7 @@ Exemplo de uso:
 ```yaml
 - name: Deploy
   env:
-    API_TOKEN: $ secrets.API_TOKEN 
+    API_TOKEN: ${{ secrets.API_TOKEN }}
     ENV: production
   run: ./deploy.sh
 ```
@@ -129,15 +127,15 @@ Fluxo típico com GitHub Actions:
   uses: docker/login-action@v3
   with:
     registry: ghcr.io
-    username: $ github.actor 
-    password: $ secrets.GITHUB_TOKEN 
+    username: ${{ github.actor }} 
+    password: ${{secrets.GITHUB_TOKEN}}
 
 - name: Build e Push da imagem
   uses: docker/build-push-action@v5
   with:
     context: .
     push: true
-    tags: ghcr.io/$ github.repository :latest
+    tags: ghcr.io/${{ github.repository }}:latest
 ```
 Os principais registries são: Docker Hub, GitHub Container Registry (GHCR), AWS ECR e Google Artifact Registry. O GITHUB_TOKEN já é disponibilizado automaticamente pelo Actions, sem necessidade de criar secrets adicionais para o GHCR.
 
@@ -160,56 +158,67 @@ A escolha depende do nível de risco aceitável, custo de infraestrutura e capac
 Um pipeline de CI/CD sem monitoramento é um pipeline cego. Boas práticas incluem:
 
 - **Status checks**: GitHub Actions exibe o status de cada workflow diretamente nos PRs, bloqueando merges se houver falha.
+
 - **Notificações**: configure alertas por e-mail, Slack ou outros canais para falhas em branches principais.
+
 - **Observabilidade de pipelines**: ferramentas como Datadog, Grafana e o próprio painel do GitHub Actions permitem visualizar tempo de execução, taxa de falha e gargalos.
-- **Métricas importantes**: tempo médio de execução (MTTF — Mean Time to Failure), frequência de falhas por step, e lead time do código até produção.
+
+- **Métricas importantes**: Tempo Médio de Recuperação (MTTR — Mean Time to Repair/Resolution), frequência de falhas por step, e lead time do código até a produção.
 
 Monitorar o pipeline é tão importante quanto monitorar a aplicação em produção — pipelines lentos ou instáveis impactam diretamente a produtividade do time.
 
 ---
 
-##  Referências
+###  Referências
 
 ### Comparação: GitHub Actions vs GitLab CI vs Jenkins vs CircleCI
 
 - [CI/CD Tools Comparison – Atlassian](https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)
 - [CI/CD Pipeline Comparison – Fireship (YouTube)](https://www.youtube.com/watch?v=scEDHsr3APg)
+---
 
 ### Estrutura de Workflows YAML (events, jobs, steps)
 
 - [Documentação oficial – GitHub Actions](https://docs.github.com/pt/actions/reference/workflows-and-actions/workflow-syntax)
-- [GitHub Actions Tutorial – TechWorld with Nana (YouTube)](https://docs.github.com/pt/actions/reference/workflows-and-actions/workflow-syntax)
+- [GitHub Actions Tutorial – TechWorld with Nana (YouTube)](https://www.youtube.com/watch?v=R8_veQiYBjI)
 
+---
 ### Estratégias de Build (matriz, paralelização, cache)
 
 - [Matrix Strategy – Docs oficiais](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations)
 - [Caching dependencies – Docs oficiais](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching)
 - [Paralelização e cache no GitHub Actions – DevOps Toolkit (YouTube)](https://www.youtube.com/watch?v=eZcAvTb0rbA)
 
+---
 ### Lint Tools (ESLint, Prettier, Black, Flake8)
 
-- [Black & Flake8 no CI – Real Python](https://www.youtube.com/watch?v=eZcAvTb0rbA)
+- [Black & Flake8 no CI – Real Python](https://realpython.com/python-code-quality/)
 
+---
 ### Estratégias de Teste (unit, integration, e2e, coverage)
 
 - [Testing strategies in CI – Martin Fowler](https://martinfowler.com/articles/practical-test-pyramid.html)
 - [Unit vs Integration vs E2E – Fireship (YouTube)](https://www.youtube.com/watch?v=r9HdJ8P6GQI)
 
+---
 ### Variáveis de Ambiente e Secrets no GitHub Actions
 
 - [Using secrets – Docs oficiais](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)
 - [Secrets & Environment Variables – GitHub Actions (YouTube – Traversy Media)](https://www.youtube.com/watch?v=eB0nUzAI7M8)
 
+---
 ### Docker Build e Push para Registry
 
 - [Docker + GitHub Actions – Docs Docker](https://docs.docker.com/build/ci/github-actions/)
 - [Publicar no GitHub Container Registry – Docs GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 
+---
 ### Deploy Strategies (rolling, blue-green, canary)
 
 - [Blue-Green & Canary Deployments Explained – TechWorld with Nana (YouTube)](https://www.youtube.com/watch?v=AWVTKBUnoIg)
 - [Kubernetes Deploy Strategies – Kubernetes Docs](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
 
+---
 ### Monitoramento de Pipelines e Alertas
 
-- [GitHub Actions Status Checks & Notificações – Docs GitHub](https://docs.github.com/en/actions/how-tos/monitor-workflows)
+- [GitHub Actions Status Checks & Notificações – Docs GitHub](https://docs.github.com/en/actions/how-tos/monitor-workflows) 
