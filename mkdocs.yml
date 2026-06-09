@@ -39,6 +39,7 @@ nav:
     - Visão Geral: architecture/index.md
     - Estrutura de Pastas: architecture/directory-structure.md
     - Padrões de Projeto: architecture/design-patterns.md
+    - Métricas de Sucesso da IA: architecture/ai-success-metrics.md
   - SDD e TDD:
     - Visão Geral: sdd/index.md
     - Templates: sdd/templates.md
