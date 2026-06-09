@@ -41,6 +41,7 @@ nav:
     - Padrões de Projeto: architecture/design-patterns.md
   - SDD e TDD:
     - Visão Geral: sdd/index.md
+    - Estratégia de TDD para R2: sdd/tdd-estrategia-r2.md
     - Templates: sdd/templates.md
     - Instalação do Spec Kit: sdd/instalacao.md
     - Catálogo de Specs: sdd/catalogo.md
