@@ -52,11 +52,7 @@ Todo PR deve referenciar a issue correspondente com na descrição. PRs sem issu
 
 ## Estratégia de merge
 
-O projeto adota **Squash and Merge** como padrão para PRs em `dev`. Isso mantém o histórico limpo e cada feature/fix aparece como um único commit no histórico da branch base.
-
-Exceções (merge commit) são permitidas apenas para merges de `dev` em `main` ao final de uma release.
-
-Rebase interativo pode ser usado localmente para organizar commits antes de abrir o PR, mas não é a estratégia de merge no GitHub.
+O projeto adota **Merge Commit** em todos os PRs. Isso preserva o histórico completo de commits, facilitando a rastreabilidade de quem fez o quê e quando importante tanto para revisão do time quanto para avaliação acadêmica.
 
 ---
 
