@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T07:04:23+00:00",
+  "generated_at": "2026-06-11T07:26:37+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -75,7 +75,7 @@
     },
     {
       "range": "21-50",
-      "count": 82
+      "count": 83
     },
     {
       "range": "51-100",
@@ -423,7 +423,7 @@
     {
       "day": 2,
       "hour": 7,
-      "count": 0
+      "count": 1
     },
     {
       "day": 2,
@@ -1005,7 +1005,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 19
+      "commits": 20
     },
     {
       "username": "Pedrop06",
@@ -1138,9 +1138,9 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "issues_opened": 4,
-      "issues_assigned": 11,
+      "issues_assigned": 12,
       "issues_assigned_closed": 11,
-      "issues_pending": 0,
+      "issues_pending": 1,
       "prs_opened": 6,
       "prs_reviewed": 4,
       "prs_merged": 6,
@@ -1192,7 +1192,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 19
+      "commits": 20
     },
     {
       "username": "RochaCarla",
@@ -1449,6 +1449,12 @@
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
+      "label": "documentation",
+      "count": 4
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "label": "priority: medium 🟠",
       "count": 4
     },
@@ -1505,12 +1511,6 @@
       "name": "Victor Amaral",
       "label": "release: mvp",
       "count": 4
-    },
-    {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "label": "documentation",
-      "count": 3
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1861,8 +1861,8 @@
       "name": "ViniciusA05",
       "issues": 14,
       "pull_requests": 4,
-      "commits": 32,
-      "total": 50
+      "commits": 33,
+      "total": 51
     },
     {
       "username": "pedrolrm",
@@ -2388,6 +2388,14 @@
       "milestone": "Sprint 10",
       "username": "pedrolrm",
       "name": "Pedro Luca",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 11",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "assigned": 1,
       "closed": 0,
       "pending": 1
