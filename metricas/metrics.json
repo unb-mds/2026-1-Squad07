@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-13T06:51:46+00:00",
+  "generated_at": "2026-06-14T07:20:57+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -75,7 +75,7 @@
     },
     {
       "range": "21-50",
-      "count": 85
+      "count": 86
     },
     {
       "range": "51-100",
@@ -778,7 +778,7 @@
     {
       "day": 5,
       "hour": 6,
-      "count": 2
+      "count": 3
     },
     {
       "day": 5,
@@ -1000,7 +1000,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 22
+      "commits": 23
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1192,7 +1192,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 22
+      "commits": 23
     },
     {
       "username": "RochaCarla",
@@ -1242,7 +1242,7 @@
     },
     {
       "label": "area: frontend 🖥️",
-      "count": 19
+      "count": 20
     },
     {
       "label": "rabbit 🐇",
@@ -1254,7 +1254,7 @@
     },
     {
       "label": "area: backend ⚙️",
-      "count": 17
+      "count": 18
     },
     {
       "label": "to study 📖",
@@ -1318,7 +1318,7 @@
     },
     {
       "label": "release: v2",
-      "count": 1
+      "count": 2
     },
     {
       "label": "status: in progress 🚧",
@@ -1539,6 +1539,12 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
+      "label": "area: frontend 🖥️",
+      "count": 3
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
       "label": "epic: tdd-testing",
       "count": 3
     },
@@ -1617,7 +1623,7 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "area: frontend 🖥️",
+      "label": "area: backend ⚙️",
       "count": 2
     },
     {
@@ -1809,13 +1815,13 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "area: backend ⚙️",
+      "label": "epic: acesso-identidade",
       "count": 1
     },
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "epic: acesso-identidade",
+      "label": "release: v2",
       "count": 1
     },
     {
@@ -1895,8 +1901,8 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 21,
-      "total": 21
+      "commits": 22,
+      "total": 22
     },
     {
       "username": "Paulodemczuk",
