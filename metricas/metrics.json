@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-16T08:44:33+00:00",
+  "generated_at": "2026-06-17T08:27:16+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -80,7 +80,7 @@
     },
     {
       "range": "21-50",
-      "count": 91
+      "count": 92
     },
     {
       "range": "51-100",
@@ -317,7 +317,7 @@
     {
       "day": 1,
       "hour": 8,
-      "count": 0
+      "count": 1
     },
     {
       "day": 1,
@@ -1009,7 +1009,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 25
+      "commits": 26
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1059,6 +1059,11 @@
       "prs_opened": 6
     },
     {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "prs_opened": 4
+    },
+    {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "prs_opened": 3
@@ -1066,11 +1071,6 @@
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
-      "prs_opened": 2
-    },
-    {
-      "username": "valexim",
-      "name": "Victor Amaral",
       "prs_opened": 2
     }
   ],
@@ -1186,7 +1186,7 @@
       "issues_assigned": 8,
       "issues_assigned_closed": 6,
       "issues_pending": 2,
-      "prs_opened": 2,
+      "prs_opened": 4,
       "prs_reviewed": 0,
       "prs_merged": 1,
       "commits": 10
@@ -1201,7 +1201,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 25
+      "commits": 26
     },
     {
       "username": "RochaCarla",
@@ -1898,20 +1898,20 @@
       "total": 53
     },
     {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 25,
+      "total": 25
+    },
+    {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues": 3,
       "pull_requests": 3,
       "commits": 19,
       "total": 25
-    },
-    {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 24,
-      "total": 24
     },
     {
       "username": "Paulodemczuk",
@@ -1941,9 +1941,9 @@
       "username": "valexim",
       "name": "Victor Amaral",
       "issues": 0,
-      "pull_requests": 1,
+      "pull_requests": 2,
       "commits": 8,
-      "total": 9
+      "total": 10
     },
     {
       "username": "RochaCarla",
