@@ -242,15 +242,52 @@ def collect_issue_metrics(
     milestone_progress_by_person: dict[tuple[str, str, str], dict[str, Any]] = {}
     dates: list[datetime] = []
 
+    for ms in repo.get_milestones(state="all"):
+        milestone_progress[ms.title] = {
+            "milestone": ms.title,
+            "opened": 0,
+            "closed": 0,
+            "pending": 0,
+        }
+
     for issue in repo.get_issues(state="all"):
-        if getattr(issue, "pull_request", None):
+        is_pr = bool(getattr(issue, "pull_request", None))
+        is_closed = bool(issue.closed_at)
+        is_open = not is_closed
+        milestone_name = issue.milestone.title if issue.milestone else "Sem milestone"
+
+        if milestone_name not in milestone_progress:
+            milestone_progress[milestone_name] = {
+                "milestone": milestone_name,
+                "opened": 0,
+                "closed": 0,
+                "pending": 0,
+            }
+        milestone_progress[milestone_name]["opened"] += 1
+        milestone_progress[milestone_name]["closed"] += int(is_closed)
+        milestone_progress[milestone_name]["pending"] += int(is_open)
+
+        for assignee in issue.assignees:
+            username, name = user_key(assignee)
+            milestone_key = (milestone_name, username, name)
+            if milestone_key not in milestone_progress_by_person:
+                milestone_progress_by_person[milestone_key] = {
+                    "milestone": milestone_name,
+                    "username": username,
+                    "name": name,
+                    "assigned": 0,
+                    "closed": 0,
+                    "pending": 0,
+                }
+            milestone_progress_by_person[milestone_key]["assigned"] += 1
+            milestone_progress_by_person[milestone_key]["closed"] += int(is_closed)
+            milestone_progress_by_person[milestone_key]["pending"] += int(is_open)
+
+        if is_pr:
             continue
 
         labels = labels_from_issue(issue)
-        is_closed = bool(issue.closed_at)
-        is_open = not is_closed
         is_documentation = is_documentation_item(labels, issue.title)
-        milestone_name = issue.milestone.title if issue.milestone else "Sem milestone"
         issue_author = ensure_person(people, issue.user)
 
         if issue.created_at:
@@ -267,17 +304,6 @@ def collect_issue_metrics(
         for label in labels:
             labels_distribution[label] += 1
 
-        if milestone_name not in milestone_progress:
-            milestone_progress[milestone_name] = {
-                "milestone": milestone_name,
-                "opened": 0,
-                "closed": 0,
-                "pending": 0,
-            }
-        milestone_progress[milestone_name]["opened"] += 1
-        milestone_progress[milestone_name]["closed"] += int(is_closed)
-        milestone_progress[milestone_name]["pending"] += int(is_open)
-
         for assignee in issue.assignees:
             person = ensure_person(people, assignee)
             person["issues_assigned"] += 1
@@ -287,20 +313,6 @@ def collect_issue_metrics(
             username, name = user_key(assignee)
             for label in labels:
                 labels_by_person[(username, name, label)] += 1
-
-            milestone_key = (milestone_name, username, name)
-            if milestone_key not in milestone_progress_by_person:
-                milestone_progress_by_person[milestone_key] = {
-                    "milestone": milestone_name,
-                    "username": username,
-                    "name": name,
-                    "assigned": 0,
-                    "closed": 0,
-                    "pending": 0,
-                }
-            milestone_progress_by_person[milestone_key]["assigned"] += 1
-            milestone_progress_by_person[milestone_key]["closed"] += int(is_closed)
-            milestone_progress_by_person[milestone_key]["pending"] += int(is_open)
 
         if is_documentation and is_closed:
             closer = getattr(issue, "closed_by", None)
@@ -406,7 +418,6 @@ def collect_commit_metrics(
         increment_user(committers, commit.author)
         author["commits"] += 1
 
-        # Tenta obter os arquivos modificados usando git local primeiro
         changed_files_list = get_commit_files_local(commit.sha)
         is_doc = False
         if changed_files_list is not None:
@@ -415,7 +426,6 @@ def collect_commit_metrics(
                 for filename in changed_files_list
             )
         else:
-            # Fallback para a API do GitHub
             try:
                 changed_files = getattr(commit, "files", []) or []
                 is_doc = any(
@@ -449,10 +459,16 @@ def collect_commit_metrics(
         {"range": label, "count": histogram[label]}
         for label, _, _ in COMMIT_MESSAGE_BUCKETS
     ]
+    
     coauthors_per_week = [
-        {"week": week, "count": coauthors_by_week[week]}
+        {
+            "week": week, 
+            "coauthors": coauthors_by_week[week], 
+            "count": coauthors_by_week[week]
+        }
         for week in weeks
     ]
+    
     commit_heatmap = [
         {"day": day, "hour": hour, "count": heatmap[(day, hour)]}
         for day in range(7)
