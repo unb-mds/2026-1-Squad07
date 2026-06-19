@@ -24,10 +24,10 @@ As [Métricas de Sucesso da IA](../../docs/architecture/ai-success-metrics.md) j
 
 - Documento de arquitetura `docs/architecture/ai-integration.md` com diagrama de componentes, fluxos e contratos.
 - Esta spec `specs/002-requirements-r2/ai-integration.md` com requisitos e plano de validação.
-- Definição dos endpoints `POST /api/v1/analysis/evaluate` e `GET /api/v1/analysis/{id}/history` com schemas.
+- Definição dos endpoints `POST /api/v1/analysis/evaluate`, `GET /api/v1/laws/{id}/analysis` e `GET /api/v1/laws/{id}/history` com schemas.
 - Decisão documentada de síncrono vs. assíncrono e de integração interna vs. externa.
 - Distinção entre o fluxo **offline** (classificar acervo, treinar, popular catálogo) e o fluxo **online** (classificação sob demanda do usuário).
-- Reuso do catálogo via `Law.sourceType = CATALOG`.
+- Reuso do catálogo via `Law.sourceType = CATALOG`, com resultados persistidos em `Analysis`.
 - Política de cache e versionamento de modelos.
 
 ### Fora de Escopo
@@ -41,7 +41,7 @@ As [Métricas de Sucesso da IA](../../docs/architecture/ai-success-metrics.md) j
 
 A R2 separa dois fluxos: **offline**, em que um acervo é classificado, usado para treinar o LegalBERT-pt e persistido como catálogo (`Law.sourceType = CATALOG`); e **online**, em que o usuário envia uma lei nova/atualizada e o backend a classifica na hora com o modelo já treinado.
 
-No fluxo online, o backend orquestra a inferência do LegalBERT-pt por trás de uma interface estável (`AnalysisProvider`). O modelo é auto-hospedado (`transformers` + `torch`), carregado no processo do backend e podendo evoluir para um serviço de inferência separado. Ele classifica o texto em categorias de problema (multi-label); o backend deriva `score`, `metrics` e `warnings` a partir das probabilidades. O endpoint de avaliação inicia síncrono, com contrato preparado para modo assíncrono (relevante para textos longos com chunking). Resultados são cacheados por hash de texto + versão de modelo e o histórico por submissão é persistido.
+No fluxo online, o backend orquestra a inferência do LegalBERT-pt por trás de uma interface estável (`AnalysisProvider`). O modelo é auto-hospedado (`transformers` + `torch`), carregado no processo do backend e podendo evoluir para um serviço de inferência separado. Ele classifica o texto em quatro categorias iniciais de problema (multi-label): ambiguidade, vagueza, falta de referência e inconsistência. O backend deriva `score`, `metrics` e `warnings` a partir das probabilidades. O endpoint de avaliação inicia síncrono, com contrato preparado para modo assíncrono (relevante para textos longos com chunking). Resultados são cacheados por hash de texto + versão de modelo e persistidos em `Analysis`, tabela relacionada a `Law`.
 
 ## Futuro
 
@@ -64,11 +64,14 @@ No fluxo online, o backend orquestra a inferência do LegalBERT-pt por trás de 
 | D8 | Textos acima de 512 tokens tratados por chunking + pooling. | Leis são extensas e excedem o limite do BERT. |
 | D9 | Dois fluxos: offline (catálogo + treino, em lote) e online (sob demanda, no caminho de requisição). | Têm latências e objetivos diferentes; o treino não pode ficar no caminho da requisição. |
 | D10 | Catálogo de leis classificadas reusa `Law.sourceType = CATALOG`. | O valor já existe no schema e na migration; evita criar estrutura paralela. |
+| D11 | Resultados de análise são persistidos em nova tabela Prisma `Analysis`, relacionada a `Law`. | Uma lei pode ter múltiplas análises por versão de modelo; campos planos em `Law` não preservam histórico. |
+| D12 | Consultas de análise usam `law.id` em `/api/v1/laws/{id}/analysis` e `/api/v1/laws/{id}/history`. | O usuário navega pela lei, não pelo identificador interno de uma análise. |
+| D13 | O catálogo é populado apenas por acervo curado offline na R2; submissões `USER_UPLOAD` não realimentam treino automaticamente. | Realimentação exige revisão humana e curadoria, fora do escopo da R2. |
 
 ## Requisitos
 
 - **REQ-001**: O documento `docs/architecture/ai-integration.md` DEVE conter diagrama de componentes (Frontend → Backend → IA) em Mermaid.
-- **REQ-002**: A arquitetura DEVE definir os contratos de `POST /api/v1/analysis/evaluate` e `GET /api/v1/analysis/{id}/history` com schemas de entrada e saída.
+- **REQ-002**: A arquitetura DEVE definir os contratos de `POST /api/v1/analysis/evaluate`, `GET /api/v1/laws/{id}/analysis` e `GET /api/v1/laws/{id}/history` com schemas de entrada e saída.
 - **REQ-003**: A decisão entre processamento síncrono e assíncrono DEVE estar documentada e justificada com base nas métricas de latência.
 - **REQ-004**: A decisão entre integração interna (módulo) e externa (microserviço) DEVE estar documentada com critérios de evolução.
 - **REQ-005**: O contrato de resposta DEVE incluir `model_version` e `cached`, suportando cache e versionamento.
@@ -77,10 +80,12 @@ No fluxo online, o backend orquestra a inferência do LegalBERT-pt por trás de 
 - **REQ-008**: A documentação DEVE deixar claro que a análise real é planejada para a R2 e não existe na R1.
 - **REQ-009**: A página de arquitetura DEVE ser incluída na navegação do MkDocs.
 - **REQ-010**: A arquitetura DEVE registrar que o LegalBERT-pt é auto-hospedado localmente, sem envio de texto a API externa de terceiros.
-- **REQ-011**: O `score` DEVE ser derivado das probabilidades do classificador; `metrics` DEVE conter a probabilidade por categoria e `warnings` DEVE conter as categorias acima de limiar com `confidence`.
+- **REQ-011**: O `score` DEVE ser calculado por `1 - média(probabilidades por categoria)` após pooling por média entre chunks; `metrics` DEVE conter a probabilidade por categoria e `warnings` DEVE conter as categorias acima de limiar com `confidence`.
 - **REQ-012**: A arquitetura DEVE documentar o tratamento de textos acima de 512 tokens (chunking + pooling) e a justificativa das dependências `transformers`/`torch`.
 - **REQ-013**: A arquitetura DEVE distinguir o fluxo offline (catálogo + treino) do fluxo online (sob demanda), deixando claro que o treino não fica no caminho da requisição.
-- **REQ-014**: O catálogo de leis classificadas DEVE reusar `Law.sourceType = CATALOG`, sem criar estrutura paralela.
+- **REQ-014**: O catálogo de leis classificadas DEVE reusar `Law.sourceType = CATALOG` e persistir resultados em `Analysis`, sem campos analíticos em `Law`.
+- **REQ-015**: A taxonomia inicial da R2 DEVE conter `ambiguidade`, `vagueza`, `falta_referencia` e `inconsistencia`; ampliar categorias exige nova `model_version`.
+- **REQ-016**: Submissões `USER_UPLOAD` NÃO DEVEM realimentar automaticamente o catálogo nem o conjunto de treino na R2.
 
 ## Plano de Validação (TDD Documental)
 
@@ -91,7 +96,7 @@ Esta é uma spec documental; a validação segue TDD documental conforme `specs/
 | V1 - Documento existe e está completo | Abrir `docs/architecture/ai-integration.md` | Contém objetivo, componentes, decisões, endpoints, performance e estado atual. |
 | V2 - Spec existe | Abrir este arquivo | Contém escopo, requisitos e plano de validação. |
 | V3 - Diagrama Mermaid renderiza | `mkdocs serve` e abrir a página | Diagrama de componentes e sequência renderizam sem erro. |
-| V4 - Endpoints com schemas | Ler seção de endpoints | Request/response e tabelas de campos presentes para os dois endpoints. |
+| V4 - Endpoints com schemas | Ler seção de endpoints | Request/response e tabelas de campos presentes para os endpoints de avaliação, análise mais recente e histórico. |
 | V5 - Decisão sync vs. async | Ler seção de decisões | Decisão tomada, justificada e ligada às métricas de latência. |
 | V6 - Navegação atualizada | Verificar `mkdocs.yml` e navegação | Página aparece na seção Arquitetura. |
 | V7 - Coerência com escopo | Revisão cruzada com `ai-success-metrics.md` e `index.md` | Sem contradição de escopo, RNFs ou estado atual. |
@@ -109,15 +114,50 @@ Esta é uma spec documental; a validação segue TDD documental conforme `specs/
 ## Decisões Resolvidas
 
 - **R-001** (era ambiguidade de modelo): o modelo é o **LegalBERT-pt**, usado como classificador multi-label de problemas. Resolvido com o time em 2026-06-11.
+- **R-002** (pendência 001 resolvida): a R2 deve criar uma tabela Prisma `Analysis`, relacionada a `Law`, para persistir score, métricas, avisos, versão do modelo, status, cache e data de criação.
+- **R-003** (pendência 002 resolvida): o histórico usa `law.id` como identificador nas rotas `GET /api/v1/laws/{id}/analysis` e `GET /api/v1/laws/{id}/history`.
+- **R-004** (pendência 003 resolvida): a taxonomia inicial da R2 contém `ambiguidade`, `vagueza`, `falta_referencia` e `inconsistencia`; novas categorias exigem nova `model_version`.
+- **R-005** (pendência 004 resolvida): o score geral é `1 - média(probabilidades por categoria)` e o pooling entre chunks usa média por categoria; a implementação deve ficar em `backend/app/services/analysis/scoring.py` com estratégia configurável.
+- **R-006** (pendência 005 resolvida): submissões `USER_UPLOAD` não realimentam o catálogo na R2; curadoria de dados de usuário fica no backlog futuro.
+- **R-007** (pendência 006 resolvida): leis de catálogo (`CATALOG`) e submissões de usuário (`USER_UPLOAD`) usam a mesma tabela `Analysis`; a distinção permanece em `Law.sourceType`.
 
-## Pendências (NEEDS CLARIFICATION)
+### Modelo Prisma Planejado para R2
 
-- **NC-001**: Confirmar se a entidade de análise será persistida em nova tabela Prisma (`Analysis`) ou associada a `Law`; definir antes da implementação da R2.
-- **NC-002**: Definir o identificador usado em `GET /api/v1/analysis/{id}/history` — `analysis_id` ou `submission_id` (`law.id`). Esta spec assume o identificador da submissão.
-- **NC-003**: Definir a **taxonomia das categorias de problema** que o LegalBERT-pt deve classificar (ex.: ambiguidade, vagueza, falta de referência, inconsistência) e a base rotulada usada no fine-tuning.
-- **NC-004**: Definir a **fórmula de agregação** das probabilidades para o `score` geral e a estratégia de pooling entre chunks (máximo, média ou outra).
-- **NC-005**: Definir se leis enviadas por usuários (`USER_UPLOAD`) podem **realimentar** o catálogo e o conjunto de treino (e com qual revisão humana), ou se o catálogo é populado apenas pelo acervo curado offline.
-- **NC-006**: Definir como o catálogo classificado armazena o resultado da classificação — em campos próprios de `Law`, em tabela de análise associada (ver NC-001) ou ambos.
+```prisma
+model Analysis {
+  id           String         @id @default(uuid())
+  score        Float
+  metrics      Json
+  warnings     Json
+  modelVersion String         @map("model_version")
+  cached       Boolean        @default(false)
+  status       AnalysisStatus @default(COMPLETED)
+
+  lawId        String         @map("law_id")
+  law          Law            @relation(fields: [lawId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime       @default(now()) @map("created_at")
+
+  @@map("analyses")
+}
+
+enum AnalysisStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+```
+
+### Taxonomia Inicial da R2
+
+| Código | Nome | Descrição |
+| --- | --- | --- |
+| `ambiguidade` | Ambiguidade | Termos ou dispositivos com mais de uma interpretação possível. |
+| `vagueza` | Vagueza | Conceitos indeterminados sem critério objetivo aplicável. |
+| `falta_referencia` | Falta de referência | Dispositivo cita norma, artigo ou prazo não identificado no texto. |
+| `inconsistencia` | Inconsistência | Contradição interna entre artigos ou com legislação mencionada. |
+
+Ampliar essa taxonomia implica nova `model_version`, porque altera a saída esperada do classificador e a interpretação histórica das métricas.
 
 ## Referências
 
