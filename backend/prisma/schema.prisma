@@ -53,6 +53,7 @@ model Law {
 
   uploadedByUserId String?      @map("uploaded_by_user_id")
   uploadedBy       User?        @relation(fields: [uploadedByUserId], references: [id], onDelete: SetNull)
+  analyses          Analysis[]
 
   isPublic        Boolean       @default(false) @map("is_public")
 
@@ -60,4 +61,18 @@ model Law {
   updatedAt       DateTime      @updatedAt @map("updated_at")
 
   @@map("laws")
+}
+
+model Analysis {
+  id           String   @id @default(uuid())
+  lawId        String   @map("law_id")
+  law          Law      @relation(fields: [lawId], references: [id], onDelete: Cascade)
+  score        Float
+  metrics      Json
+  warnings     Json
+  modelVersion String   @map("model_version")
+  cached       Boolean  @default(false)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("analyses")
 }
