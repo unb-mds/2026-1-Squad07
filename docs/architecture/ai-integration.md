@@ -16,15 +16,15 @@ Este documento descreve a arquitetura **planejada para a R2 e versões futuras**
 
 A classificação acontece em dois momentos distintos, que usam o mesmo modelo mas têm caminhos e requisitos diferentes:
 
-1. **Offline — construção do catálogo e treinamento.** Um acervo de leis é classificado/rotulado e usado para o fine-tuning do LegalBERT-pt. As leis classificadas são persistidas como **catálogo** (`Law.sourceType = CATALOG`), servindo ao mesmo tempo de base de treino e de conteúdo navegável. Roda em lote, **fora do caminho de requisição** do usuário.
-2. **Online — classificação sob demanda.** Quando um usuário envia uma lei nova ou atualizada, o backend chama o modelo **já treinado** e classifica **na hora**, retornando o resultado e persistindo a análise. É o fluxo coberto pelos endpoints `/api/v1/analysis/*`.
+1. **Offline — construção do catálogo e treinamento.** Um acervo de leis é classificado/rotulado e usado para o fine-tuning do LegalBERT-pt. As leis classificadas são persistidas como **catálogo** (`Law.sourceType = CATALOG`) e seus resultados ficam em `Analysis`, servindo ao mesmo tempo de base de treino e de conteúdo navegável. Roda em lote, **fora do caminho de requisição** do usuário.
+2. **Online — classificação sob demanda.** Quando um usuário envia uma lei nova ou atualizada, o backend chama o modelo **já treinado** e classifica **na hora**, retornando o resultado e persistindo a análise. A consulta do resultado mais recente e do histórico usa o `law.id` nas rotas `/api/v1/laws/{id}/analysis` e `/api/v1/laws/{id}/history`.
 
 | Aspecto | Fluxo offline (catálogo + treino) | Fluxo online (sob demanda) |
 | --- | --- | --- |
 | Disparo | Processo em lote do Squad | Requisição do usuário |
 | Objetivo | Rotular acervo, treinar modelo, popular catálogo | Classificar lei nova/atualizada na hora |
 | Latência | Não crítica | Sujeita aos alvos de 2 s / 5 s |
-| Persistência | `Law` com `sourceType = CATALOG` + classificação | Análise da submissão (`USER_UPLOAD`) |
+| Persistência | `Law` com `sourceType = CATALOG` + `Analysis` | `Law` com `sourceType = USER_UPLOAD` + `Analysis` |
 | Produz | Checkpoint versionado + catálogo classificado | Resposta de `POST /api/v1/analysis/evaluate` |
 
 ```mermaid
@@ -48,9 +48,9 @@ flowchart LR
     classDef database fill:#FFE8E8,stroke:#D64545,color:#5C1B1B,stroke-width:2px;
 ```
 
-> O valor `CATALOG` do enum `LawSourceType` já existe no schema Prisma (`backend/prisma/schema.prisma`) e na migration inicial, mas **ainda não é populado** — hoje a API e o seed gravam apenas `USER_UPLOAD`. O catálogo de leis classificadas é, portanto, uma evolução já prevista no modelo de dados.
+> O valor `CATALOG` do enum `LawSourceType` já existe no schema Prisma (`backend/prisma/schema.prisma`) e na migration inicial, mas **ainda não é populado** — hoje a API e o seed gravam apenas `USER_UPLOAD`. O catálogo de leis classificadas é, portanto, uma evolução já prevista no modelo de dados. Na R2, a classificação não deve virar campos planos em `Law`; ela deve ser persistida em `Analysis`, permitindo histórico por versão de modelo.
 
-O treinamento em si (preparação do dataset, ciclo de fine-tuning, métricas de treino) é um tema de ciclo de vida de ML e fica fora do escopo desta página de integração; aqui interessam os **pontos de contato**: de onde vem o catálogo, qual checkpoint é servido e como o modelo treinado entra no fluxo online.
+O treinamento em si (preparação do dataset, ciclo de fine-tuning, métricas de treino) é um tema de ciclo de vida de ML e fica fora do escopo desta página de integração; aqui interessam os **pontos de contato**: de onde vem o catálogo, qual checkpoint é servido e como o modelo treinado entra no fluxo online. Submissões `USER_UPLOAD` não realimentam o catálogo nem o conjunto de treino na R2; esse fluxo exige curadoria humana e fica como backlog futuro.
 
 ## Visão Geral da Integração (Fluxo Online)
 
@@ -98,7 +98,7 @@ flowchart LR
 | Backend (FastAPI) | Validar entrada, consultar e gravar cache, orquestrar a análise, registrar logs estruturados, persistir resultado e histórico, expor os endpoints versionados. |
 | Classificador LegalBERT-pt | Receber texto normalizado (com chunking quando necessário), inferir as probabilidades de cada categoria de problema e devolvê-las. Fica atrás de uma interface estável (`AnalysisProvider`), o que permite trocar o modelo sem afetar o resto do sistema. |
 | Cache de Resultados | Evitar reprocessar o mesmo texto com a mesma versão de modelo. |
-| PostgreSQL / Prisma | Persistir o resultado de cada análise e o histórico por submissão. |
+| PostgreSQL / Prisma | Persistir `Law` e a tabela `Analysis`, que guarda o resultado de cada análise e o histórico por lei. |
 
 ## Decisões Arquiteturais
 
@@ -119,13 +119,22 @@ flowchart LR
 
 ### Modelo de classificação: LegalBERT-pt
 
-O LegalBERT-pt é usado como **classificador multi-label de problemas**: para um dado texto, o modelo estima a probabilidade de presença de cada categoria de problema legislativo (ex.: ambiguidade, vagueza, falta de referência, inconsistência). A partir dessas probabilidades, o backend deriva o contrato da issue:
+O LegalBERT-pt é usado como **classificador multi-label de problemas**: para um dado texto, o modelo estima a probabilidade de presença de cada categoria de problema legislativo. A taxonomia inicial da R2 é:
+
+| Código | Nome | Descrição |
+| --- | --- | --- |
+| `ambiguidade` | Ambiguidade | Termos ou dispositivos com mais de uma interpretação possível. |
+| `vagueza` | Vagueza | Conceitos indeterminados sem critério objetivo aplicável. |
+| `falta_referencia` | Falta de referência | Dispositivo cita norma, artigo ou prazo não identificado no texto. |
+| `inconsistencia` | Inconsistência | Contradição interna entre artigos ou com legislação mencionada. |
+
+Novas categorias exigem nova `model_version`, porque alteram a saída esperada do classificador e a interpretação histórica das métricas. A partir dessas probabilidades, o backend deriva o contrato da issue:
 
 - **`metrics`** — a probabilidade prevista pelo modelo para cada categoria de problema.
 - **`warnings`** — as categorias cuja probabilidade ultrapassa um limiar configurável, apresentadas como apontamentos com `confidence`.
-- **`score`** — a qualidade geral, **derivada** das probabilidades (quanto menos problemas prováveis, maior o score). A fórmula de agregação é decisão de implementação e deve ser documentada junto ao modelo; o contrato apenas expõe o resultado em `[0, 1]`.
+- **`score`** — a qualidade geral, **derivada** das probabilidades (quanto menos problemas prováveis, maior o score). Na R2, a fórmula inicial é `score = 1 - média(probabilidades por categoria)`. Exemplo: `{ambiguidade: 0.71, vagueza: 0.18, falta_referencia: 0.62, inconsistencia: 0.09}` gera `1 - (0.71 + 0.18 + 0.62 + 0.09) / 4 = 0.60`.
 
-**Textos longos (limite de 512 tokens).** O BERT processa no máximo 512 tokens, e leis costumam ultrapassar esse limite. O texto é dividido em *chunks* com janela deslizante; as probabilidades por chunk são agregadas (pooling, ex.: máximo ou média) para produzir o resultado do documento. Essa etapa é a principal fonte de latência variável e reforça a porta para o modo assíncrono em documentos grandes.
+**Textos longos (limite de 512 tokens).** O BERT processa no máximo 512 tokens, e leis costumam ultrapassar esse limite. O texto é dividido em *chunks* com janela deslizante; as probabilidades por chunk são agregadas por **média por categoria** para produzir o resultado do documento. A média evita amplificar ruído de trechos isolados e representa melhor o documento como um todo. A fórmula de score e a estratégia de pooling devem ficar em `backend/app/services/analysis/scoring.py` e ser configuráveis, de modo que trocar a estratégia não altere o contrato HTTP.
 
 **Dependências.** O uso do modelo introduz `transformers` e `torch` no backend — dependências pesadas, justificadas por serem o ecossistema padrão para servir um modelo BERT auto-hospedado em Python. O modelo é carregado **uma única vez na inicialização** e mantido quente em memória, evitando custo de carregamento por requisição.
 
@@ -174,8 +183,39 @@ No **modo assíncrono futuro**, `POST /api/v1/analysis/evaluate` responde `202 A
 ### Versionamento de modelos
 
 - Toda análise registra `model_version` e, quando houver uso de prompt, `prompt_version`.
-- O histórico por submissão preserva qual versão gerou cada resultado, permitindo comparar evolução e detectar regressões.
+- O histórico por lei preserva qual versão gerou cada resultado, permitindo comparar evolução e detectar regressões.
 - A troca de versão de modelo não deve apagar resultados anteriores; ela cria novas entradas no histórico.
+
+### Persistência de análises
+
+Cada execução deve gerar uma linha em `Analysis`, relacionada a `Law`. Essa separação permite que uma mesma lei tenha múltiplas análises ao longo do tempo, especialmente quando o modelo muda. Tanto leis do catálogo (`CATALOG`) quanto submissões de usuário (`USER_UPLOAD`) usam a mesma tabela; a origem continua sendo responsabilidade de `Law.sourceType`.
+
+Modelo Prisma planejado para a R2:
+
+```prisma
+model Analysis {
+  id           String         @id @default(uuid())
+  score        Float
+  metrics      Json
+  warnings     Json
+  modelVersion String         @map("model_version")
+  cached       Boolean        @default(false)
+  status       AnalysisStatus @default(COMPLETED)
+
+  lawId        String         @map("law_id")
+  law          Law            @relation(fields: [lawId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime       @default(now()) @map("created_at")
+
+  @@map("analyses")
+}
+
+enum AnalysisStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+```
 
 ### Tratamento de erros e fallbacks
 
@@ -216,16 +256,16 @@ Solicita a análise de qualidade de um texto legislativo.
 {
   "analysis_id": "a1b2c3",
   "status": "completed",
-  "score": 0.82,
+  "score": 0.60,
   "metrics": {
     "ambiguidade": 0.71,
     "vagueza": 0.18,
-    "falta_de_referencia": 0.62,
+    "falta_referencia": 0.62,
     "inconsistencia": 0.09
   },
   "warnings": [
     { "code": "ambiguidade", "message": "Trecho com referência ambígua no Art. 2.", "confidence": 0.71 },
-    { "code": "falta_de_referencia", "message": "Dispositivo cita norma não identificada.", "confidence": 0.62 }
+    { "code": "falta_referencia", "message": "Dispositivo cita norma não identificada.", "confidence": 0.62 }
   ],
   "model_version": "legal-bert-pt@v0.1.0",
   "cached": false
@@ -242,15 +282,43 @@ Solicita a análise de qualidade de um texto legislativo.
 | `model_version` | string | Checkpoint do LegalBERT-pt que gerou o resultado. |
 | `cached` | bool | Indica se o resultado veio do cache. |
 
-### GET /api/v1/analysis/{id}/history
+### GET /api/v1/laws/{id}/analysis
 
-Retorna o histórico de análises de uma submissão, em ordem cronológica decrescente.
+Retorna a análise mais recente da lei identificada por `law.id`. O identificador é o da lei porque o usuário navega e consulta uma submissão ou item do catálogo, não uma análise específica.
+
+**Response 200**
+
+```json
+{
+  "analysis_id": "a1b2c3",
+  "status": "completed",
+  "score": 0.60,
+  "metrics": {
+    "ambiguidade": 0.71,
+    "vagueza": 0.18,
+    "falta_referencia": 0.62,
+    "inconsistencia": 0.09
+  },
+  "warnings": [
+    { "code": "ambiguidade", "message": "Trecho com referência ambígua no Art. 2.", "confidence": 0.71 },
+    { "code": "falta_referencia", "message": "Dispositivo cita norma não identificada.", "confidence": 0.62 }
+  ],
+  "model_version": "legal-bert-pt@v0.1.0",
+  "cached": false
+}
+```
+
+Lei inexistente retorna `404 Not Found`. Lei existente sem análise retorna `404 Not Found` com mensagem clara, sem simular resultado.
+
+### GET /api/v1/laws/{id}/history
+
+Retorna o histórico de análises da lei identificada por `law.id`, em ordem cronológica decrescente.
 
 **Response 200**
 
 ```json
 [
-  { "timestamp": "2026-06-11T14:00:00Z", "score": 0.82, "model_version": "legal-bert-pt@v0.1.0" },
+  { "timestamp": "2026-06-11T14:00:00Z", "score": 0.60, "model_version": "legal-bert-pt@v0.1.0" },
   { "timestamp": "2026-06-09T10:30:00Z", "score": 0.79, "model_version": "legal-bert-pt@v0.0.9" }
 ]
 ```
@@ -261,13 +329,14 @@ Retorna o histórico de análises de uma submissão, em ordem cronológica decre
 | `score` | float (0–1) | Score registrado naquela análise. |
 | `model_version` | string | Versão do modelo usada. |
 
-Submissão inexistente retorna `404 Not Found`.
+Lei inexistente retorna `404 Not Found`.
 
 ### Modelos Pydantic de Referência
 
 Os schemas abaixo são a referência de contrato para implementação no backend (`backend/app/models/analysis.py`). Eles seguem o padrão já usado em [law.py](https://github.com/unb-mds/2026-1-Squad07/blob/main/backend/app/models/law.py).
 
 ```python
+from datetime import datetime
 from enum import Enum
 
 from pydantic import BaseModel, Field
@@ -308,7 +377,7 @@ class AnalysisResponse(BaseModel):
 
 
 class AnalysisHistoryItem(BaseModel):
-    timestamp: str
+    timestamp: datetime
     score: float = Field(..., ge=0, le=1)
     model_version: str
 ```
@@ -328,7 +397,7 @@ Os valores abaixo derivam das [Métricas de Sucesso da IA](ai-success-metrics.md
 
 ### Monitoramento
 
-Cada análise gera um log estruturado com, no mínimo: `analysis_id`, `submission_id`, `model_version`, `prompt_version`, `law_type`, `latency_ms`, `status`, `error_type`, `manual_review_required` e `created_at`. As métricas operacionais mínimas e os alertas (análise lenta, erro elevado, qualidade abaixo do mínimo, alucinação crítica e indisponibilidade) seguem o plano detalhado em [Métricas de Sucesso da IA](ai-success-metrics.md#plano-de-monitoramento-e-observabilidade).
+Cada análise gera um log estruturado com, no mínimo: `analysis_id`, `law_id`, `model_version`, `prompt_version`, `law_type`, `latency_ms`, `status`, `error_type`, `manual_review_required` e `created_at`. As métricas operacionais mínimas e os alertas (análise lenta, erro elevado, qualidade abaixo do mínimo, alucinação crítica e indisponibilidade) seguem o plano detalhado em [Métricas de Sucesso da IA](ai-success-metrics.md#plano-de-monitoramento-e-observabilidade).
 
 ## Relação com Requisitos Não Funcionais
 
