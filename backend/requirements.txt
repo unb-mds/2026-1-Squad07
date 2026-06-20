@@ -6,6 +6,7 @@ pydantic-settings
 uvicorn
 pytest
 pytest-cov
+pytest-asyncio
 httpx
 flake8
 black
