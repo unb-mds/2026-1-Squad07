@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-19T08:31:16+00:00",
+  "generated_at": "2026-06-20T07:00:38+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -80,19 +80,19 @@
     },
     {
       "range": "21-50",
-      "count": 94
+      "count": 99
     },
     {
       "range": "51-100",
-      "count": 67
+      "count": 68
     },
     {
       "range": "101-200",
-      "count": 29
+      "count": 32
     },
     {
       "range": "200+",
-      "count": 1
+      "count": 4
     }
   ],
   "coauthors_per_week": [
@@ -602,7 +602,7 @@
     {
       "day": 3,
       "hour": 17,
-      "count": 1
+      "count": 5
     },
     {
       "day": 3,
@@ -677,7 +677,7 @@
     {
       "day": 4,
       "hour": 8,
-      "count": 0
+      "count": 1
     },
     {
       "day": 4,
@@ -702,17 +702,17 @@
     {
       "day": 4,
       "hour": 13,
-      "count": 0
+      "count": 3
     },
     {
       "day": 4,
       "hour": 14,
-      "count": 4
+      "count": 5
     },
     {
       "day": 4,
       "hour": 15,
-      "count": 2
+      "count": 3
     },
     {
       "day": 4,
@@ -722,7 +722,7 @@
     {
       "day": 4,
       "hour": 17,
-      "count": 0
+      "count": 2
     },
     {
       "day": 4,
@@ -1004,17 +1004,17 @@
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "commits": 46
+      "commits": 56
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 28
+      "commits": 29
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "commits": 20
+      "commits": 21
     },
     {
       "username": "Paulodemczuk",
@@ -1051,7 +1051,7 @@
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "prs_opened": 11
+      "prs_opened": 12
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1127,7 +1127,7 @@
       "issues_assigned_closed": 14,
       "issues_pending": 6,
       "prs_opened": 17,
-      "prs_reviewed": 18,
+      "prs_reviewed": 19,
       "prs_merged": 12,
       "commits": 61
     },
@@ -1138,22 +1138,22 @@
       "issues_assigned": 17,
       "issues_assigned_closed": 13,
       "issues_pending": 4,
-      "prs_opened": 11,
+      "prs_opened": 12,
       "prs_reviewed": 5,
-      "prs_merged": 9,
-      "commits": 46
+      "prs_merged": 12,
+      "commits": 56
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "issues_opened": 4,
-      "issues_assigned": 13,
+      "issues_assigned": 14,
       "issues_assigned_closed": 11,
-      "issues_pending": 2,
+      "issues_pending": 3,
       "prs_opened": 6,
-      "prs_reviewed": 4,
+      "prs_reviewed": 5,
       "prs_merged": 6,
-      "commits": 20
+      "commits": 21
     },
     {
       "username": "Paulodemczuk",
@@ -1175,7 +1175,7 @@
       "issues_assigned_closed": 11,
       "issues_pending": 3,
       "prs_opened": 3,
-      "prs_reviewed": 2,
+      "prs_reviewed": 3,
       "prs_merged": 3,
       "commits": 13
     },
@@ -1201,7 +1201,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 28
+      "commits": 29
     },
     {
       "username": "RochaCarla",
@@ -1372,6 +1372,12 @@
       "count": 9
     },
     {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "type: feature ✨",
+      "count": 8
+    },
+    {
       "username": "Paulodemczuk",
       "name": "Paulo",
       "label": "documentation",
@@ -1396,16 +1402,16 @@
       "count": 8
     },
     {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "label": "type: feature ✨",
-      "count": 7
-    },
-    {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "label": "status: needs review 👀",
       "count": 7
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "area: backend ⚙️",
+      "count": 6
     },
     {
       "username": "ViniciusA05",
@@ -1424,12 +1430,6 @@
       "name": "Pedro Luca",
       "label": "area: api 🔌",
       "count": 6
-    },
-    {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "label": "area: backend ⚙️",
-      "count": 5
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1596,7 +1596,19 @@
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
+      "label": "epic: motor-inteligência-nlp",
+      "count": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "label": "rabbit 🐇",
+      "count": 2
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "label": "release: v2",
       "count": 2
     },
     {
@@ -1747,18 +1759,6 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "label": "epic: acesso-identidade",
-      "count": 1
-    },
-    {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "label": "epic: motor-inteligência-nlp",
-      "count": 1
-    },
-    {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "label": "release: v2",
       "count": 1
     },
     {
@@ -1928,20 +1928,20 @@
       "total": 53
     },
     {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 27,
-      "total": 27
-    },
-    {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues": 3,
       "pull_requests": 3,
-      "commits": 19,
-      "total": 25
+      "commits": 26,
+      "total": 32
+    },
+    {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 29,
+      "total": 29
     },
     {
       "username": "Paulodemczuk",
@@ -2513,9 +2513,9 @@
       "milestone": "Sprint 12",
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "assigned": 1,
+      "assigned": 2,
       "closed": 0,
-      "pending": 1
+      "pending": 2
     },
     {
       "milestone": "Sprint 12",
