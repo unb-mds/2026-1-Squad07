@@ -26,3 +26,30 @@ class AnalysisResponse(BaseModel):
     modelVersion: str
     cached: bool
     createdAt: datetime
+
+
+class EvaluateRequest(BaseModel):
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        json_schema_extra={
+            "example": {
+                "texto": (
+                    "Art. 1 O órgão competente poderá, quando julgar "
+                    "necessário, adotar as medidas cabíveis."
+                )
+            }
+        },
+    )
+
+    texto: str = Field(..., min_length=1)
+    # Opcional: quando informado, o resultado é persistido em Analysis e
+    # aparece no histórico da lei (GET /api/v1/analysis/{lawId}/history).
+    lawId: str | None = None
+
+
+class EvaluateResponse(BaseModel):
+    score: float
+    metrics: dict[str, float]
+    warnings: list[dict[str, Any]]
+    model_version: str
+    cached: bool
