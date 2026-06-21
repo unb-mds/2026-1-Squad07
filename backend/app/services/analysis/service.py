@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from prisma import Json
+
 from app.services.analysis.cache import AnalysisCache
 from app.services.analysis.scoring import (
     DEFAULT_STRATEGY,
@@ -58,12 +60,13 @@ async def evaluate_text(
     cache.set(key, result)
 
     if law_id is not None:
+        # Relação obrigatória via connect; campos Json exigem o wrapper Json.
         await db.analysis.create(
             data={
-                "lawId": law_id,
+                "law": {"connect": {"id": law_id}},
                 "score": result["score"],
-                "metrics": result["metrics"],
-                "warnings": result["warnings"],
+                "metrics": Json(result["metrics"]),
+                "warnings": Json(result["warnings"]),
                 "modelVersion": result["model_version"],
                 "cached": False,
             }
