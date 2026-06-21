@@ -110,7 +110,7 @@ def test_evaluate_persiste_quando_ha_law_id(monkeypatch):
 
     assert response.status_code == 200
     assert len(delegate.created) == 1
-    assert delegate.created[0]["lawId"] == "law-7"
+    assert delegate.created[0]["law"] == {"connect": {"id": "law-7"}}
 
 
 def test_evaluate_falha_do_modelo_retorna_502(monkeypatch):
