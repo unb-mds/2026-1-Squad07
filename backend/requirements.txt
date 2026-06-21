@@ -4,6 +4,8 @@ prisma
 pydantic
 pydantic-settings
 uvicorn
+transformers
+torch
 pytest
 pytest-cov
 pytest-asyncio
