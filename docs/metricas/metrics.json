@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-20T07:00:38+00:00",
+  "generated_at": "2026-06-21T07:30:41+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -80,15 +80,15 @@
     },
     {
       "range": "21-50",
-      "count": 99
+      "count": 105
     },
     {
       "range": "51-100",
-      "count": 68
+      "count": 75
     },
     {
       "range": "101-200",
-      "count": 32
+      "count": 33
     },
     {
       "range": "200+",
@@ -622,7 +622,7 @@
     {
       "day": 3,
       "hour": 21,
-      "count": 2
+      "count": 6
     },
     {
       "day": 3,
@@ -792,7 +792,7 @@
     {
       "day": 5,
       "hour": 7,
-      "count": 0
+      "count": 1
     },
     {
       "day": 5,
@@ -837,7 +837,7 @@
     {
       "day": 5,
       "hour": 16,
-      "count": 0
+      "count": 7
     },
     {
       "day": 5,
@@ -862,7 +862,7 @@
     {
       "day": 5,
       "hour": 21,
-      "count": 0
+      "count": 1
     },
     {
       "day": 5,
@@ -967,7 +967,7 @@
     {
       "day": 6,
       "hour": 18,
-      "count": 1
+      "count": 2
     },
     {
       "day": 6,
@@ -999,7 +999,7 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "commits": 61
+      "commits": 74
     },
     {
       "username": "pedrolrm",
@@ -1009,7 +1009,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 29
+      "commits": 30
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1128,8 +1128,8 @@
       "issues_pending": 6,
       "prs_opened": 17,
       "prs_reviewed": 19,
-      "prs_merged": 12,
-      "commits": 61
+      "prs_merged": 13,
+      "commits": 74
     },
     {
       "username": "pedrolrm",
@@ -1201,7 +1201,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 29
+      "commits": 30
     },
     {
       "username": "RochaCarla",
@@ -1924,24 +1924,24 @@
       "name": "ViniciusA05",
       "issues": 15,
       "pull_requests": 4,
-      "commits": 34,
-      "total": 53
+      "commits": 35,
+      "total": 54
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues": 3,
       "pull_requests": 3,
-      "commits": 26,
-      "total": 32
+      "commits": 27,
+      "total": 33
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 29,
-      "total": 29
+      "commits": 30,
+      "total": 30
     },
     {
       "username": "Paulodemczuk",
