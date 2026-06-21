@@ -86,10 +86,16 @@ async def test_persiste_em_analysis_quando_ha_law_id():
 
     assert len(db.analysis.created) == 1
     persisted = db.analysis.created[0]
-    assert persisted["lawId"] == "law-42"
+    # Relação obrigatória persistida via connect (não pelo escalar lawId).
+    assert persisted["law"] == {"connect": {"id": "law-42"}}
     assert persisted["modelVersion"] == "fake-v1"
     assert persisted["cached"] is False
     assert persisted["score"] == pytest.approx(0.7)
+    # metrics/warnings vão como Json do Prisma, preservando o conteúdo.
+    assert persisted["metrics"].data == provider.probabilities
+    assert persisted["warnings"].data == [
+        {"category": "ambiguidade", "confidence": 0.8}
+    ]
 
 
 async def test_sem_law_id_nao_persiste():
