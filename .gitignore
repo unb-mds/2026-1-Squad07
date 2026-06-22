@@ -42,6 +42,8 @@ htmlcov/
 .coverage
 .coverage.*
 coverage.xml
+coverage.lcov
+*.lcov
 
 
 # MkDocs
