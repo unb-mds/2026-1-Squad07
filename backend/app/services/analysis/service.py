@@ -1,15 +1,17 @@
 """Orquestra a avaliação: cache, inferência, scoring e persistência.
 
-Fluxo online (D9): consulta o cache por hash(texto + model_version); em caso de
-falta, chama o ``AnalysisProvider``, deriva score/metrics/warnings, guarda no
-cache e, quando há ``law_id``, persiste o resultado em ``Analysis`` (D11). Em
-caso de falha do modelo NÃO retorna score simulado — levanta ``AnalysisError``
-(D6/REQ-007), deixando o erro explícito para a camada de API.
+Fluxo online (D9): consulta o cache por hash(texto + model_version), que evita
+**reprocessar a inferência**. A persistência é independente do cache: sempre que
+há ``law_id``, cada execução grava uma linha em ``Analysis`` (D11), inclusive em
+cache hit — caso contrário o histórico da lei ficaria vazio. Em caso de falha do
+modelo NÃO retorna score simulado: levanta ``AnalysisError`` (D6/REQ-007),
+deixando o erro explícito para a camada de API traduzir em 503.
 """
 
 from __future__ import annotations
 
 from typing import Any
+from uuid import uuid4
 
 from prisma import Json
 
@@ -27,7 +29,7 @@ class AnalysisError(Exception):
 
 
 async def evaluate_text(
-    texto: str,
+    text: str,
     law_id: str | None,
     *,
     provider: AnalysisProvider,
@@ -36,40 +38,41 @@ async def evaluate_text(
     strategy: str = DEFAULT_STRATEGY,
     threshold: float = DEFAULT_WARNING_THRESHOLD,
 ) -> dict[str, Any]:
-    """Avalia o texto, usando cache e persistindo quando há ``law_id``."""
-    key = cache.make_key(texto, provider.model_version)
+    """Avalia o texto (cache evita só a inferência) e persiste se houver lei."""
+    key = cache.make_key(text, provider.model_version)
 
-    cached_result = cache.get(key)
-    if cached_result is not None:
-        return {**cached_result, "cached": True}
+    scored = cache.get(key)
+    cached = scored is not None
+    if not cached:
+        try:
+            probabilities = provider.analyze(text)
+        except Exception as exc:  # noqa: BLE001 - reembala como erro explícito
+            raise AnalysisError(f"Falha na análise do texto: {exc}") from exc
+        scored = score_analysis(probabilities, strategy=strategy, threshold=threshold)
+        cache.set(key, scored)
 
-    try:
-        probabilities = provider.analyze(texto)
-    except Exception as exc:  # noqa: BLE001 - reembala como erro explícito
-        raise AnalysisError(f"Falha na análise do texto: {exc}") from exc
+    analysis_id = str(uuid4())
+    if law_id is not None:
+        # Relação obrigatória via connect; campos Json exigem o wrapper Json.
+        # Persiste mesmo em cache hit: cada execução é uma entrada no histórico.
+        created = await db.analysis.create(
+            data={
+                "law": {"connect": {"id": law_id}},
+                "score": scored["score"],
+                "metrics": Json(scored["metrics"]),
+                "warnings": Json(scored["warnings"]),
+                "modelVersion": provider.model_version,
+                "cached": cached,
+            }
+        )
+        analysis_id = created.id
 
-    scored = score_analysis(probabilities, strategy=strategy, threshold=threshold)
-    result = {
+    return {
+        "analysis_id": analysis_id,
+        "status": "completed",
         "score": scored["score"],
         "metrics": scored["metrics"],
         "warnings": scored["warnings"],
         "model_version": provider.model_version,
-        "cached": False,
+        "cached": cached,
     }
-
-    cache.set(key, result)
-
-    if law_id is not None:
-        # Relação obrigatória via connect; campos Json exigem o wrapper Json.
-        await db.analysis.create(
-            data={
-                "law": {"connect": {"id": law_id}},
-                "score": result["score"],
-                "metrics": Json(result["metrics"]),
-                "warnings": Json(result["warnings"]),
-                "modelVersion": result["model_version"],
-                "cached": False,
-            }
-        )
-
-    return result
