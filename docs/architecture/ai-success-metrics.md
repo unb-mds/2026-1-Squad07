@@ -124,6 +124,7 @@ Cada análise deve registrar um log estruturado. Um log estruturado é um regist
 | Campo | O que significa |
 | --- | --- |
 | `analysis_id` | Identificador único da análise realizada. |
+| `submission_id` | Identificador da submissão analisada. |
 | `law_id` | Identificador da lei ou submissão analisada. |
 | `model_version` | Versão do modelo de IA usado, para saber qual versão gerou o resultado. |
 | `prompt_version` | Versão das instruções enviadas para a IA, quando houver uso de prompt. |
