@@ -13,7 +13,6 @@ from app.services.security import (
 )
 from tests.conftest import make_user
 
-
 # ---------- hash_password / verify_password ----------
 
 
@@ -82,9 +81,7 @@ def test_decode_access_token_retorna_none_para_token_invalido():
 
 def test_decode_access_token_retorna_none_para_token_expirado(monkeypatch):
     user = make_user()
-    monkeypatch.setattr(
-        "app.services.security.ACCESS_TOKEN_EXPIRE_MINUTES", 0
-    )
+    monkeypatch.setattr("app.services.security.ACCESS_TOKEN_EXPIRE_MINUTES", 0)
     token = create_access_token(user)
     # Aguarda 1 segundo para garantir expiração
     time.sleep(1)

@@ -6,7 +6,7 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from app.api import dependencies, users
-from app.api.dependencies import get_current_user, require_admin_user
+from app.api.dependencies import get_current_user
 from app.main import app
 from app.services.security import create_access_token
 from tests.conftest import make_user, FakeUserDelegate
@@ -26,8 +26,7 @@ def test_get_current_user_retorna_usuario_com_token_valido(monkeypatch):
     fake_delegate = FakeUserDelegate([user])
     monkeypatch.setattr(dependencies, "db", SimpleNamespace(user=fake_delegate))
 
-    token = create_access_token(user)
-    # Usa /health com override para testar apenas a dependência
+    # Usa /health (rota sem autenticação) para validar que a dependência existe
     response = client.get("/health")
     assert response.status_code == 200
 
@@ -38,7 +37,9 @@ def test_get_current_user_rejeita_sem_token(monkeypatch):
 
     # Testa via dependency_overrides para isolar a dependência
     async def fail_no_token():
-        raise HTTPException(status_code=401, detail="Token de autenticacao nao informado.")
+        raise HTTPException(
+            status_code=401, detail="Token de autenticacao nao informado."
+        )
 
     app.dependency_overrides[get_current_user] = fail_no_token
     try:
@@ -52,12 +53,13 @@ def test_get_current_user_rejeita_token_invalido(monkeypatch):
     fake_delegate = FakeUserDelegate()
     monkeypatch.setattr(dependencies, "db", SimpleNamespace(user=fake_delegate))
 
-    token = "token.invalido.aqui"
     monkeypatch.setattr(dependencies, "decode_access_token", lambda t: None)
 
     # Usa dependency_overrides para verificar que token inválido é rejeitado
     async def reject_invalid():
-        raise HTTPException(status_code=401, detail="Token de autenticacao invalido ou expirado.")
+        raise HTTPException(
+            status_code=401, detail="Token de autenticacao invalido ou expirado."
+        )
 
     app.dependency_overrides[get_current_user] = reject_invalid
     try:
@@ -68,14 +70,13 @@ def test_get_current_user_rejeita_token_invalido(monkeypatch):
 
 
 def test_get_current_user_rejeita_usuario_inexistente(monkeypatch):
-    user = make_user()
     fake_delegate = FakeUserDelegate()  # Delegate vazio — usuário não existe
     monkeypatch.setattr(dependencies, "db", SimpleNamespace(user=fake_delegate))
 
-    token = create_access_token(user)
-
     async def reject_not_found():
-        raise HTTPException(status_code=401, detail="Usuario autenticado nao encontrado.")
+        raise HTTPException(
+            status_code=401, detail="Usuario autenticado nao encontrado."
+        )
 
     app.dependency_overrides[get_current_user] = reject_not_found
     try:
