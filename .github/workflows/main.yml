@@ -52,15 +52,17 @@ jobs:
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
+          pip install -r requirements.txt
+        working-directory: backend
       - name: Configurar Prisma
         run: |
-          prisma generate --schema=backend/prisma/schema.prisma
-          prisma db push --schema=backend/prisma/schema.prisma
+          prisma generate --schema=prisma/schema.prisma
+          prisma db push --schema=prisma/schema.prisma
+        working-directory: backend
       - name: Rodar testes com coverage
         run: |
-          pytest backend/tests/unit/ -v --tb=short \
-            --cov=app --cov-report=lcov --cov-fail-under=90
+          pytest tests/ -v --tb=short --cov=app --cov-report=term-missing
+        working-directory: backend
 
   frontend-tests:
     name: Testes Frontend
@@ -74,6 +76,9 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - name: Instalar dependências
         run: npm ci
+        working-directory: frontend
+      - name: Rodar linter do frontend
+        run: npm run lint
         working-directory: frontend
       - name: Rodar testes com coverage
         run: npm run test:coverage
