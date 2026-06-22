@@ -39,6 +39,10 @@ frontend/coverage/
 .pytest_cache/
 htmlcov/
 .tox/
+.coverage
+.coverage.*
+coverage.xml
+
 
 # MkDocs
 site/
