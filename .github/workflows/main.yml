@@ -61,12 +61,13 @@ jobs:
         working-directory: backend
       - name: Rodar testes com coverage
         run: |
-          pytest tests/ -v --tb=short --cov=app --cov-report=term-missing
+          pytest tests/ -v --tb=short --cov=app --cov-report=lcov --cov-report=term-missing --cov-fail-under=90
         working-directory: backend
 
   frontend-tests:
     name: Testes Frontend
     runs-on: ubuntu-latest
+    needs: code-quality
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
