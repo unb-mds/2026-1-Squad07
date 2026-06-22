@@ -46,11 +46,14 @@ def test_warnings_lista_categorias_acima_do_limiar_com_confidence():
 
     warnings = build_warnings(probabilities, threshold=0.5)
 
-    assert warnings == [
-        {"category": "ambiguidade", "confidence": 0.9},
-        {"category": "falta_referencia", "confidence": 0.7},
-        {"category": "inconsistencia", "confidence": 0.5},
+    # code/message/confidence, ordenados por confiança desc.
+    assert [w["code"] for w in warnings] == [
+        "ambiguidade",
+        "falta_referencia",
+        "inconsistencia",
     ]
+    assert [w["confidence"] for w in warnings] == [0.9, 0.7, 0.5]
+    assert all(w["message"] for w in warnings)
 
 
 def test_warnings_vazio_quando_nada_acima_do_limiar():
@@ -68,7 +71,14 @@ def test_score_analysis_agrega_score_metrics_warnings():
 
     assert result["score"] == pytest.approx(0.5)
     assert result["metrics"] == probabilities
-    assert result["warnings"] == [{"category": "ambiguidade", "confidence": 0.8}]
+    assert result["warnings"] == [
+        {
+            "code": "ambiguidade",
+            "message": result["warnings"][0]["message"],
+            "confidence": 0.8,
+        }
+    ]
+    assert result["warnings"][0]["message"]
 
 
 def test_estrategia_desconhecida_levanta_erro():
