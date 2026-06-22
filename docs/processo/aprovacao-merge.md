@@ -7,9 +7,7 @@ Sem regras claras, PRs podem ser mergeadas sem revisão adequada, com código n�
 ## Branches protegidas
 
 | Branch | Proteção |
-
 |---|---|
-
 | `main` | Merge apenas via PR aprovado, CI obrigatório, nunca diretamente |
 | `dev` | Merge apenas via PR aprovado, CI obrigatório, nunca diretamente |
 
@@ -113,7 +111,7 @@ Aguardar aprovação
         ↓
 Resolver todas as conversas abertas
         ↓
-Squash and Merge
+Merge Commit
 ```
 
 ---
