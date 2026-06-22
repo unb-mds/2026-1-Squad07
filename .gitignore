@@ -35,6 +35,7 @@ build/
 
 # Testes e Cobertura
 /coverage
+frontend/coverage/
 .pytest_cache/
 htmlcov/
 .tox/

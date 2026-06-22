@@ -1,0 +1,184 @@
+from types import SimpleNamespace
+
+import pytest
+from fastapi.testclient import TestClient
+
+from app.api import users
+from app.main import app
+from tests.conftest import FakeUserDelegate, make_user
+
+client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def admin_dependency_override():
+    app.dependency_overrides[users.require_admin_user] = lambda: make_user(role="ADMIN")
+    yield
+    app.dependency_overrides.pop(users.require_admin_user, None)
+
+
+def test_list_users_rejeita_requisicao_sem_token():
+    app.dependency_overrides.pop(users.require_admin_user, None)
+
+    response = client.get("/users")
+
+    assert response.status_code == 401
+
+
+def test_list_users_rejeita_usuario_sem_role_admin():
+    app.dependency_overrides[users.require_admin_user] = lambda: (_ for _ in ()).throw(
+        users.HTTPException(status_code=403, detail="Apenas administradores.")
+    )
+
+    response = client.get("/users")
+
+    assert response.status_code == 403
+
+
+def test_create_user_cria_usuario_e_nao_retorna_password_hash(monkeypatch):
+    fake_user_delegate = FakeUserDelegate()
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    monkeypatch.setattr(users, "hash_password", lambda password: f"hashed-{password}")
+
+    response = client.post(
+        "/users",
+        json={
+            "name": "Maria Silva",
+            "email": "maria@example.com",
+            "password": "senha-segura",
+            "role": "ADMIN",
+        },
+    )
+
+    assert response.status_code == 201
+    assert fake_user_delegate.created_data == {
+        "name": "Maria Silva",
+        "email": "maria@example.com",
+        "passwordHash": "hashed-senha-segura",
+        "role": "ADMIN",
+    }
+    assert response.json()["id"] == "user-created"
+    assert "passwordHash" not in response.json()
+
+
+def test_create_user_retorna_409_quando_email_ja_existe(monkeypatch):
+    existing_user = make_user(email="maria@example.com")
+    fake_user_delegate = FakeUserDelegate([existing_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.post(
+        "/users",
+        json={
+            "name": "Maria Silva",
+            "email": "maria@example.com",
+            "password": "senha-segura",
+        },
+    )
+
+    assert response.status_code == 409
+    assert fake_user_delegate.created_data is None
+
+
+def test_create_user_normaliza_email_para_minusculas(monkeypatch):
+    fake_user_delegate = FakeUserDelegate()
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    monkeypatch.setattr(users, "hash_password", lambda password: f"hashed-{password}")
+
+    response = client.post(
+        "/users",
+        json={
+            "name": "Maria Silva",
+            "email": "MARIA@EXAMPLE.COM",
+            "password": "senha-segura",
+        },
+    )
+
+    assert response.status_code == 201
+    assert fake_user_delegate.created_data["email"] == "maria@example.com"
+    assert response.json()["email"] == "maria@example.com"
+
+
+def test_list_users_retorna_usuarios_sem_password_hash(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.get("/users")
+
+    assert response.status_code == 200
+    assert response.json()[0]["email"] == "maria@example.com"
+    assert "passwordHash" not in response.json()[0]
+
+
+def test_get_user_retorna_404_quando_nao_encontra(monkeypatch):
+    fake_user_delegate = FakeUserDelegate()
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.get("/users/user-inexistente")
+
+    assert response.status_code == 404
+
+
+def test_update_user_atualiza_somente_campos_enviados(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.patch("/users/user-123", json={"name": "Maria Souza"})
+
+    assert response.status_code == 200
+    assert fake_user_delegate.updated_where == {"id": "user-123"}
+    assert fake_user_delegate.updated_data == {"name": "Maria Souza"}
+    assert response.json()["name"] == "Maria Souza"
+
+
+def test_update_user_hasheia_senha_antes_de_atualizar(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    monkeypatch.setattr(users, "hash_password", lambda password: f"hashed-{password}")
+
+    response = client.patch("/users/user-123", json={"password": "nova-senha"})
+
+    assert response.status_code == 200
+    assert fake_user_delegate.updated_data == {"passwordHash": "hashed-nova-senha"}
+
+
+def test_update_user_retorna_409_quando_email_pertence_a_outro_usuario(monkeypatch):
+    current_user = make_user(user_id="user-123", email="maria@example.com")
+    another_user = make_user(user_id="user-456", email="ana@example.com")
+    fake_user_delegate = FakeUserDelegate([current_user, another_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.patch("/users/user-123", json={"email": "ana@example.com"})
+
+    assert response.status_code == 409
+    assert fake_user_delegate.updated_data is None
+
+
+def test_update_user_normaliza_email_para_minusculas(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.patch("/users/user-123", json={"email": "MARIA@EXAMPLE.COM"})
+
+    assert response.status_code == 200
+    assert fake_user_delegate.updated_data == {"email": "maria@example.com"}
+    assert response.json()["email"] == "maria@example.com"
+
+
+def test_update_user_rejeita_campos_nulos(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.patch("/users/user-123", json={"password": None})
+
+    assert response.status_code == 422
+    assert fake_user_delegate.updated_data is None
+
+
+def test_delete_user_remove_usuario(monkeypatch):
+    fake_user_delegate = FakeUserDelegate([make_user()])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+
+    response = client.delete("/users/user-123")
+
+    assert response.status_code == 204
+    assert fake_user_delegate.deleted_where == {"id": "user-123"}
