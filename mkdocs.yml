@@ -42,11 +42,12 @@ nav:
     - Integração IA → Backend: architecture/ai-integration.md
     - Métricas de Sucesso da IA: architecture/ai-success-metrics.md
   - SDD e TDD:
-    - Visão Geral: sdd/index.md
-    - Estratégia de TDD para R2: sdd/tdd-estrategia-r2.md
-    - Templates: sdd/templates.md
-    - Instalação do Spec Kit: sdd/instalacao.md
-    - Catálogo de Specs: sdd/catalogo.md
+      - Visão Geral: sdd/index.md
+      - Estratégia de TDD para R2: sdd/tdd-estrategia-r2.md
+      - Setup da Integração Contínua (CI): dev/ci-setup.md
+      - Templates: sdd/templates.md
+      - Instalação do Spec Kit: sdd/instalacao.md
+      - Catálogo de Specs: sdd/catalogo.md
   - Métricas: metricas/index.html
   - Matriz Esforço x Impacto: matriz.md
   - Protótipo do figma: prototipo/figma_prototype.md
