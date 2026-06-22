@@ -76,6 +76,9 @@ flake8 . --max-line-length=88 --extend-ignore=E501,W503
 ```bash
 # Executa todos os testes locais com o relatório de cobertura no terminal
 pytest --cov=app --cov-report=term-missing
+
+# Executa os testes gerando os relatórios em HTML (pasta htmlcov/) e LCOV (arquivo coverage.lcov)
+pytest --cov=app --cov-report=html --cov-report=lcov --cov-report=term-missing
 ```
 
 ### 2. Validando o Frontend
