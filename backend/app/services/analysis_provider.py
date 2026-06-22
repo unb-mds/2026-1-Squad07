@@ -20,6 +20,24 @@ TAXONOMY: tuple[str, ...] = (
     "inconsistencia",
 )
 
+# Mensagem padrão por categoria, usada para compor os warnings (code/message).
+CATEGORY_MESSAGES: dict[str, str] = {
+    "ambiguidade": (
+        "Possível ambiguidade: termos ou dispositivos com mais de " "uma interpretação."
+    ),
+    "vagueza": (
+        "Possível vagueza: conceitos indeterminados sem critério " "objetivo aplicável."
+    ),
+    "falta_referencia": (
+        "Possível falta de referência: norma, artigo ou prazo não "
+        "identificado no texto."
+    ),
+    "inconsistencia": (
+        "Possível inconsistência: contradição interna entre "
+        "dispositivos ou com a legislação citada."
+    ),
+}
+
 # Versão do modelo usada no cache e na persistência (D4).
 MODEL_VERSION = "legalbert-pt-v1"
 

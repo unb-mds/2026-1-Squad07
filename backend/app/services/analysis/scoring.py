@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
+from app.services.analysis_provider import CATEGORY_MESSAGES
+
 # Limiar padrão a partir do qual uma categoria vira um aviso de qualidade.
 DEFAULT_WARNING_THRESHOLD = 0.5
 
@@ -51,9 +53,13 @@ def build_warnings(
     probabilities: dict[str, float],
     threshold: float = DEFAULT_WARNING_THRESHOLD,
 ) -> list[dict[str, Any]]:
-    """Avisos = categorias acima do limiar, ordenadas por confiança desc."""
+    """Avisos = categorias acima do limiar (code/message/confidence), desc."""
     warnings = [
-        {"category": category, "confidence": confidence}
+        {
+            "code": category,
+            "message": CATEGORY_MESSAGES.get(category, category),
+            "confidence": confidence,
+        }
         for category, confidence in probabilities.items()
         if confidence >= threshold
     ]
