@@ -54,10 +54,12 @@ async def test_primeira_chamada_computa_e_marca_cached_false():
     result = await evaluate_text("texto", None, provider=provider, cache=cache, db=db)
 
     assert result["cached"] is False
+    assert result["status"] == "completed"
+    assert result["analysis_id"]
     assert result["model_version"] == "fake-v1"
     assert result["score"] == pytest.approx(0.7)
     assert result["metrics"] == provider.probabilities
-    assert result["warnings"] == [{"category": "ambiguidade", "confidence": 0.8}]
+    assert [w["code"] for w in result["warnings"]] == ["ambiguidade"]
     assert provider.calls == 1
 
 
@@ -82,8 +84,12 @@ async def test_persiste_em_analysis_quando_ha_law_id():
     cache = AnalysisCache()
     db = make_db()
 
-    await evaluate_text("texto", "law-42", provider=provider, cache=cache, db=db)
+    result = await evaluate_text(
+        "texto", "law-42", provider=provider, cache=cache, db=db
+    )
 
+    # analysis_id reflete a linha persistida.
+    assert result["analysis_id"] == "analysis-1"
     assert len(db.analysis.created) == 1
     persisted = db.analysis.created[0]
     # Relação obrigatória persistida via connect (não pelo escalar lawId).
@@ -93,9 +99,33 @@ async def test_persiste_em_analysis_quando_ha_law_id():
     assert persisted["score"] == pytest.approx(0.7)
     # metrics/warnings vão como Json do Prisma, preservando o conteúdo.
     assert persisted["metrics"].data == provider.probabilities
-    assert persisted["warnings"].data == [
-        {"category": "ambiguidade", "confidence": 0.8}
-    ]
+    assert [w["code"] for w in persisted["warnings"].data] == ["ambiguidade"]
+
+
+async def test_cache_hit_com_law_id_ainda_persiste():
+    """SV-6: em cache hit com law_id, persiste mesmo assim (corrige histórico).
+
+    Reproduz a regressão da review: avaliar sem law_id e depois o mesmo texto
+    com law_id deve gravar a análise para a lei (cached=True), não pular.
+    """
+    provider = FakeProvider()
+    cache = AnalysisCache()
+    db = make_db()
+
+    # 1ª chamada sem law_id: popula o cache, não persiste.
+    await evaluate_text("texto", None, provider=provider, cache=cache, db=db)
+    assert db.analysis.created == []
+
+    # 2ª chamada com o mesmo texto + law_id: cache hit, mas persiste.
+    result = await evaluate_text(
+        "texto", "law-9", provider=provider, cache=cache, db=db
+    )
+
+    assert result["cached"] is True
+    assert provider.calls == 1  # não reprocessou a inferência
+    assert len(db.analysis.created) == 1
+    assert db.analysis.created[0]["law"] == {"connect": {"id": "law-9"}}
+    assert db.analysis.created[0]["cached"] is True
 
 
 async def test_sem_law_id_nao_persiste():
