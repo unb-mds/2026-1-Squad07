@@ -1,132 +1,135 @@
 """Testes unitários para app.models.analysis — validação dos modelos Pydantic."""
 
 from datetime import datetime, timezone
-
 import pytest
 from pydantic import ValidationError
 
-from app.models.analysis import AnalysisCreateRequest, AnalysisResponse
+from app.models.analysis import (
+    AnalysisRequest,
+    AnalysisResponse,
+    AnalysisWarning,
+    AnalysisHistoryItem,
+    LawType,
+    AnalysisStatus,
+)
 
-# ---------- AnalysisCreateRequest — Happy Path ----------
+# ---------- AnalysisRequest ----------
 
 
-def test_analysis_create_request_aceita_dados_validos():
-    request = AnalysisCreateRequest(
+def test_analysis_request_aceita_dados_validos():
+    req = AnalysisRequest(
+        text="Art. 1 O órgão competente poderá adotar as medidas cabíveis.",
+        type=LawType.BILL,
         lawId="law-123",
-        score=0.85,
-        metrics={"ambiguidade": 0.1, "vagueza": 0.05},
-        warnings=[{"category": "ambiguidade", "confidence": 0.9}],
-        modelVersion="v1.0.0",
-        cached=False,
     )
-    assert request.lawId == "law-123"
-    assert request.score == 0.85
-    assert request.cached is False
+    assert req.text == "Art. 1 O órgão competente poderá adotar as medidas cabíveis."
+    assert req.type == LawType.BILL
+    assert req.lawId == "law-123"
 
 
-def test_analysis_create_request_strip_whitespace():
-    request = AnalysisCreateRequest(
-        lawId="  law-456  ",
-        score=0.5,
-        metrics={},
-        warnings=[],
-        modelVersion="  v2.0  ",
+def test_analysis_request_strip_whitespace():
+    req = AnalysisRequest(
+        text="   Art. 1 Com espaços.   ",
+        type=LawType.AMENDMENT,
     )
-    assert request.lawId == "law-456"
-    assert request.modelVersion == "v2.0"
+    # ConfigDict(str_strip_whitespace=True) deve remover espaços extras
+    assert req.text == "Art. 1 Com espaços."
+    assert req.type == LawType.AMENDMENT
+    assert req.lawId is None
 
 
-def test_analysis_create_request_cached_padrao_false():
-    request = AnalysisCreateRequest(
-        lawId="law-789",
-        score=0.0,
-        metrics={},
-        warnings=[],
-        modelVersion="v1.0.0",
+def test_analysis_request_rejeita_texto_vazio():
+    with pytest.raises(ValidationError):
+        AnalysisRequest(
+            text="",
+            type=LawType.BILL,
+        )
+
+
+def test_analysis_request_rejeita_tipo_invalido():
+    with pytest.raises(ValidationError):
+        AnalysisRequest(
+            text="Texto valido",
+            type="tipo_inexistente",
+        )
+
+
+# ---------- AnalysisWarning ----------
+
+
+def test_analysis_warning_aceita_dados_validos():
+    warn = AnalysisWarning(
+        code="W001",
+        message="Possível ambiguidade estrutural",
+        confidence=0.85,
     )
-    assert request.cached is False
+    assert warn.code == "W001"
+    assert warn.message == "Possível ambiguidade estrutural"
+    assert warn.confidence == 0.85
 
 
-# ---------- AnalysisCreateRequest — Bad Path ----------
-
-
-def test_analysis_create_request_rejeita_score_negativo():
+def test_analysis_warning_rejeita_confidence_fora_do_limite():
     with pytest.raises(ValidationError):
-        AnalysisCreateRequest(
-            lawId="law-123",
-            score=-0.1,
-            metrics={},
-            warnings=[],
-            modelVersion="v1.0.0",
-        )
+        AnalysisWarning(code="W001", message="Erro", confidence=-0.1)
 
-
-def test_analysis_create_request_rejeita_score_acima_de_1():
     with pytest.raises(ValidationError):
-        AnalysisCreateRequest(
-            lawId="law-123",
-            score=1.5,
-            metrics={},
-            warnings=[],
-            modelVersion="v1.0.0",
-        )
+        AnalysisWarning(code="W001", message="Erro", confidence=1.1)
 
 
-def test_analysis_create_request_rejeita_law_id_vazio():
-    with pytest.raises(ValidationError):
-        AnalysisCreateRequest(
-            lawId="",
-            score=0.5,
-            metrics={},
-            warnings=[],
-            modelVersion="v1.0.0",
-        )
-
-
-def test_analysis_create_request_rejeita_model_version_vazio():
-    with pytest.raises(ValidationError):
-        AnalysisCreateRequest(
-            lawId="law-123",
-            score=0.5,
-            metrics={},
-            warnings=[],
-            modelVersion="",
-        )
-
-
-# ---------- AnalysisResponse — Happy Path ----------
+# ---------- AnalysisResponse ----------
 
 
 def test_analysis_response_aceita_dados_validos():
-    agora = datetime.now(timezone.utc)
-    response = AnalysisResponse(
-        id="analysis-001",
-        lawId="law-123",
+    resp = AnalysisResponse(
+        analysis_id="analise-999",
+        status=AnalysisStatus.COMPLETED,
         score=0.92,
-        metrics={"ambiguidade": 0.08},
-        warnings=[],
-        modelVersion="v1.0.0",
+        metrics={"ambiguidade": 0.08, "vagueza": 0.0},
+        warnings=[
+            AnalysisWarning(
+                code="W001",
+                message="Aviso",
+                confidence=0.5,
+            )
+        ],
+        model_version="v2.1",
         cached=True,
-        createdAt=agora,
     )
-    assert response.id == "analysis-001"
-    assert response.score == 0.92
-    assert response.cached is True
-    assert response.createdAt == agora
+    assert resp.analysis_id == "analise-999"
+    assert resp.status == AnalysisStatus.COMPLETED
+    assert resp.score == 0.92
+    assert resp.cached is True
 
 
-# ---------- AnalysisResponse — Bad Path ----------
-
-
-def test_analysis_response_rejeita_campos_obrigatorios_ausentes():
+def test_analysis_response_rejeita_score_invalido():
     with pytest.raises(ValidationError):
         AnalysisResponse(
-            id="analysis-001",
-            # lawId ausente
-            score=0.5,
-            metrics={},
-            warnings=[],
-            modelVersion="v1.0.0",
-            cached=False,
-            createdAt=datetime.now(timezone.utc),
+            analysis_id="analise-999",
+            status=AnalysisStatus.COMPLETED,
+            score=1.5,
+            model_version="v1.0",
+        )
+
+
+# ---------- AnalysisHistoryItem ----------
+
+
+def test_analysis_history_item_aceita_dados_validos():
+    agora = datetime.now(timezone.utc)
+    item = AnalysisHistoryItem(
+        timestamp=agora,
+        score=0.75,
+        model_version="v1.0.0",
+    )
+    assert item.timestamp == agora
+    assert item.score == 0.75
+    assert item.model_version == "v1.0.0"
+
+
+def test_analysis_history_item_rejeita_score_invalido():
+    with pytest.raises(ValidationError):
+        AnalysisHistoryItem(
+            timestamp=datetime.now(timezone.utc),
+            score=-0.5,
+            model_version="v1.0.0",
         )
