@@ -63,9 +63,9 @@ Para validar manualmente a calibração do score, usaremos dois trechos conhecid
 
 1. **Amostra 1 (Decreto Administrativo Simples)**:
     * *Texto*: `"Fica instituído o regime especial."`
-    * *Métricas esperadas*: 5 palavras, 1 frase, 13 sílabas.
+    * *Métricas esperadas*: 5 palavras, 1 frase, 14 sílabas.
     * *Score calculado*:
-        $$\text{IFL} = 248.835 - 1.015 \times \left(\frac{5}{1}\right) - 84.6 \times \left(\frac{13}{5}\right) = 248.835 - 5.075 - 219.96 = 23.8$$
+        $$\text{IFL} = 248.835 - 1.015 \times \left(\frac{5}{1}\right) - 84.6 \times \left(\frac{14}{5}\right) = 248.835 - 5.075 - 236.88 = 6.88$$
         *(Atenção: Frases excessivamente curtas podem produzir scores baixos de IFL quando a média de sílabas por palavra é alta. Faremos testes detalhados de calibração no TDD).*
 2. **Amostra 2 (Complexidade Legislativa Real - Art. 1º da CF/88)**:
     * *Texto*: `"A República Federativa do Brasil, formada pela união indissolúvel dos Estados e Municípios e do Distrito Federal, constitui-se em Estado Democrático de Direito e tem como fundamentos:"`
