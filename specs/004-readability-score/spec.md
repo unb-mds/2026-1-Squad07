@@ -82,23 +82,27 @@ Atualmente na Release 1, o score retornado pelo sistema é mockado. Na Release 2
 ### Entradas
 
 - HTTP POST Payload:
+
   ```json
   {
     "texto": "Art. 1º Este regulamento dispõe sobre as regras aplicáveis."
   }
   ```
 
+> **Nota**: O símbolo ordinal `1º` não é contabilizado como palavra, pois a contagem considera apenas tokens estritamente alfabéticos (REQ-004). O articulador `Art.` também é excluído da contagem por ser uma abreviação (REQ-003).
+
 ### Saídas
 
 - HTTP Response (200 OK):
+
   ```json
   {
-    "score": 52.45,
-    "classificacao": "Medio",
+    "score": 39.79,
+    "classificacao": "Dificil",
     "metricas": {
-      "palavras": 9,
+      "palavras": 8,
       "frases": 1,
-      "silabas": 22
+      "silabas": 19
     }
   }
   ```

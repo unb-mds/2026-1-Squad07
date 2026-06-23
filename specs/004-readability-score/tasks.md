@@ -51,3 +51,11 @@
   * *Engloba*: Refatorações não-funcionais, ajustes de styleguide ou correções de linting.
   * *Mensagem*: `refactor: otimiza heuristica de silabas e aplica padroes de lint (#132)`
 - [ ] T016 [REVIEW] Abrir Pull Request da branch `feat/issue-132-calculo-score-legibilidade` para a branch `dev` com relatórios de testes bem-sucedidos.
+
+---
+
+## Fase 5 - Correções Pré-PR
+
+- [x] T017 [BACKEND] Correção de bug na regex de segmentação de frases em `backend/app/services/readability.py` para cobrir os sufixos ordinais ASCII `o` e `a` (`\d+[ºoaª]?`), resolvendo erros de quebra de frase com abreviações do tipo `Art. 1o.`.
+- [x] T018 [TEST] Inclusão de teste de cobertura do bloco `try/except Exception` de `analyze_readability` em `backend/tests/integration/test_readability_routes.py` (usando mock de RuntimeError em `calcular_score`), garantindo cobertura do tratamento defensivo e elevando a cobertura geral.
+- [x] T019 [SPEC] Alinhamento da seção "Dados de Entrada e Saída" de `specs/004-readability-score/spec.md` com os valores computados pela implementação real (`palavras: 8`, `silabas: 19`, `score: 39.79`, `classificacao: "Dificil"`), adicionando uma nota explicativa sobre os critérios de contagem de termos alfabéticos.
