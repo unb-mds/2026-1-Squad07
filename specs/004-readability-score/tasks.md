@@ -18,9 +18,9 @@
 
 ## Fase 2 - Validação Primeiro (TDD - RED)
 
-- [ ] T004 [TEST] Criar o arquivo de testes unitários `backend/tests/unit/test_readability_service.py` cobrindo Happy e Bad Paths da heurística (TDD-001 a TDD-006).
-- [ ] T005 [TEST] Criar o arquivo de testes de integração `backend/tests/integration/test_readability_routes.py` cobrindo Happy e Bad Paths de tráfego do endpoint (TDD-007 e TDD-008).
-- [ ] T006 [OPS] Realizar Commit 2:
+- [x] T004 [TEST] Criar o arquivo de testes unitários `backend/tests/unit/test_readability_service.py` cobrindo Happy e Bad Paths da heurística (TDD-001 a TDD-006).
+- [x] T005 [TEST] Criar o arquivo de testes de integração `backend/tests/integration/test_readability_routes.py` cobrindo Happy e Bad Paths de tráfego do endpoint (TDD-007 e TDD-008).
+- [x] T006 [OPS] Realizar Commit 2:
   * *Engloba*: Criação dos arquivos de testes unitários e de integração no backend (TDD RED).
   * *Mensagem*: `test: adiciona testes unitarios e integrados para legibilidade (RED) (#132)`
 
@@ -28,16 +28,16 @@
 
 ## Fase 3 - Implementação (TDD - GREEN)
 
-- [ ] T007 [BACKEND] [P] Definir e criar os Schemas Pydantic `ReadabilityRequest` e `ReadabilityResponse` em `backend/app/models/law.py` (ou módulo próprio).
-- [ ] T008 [OPS] Realizar Commit 3:
+- [x] T007 [BACKEND] [P] Definir e criar os Schemas Pydantic `ReadabilityRequest` e `ReadabilityResponse` em `backend/app/models/law.py` (ou módulo próprio).
+- [x] T008 [OPS] Realizar Commit 3:
   * *Engloba*: Schemas Pydantic de dados e payloads.
   * *Mensagem*: `feat: adiciona schemas pydantic para endpoint de legibilidade (#132)`
-- [ ] T009 [BACKEND] Implementar a lógica de negócios e heurística silábica em `backend/app/services/readability.py` até passar nos testes de unidade (`test_readability_service.py`).
-- [ ] T010 [OPS] Realizar Commit 4:
+- [x] T009 [BACKEND] Implementar a lógica de negócios e heurística silábica em `backend/app/services/readability.py` até passar nos testes de unidade (`test_readability_service.py`).
+- [x] T010 [OPS] Realizar Commit 4:
   * *Engloba*: O módulo de serviços `readability.py` com o algoritmo.
   * *Mensagem*: `feat: implementa heuristica de silabas e formula de legibilidade (IFL) (#132)`
-- [ ] T011 [BACKEND] Adicionar a rota `@router_v1.post("/readability")` em `backend/app/api/laws.py` e registrá-la em `backend/app/main.py` até passar nos testes de integração (`test_readability_routes.py`).
-- [ ] T012 [OPS] Realizar Commit 5:
+- [x] T011 [BACKEND] Adicionar a rota `@router_v1.post("/readability")` em `backend/app/api/laws.py` e registrá-la em `backend/app/main.py` até passar nos testes de integração (`test_readability_routes.py`).
+- [x] T012 [OPS] Realizar Commit 5:
   * *Engloba*: Inclusão do endpoint FastAPI e registro no roteador central do main.
   * *Mensagem*: `feat: expoem endpoint POST /api/v1/laws/readability (#132)`
 
@@ -45,9 +45,9 @@
 
 ## Fase 4 - Revisão e Qualidade (TDD - REFACTOR)
 
-- [ ] T013 [REVIEW] Executar ferramentas de linting (`black` e `flake8`) no diretório do backend.
-- [ ] T014 [TEST] Executar a suite de testes localmente com `pytest` e garantir que a cobertura de código é `>= 90%` com o modelo mockado.
-- [ ] T015 [OPS] Realizar Commit 6:
+- [x] T013 [REVIEW] Executar ferramentas de linting (`black` e `flake8`) no diretório do backend.
+- [x] T014 [TEST] Executar a suite de testes localmente com `pytest` e garantir que a cobertura de código é `>= 90%` com o modelo mockado.
+- [x] T015 [OPS] Realizar Commit 6:
   * *Engloba*: Refatorações não-funcionais, ajustes de styleguide ou correções de linting.
   * *Mensagem*: `refactor: otimiza heuristica de silabas e aplica padroes de lint (#132)`
 - [ ] T016 [REVIEW] Abrir Pull Request da branch `feat/issue-132-calculo-score-legibilidade` para a branch `dev` com relatórios de testes bem-sucedidos.
