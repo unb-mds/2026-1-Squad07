@@ -45,6 +45,7 @@ class LawResponse(BaseModel):
     createdAt: datetime
     updatedAt: datetime
 
+
 class LawListItem(BaseModel):
     id: str
     title: str
