@@ -9,7 +9,9 @@ Este documento define as regras de negócio essenciais que guiarão a implementa
 ## 1. Regras de Autoria e Propriedade (Ownership)
 Esta seção estabelece as permissões e o controle sobre os textos submetidos e as análises geradas.
 
-* **Vinculação de Conta:** Apenas usuários autenticados (com perfil cadastrado) podem salvar o histórico de submissões. Usuários não logados podem realizar análises em uma cota limitada (ex: 3 análises por IP/dia), mas estas não serão persistidas em nenhum histórico.
+* **Vinculação de Conta:** Apenas usuários autenticados (com perfil cadastrado) podem salvar o histórico de submissões.
+* **Cota para Não Autenticados:** Usuários não logados podem realizar análises em uma cota limitada (inicialmente fixada em 3 análises por dia), mas estas não serão persistidas em nenhum histórico.
+    * *Nota de UX/Implementação:* O mecanismo exato de limitação (rastreamento por IP, Cookies ou LocalStorage) poderá ser refinado durante o desenvolvimento para mitigar falsos positivos de estouro de cota em redes que compartilham o mesmo IP público via NAT (como campus universitários e ambientes corporativos).
 * **Isolamento de Dados (Tenant-level):** Um usuário só pode visualizar, editar ou excluir leis e análises que ele mesmo submeteu. O acesso aos registros de outros usuários é estritamente proibido, garantindo a privacidade das pautas em estudo.
 * **Edição de Perfil:** O usuário tem propriedade total sobre seus dados cadastrais (CRUD de perfil), podendo atualizar suas informações ou solicitar a exclusão de sua conta a qualquer momento.
 
@@ -23,17 +25,19 @@ Para garantir a estabilidade do sistema e evitar custos excessivos ou falhas no 
 * **Idioma:** O sistema validará e processará exclusivamente textos em Português do Brasil (PT-BR).
 
 ## 3. Regras de Scoring e Avaliação (Agente de IA)
-O cálculo do "Score de Qualidade Legislativa" (escala de 0 a 100) deve ser determinístico a partir dos dados retornados pelo agente de inteligência artificial.
+O cálculo do "Score de Qualidade Legislativa" deve ser determinístico a partir dos dados retornados pelo agente de inteligência artificial.
 
-* **Pesos dos Critérios de Avaliação:**
-    * **Clareza Textual e Legibilidade (40%):** Baseado em métricas como o Índice de Flesch-Kincaid adaptado para o português.
-    * **Ambiguidade e Contradição (30%):** Penalização baseada na quantidade de trechos identificados pelo agente de IA com múltiplos sentidos ou falhas lógicas.
-    * **Tamanho e Complexidade Estrutural (15%):** Avaliação da extensão de parágrafos e incisos.
-    * **Uso de Referências (15%):** Verificação da formatação e coerência das citações legais.
-* **Limites de Aceitação (Faixas de Score):**
-    * **0 a 49 (Crítico):** Alta complexidade ou forte ambiguidade. Necessita reescrita severa.
-    * **50 a 74 (Atenção):** Leitura moderadamente difícil. Requer ajustes em trechos específicos (destacados via *highlights*).
-    * **75 a 100 (Adequado):** Alta clareza textual e aderência aos padrões legislativos.
+* **Representação e Escala do Score:** * Na camada de persistência (Banco de Dados) e nos contratos de comunicação (Schemas Pydantic da API), o score é tratado estritamente como um valor do tipo `float` variando na escala de **0.0 a 1.0** (conforme especificações do PR #128).
+    * Para fins de exibição na interface do usuário (Frontend), o valor deve ser multiplicado por 100, apresentando o indicador final em uma escala percentual de **0 a 100**.
+* **Pesos dos Critérios de Avaliação e Mapeamento da Taxonomia:**
+    * **Clareza Textual e Legibilidade (40%):** Calculado com base em métricas clássicas de legibilidade (como o Índice de Flesch-Kincaid adaptado para o português) combinadas com a frequência de ocorrências da taxonomia de `vagueza` apontada pela IA.
+    * **Ambiguidade e Contradição (30%):** Penalização associada diretamente às volumetrias das categorias `ambiguidade` e `inconsistencia` detectadas pelo processamento lógico do agente.
+    * **Tamanho e Complexidade Estrutural (15%):** Avaliação do tamanho de frases, extensão de parágrafos e profundidade de incisos ou alíneas.
+    * **Uso de Referências (15%):** Alimentado diretamente pelo mapeamento da taxonomia de `falta_referencia`, penalizando proposições que citem outros dispositivos legais de forma inválida, ausente ou corrompida.
+* **Limites de Aceitação (Faixas de Interface):**
+    * **0 a 49 (Crítico / Equivalente a 0.0 - 0.49 na API):** Alta complexidade ou forte ambiguidade. Necessita reescrita severa.
+    * **50 a 74 (Atenção / Equivalente a 0.50 - 0.74 na API):** Leitura moderadamente difícil. Requer ajustes em trechos específicos (destacados via *highlights*).
+    * **75 a 100 (Adequado / Equivalente a 0.75 - 1.0 na API):** Alta clareza textual e aderência aos padrões legislativos.
 * **Retorno Estruturado:** O Agente de IA está estritamente proibido de retornar texto livre para a interface. Todas as detecções de erro devem ser mapeadas em formato JSON, contendo a string original, a justificativa da ambiguidade e a posição (índice) para a renderização dos *highlights* no Front-end.
 
 ## 4. Regras de Retenção de Dados (Data Retention)
@@ -54,4 +58,4 @@ Requisitos de proteção para o tráfego e armazenamento das proposições legis
 
 **Rastreabilidade:**
 * **RFs Vinculados:** Submissão de leis, Dashboard de métricas, Autenticação, CRUD de perfil.
-* **RNFs Vinculados:** Segurança (JWT, bcrypt), Desempenho (limite de caracteres), Confiabilidade (mitigação de alucinação de IA via testes).
+* **RNFs Vinculados:** Segurança (JWT, bcrypt), Desempenho (limite de caracteres), Confiabilidade (mitigação de alucinação de IA via testes baseados na taxonomia do PR #128).
