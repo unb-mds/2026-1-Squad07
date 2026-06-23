@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T08:55:09+00:00",
+  "generated_at": "2026-06-23T06:45:38+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -75,7 +75,7 @@
     {
       "week": "2026-W26",
       "opened": 0,
-      "closed": 3
+      "closed": 4
     }
   ],
   "commit_message_histogram": [
@@ -85,15 +85,15 @@
     },
     {
       "range": "21-50",
-      "count": 109
+      "count": 118
     },
     {
       "range": "51-100",
-      "count": 78
+      "count": 96
     },
     {
       "range": "101-200",
-      "count": 36
+      "count": 37
     },
     {
       "range": "200+",
@@ -206,7 +206,7 @@
     {
       "day": 0,
       "hour": 8,
-      "count": 2
+      "count": 3
     },
     {
       "day": 0,
@@ -236,12 +236,12 @@
     {
       "day": 0,
       "hour": 14,
-      "count": 0
+      "count": 9
     },
     {
       "day": 0,
       "hour": 15,
-      "count": 0
+      "count": 1
     },
     {
       "day": 0,
@@ -951,12 +951,12 @@
     {
       "day": 6,
       "hour": 13,
-      "count": 0
+      "count": 14
     },
     {
       "day": 6,
       "hour": 14,
-      "count": 0
+      "count": 3
     },
     {
       "day": 6,
@@ -1013,12 +1013,17 @@
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "commits": 59
+      "commits": 60
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 31
+      "commits": 32
+    },
+    {
+      "username": "ghost",
+      "name": "ghost",
+      "commits": 27
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1043,11 +1048,6 @@
     {
       "username": "RochaCarla",
       "name": "Carla Rocha",
-      "commits": 1
-    },
-    {
-      "username": "ghost",
-      "name": "ghost",
       "commits": 1
     }
   ],
@@ -1088,8 +1088,8 @@
       "username": "ViniciusA05",
       "name": "ViniciusA05",
       "opened": 64,
-      "closed": 33,
-      "total": 97
+      "closed": 34,
+      "total": 98
     },
     {
       "username": "Paulodemczuk",
@@ -1133,8 +1133,8 @@
       "name": "ViniciusA05",
       "issues_opened": 64,
       "issues_assigned": 20,
-      "issues_assigned_closed": 15,
-      "issues_pending": 5,
+      "issues_assigned_closed": 16,
+      "issues_pending": 4,
       "prs_opened": 18,
       "prs_reviewed": 19,
       "prs_merged": 15,
@@ -1150,7 +1150,7 @@
       "prs_opened": 12,
       "prs_reviewed": 8,
       "prs_merged": 12,
-      "commits": 59
+      "commits": 60
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1160,8 +1160,8 @@
       "issues_assigned_closed": 12,
       "issues_pending": 2,
       "prs_opened": 7,
-      "prs_reviewed": 6,
-      "prs_merged": 6,
+      "prs_reviewed": 7,
+      "prs_merged": 7,
       "commits": 24
     },
     {
@@ -1181,8 +1181,8 @@
       "name": "Pedro Paulo Almeida",
       "issues_opened": 4,
       "issues_assigned": 14,
-      "issues_assigned_closed": 11,
-      "issues_pending": 3,
+      "issues_assigned_closed": 12,
+      "issues_pending": 2,
       "prs_opened": 3,
       "prs_reviewed": 3,
       "prs_merged": 3,
@@ -1210,11 +1210,11 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 31
+      "commits": 32
     },
     {
-      "username": "RochaCarla",
-      "name": "Carla Rocha",
+      "username": "ghost",
+      "name": "ghost",
       "issues_opened": 0,
       "issues_assigned": 0,
       "issues_assigned_closed": 0,
@@ -1222,11 +1222,11 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 1
+      "commits": 27
     },
     {
-      "username": "ghost",
-      "name": "ghost",
+      "username": "RochaCarla",
+      "name": "Carla Rocha",
       "issues_opened": 0,
       "issues_assigned": 0,
       "issues_assigned_closed": 0,
@@ -1931,26 +1931,26 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "issues": 15,
+      "issues": 16,
       "pull_requests": 4,
       "commits": 39,
-      "total": 58
+      "total": 59
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues": 4,
       "pull_requests": 3,
-      "commits": 29,
-      "total": 36
+      "commits": 30,
+      "total": 37
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 31,
-      "total": 31
+      "commits": 32,
+      "total": 32
     },
     {
       "username": "Paulodemczuk",
@@ -1985,16 +1985,16 @@
       "total": 10
     },
     {
-      "username": "RochaCarla",
-      "name": "Carla Rocha",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 1,
-      "total": 1
-    },
-    {
       "username": "ghost",
       "name": "ghost",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 4,
+      "total": 4
+    },
+    {
+      "username": "RochaCarla",
+      "name": "Carla Rocha",
       "issues": 0,
       "pull_requests": 0,
       "commits": 1,
@@ -2039,6 +2039,12 @@
       "pending": 0
     },
     {
+      "milestone": "Sprint 11",
+      "opened": 9,
+      "closed": 5,
+      "pending": 4
+    },
+    {
       "milestone": "Sprint 04",
       "opened": 4,
       "closed": 4,
@@ -2049,12 +2055,6 @@
       "opened": 6,
       "closed": 4,
       "pending": 2
-    },
-    {
-      "milestone": "Sprint 11",
-      "opened": 9,
-      "closed": 4,
-      "pending": 5
     },
     {
       "milestone": "Sprint 02",
@@ -2472,6 +2472,14 @@
     },
     {
       "milestone": "Sprint 11",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 3,
+      "closed": 2,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 11",
       "username": "Paulodemczuk",
       "name": "Paulo",
       "assigned": 1,
@@ -2480,11 +2488,11 @@
     },
     {
       "milestone": "Sprint 11",
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
-      "assigned": 3,
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 2,
       "closed": 1,
-      "pending": 2
+      "pending": 1
     },
     {
       "milestone": "Sprint 11",
@@ -2501,14 +2509,6 @@
       "assigned": 1,
       "closed": 0,
       "pending": 1
-    },
-    {
-      "milestone": "Sprint 11",
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
-      "assigned": 2,
-      "closed": 0,
-      "pending": 2
     },
     {
       "milestone": "Sprint 11",
