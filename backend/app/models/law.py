@@ -45,8 +45,25 @@ class LawResponse(BaseModel):
     createdAt: datetime
     updatedAt: datetime
 
+
 class LawListItem(BaseModel):
     id: str
     title: str
     createdAt: datetime
     textExcerpt: str
+
+
+class ReadabilityRequest(BaseModel):
+    texto: str = Field(..., min_length=1)
+
+
+class ReadabilityMetrics(BaseModel):
+    palavras: int
+    frases: int
+    silabas: int
+
+
+class ReadabilityResponse(BaseModel):
+    score: float
+    classificacao: str
+    metricas: ReadabilityMetrics
