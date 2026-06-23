@@ -31,7 +31,7 @@ def contar_frases(texto: str) -> int:
     )
 
     texto_temp = re.sub(
-        r"\b(Art|Inc|Al|Par|fl|doc)_TEMP_\s+(\d+[ºª]?|[a-zA-Z]|[IVXLCDM]+|único)\.",
+        r"\b(Art|Inc|Al|Par|fl|doc)_TEMP_\s+(\d+[ºoaª]?|[a-zA-Z]|[IVXLCDM]+|único)\.",
         r"\1_TEMP_ \2_TEMP_",
         texto_temp,
         flags=re.IGNORECASE,
