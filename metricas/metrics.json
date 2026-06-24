@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T06:44:32+00:00",
+  "generated_at": "2026-06-24T18:12:30+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -85,7 +85,7 @@
     },
     {
       "range": "21-50",
-      "count": 119
+      "count": 120
     },
     {
       "range": "51-100",
@@ -436,7 +436,7 @@
     {
       "day": 2,
       "hour": 6,
-      "count": 0
+      "count": 1
     },
     {
       "day": 2,
@@ -1016,19 +1016,14 @@
       "commits": 60
     },
     {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "commits": 33
-    },
-    {
-      "username": "ghost",
-      "name": "ghost",
-      "commits": 27
-    },
-    {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "commits": 24
+      "commits": 51
+    },
+    {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "commits": 34
     },
     {
       "username": "Paulodemczuk",
@@ -1162,7 +1157,7 @@
       "prs_opened": 7,
       "prs_reviewed": 7,
       "prs_merged": 7,
-      "commits": 24
+      "commits": 51
     },
     {
       "username": "Paulodemczuk",
@@ -1210,19 +1205,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 33
-    },
-    {
-      "username": "ghost",
-      "name": "ghost",
-      "issues_opened": 0,
-      "issues_assigned": 0,
-      "issues_assigned_closed": 0,
-      "issues_pending": 0,
-      "prs_opened": 0,
-      "prs_reviewed": 0,
-      "prs_merged": 0,
-      "commits": 27
+      "commits": 34
     },
     {
       "username": "RochaCarla",
@@ -1949,8 +1932,16 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 32,
-      "total": 32
+      "commits": 33,
+      "total": 33
+    },
+    {
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "issues": 2,
+      "pull_requests": 3,
+      "commits": 16,
+      "total": 21
     },
     {
       "username": "Paulodemczuk",
@@ -1959,14 +1950,6 @@
       "pull_requests": 3,
       "commits": 15,
       "total": 21
-    },
-    {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "issues": 2,
-      "pull_requests": 3,
-      "commits": 12,
-      "total": 17
     },
     {
       "username": "Pedrop06",
@@ -1983,14 +1966,6 @@
       "pull_requests": 2,
       "commits": 8,
       "total": 10
-    },
-    {
-      "username": "ghost",
-      "name": "ghost",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 4,
-      "total": 4
     },
     {
       "username": "RochaCarla",
