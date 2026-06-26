@@ -38,12 +38,12 @@ Para manter o histórico do Git limpo e de fácil revisão, a tarefa será divid
   - TC-03: Validação de input com nome curto ou vazio
   - TC-06: Cancelamento de modificações voltando ao valor original
 - [x] Rodar os testes locais do frontend para verificar a falha controlada (Red).
-- [ ] **Commit 2**: `test: adiciona testes unitarios de componente para a pagina de perfil`
+- [x] **Commit 2**: `test: adiciona testes unitarios de componente para a pagina de perfil`
 
 ### Fase 3: Infraestrutura e Serviços (Frontend)
 
-- [ ] Criar o cliente de API `frontend/src/lib/api/users.ts` com a função de atualização de perfil.
-- [ ] Modificar o `AuthContext.tsx` para incluir a função de sincronização do usuário logado na sessão ativa.
+- [x] Criar o cliente de API `frontend/src/lib/api/users.ts` com a função de atualização de perfil.
+- [x] Modificar o `AuthContext.tsx` para incluir a função de sincronização do usuário logado na sessão ativa.
 - [ ] **Commit 3**: `feat: implementa client de api e estende AuthContext para perfil`
 
 ### Fase 4: Implementação da Interface (Green)
