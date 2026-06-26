@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T06:47:53+00:00",
+  "generated_at": "2026-06-26T06:49:48+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -75,7 +75,7 @@
     {
       "week": "2026-W26",
       "opened": 0,
-      "closed": 4
+      "closed": 5
     }
   ],
   "commit_message_histogram": [
@@ -85,7 +85,7 @@
     },
     {
       "range": "21-50",
-      "count": 121
+      "count": 122
     },
     {
       "range": "51-100",
@@ -556,7 +556,7 @@
     {
       "day": 3,
       "hour": 6,
-      "count": 1
+      "count": 2
     },
     {
       "day": 3,
@@ -1023,7 +1023,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 35
+      "commits": 36
     },
     {
       "username": "Paulodemczuk",
@@ -1094,18 +1094,18 @@
       "total": 31
     },
     {
-      "username": "pedrolrm",
-      "name": "Pedro Luca",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
       "opened": 4,
       "closed": 13,
       "total": 17
     },
     {
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
       "opened": 4,
-      "closed": 12,
-      "total": 16
+      "closed": 13,
+      "total": 17
     },
     {
       "username": "Pedrop06",
@@ -1140,8 +1140,8 @@
       "name": "Pedro Luca",
       "issues_opened": 4,
       "issues_assigned": 17,
-      "issues_assigned_closed": 16,
-      "issues_pending": 1,
+      "issues_assigned_closed": 17,
+      "issues_pending": 0,
       "prs_opened": 12,
       "prs_reviewed": 8,
       "prs_merged": 12,
@@ -1152,8 +1152,8 @@
       "name": "Jonathan Carpaneda",
       "issues_opened": 4,
       "issues_assigned": 14,
-      "issues_assigned_closed": 12,
-      "issues_pending": 2,
+      "issues_assigned_closed": 13,
+      "issues_pending": 1,
       "prs_opened": 7,
       "prs_reviewed": 7,
       "prs_merged": 7,
@@ -1193,7 +1193,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 35
+      "commits": 36
     },
     {
       "username": "valexim",
@@ -1932,8 +1932,8 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 34,
-      "total": 34
+      "commits": 35,
+      "total": 35
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -2058,8 +2058,8 @@
     {
       "milestone": "Sprint 12",
       "opened": 6,
-      "closed": 1,
-      "pending": 5
+      "closed": 2,
+      "pending": 4
     },
     {
       "milestone": "Sprint 13",
@@ -2498,16 +2498,16 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "assigned": 2,
-      "closed": 1,
-      "pending": 1
+      "closed": 2,
+      "pending": 0
     },
     {
       "milestone": "Sprint 12",
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "assigned": 2,
-      "closed": 1,
-      "pending": 1
+      "closed": 2,
+      "pending": 0
     },
     {
       "milestone": "Sprint 12",
