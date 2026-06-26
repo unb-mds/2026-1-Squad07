@@ -32,12 +32,12 @@ Para manter o histórico do Git limpo e de fácil revisão, a tarefa será divid
 
 ### Fase 2: Escrita de Testes (TDD - Red)
 
-- [ ] Criar arquivo de teste `frontend/src/app/profile/__tests__/page.test.tsx` com os cenários:
+- [x] Criar arquivo de teste `frontend/src/app/profile/__tests__/page.test.tsx` com os cenários:
   - TC-01: Redirecionamento se não autenticado
   - TC-02: Exibição de dados iniciais do usuário
   - TC-03: Validação de input com nome curto ou vazio
   - TC-06: Cancelamento de modificações voltando ao valor original
-- [ ] Rodar os testes locais do frontend para verificar a falha controlada (Red).
+- [x] Rodar os testes locais do frontend para verificar a falha controlada (Red).
 - [ ] **Commit 2**: `test: adiciona testes unitarios de componente para a pagina de perfil`
 
 ### Fase 3: Infraestrutura e Serviços (Frontend)
