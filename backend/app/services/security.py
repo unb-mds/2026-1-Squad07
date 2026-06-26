@@ -6,7 +6,6 @@ import os
 from datetime import datetime, timedelta, timezone
 import bcrypt
 
-
 AUTH_SECRET_KEY = os.getenv("AUTH_SECRET_KEY", "dev-secret-change-me")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
