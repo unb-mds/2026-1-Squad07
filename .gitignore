@@ -41,6 +41,10 @@ htmlcov/
 .tox/
 .coverage
 .coverage.*
+coverage.xml
+coverage.lcov
+*.lcov
+
 
 # MkDocs
 site/
