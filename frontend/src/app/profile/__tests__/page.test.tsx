@@ -53,7 +53,9 @@ describe("ProfilePage (Client component)", () => {
 
     render(<ProfilePage />);
 
-    expect(mockPush).toHaveBeenCalledWith("/login");
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith("/login");
+    });
   });
 
   it("TC-02: renderiza as informações iniciais do perfil do usuário logado", () => {

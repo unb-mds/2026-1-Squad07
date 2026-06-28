@@ -48,9 +48,9 @@ Para manter o histórico do Git limpo e de fácil revisão, a tarefa será divid
 
 ### Fase 4: Implementação da Interface (Green)
 
-- [ ] Criar a página `frontend/src/app/profile/page.tsx`.
-- [ ] Integrar inputs, validações e os Toasts de sucesso e erro.
-- [ ] Executar testes automatizados do frontend e garantir que todos passam (Green).
+- [x] Criar a página `frontend/src/app/profile/page.tsx`.
+- [x] Integrar inputs, validações e os Toasts de sucesso e erro.
+- [x] Executar testes automatizados do frontend e garantir que todos passam (Green).
 - [ ] **Commit 4**: `feat: implementa interface e layout da pagina de perfil`
 
 ### Fase 5: Ajustes e Revisão Final (Refactor)
