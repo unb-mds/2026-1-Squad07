@@ -55,6 +55,6 @@ Para manter o histórico do Git limpo e de fácil revisão, a tarefa será divid
 
 ### Fase 5: Ajustes e Revisão Final (Refactor)
 
-- [ ] Testar manualmente a integração ponta a ponta com usuário `ADMIN` localmente.
-- [ ] Garantir conformidade com os linters executando `npm run lint` no frontend.
-- [ ] **Commit 5**: `test: finaliza testes de integracao e ajustes de layout`
+- [x] Testar manualmente a integração ponta a ponta com usuário `ADMIN` localmente.
+- [x] Garantir conformidade com os linters executando `npm run lint` no frontend.
+- [x] **Commit 5**: `test: finaliza testes de integracao e ajustes de layout`
