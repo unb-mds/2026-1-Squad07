@@ -6,6 +6,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { updateProfile } from "../../lib/api/users";
 import { toast } from "sonner";
 import { Loader2, User, Mail, Shield, Save, X } from "lucide-react";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -77,22 +79,19 @@ export default function ProfilePage() {
               <User className="h-4 w-4 text-slate-400" />
               Nome
             </label>
-            <input
+            <Input
               id="name"
               type="text"
-              value={name || user.name}
+              value={name}
               onChange={(e) => {
                 setName(e.target.value);
                 if (error) setError(null);
               }}
-              className={`w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition-all ${
-                error
-                  ? "border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                  : "border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-              }`}
+              aria-invalid={!!error}
+              aria-describedby={error ? "name-error" : undefined}
             />
             {error && (
-              <p className="text-xs font-medium text-red-500">{error}</p>
+              <p id="name-error" className="text-xs font-medium text-red-500">{error}</p>
             )}
           </div>
 
@@ -101,12 +100,11 @@ export default function ProfilePage() {
               <Mail className="h-4 w-4 text-slate-400" />
               E-mail
             </label>
-            <input
+            <Input
               id="email"
               type="email"
               value={user.email}
               disabled
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-500 outline-none cursor-not-allowed"
             />
           </div>
 
@@ -129,19 +127,18 @@ export default function ProfilePage() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-            <button
+            <Button
               type="button"
+              variant="outline"
               onClick={handleCancel}
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-50"
             >
               <X className="h-4 w-4" />
               Cancelar
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#162a45] disabled:opacity-50"
             >
               {isSubmitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -149,7 +146,7 @@ export default function ProfilePage() {
                 <Save className="h-4 w-4" />
               )}
               Salvar Alterações
-            </button>
+            </Button>
           </div>
         </form>
       </div>
