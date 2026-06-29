@@ -10,6 +10,7 @@ deixando o erro explícito para a camada de API traduzir em 503.
 
 from __future__ import annotations
 
+import asyncio
 from typing import Any
 from uuid import uuid4
 
@@ -22,6 +23,7 @@ from app.services.analysis.scoring import (
     score_analysis,
 )
 from app.services.analysis_provider import AnalysisProvider
+from app.services.summary_provider import SummaryProvider
 
 
 class AnalysisError(Exception):
@@ -33,6 +35,7 @@ async def evaluate_text(
     law_id: str | None,
     *,
     provider: AnalysisProvider,
+    summary_provider: SummaryProvider,
     cache: AnalysisCache,
     db: Any,
     strategy: str = DEFAULT_STRATEGY,
@@ -44,17 +47,24 @@ async def evaluate_text(
     scored = cache.get(key)
     cached = scored is not None
     if not cached:
+        summary_task = asyncio.create_task(summary_provider.summarize(text))
         try:
             probabilities = provider.analyze(text)
-        except Exception as exc:  # noqa: BLE001 - reembala como erro explícito
+        except Exception as exc:  # noqa: BLE001
             raise AnalysisError(f"Falha na análise do texto: {exc}") from exc
         scored = score_analysis(probabilities, strategy=strategy, threshold=threshold)
+
+        summary = None
+        try:
+            summary = await summary_task
+        except Exception:
+            pass
+
+        scored["summary"] = summary
         cache.set(key, scored)
 
     analysis_id = str(uuid4())
     if law_id is not None:
-        # Relação obrigatória via connect; campos Json exigem o wrapper Json.
-        # Persiste mesmo em cache hit: cada execução é uma entrada no histórico.
         created = await db.analysis.create(
             data={
                 "law": {"connect": {"id": law_id}},
@@ -63,6 +73,7 @@ async def evaluate_text(
                 "warnings": Json(scored["warnings"]),
                 "modelVersion": provider.model_version,
                 "cached": cached,
+                "summary": scored.get("summary"),
             }
         )
         analysis_id = created.id
@@ -71,6 +82,7 @@ async def evaluate_text(
         "analysis_id": analysis_id,
         "status": "completed",
         "score": scored["score"],
+        "summary": scored.get("summary"),
         "metrics": scored["metrics"],
         "warnings": scored["warnings"],
         "model_version": provider.model_version,
