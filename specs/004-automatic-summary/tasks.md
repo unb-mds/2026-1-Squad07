@@ -9,24 +9,24 @@
 
 ## Implementação
 
-- [ ] **T003** Atualizar o modelo Prisma `Analysis` no `schema.prisma` adicionando `summary String?`, gerando e aplicando a migration no PostgreSQL.
+- [x] **T003** Atualizar o modelo Prisma `Analysis` no `schema.prisma` adicionando `summary String?`, gerando e aplicando a migration no PostgreSQL.
   - *Checkpoint de Commit*: `chore(db): adiciona campo summary no schema prisma`
-- [ ] **T004** Criar a interface `SummaryProvider` e as classes `MockSummaryProvider` e `GeminiSummaryProvider` (usando `httpx`) em `backend/app/services/summary_provider.py`.
+- [x] **T004** Criar a interface `SummaryProvider` e as classes `MockSummaryProvider` e `GeminiSummaryProvider` (usando `httpx`) em `backend/app/services/summary_provider.py`.
   - *Checkpoint de Commit*: `feat(nlp): implementa SummaryProvider e suas variantes mock/gemini`
-- [ ] **T005** Atualizar os schemas Pydantic de análise em `backend/app/models/analysis.py` para incluir o campo `summary` no `AnalysisResponse` e schemas relacionados.
+- [x] **T005** Atualizar os schemas Pydantic de análise em `backend/app/models/analysis.py` para incluir o campo `summary` no `AnalysisResponse` e schemas relacionados.
   - *Checkpoint de Commit*: `feat(api): atualiza schemas pydantic de analise com campo summary`
-- [ ] **T006** Modificar a orquestração de análise em `backend/app/services/analysis/service.py` para executar a inferência de legibilidade/problemas e a sumarização concorrentemente com `asyncio.gather`, persistindo o resumo gerado na tabela de análises.
+- [x] **T006** Modificar a orquestração de análise em `backend/app/services/analysis/service.py` para executar a inferência de legibilidade/problemas e a sumarização concorrentemente com `asyncio.gather`, persistindo o resumo gerado na tabela de análises.
   - *Checkpoint de Commit*: `feat(nlp): integra geracao concorrente de resumo no AnalysisService`
-- [ ] **T007** Configurar a inicialização e injeção de dependência do `SummaryProvider` adequado em `backend/app/api/dependencies.py` (lendo a chave `GEMINI_API_KEY` para decidir entre o provedor real ou o mock).
+- [x] **T007** Configurar a inicialização e injeção de dependência do `SummaryProvider` adequado em `backend/app/api/dependencies.py` (lendo a chave `GEMINI_API_KEY` para decidir entre o provedor real ou o mock).
   - *Checkpoint de Commit*: `feat(api): configura injecao de dependencia do SummaryProvider`
 
 ## Verificação
 
-- [ ] **T008** Escrever testes unitários e mocks para o `SummaryProvider` e `AnalysisService` em `backend/tests/unit/test_summary_provider.py` e atualizar os testes existentes do service.
-- [ ] **T009** Escrever testes de integração para o endpoint `/api/v1/analysis/evaluate` e rotas de consulta em `backend/tests/integration/test_analysis_api.py` para verificar o retorno do resumo.
+- [x] **T008** Escrever testes unitários e mocks para o `SummaryProvider` e `AnalysisService` em `backend/tests/unit/test_summary_provider.py` e atualizar os testes existentes do service.
+- [x] **T009** Escrever testes de integração para o endpoint `/api/v1/analysis/evaluate` e rotas de consulta em `backend/tests/integration/test_analysis_api.py` para verificar o retorno do resumo.
   - *Checkpoint de Commit*: `test(nlp): adiciona testes unitarios e integracao para sumarizador`
-- [ ] **T010** Garantir cobertura de testes no backend `>= 90%` e lint de arquivos limpo (`black`/`flake8`).
+- [x] **T010** Garantir cobertura de testes no backend `>= 90%` e lint de arquivos limpo (`black`/`flake8`).
   - *Checkpoint de Commit*: `style/refactor: formata codigo e garante cobertura minima de 90%`
-- [ ] **T011** Executar validação manual local da rota com e sem a chave de API do Gemini para validar o Happy Path (resumo gerado) e o Bad Path (resiliência com resumo nulo).
+- [x] **T011** Executar validação manual local da rota com e sem a chave de API do Gemini para validar o Happy Path (resumo gerado) e o Bad Path (resiliência com resumo nulo).
 - [ ] **T012** Abrir Pull Request para a branch `dev` com as alterações e plano de testes.
 
