@@ -15,6 +15,7 @@ const config = {
     "src/components/ui/button.tsx",
     "src/components/ui/input.tsx",
     "src/components/ui/badge.tsx",
+    "src/contexts/AuthContext.tsx",
   ],
 };
 

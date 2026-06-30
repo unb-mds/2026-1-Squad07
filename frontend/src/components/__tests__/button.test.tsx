@@ -31,4 +31,17 @@ describe("Button", () => {
 
     expect(screen.getByRole("button", { name: "Excluir" })).toBeInTheDocument();
   });
+
+  it("renderiza como filho quando asChild é informado", () => {
+    render(
+      <Button asChild>
+        <a href="/leis">Abrir leis</a>
+      </Button>
+    );
+
+    expect(screen.getByRole("link", { name: "Abrir leis" })).toHaveAttribute(
+      "href",
+      "/leis",
+    );
+  });
 });

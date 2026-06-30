@@ -81,6 +81,33 @@ describe("AuthContext", () => {
     });
   });
 
+  it("keeps empty session when localStorage has no saved session", async () => {
+    render(
+      <AuthProvider>
+        <AuthConsumer />
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("user")).toHaveTextContent("null");
+      expect(screen.getByTestId("token")).toHaveTextContent("null");
+    });
+  });
+
+  it("removes invalid saved session from localStorage", async () => {
+    window.localStorage.setItem("crivoai_session", "{invalid-json");
+
+    render(
+      <AuthProvider>
+        <AuthConsumer />
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(window.localStorage.getItem("crivoai_session")).toBeNull();
+    });
+  });
+
   it("calls loginUser and saves session", async () => {
     (authApi.loginUser as jest.Mock).mockResolvedValue(session);
 

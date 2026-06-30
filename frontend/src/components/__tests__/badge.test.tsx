@@ -31,4 +31,17 @@ describe("Badge", () => {
 
     expect(screen.getByText("Bloqueado")).toBeInTheDocument();
   });
+
+  it("renderiza como filho quando asChild é informado", () => {
+    render(
+      <Badge asChild>
+        <a href="/status">Status</a>
+      </Badge>
+    );
+
+    expect(screen.getByRole("link", { name: "Status" })).toHaveAttribute(
+      "href",
+      "/status",
+    );
+  });
 });
