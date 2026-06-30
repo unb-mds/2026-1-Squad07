@@ -85,6 +85,12 @@ async def update_user(
     if not data:
         return existing_user
 
+    if "role" in data and current_user.role != "ADMIN":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Apenas administradores podem alterar a role de um usuario.",
+        )
+
     if "email" in data:
         user_with_email = await db.user.find_unique(where={"email": data["email"]})
         if user_with_email and user_with_email.id != user_id:

@@ -297,6 +297,18 @@ def test_update_user_permite_usuario_comum_atualizar_proprio_perfil(monkeypatch)
     assert fake_user_delegate.updated_data == {"name": "Maria Souza"}
 
 
+def test_update_user_rejeita_usuario_comum_alterando_propria_role(monkeypatch):
+    common_user = make_user(role="COMMON")
+    fake_user_delegate = FakeUserDelegate([common_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    app.dependency_overrides[users.get_current_user] = lambda: common_user
+
+    response = client.patch("/users/user-123", json={"role": "ADMIN"})
+
+    assert response.status_code == 403
+    assert fake_user_delegate.updated_data is None
+
+
 def test_update_user_rejeita_usuario_comum_atualizando_outro_perfil(monkeypatch):
     common_user = make_user(user_id="user-123", role="COMMON")
     other_user = make_user(user_id="user-456", email="ana@example.com")
