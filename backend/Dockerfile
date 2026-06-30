@@ -23,7 +23,7 @@ RUN prisma generate --schema=prisma/schema.prisma
 
 COPY . .
 
-CMD ["pytest", "tests/unit", "-v", "--tb=short", "--cov=app", "--cov-report=term-missing", "--cov-report=html", "--cov-report=lcov", "--cov-fail-under=75"]
+CMD ["pytest", "tests/unit", "-v", "--tb=short", "--cov=app", "--cov-report=term-missing", "--cov-report=html", "--cov-report=lcov", "--cov-fail-under=90"]
 
 FROM base AS final
 

@@ -16,7 +16,7 @@ Todos os critérios de aceitação para a issue #115 do GitHub foram implementad
 
 * **Testes Reais**: 81 testes unitários
 * **Mínimo Exigido**: 30 testes
-* **Cobertura**: 92,70% (supera o requisito de 75%)
+* **Cobertura**: 92,70% (supera o requisito de 90%)
 * **Localização**: `backend/tests/unit/`
 * **Todos os testes passam**: SIM
 
@@ -94,7 +94,7 @@ Cobertura do frontend:
 * Testes de backend executados via pytest com requisitos de cobertura
 * Testes de frontend executados via npm run test:coverage
 * Ambos são acionados em eventos de PR/push
-* Limites de cobertura aplicados (90% configurado, 75% exigido)
+* Limites de cobertura aplicados (90% configurado e exigido)
 
 **Infraestrutura de Teste Docker**:
 
@@ -114,7 +114,7 @@ docker-compose --profile dev up app
 
 # Apenas backend
 cd backend
-python -m pytest tests/unit -v --cov=app --cov-fail-under=75
+python -m pytest tests/unit -v --cov=app --cov-fail-under=90
 
 # Apenas frontend
 cd frontend
@@ -256,7 +256,7 @@ tests/unit/ - 81 tests
 ======================== 81 passed, 1 warning in 8.06s =========================
 Coverage HTML written to dir htmlcov
 Coverage LCOV written to file coverage.lcov
-Required test coverage of 75% reached. Total coverage: 92.70%
+Required test coverage of 90% reached. Total coverage: 92.70%
 
 ```
 
