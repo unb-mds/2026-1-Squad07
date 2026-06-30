@@ -87,7 +87,7 @@ O dashboard de produtividade existe para acompanhar o processo de desenvolviment
 
 ### Interação e leitura dos dados
 
-- Gráficos devem responder ao mouse com tooltip legível e animações fluidas de entrada (fade-in-up, lines se desenhando, barras crescendo).
+- Gráficos devem responder ao mouse com tooltip legível e animações fluidas de entrada (fade-in-up, linhas se desenhando, barras crescendo).
 - Tooltips devem ter área suficiente para leitura confortável, com título e valor em linhas separadas.
 - Barras, pontos e células de heatmap devem indicar interatividade no hover.
 - Tabelas com agrupamento por pessoa devem evitar repetir o mesmo nome várias vezes quando os dados puderem ser apresentados em um único bloco.
@@ -100,7 +100,7 @@ O dashboard de produtividade existe para acompanhar o processo de desenvolviment
 - O `name` público do GitHub deve ser usado apenas como texto de exibição.
 - Cada integrante ativo deve ter sua foto de perfil oficial obtida dinamicamente da API pública do GitHub (`https://github.com/username.png?size=64`) com fallback para badge de iniciais em caso de falha de requisição.
 - **Privacidade do Professor:** Como política de respeito à privacidade, a foto de perfil da professora Carla Rocha (logins `carla-rocha`, `RochaCarla` ou nome `Carla Rocha`) **não deve ser buscada do GitHub** nem exposta, devendo-se utilizar obrigatoriamente e exclusivamente o badge estático de iniciais `CR` em seu lugar.
-- `issues_assigned_closed` represents issues atribuídas à pessoa que foram concluídas, não autoria do fechamento.
+- `issues_assigned_closed` representa issues atribuídas à pessoa que foram concluídas, não autoria do fechamento.
 - O rótulo visual dessa métrica deve ser `Atribuídas concluídas`.
 - Contribuição em documentação deve representar execução rastreável.
 - Issues de documentação contam para a pessoa que fechou a issue via `closed_by`.
@@ -180,7 +180,7 @@ A menos que exista solicitação explícita, não faça:
 - `repository`: repositório analisado.
 - `issues_per_week`: issues abertas e fechadas por semana.
 - `commit_message_histogram`: distribuição de tamanho das mensagens de commit.
-- `coauthors_per_week`: contagem de coautores por semana (`coauthors`/`count`) acompanhada da chave `details`, que lista os nomes reais dos coautores de cada semana para exibição na tooltip do gráfico.
+- `coauthors_per_week`: contagem de coautores por semana (`coauthors`/`count`) acompanhada da chave `details`, que lista as duplas de pareamento de cada coautoria na semana no formato `"Autor Principal + Coautor"` para exibição dinâmica na tooltip.
 - `commit_heatmap`: mapa de calor de commits por dia e hora.
 - `top_committers`: ranking de commits por pessoa.
 - `top_pr_authors`: ranking de autores de pull requests.
@@ -497,7 +497,7 @@ O acesso oficial ao painel deve acontecer via GitHub Pages. O painel não deve d
     { "range": "200+", "count": 5 }
   ],
   "coauthors_per_week": [
-    { "week": "2026-W18", "coauthors": 4, "count": 4, "details": ["Fulano de Tal", "Ciclana Souza"] }
+    { "week": "2026-W18", "coauthors": 2, "count": 2, "details": ["Vinicius Araruna + Victor Amaral"] }
   ],
   "commit_heatmap": [
     { "day": 0, "hour": 10, "count": 8 }

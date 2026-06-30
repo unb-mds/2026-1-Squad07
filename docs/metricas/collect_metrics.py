@@ -456,8 +456,10 @@ def collect_commit_metrics(
             week = iso_week(author_date)
             commit_coauthors = parse_coauthors(message)
             coauthors_by_week[week] += len(commit_coauthors)
+            _, author_name_val = user_key(commit.author)
             for coauthor in commit_coauthors:
-                coauthor_names_by_week[week][coauthor] += 1
+                pair_name = f"{author_name_val} + {coauthor}"
+                coauthor_names_by_week[week][pair_name] += 1
 
     weeks = week_range(commit_dates)
     commit_message_histogram = [
