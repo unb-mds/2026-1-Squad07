@@ -6,6 +6,7 @@ import pytest
 
 from app.services.analysis.cache import AnalysisCache
 from app.services.analysis.service import AnalysisError, evaluate_text
+from app.services.summary_provider import SummaryError
 
 
 class FakeProvider:
@@ -30,6 +31,19 @@ class FakeProvider:
         return self.probabilities
 
 
+class FakeSummaryProvider:
+    def __init__(self, result="Resumo padrão.", error=None):
+        self.result = result
+        self.error = error
+        self.calls = 0
+
+    async def summarize(self, texto):
+        self.calls += 1
+        if self.error is not None:
+            raise self.error
+        return self.result
+
+
 class FakeAnalysisDelegate:
     """Dublê do delegate Prisma para a tabela Analysis."""
 
@@ -45,13 +59,21 @@ def make_db():
     return SimpleNamespace(analysis=FakeAnalysisDelegate())
 
 
+@pytest.mark.anyio
 async def test_primeira_chamada_computa_e_marca_cached_false():
-    """SV-1: miss de cache computa e retorna cached=False."""
     provider = FakeProvider()
+    summary_provider = FakeSummaryProvider()
     cache = AnalysisCache()
     db = make_db()
 
-    result = await evaluate_text("texto", None, provider=provider, cache=cache, db=db)
+    result = await evaluate_text(
+        "texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
 
     assert result["cached"] is False
     assert result["status"] == "completed"
@@ -63,89 +85,200 @@ async def test_primeira_chamada_computa_e_marca_cached_false():
     assert provider.calls == 1
 
 
+@pytest.mark.anyio
 async def test_segunda_chamada_retorna_cached_true_sem_reprocessar():
-    """SV-2: hit de cache devolve cached=True e não chama o provider de novo."""
     provider = FakeProvider()
+    summary_provider = FakeSummaryProvider()
     cache = AnalysisCache()
     db = make_db()
 
-    await evaluate_text("mesmo texto", None, provider=provider, cache=cache, db=db)
+    await evaluate_text(
+        "mesmo texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
     second = await evaluate_text(
-        "mesmo texto", None, provider=provider, cache=cache, db=db
+        "mesmo texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
     )
 
     assert second["cached"] is True
     assert provider.calls == 1
 
 
+@pytest.mark.anyio
 async def test_persiste_em_analysis_quando_ha_law_id():
-    """SV-3: com law_id, o resultado é persistido em Analysis (D11)."""
     provider = FakeProvider()
+    summary_provider = FakeSummaryProvider()
     cache = AnalysisCache()
     db = make_db()
 
     result = await evaluate_text(
-        "texto", "law-42", provider=provider, cache=cache, db=db
+        "texto",
+        "law-42",
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
     )
 
-    # analysis_id reflete a linha persistida.
     assert result["analysis_id"] == "analysis-1"
     assert len(db.analysis.created) == 1
     persisted = db.analysis.created[0]
-    # Relação obrigatória persistida via connect (não pelo escalar lawId).
     assert persisted["law"] == {"connect": {"id": "law-42"}}
     assert persisted["modelVersion"] == "fake-v1"
     assert persisted["cached"] is False
     assert persisted["score"] == pytest.approx(0.7)
-    # metrics/warnings vão como Json do Prisma, preservando o conteúdo.
     assert persisted["metrics"].data == provider.probabilities
     assert [w["code"] for w in persisted["warnings"].data] == ["ambiguidade"]
 
 
+@pytest.mark.anyio
 async def test_cache_hit_com_law_id_ainda_persiste():
-    """SV-6: em cache hit com law_id, persiste mesmo assim (corrige histórico).
-
-    Reproduz a regressão da review: avaliar sem law_id e depois o mesmo texto
-    com law_id deve gravar a análise para a lei (cached=True), não pular.
-    """
     provider = FakeProvider()
+    summary_provider = FakeSummaryProvider()
     cache = AnalysisCache()
     db = make_db()
 
-    # 1ª chamada sem law_id: popula o cache, não persiste.
-    await evaluate_text("texto", None, provider=provider, cache=cache, db=db)
+    await evaluate_text(
+        "texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
     assert db.analysis.created == []
 
-    # 2ª chamada com o mesmo texto + law_id: cache hit, mas persiste.
     result = await evaluate_text(
-        "texto", "law-9", provider=provider, cache=cache, db=db
+        "texto",
+        "law-9",
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
     )
 
     assert result["cached"] is True
-    assert provider.calls == 1  # não reprocessou a inferência
+    assert provider.calls == 1
     assert len(db.analysis.created) == 1
     assert db.analysis.created[0]["law"] == {"connect": {"id": "law-9"}}
     assert db.analysis.created[0]["cached"] is True
 
 
+@pytest.mark.anyio
 async def test_sem_law_id_nao_persiste():
-    """SV-4: sem law_id, nada é gravado em Analysis."""
     provider = FakeProvider()
+    summary_provider = FakeSummaryProvider()
     cache = AnalysisCache()
     db = make_db()
 
-    await evaluate_text("texto", None, provider=provider, cache=cache, db=db)
+    await evaluate_text(
+        "texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
 
     assert db.analysis.created == []
 
 
+@pytest.mark.anyio
 async def test_falha_do_provider_nao_retorna_score_simulado():
-    """SV-5: erro do modelo vira AnalysisError, sem score inventado (D6)."""
     provider = FakeProvider(error=RuntimeError("modelo indisponível"))
+    summary_provider = FakeSummaryProvider()
     cache = AnalysisCache()
     db = make_db()
 
     with pytest.raises(AnalysisError):
-        await evaluate_text("texto", None, provider=provider, cache=cache, db=db)
+        await evaluate_text(
+            "texto",
+            None,
+            provider=provider,
+            summary_provider=summary_provider,
+            cache=cache,
+            db=db,
+        )
 
     assert db.analysis.created == []
+
+
+@pytest.mark.anyio
+async def test_primeira_chamada_gera_resumo_e_persiste():
+    provider = FakeProvider()
+    summary_provider = FakeSummaryProvider(result="Resumo da lei.")
+    cache = AnalysisCache()
+    db = make_db()
+
+    result = await evaluate_text(
+        "texto",
+        "law-1",
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
+
+    assert result["summary"] == "Resumo da lei."
+    assert len(db.analysis.created) == 1
+    assert db.analysis.created[0]["summary"] == "Resumo da lei."
+    assert summary_provider.calls == 1
+
+
+@pytest.mark.anyio
+async def test_segunda_chamada_retorna_resumo_do_cache():
+    provider = FakeProvider()
+    summary_provider = FakeSummaryProvider(result="Resumo da lei.")
+    cache = AnalysisCache()
+    db = make_db()
+
+    await evaluate_text(
+        "texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
+    result = await evaluate_text(
+        "texto",
+        None,
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
+
+    assert result["summary"] == "Resumo da lei."
+    assert summary_provider.calls == 1
+
+
+@pytest.mark.anyio
+async def test_falha_na_sumarizacao_nao_derruba_a_analise():
+    provider = FakeProvider()
+    summary_provider = FakeSummaryProvider(error=SummaryError("Erro no Gemini"))
+    cache = AnalysisCache()
+    db = make_db()
+
+    result = await evaluate_text(
+        "texto",
+        "law-1",
+        provider=provider,
+        summary_provider=summary_provider,
+        cache=cache,
+        db=db,
+    )
+
+    assert result["summary"] is None
+    assert result["status"] == "completed"
+    assert db.analysis.created[0]["summary"] is None
+    assert summary_provider.calls == 1

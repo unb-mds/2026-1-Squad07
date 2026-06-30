@@ -74,16 +74,21 @@ def make_row(row_id, law_id, score, created):
         modelVersion="fake-v1",
         cached=False,
         createdAt=created,
+        summary="Resumo da lei.",
     )
 
 
-def setup_fakes(monkeypatch, provider=None, laws=None, rows=None):
-    """Substitui provider, cache e db do módulo de rotas por dublês."""
+def setup_fakes(monkeypatch, provider=None, laws=None, rows=None, summary_provider=None):
+    """Substitui provider, cache, db e summary_provider do módulo de rotas por dublês."""
+    from app.services.summary_provider import MockSummaryProvider
+
     provider = provider or FakeProvider()
+    summary_provider = summary_provider or MockSummaryProvider()
     law_delegate = FakeLawDelegate(laws)
     analysis_delegate = FakeAnalysisDelegate(rows)
     monkeypatch.setattr(analysis, "provider", provider)
     monkeypatch.setattr(analysis, "cache", AnalysisCache())
+    monkeypatch.setattr(analysis, "summary_provider", summary_provider)
     monkeypatch.setattr(
         analysis,
         "db",
@@ -96,7 +101,6 @@ def setup_fakes(monkeypatch, provider=None, laws=None, rows=None):
 
 
 def test_evaluate_retorna_schema_completo(monkeypatch):
-    """EP-1: resposta tem analysis_id, status, score, metrics, warnings..."""
     setup_fakes(monkeypatch)
 
     response = client.post(
@@ -110,6 +114,7 @@ def test_evaluate_retorna_schema_completo(monkeypatch):
         "analysis_id",
         "status",
         "score",
+        "summary",
         "metrics",
         "warnings",
         "model_version",
@@ -119,6 +124,7 @@ def test_evaluate_retorna_schema_completo(monkeypatch):
     assert body["cached"] is False
     assert body["model_version"] == "fake-v1"
     assert body["metrics"]["ambiguidade"] == 0.8
+    assert body["summary"] == "Resumo simulado da lei contendo o trecho: Art. 1..."
     warning = body["warnings"][0]
     assert warning["code"] == "ambiguidade"
     assert warning["message"]
@@ -214,7 +220,6 @@ def test_evaluate_falha_do_modelo_retorna_503(monkeypatch):
 
 
 def test_latest_analysis_retorna_mais_recente(monkeypatch):
-    """EP-7: retorna a análise mais recente da lei."""
     now = datetime(2026, 6, 1, 12, 0, tzinfo=timezone.utc)
     rows = [make_row("a-2", "law-7", 0.6, now)]
     laws = {"law-7": SimpleNamespace(id="law-7")}
@@ -227,6 +232,7 @@ def test_latest_analysis_retorna_mais_recente(monkeypatch):
     assert body["analysis_id"] == "a-2"
     assert body["status"] == "completed"
     assert body["score"] == 0.6
+    assert body["summary"] == "Resumo da lei."
 
 
 def test_latest_analysis_lei_inexistente_retorna_404(monkeypatch):
