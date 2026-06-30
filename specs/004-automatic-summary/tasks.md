@@ -28,5 +28,5 @@
 - [x] **T010** Garantir cobertura de testes no backend `>= 90%` e lint de arquivos limpo (`black`/`flake8`).
   - *Checkpoint de Commit*: `style/refactor: formata codigo e garante cobertura minima de 90%`
 - [x] **T011** Executar validação manual local da rota com e sem a chave de API do Gemini para validar o Happy Path (resumo gerado) e o Bad Path (resiliência com resumo nulo).
-- [ ] **T012** Abrir Pull Request para a branch `dev` com as alterações e plano de testes.
+- [x] **T012** Abrir Pull Request para a branch `dev` com as alterações e plano de testes.
 
