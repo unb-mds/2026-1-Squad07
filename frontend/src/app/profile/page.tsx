@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
-import { updateProfile } from "../../lib/api/users";
+import { getProfile, updateProfile } from "../../lib/api/users";
 import { toast } from "sonner";
 import { Loader2, User, Mail, Shield, Save, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
@@ -26,6 +26,38 @@ export default function ProfilePage() {
 
     return () => clearTimeout(timer);
   }, [user, router]);
+
+  // Efeito para sincronização inicial do nome quando o usuário é carregado do localStorage
+  useEffect(() => {
+    if (user?.name) {
+      setName(user.name);
+    }
+  }, [user?.id, user?.name]);
+
+  // Efeito para buscar dados do perfil em tempo real na API ao carregar a página
+  useEffect(() => {
+    if (!user || !token) return;
+
+    let active = true;
+
+    async function fetchUserData() {
+      try {
+        const freshUser = await getProfile(user.id, token);
+        if (active) {
+          updateUserInSession(freshUser);
+          setName(freshUser.name);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar dados do perfil na API:", err);
+      }
+    }
+
+    void fetchUserData();
+
+    return () => {
+      active = false;
+    };
+  }, [user?.id, token]);
 
   if (!user) {
     return (
