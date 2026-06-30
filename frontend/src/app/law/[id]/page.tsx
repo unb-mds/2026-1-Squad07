@@ -245,6 +245,9 @@ export default function LawDetailPage() {
                       </p>
                     </div>
                   </div>
+                  <p className="mb-3 text-xs text-slate-500">
+                    As métricas indicam a probabilidade de problema detectado em cada categoria.
+                  </p>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {metrics.length > 0 ? (
                       metrics.map(([code, value]) => (
