@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T07:29:23+00:00",
+  "generated_at": "2026-06-30T06:52:19+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -90,7 +90,7 @@
     },
     {
       "range": "21-50",
-      "count": 133
+      "count": 134
     },
     {
       "range": "51-100",
@@ -165,6 +165,10 @@
     {
       "week": "2026-W26",
       "count": 0
+    },
+    {
+      "week": "2026-W27",
+      "count": 0
     }
   ],
   "commit_heatmap": [
@@ -206,7 +210,7 @@
     {
       "day": 0,
       "hour": 7,
-      "count": 1
+      "count": 2
     },
     {
       "day": 0,
@@ -1028,7 +1032,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 39
+      "commits": 40
     },
     {
       "username": "Paulodemczuk",
@@ -1132,9 +1136,9 @@
       "username": "ViniciusA05",
       "name": "ViniciusA05",
       "issues_opened": 65,
-      "issues_assigned": 22,
+      "issues_assigned": 23,
       "issues_assigned_closed": 17,
-      "issues_pending": 5,
+      "issues_pending": 6,
       "prs_opened": 20,
       "prs_reviewed": 19,
       "prs_merged": 16,
@@ -1168,11 +1172,11 @@
       "username": "Paulodemczuk",
       "name": "Paulo",
       "issues_opened": 19,
-      "issues_assigned": 9,
+      "issues_assigned": 10,
       "issues_assigned_closed": 9,
-      "issues_pending": 0,
+      "issues_pending": 1,
       "prs_opened": 3,
-      "prs_reviewed": 4,
+      "prs_reviewed": 5,
       "prs_merged": 3,
       "commits": 17
     },
@@ -1198,7 +1202,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 39
+      "commits": 40
     },
     {
       "username": "valexim",
@@ -1336,7 +1340,7 @@
       "username": "ViniciusA05",
       "name": "ViniciusA05",
       "label": "type: feature ✨",
-      "count": 12
+      "count": 13
     },
     {
       "username": "pedrolrm",
@@ -1485,6 +1489,12 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
+      "label": "area: backend ⚙️",
+      "count": 4
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
       "label": "area: frontend 🖥️",
       "count": 4
     },
@@ -1492,6 +1502,12 @@
       "username": "ViniciusA05",
       "name": "ViniciusA05",
       "label": "rabbit 🐇",
+      "count": 4
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "release: v2",
       "count": 4
     },
     {
@@ -1557,12 +1573,6 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "area: backend ⚙️",
-      "count": 3
-    },
-    {
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
       "label": "devOps",
       "count": 3
     },
@@ -1570,12 +1580,6 @@
       "username": "ViniciusA05",
       "name": "ViniciusA05",
       "label": "epic: tdd-testing",
-      "count": 3
-    },
-    {
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
-      "label": "release: v2",
       "count": 3
     },
     {
@@ -1666,6 +1670,12 @@
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "label": "to study 📖",
+      "count": 2
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "epic: motor-inteligência-nlp",
       "count": 2
     },
     {
@@ -1767,7 +1777,19 @@
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
+      "label": "area: backend ⚙️",
+      "count": 1
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "label": "area: database 🗄️",
+      "count": 1
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "bug",
       "count": 1
     },
     {
@@ -1845,12 +1867,6 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "epic: motor-inteligência-nlp",
-      "count": 1
-    },
-    {
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
       "label": "requirement",
       "count": 1
     },
@@ -1917,8 +1933,8 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 38,
-      "total": 38
+      "commits": 39,
+      "total": 39
     },
     {
       "username": "pedrolrm",
@@ -2536,11 +2552,19 @@
     },
     {
       "milestone": "Sprint 13",
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "assigned": 1,
       "closed": 0,
       "pending": 1
+    },
+    {
+      "milestone": "Sprint 13",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 2,
+      "closed": 0,
+      "pending": 2
     },
     {
       "milestone": "Sprint 13",
