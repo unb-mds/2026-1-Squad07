@@ -6,7 +6,6 @@ import {
   ArrowLeft,
   BarChart3,
   BookOpen,
-  Brain,
   CalendarDays,
   FileText,
   Hash,
@@ -16,8 +15,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
-import { getLaw, type CreatedLaw } from "@/lib/api/laws";
-import { getDemoAnalysis, scoreClass } from "@/lib/demo-analysis";
+import {
+  analyzeLawReadability,
+  getLaw,
+  type CreatedLaw,
+  type ReadabilityResponse,
+} from "@/lib/api/laws";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -26,21 +29,28 @@ function formattedDate(value: string) {
   }).format(new Date(value));
 }
 
+function getScoreColorClass(score: number): string {
+  if (score >= 70) return "bg-green-100 text-green-800 border-green-300";
+  if (score >= 40) return "bg-amber-100 text-amber-800 border-amber-300";
+  return "bg-red-100 text-red-800 border-red-300";
+}
+
 export default function LawDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const [law, setLaw] = useState<CreatedLaw | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const analysis = getDemoAnalysis(params.id);
+  const [loadingLaw, setLoadingLaw] = useState(true);
+  const [errorLaw, setErrorLaw] = useState("");
+  const [readability, setReadability] = useState<ReadabilityResponse | null>(null);
+  const [loadingReadability, setLoadingReadability] = useState(false);
+  const [errorReadability, setErrorReadability] = useState("");
 
   useEffect(() => {
     let active = true;
 
     async function loadLaw() {
-      setLoading(true);
-      setError("");
-
+      setLoadingLaw(true);
+      setErrorLaw("");
       try {
         const persistedLaw = await getLaw(params.id);
         if (active) {
@@ -48,7 +58,7 @@ export default function LawDetailPage() {
         }
       } catch (requestError) {
         if (active) {
-          setError(
+          setErrorLaw(
             apiErrorMessage(
               requestError,
               "Não foi possível carregar esta submissão.",
@@ -57,7 +67,7 @@ export default function LawDetailPage() {
         }
       } finally {
         if (active) {
-          setLoading(false);
+          setLoadingLaw(false);
         }
       }
     }
@@ -67,6 +77,45 @@ export default function LawDetailPage() {
       active = false;
     };
   }, [params.id]);
+
+  useEffect(() => {
+    if (!law) return;
+
+    const currentText = law.text;
+    let active = true;
+
+    async function fetchReadability() {
+      setLoadingReadability(true);
+      setErrorReadability("");
+      try {
+        const data = await analyzeLawReadability({
+          lawId: params.id,
+          text: currentText,
+        });
+        if (active) {
+          setReadability(data);
+        }
+      } catch (requestError) {
+        if (active) {
+          setErrorReadability(
+            apiErrorMessage(
+              requestError,
+              "Não foi possível calcular as métricas de legibilidade no momento.",
+            ),
+          );
+        }
+      } finally {
+        if (active) {
+          setLoadingReadability(false);
+        }
+      }
+    }
+
+    void fetchReadability();
+    return () => {
+      active = false;
+    };
+  }, [law, params.id]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-6">
@@ -79,20 +128,20 @@ export default function LawDetailPage() {
         Voltar às submissões
       </button>
 
-      {loading ? (
+      {loadingLaw ? (
         <section className="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-20 text-sm font-semibold text-slate-600 shadow-md">
           <Loader2 className="size-5 animate-spin text-[#1e3a5f]" />
           Carregando submissão persistida...
         </section>
-      ) : error || !law ? (
+      ) : errorLaw || !law ? (
         <section className="rounded-2xl border border-red-200 bg-white py-20 text-center shadow-md">
           <AlertCircle className="mx-auto mb-4 size-12 text-red-400" />
           <h1 className="text-lg font-bold text-slate-700">Falha ao consultar submissão</h1>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-slate-600">{error}</p>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-slate-600">{errorLaw}</p>
         </section>
       ) : (
         <>
-          <section className="rounded-2xl bg-gradient-to-r from-[#1e3a5f] to-[#2d5a8c] p-6 text-white shadow-lg">
+          <section className="rounded-2xl bg-linear-to-r from-[#1e3a5f] to-[#2d5a8c] p-6 text-white shadow-lg">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-200">
               Submissão Persistida
             </p>
@@ -108,11 +157,6 @@ export default function LawDetailPage() {
                 <CalendarDays className="size-4" />
                 Registrada em {formattedDate(law.createdAt)}
               </span>
-              {analysis && (
-                <span className="rounded-full bg-white/15 px-3 py-1.5 font-bold">
-                  Score demonstrativo: {analysis.score}/100
-                </span>
-              )}
             </div>
           </section>
 
@@ -128,74 +172,71 @@ export default function LawDetailPage() {
                 </div>
               </section>
 
-              {analysis && (
-                <>
-                  <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-                    <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-slate-800">
-                      <BarChart3 className="size-5 text-[#1e3a5f]" />
-                      Métricas de Qualidade
-                    </h2>
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                      <RadialProgress value={analysis.readability} label="Legibilidade" />
-                      <RadialProgress value={analysis.ambiguity} label="Ausência de Ambiguidade" />
-                      <RadialProgress
-                        value={analysis.technicalConformity}
-                        label="Conformidade Técnica"
-                      />
+              {loadingReadability ? (
+                <section className="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-12 text-sm font-semibold text-slate-600 shadow-md">
+                  <Loader2 className="size-5 animate-spin text-[#1e3a5f]" />
+                  Analisando legibilidade do texto...
+                </section>
+              ) : errorReadability ? (
+                <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+                  <div className="flex gap-2 items-center text-amber-800 font-bold mb-1">
+                    <AlertTriangle className="size-5" />
+                    <h3>Análise de Legibilidade Indisponível</h3>
+                  </div>
+                  <p className="text-sm text-slate-600">{errorReadability}</p>
+                </section>
+              ) : readability ? (
+                <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+                  <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-slate-800">
+                    <BarChart3 className="size-5 text-[#1e3a5f]" />
+                    Métricas de Legibilidade Real
+                  </h2>
+                  <div className="flex flex-col items-center justify-center gap-6 sm:flex-row sm:justify-around border-b border-slate-100 pb-6 mb-6">
+                    <RadialProgress value={readability.score} label="Score de Legibilidade" />
+                    <div className="text-center sm:text-left">
+                      <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Classificação</p>
+                      <p className="text-xl font-bold text-slate-800 mt-1">{readability.classification}</p>
                     </div>
-                  </section>
-                  <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-                    <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
-                      <Brain className="size-5 text-[#1e3a5f]" />
-                      Análise Demonstrativa
-                    </h2>
-                    <p className="text-sm leading-relaxed text-slate-700">{analysis.summary}</p>
-                  </section>
-                </>
-              )}
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center">
+                      <p className="text-xs font-semibold text-slate-500 uppercase">Palavras</p>
+                      <p className="mt-2 text-2xl font-bold text-slate-800">{readability.wordsCount}</p>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center">
+                      <p className="text-xs font-semibold text-slate-500 uppercase">Frases</p>
+                      <p className="mt-2 text-2xl font-bold text-slate-800">{readability.sentencesCount}</p>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center">
+                      <p className="text-xs font-semibold text-slate-500 uppercase">Sílabas Médias</p>
+                      <p className="mt-2 text-2xl font-bold text-slate-800">
+                        {readability.averageSyllables.toFixed(1)}
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              ) : null}
             </div>
 
             <aside className="space-y-6">
-              {analysis ? (
-                <>
-                  <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md">
-                    <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
-                      Pontuação Simulada
-                    </p>
-                    <span
-                      className={`inline-block rounded-full px-8 py-7 text-5xl font-black ${scoreClass(analysis.score)}`}
-                    >
-                      {analysis.score}
-                    </span>
-                    <p className="mt-4 text-xs text-slate-500">
-                      Indicador visual para apresentação do protótipo.
-                    </p>
-                  </section>
-                  <section>
-                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-800">
-                      <AlertTriangle className="size-5 text-amber-500" />
-                      Pontos Observados
-                    </h2>
-                    <div className="space-y-3">
-                      {analysis.issues.map((issue) => (
-                        <article
-                          key={issue.type}
-                          className="rounded-xl border-l-4 border-amber-400 bg-amber-50 p-4 shadow-sm"
-                        >
-                          <h3 className="text-sm font-bold text-amber-800">{issue.type}</h3>
-                          <p className="my-2 text-sm italic text-slate-700">
-                            &quot;{issue.excerpt}&quot;
-                          </p>
-                          <p className="text-xs leading-relaxed text-amber-800">{issue.issue}</p>
-                        </article>
-                      ))}
-                    </div>
-                  </section>
-                </>
+              {readability && !loadingReadability && !errorReadability ? (
+                <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Pontuação Obtida
+                  </p>
+                  <span
+                    className={`inline-block rounded-full px-8 py-7 text-5xl font-black border-2 ${getScoreColorClass(readability.score)}`}
+                  >
+                    {readability.score}
+                  </span>
+                  <p className="mt-4 text-xs text-slate-500">
+                    A cor reflete o nível de complexidade textual analisado.
+                  </p>
+                </section>
               ) : (
                 <section className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm text-slate-700">
                   <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
-                  Este detalhe apresenta somente os dados persistidos no sistema.
+                  Aguardando o processamento dos indicadores de legibilidade do documento.
                 </section>
               )}
             </aside>
