@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ProfilePage from "../page";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { updateProfile } from "../../../lib/api/users";
+import { getProfile, updateProfile } from "../../../lib/api/users";
 import { toast } from "sonner";
 
 jest.mock("../../../contexts/AuthContext", () => ({
@@ -15,6 +15,7 @@ jest.mock("next/navigation", () => ({
 
 jest.mock("../../../lib/api/users", () => ({
   updateProfile: jest.fn(),
+  getProfile: jest.fn(),
 }));
 
 jest.mock("sonner", () => ({
@@ -42,6 +43,7 @@ describe("ProfilePage (Client component)", () => {
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     });
+    (getProfile as jest.Mock).mockResolvedValue(mockUser);
   });
 
   it("TC-01: redireciona para /login se o usuário não estiver autenticado", async () => {
@@ -109,8 +111,16 @@ describe("ProfilePage (Client component)", () => {
 
     render(<ProfilePage />);
 
+    // Aguarda a carga inicial assíncrona do getProfile terminar
+    await waitFor(() => {
+      expect(getProfile).toHaveBeenCalled();
+    });
+
     const nameInput = screen.getByLabelText("Nome");
     const saveButton = screen.getByRole("button", { name: /Salvar Alterações/i });
+
+    // Limpa chamadas de renderização/busca inicial
+    mockUpdateUserInSession.mockClear();
 
     fireEvent.change(nameInput, { target: { value: "Carlos Drummond de Andrade" } });
     fireEvent.click(saveButton);
@@ -133,8 +143,16 @@ describe("ProfilePage (Client component)", () => {
 
     render(<ProfilePage />);
 
+    // Aguarda a carga inicial assíncrona do getProfile terminar
+    await waitFor(() => {
+      expect(getProfile).toHaveBeenCalled();
+    });
+
     const nameInput = screen.getByLabelText("Nome");
     const saveButton = screen.getByRole("button", { name: /Salvar Alterações/i });
+
+    // Limpa chamadas de renderização/busca inicial
+    mockUpdateUserInSession.mockClear();
 
     fireEvent.change(nameInput, { target: { value: "Carlos Drummond de Andrade" } });
     fireEvent.click(saveButton);
@@ -164,5 +182,48 @@ describe("ProfilePage (Client component)", () => {
     fireEvent.click(cancelButton);
 
     expect(nameInput.value).toBe("Carlos Drummond");
+  });
+
+  it("TC-07: sincroniza o nome do usuário quando ele é carregado assincronamente (null -> user carregado)", async () => {
+    (useAuth as jest.Mock).mockReturnValue({
+      user: null,
+      token: null,
+      updateUserInSession: mockUpdateUserInSession,
+    });
+
+    const { rerender } = render(<ProfilePage />);
+
+    expect(screen.queryByLabelText("Nome")).not.toBeInTheDocument();
+
+    (useAuth as jest.Mock).mockReturnValue({
+      user: mockUser,
+      token: "mock-jwt-token",
+      updateUserInSession: mockUpdateUserInSession,
+    });
+
+    (getProfile as jest.Mock).mockResolvedValue(mockUser);
+
+    rerender(<ProfilePage />);
+
+    await waitFor(() => {
+      const nameInput = screen.getByLabelText("Nome") as HTMLInputElement;
+      expect(nameInput.value).toBe("Carlos Drummond");
+    });
+  });
+
+  it("TC-08: dispara a requisição de busca de perfil na API ao carregar a página", async () => {
+    (useAuth as jest.Mock).mockReturnValue({
+      user: mockUser,
+      token: "mock-jwt-token",
+      updateUserInSession: mockUpdateUserInSession,
+    });
+
+    (getProfile as jest.Mock).mockResolvedValue(mockUser);
+
+    render(<ProfilePage />);
+
+    await waitFor(() => {
+      expect(getProfile).toHaveBeenCalledWith("user-123", "mock-jwt-token");
+    });
   });
 });
