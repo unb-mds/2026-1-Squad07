@@ -10,6 +10,7 @@ import {
   FileText,
   Hash,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,6 +22,11 @@ import {
   type CreatedLaw,
   type ReadabilityResponse,
 } from "@/lib/api/laws";
+
+// Extensão local do tipo para contornar a ausência temporária do campo no tipo do backend
+interface LawWithSummary extends CreatedLaw {
+  summary?: string | null;
+}
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -38,7 +44,7 @@ function getScoreColorClass(score: number): string {
 export default function LawDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const [law, setLaw] = useState<CreatedLaw | null>(null);
+  const [law, setLaw] = useState<LawWithSummary | null>(null);
   const [loadingLaw, setLoadingLaw] = useState(true);
   const [errorLaw, setErrorLaw] = useState("");
   const [readability, setReadability] = useState<ReadabilityResponse | null>(null);
@@ -54,7 +60,7 @@ export default function LawDetailPage() {
       try {
         const persistedLaw = await getLaw(params.id);
         if (active) {
-          setLaw(persistedLaw);
+          setLaw(persistedLaw as LawWithSummary);
         }
       } catch (requestError) {
         if (active) {
@@ -162,6 +168,26 @@ export default function LawDetailPage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
+              
+              {/* Card de Resumo por IA */}
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
+                  <Sparkles className="size-5 text-purple-600" />
+                  Resumo Explicativo por IA
+                </h2>
+                {!law.summary ? (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <p className="text-sm text-amber-800">
+                      Resumo indisponível ou ainda não processado para este documento legislativo.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-slate-600">
+                    {law.summary}
+                  </div>
+                )}
+              </section>
+
               <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
                 <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-800">
                   <BookOpen className="size-5 text-[#1e3a5f]" />
