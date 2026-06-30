@@ -20,7 +20,10 @@ from app.models.analysis import (
 from app.services.analysis.cache import AnalysisCache
 from app.services.analysis.service import AnalysisError, evaluate_text
 from app.services.analysis_provider import LegalBERTProvider
-from app.services.summary_provider import GeminiSummaryProvider, MockSummaryProvider
+from app.services.summary_provider import (
+    GeminiSummaryProvider,
+    MockSummaryProvider,
+)
 
 router = APIRouter(prefix="/api/v1", tags=["analysis"])
 
@@ -51,7 +54,7 @@ def _to_response(analysis) -> dict:
 
 @router.post("/analysis/evaluate", response_model=AnalysisResponse)
 async def evaluate(payload: AnalysisRequest):
-    """Classifica o texto e retorna score, métricas, avisos e versão do modelo."""
+    """Classifica o texto e retorna score e métricas."""
     if payload.lawId is not None:
         law = await db.law.find_unique(where={"id": payload.lawId})
         if law is None:
@@ -102,7 +105,7 @@ async def latest_analysis(id: str):
 
 @router.get("/laws/{id}/history", response_model=list[AnalysisHistoryItem])
 async def history(id: str):
-    """Retorna o histórico de análises da lei, da mais recente para a antiga."""
+    """Retorna o histórico de análises da lei."""
     law = await db.law.find_unique(where={"id": id})
     if law is None:
         raise HTTPException(

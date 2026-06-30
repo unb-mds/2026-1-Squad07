@@ -53,20 +53,26 @@ class GeminiSummaryProvider(SummaryProvider):
             raise ValueError("GEMINI_API_KEY não configurada no ambiente.")
 
         url = (
-            f"https://generativelanguage.googleapis.com/v1beta/models/"
+            "https://generativelanguage.googleapis.com/"
+            "v1beta/models/"
             f"{self.model_name}:generateContent?key={self.api_key}"
         )
 
         prompt = (
-            "Você é um assistente jurídico especializado em simplificar textos legais.\n"
-            "Escreva um resumo curto (parágrafo único, máximo 3 sentenças) em "
-            "linguagem clara e acessível do seguinte texto legislativo:\n\n"
+            "Você é um assistente jurídico "
+            "especializado em simplificar textos legais.\n"
+            "Escreva um resumo curto (parágrafo único, "
+            "máximo 3 sentenças) em linguagem clara e "
+            "acessível do seguinte texto legislativo:\n\n"
             f"{limpo}"
         )
 
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"maxOutputTokens": 150, "temperature": 0.1},
+            "generationConfig": {
+                "maxOutputTokens": 150,
+                "temperature": 0.1,
+            },
         }
 
         try:
@@ -75,17 +81,21 @@ class GeminiSummaryProvider(SummaryProvider):
 
             if response.status_code != 200:
                 raise SummaryError(
-                    f"Erro de API Gemini ({response.status_code}): {response.text}"
+                    f"Erro de API Gemini ({response.status_code}): "
+                    f"{response.text}"
                 )
 
             data = response.json()
-            summary = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            parts = data["candidates"][0]["content"]["parts"]
+            summary = parts[0]["text"].strip()
             return summary
 
         except httpx.HTTPError as e:
             raise SummaryError(f"Falha na requisição de rede: {str(e)}")
         except (KeyError, IndexError) as e:
-            raise SummaryError(f"Formato inesperado na resposta da API: {str(e)}")
+            raise SummaryError(
+                f"Formato inesperado na resposta da API: {str(e)}"
+            )
         except Exception as e:
             if not isinstance(e, SummaryError):
                 raise SummaryError(f"Erro inesperado na sumarização: {str(e)}")
