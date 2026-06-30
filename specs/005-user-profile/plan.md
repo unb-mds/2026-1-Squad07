@@ -13,7 +13,7 @@ O desenvolvimento consistirá em criar a tela de perfil na pasta do frontend, im
 
 ### A. Integração com API (Frontend)
 
-Criar o arquivo `frontend/src/lib/api/users.ts` com funções que mapeiam as rotas de usuários expostas pelo backend, passando o token JWT para autenticação.
+Criar/atualizar o arquivo `frontend/src/lib/api/users.ts` com funções que mapeiam as rotas de usuários expostas pelo backend, passando o token JWT para autenticação.
 
 ```typescript
 import { apiRequest } from "@/lib/api/client";
@@ -27,6 +27,16 @@ export function updateProfile(id: string, name: string, token: string) {
     method: "PATCH",
     token,
     body: JSON.stringify({ name }),
+  });
+}
+
+/**
+ * Obtém os dados de perfil do usuário logado em tempo real.
+ */
+export function getProfile(id: string, token: string) {
+  return apiRequest<AuthUser>(`/users/${id}`, {
+    method: "GET",
+    token,
   });
 }
 ```
@@ -69,6 +79,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 Criar a página `frontend/src/app/profile/page.tsx`. Ela deve ser um `Client Component` contendo:
 
 - Proteção de Rota: Uso de `useEffect` com redirecionamento via `useRouter` caso `user` seja nulo.
+- Sincronização de Hidratação: Uso de `useEffect` para preencher o input de nome quando a sessão do usuário é carregada assincronamente.
+- Sincronização com o Backend: Uso de `useEffect` para chamar `getProfile` ao montar a página, atualizando a sessão global com os dados atualizados do banco.
 - Estado de Carregamento (Loading): Exibição de um spinner ou skeleton enquanto o estado de `user` no contexto não é inicializado.
 - Interface de Usuário:
   - Input para Nome (editável).

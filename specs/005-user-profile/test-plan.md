@@ -23,6 +23,8 @@ A implementação deve conter um arquivo de testes na pasta do frontend: `fronte
 | **TC-04** | Submissão com sucesso | Alterar nome para "João Souza" e clicar em Salvar | Chamar a API de usuários com `PATCH`, atualizar o `AuthContext` com o novo nome e exibir Toast de sucesso. |
 | **TC-05** | Erro da API | Alterar nome, API retorna erro (ex: `403` ou `500`) | Exibir Toast informando o erro amigável ao usuário, mantendo o formulário habilitado. |
 | **TC-06** | Cancelamento | Editar o nome de "João Silva" para "João Santos" e clicar em Cancelar | Retornar o valor do input para o estado original ("João Silva"). |
+| **TC-07** | Hidratação assíncrona da sessão | Entrar na página com `user: null` e depois hidratar o contexto com o usuário logado | Exibir o loader na primeira renderização; após a hidratação, preencher o input de nome com o valor do contexto. |
+| **TC-08** | Busca em tempo real na API | Carregar a página `/profile` com sessão autenticada ativa | Disparar a requisição `getProfile` à API ao iniciar a página para obter dados atualizados. |
 
 ---
 

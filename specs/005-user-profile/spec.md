@@ -1,10 +1,10 @@
 # Feature Specification: Tela de Perfil do Usuário — R2
 
 **Branch**: `feat/issue-135-perfil-usuario`
-**Criado em**: 2026-06-26
-**Status**: Draft
+**Criado em**: 2026-06-26 (Atualizado em 2026-06-30)
+**Status**: Approved
 **Issue**: #135
-**Depende de**: Ajuste na autenticação/autorização no backend (marcado em `NEEDS CLARIFICATION`).
+**Depende de**: Ajuste na autenticação/autorização no backend (resolvido na Issue #147 e PR #154).
 
 ## Objetivo
 
@@ -21,22 +21,9 @@ Atualmente, o backend possui rotas CRUD de usuários em [backend/app/api/users.p
 ## NEEDS CLARIFICATION (Pontos de Esclarecimento)
 
 > [!IMPORTANT]
-> **Conflito de Autorização no Roteador de Usuários**
+> **Conflito de Autorização no Roteador de Usuários (RESOLVIDO)**
 >
-> No backend, o roteador `/users` em [backend/app/api/users.py](file:///C:/Users/vinic/Desktop/MDS/2026-1-Squad07/backend/app/api/users.py) está configurado com a dependência global `require_admin_user`:
-> ```python
-> router = APIRouter(
->     prefix="/users",
->     tags=["users"],
->     dependencies=[Depends(require_admin_user)],
-> )
-> ```
-> Isso impede que usuários com a role `COMMON` (usuários comuns) façam requisições de leitura ou escrita nos endpoints `/users/{user_id}`, resultando em `403 Forbidden`. 
->
-> **Soluções Propostas para Alinhamento com o PO/Time**:
-> * **Opção A (Recomendada)**: Remover a dependência global `require_admin_user` do roteador `/users` e aplicá-la especificamente a rotas administrativas (como `GET /users` e `DELETE /users/{user_id}`). Para `GET /users/{user_id}` e `PATCH /users/{user_id}`, permitir acesso se o usuário autenticado for o proprietário do ID (`current_user.id == user_id`) ou se for `ADMIN`.
-> * **Opção B**: Criar um endpoint dedicado e autenticado `/users/me` no backend (usando apenas `Depends(get_current_user)`) para retornar e editar o perfil do próprio usuário logado.
-> * **Opção C**: Limitar a funcionalidade de edição de perfil apenas a usuários administradores nesta Sprint.
+> A restrição global de ADMIN no roteador `/users` foi resolvida no PR #154 (Issue #147), aplicando a regra de autorização que permite que o próprio dono do perfil (`current_user.id == user_id`) atualize ou consulte seus próprios dados.
 
 ---
 
@@ -46,15 +33,17 @@ Atualmente, o backend possui rotas CRUD de usuários em [backend/app/api/users.p
 
 - **Página de Perfil (`/profile`)**:
   - Layout responsivo, utilizando os padrões de design do sistema.
-  - Carregamento de dados básicos do usuário logado (Nome, E-mail, Tipo de Conta).
+  - Carregamento inicial de dados básicos do usuário do contexto de autenticação.
+  - **Sincronização Assíncrona:** Hidratação do formulário de nome após a sessão carregar assincronamente do localStorage.
   - Formulário para alteração de Nome.
   - Validação no lado do cliente (Nome obrigatório, tamanho mínimo de 3 caracteres).
   - Redirecionamento automático para a tela de login (`/login`) caso o usuário tente acessar a rota sem estar autenticado.
 - **Feedbacks Visuais**:
-  - Estado de carregamento (*skeleton screen* ou *loading spinner*).
+  - Estado de carregamento (*loading spinner* ou *skeletons*).
   - Notificações instantâneas (toasts) indicando sucesso ou erro ao salvar dados.
 - **Integração**:
-  - Chamada HTTP para salvar modificações via `PATCH /api/users/{id}` (ou a solução de `/users/me` definida na seção *Clarification*).
+  - **Busca em tempo real:** Chamada HTTP `GET /api/v1/users/{id}` ao carregar a página para sincronizar dados locais com o banco de dados.
+  - Chamada HTTP para salvar modificações via `PATCH /api/users/{id}`.
   - Atualização do contexto global de autenticação no frontend após salvamento bem-sucedido.
 
 ### Fora de Escopo
