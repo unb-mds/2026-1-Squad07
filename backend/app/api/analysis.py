@@ -32,9 +32,7 @@ cache = AnalysisCache()
 
 gemini_key = os.getenv("GEMINI_API_KEY")
 summary_provider = (
-    GeminiSummaryProvider(gemini_key)
-    if gemini_key
-    else MockSummaryProvider()
+    GeminiSummaryProvider(gemini_key) if gemini_key else MockSummaryProvider()
 )
 
 

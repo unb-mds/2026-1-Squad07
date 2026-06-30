@@ -81,8 +81,7 @@ class GeminiSummaryProvider(SummaryProvider):
 
             if response.status_code != 200:
                 raise SummaryError(
-                    f"Erro de API Gemini ({response.status_code}): "
-                    f"{response.text}"
+                    f"Erro de API Gemini ({response.status_code}): " f"{response.text}"
                 )
 
             data = response.json()
@@ -93,9 +92,7 @@ class GeminiSummaryProvider(SummaryProvider):
         except httpx.HTTPError as e:
             raise SummaryError(f"Falha na requisição de rede: {str(e)}")
         except (KeyError, IndexError) as e:
-            raise SummaryError(
-                f"Formato inesperado na resposta da API: {str(e)}"
-            )
+            raise SummaryError(f"Formato inesperado na resposta da API: {str(e)}")
         except Exception as e:
             if not isinstance(e, SummaryError):
                 raise SummaryError(f"Erro inesperado na sumarização: {str(e)}")

@@ -70,9 +70,7 @@ def make_row(row_id, law_id, score, created):
         lawId=law_id,
         score=score,
         metrics={"ambiguidade": 0.4, "vagueza": 0.3},
-        warnings=[
-            {"code": "ambiguidade", "message": "msg", "confidence": 0.4}
-        ],
+        warnings=[{"code": "ambiguidade", "message": "msg", "confidence": 0.4}],
         modelVersion="fake-v1",
         cached=False,
         createdAt=created,
@@ -128,9 +126,7 @@ def test_evaluate_retorna_schema_completo(monkeypatch):
     assert body["cached"] is False
     assert body["model_version"] == "fake-v1"
     assert body["metrics"]["ambiguidade"] == 0.8
-    assert body["summary"] == (
-        "Resumo simulado da lei contendo o trecho: Art. 1..."
-    )
+    assert body["summary"] == ("Resumo simulado da lei contendo o trecho: Art. 1...")
     warning = body["warnings"][0]
     assert warning["code"] == "ambiguidade"
     assert warning["message"]
@@ -152,9 +148,7 @@ def test_evaluate_sem_type_retorna_422(monkeypatch):
     """EP-2: type é obrigatório no contrato."""
     setup_fakes(monkeypatch)
 
-    response = client.post(
-        "/api/v1/analysis/evaluate", json={"text": "Art. 1"}
-    )
+    response = client.post("/api/v1/analysis/evaluate", json={"text": "Art. 1"})
 
     assert response.status_code == 422
 

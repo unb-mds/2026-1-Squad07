@@ -265,9 +265,7 @@ async def test_segunda_chamada_retorna_resumo_do_cache():
 @pytest.mark.anyio
 async def test_falha_na_sumarizacao_nao_derruba_a_analise():
     provider = FakeProvider()
-    summary_provider = FakeSummaryProvider(
-        error=SummaryError("Erro no Gemini")
-    )
+    summary_provider = FakeSummaryProvider(error=SummaryError("Erro no Gemini"))
     cache = AnalysisCache()
     db = make_db()
 

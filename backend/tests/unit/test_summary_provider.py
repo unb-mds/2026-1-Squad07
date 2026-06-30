@@ -10,9 +10,7 @@ from app.services.summary_provider import (
 @pytest.mark.anyio
 async def test_mock_summary_provider_retorna_resumo():
     provider = MockSummaryProvider()
-    resumo = await provider.summarize(
-        "Fica instituído o programa legislativo."
-    )
+    resumo = await provider.summarize("Fica instituído o programa legislativo.")
     assert "Resumo simulado" in resumo
     assert "Fica instituído" in resumo
 
@@ -46,13 +44,7 @@ async def test_gemini_summary_provider_sucesso(monkeypatch):
         def json(self):
             return {
                 "candidates": [
-                    {
-                        "content": {
-                            "parts": [
-                                {"text": "Resumo real gerado pela IA."}
-                            ]
-                        }
-                    }
+                    {"content": {"parts": [{"text": "Resumo real gerado pela IA."}]}}
                 ]
             }
 
