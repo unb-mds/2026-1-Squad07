@@ -64,7 +64,4 @@ def test_analyze_readability_internal_error():
         )
 
     assert response.status_code == 500
-    assert (
-        "Erro interno ao processar legibilidade"
-        in response.json()["detail"]
-    )
+    assert "Erro interno ao processar legibilidade" in response.json()["detail"]
