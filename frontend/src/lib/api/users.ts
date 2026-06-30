@@ -8,3 +8,10 @@ export function updateProfile(id: string, name: string, token: string) {
     body: JSON.stringify({ name }),
   });
 }
+
+export function getProfile(id: string, token: string) {
+  return apiRequest<AuthUser>(`/users/${id}`, {
+    method: "GET",
+    token,
+  });
+}
