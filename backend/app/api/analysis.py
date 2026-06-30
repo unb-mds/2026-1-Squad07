@@ -8,6 +8,7 @@ Contratos conforme `docs/architecture/ai-integration.md`:
 O frontend nunca chama a IA diretamente: toda inferência passa por aqui (D1).
 """
 
+import os
 from fastapi import APIRouter, HTTPException, status
 
 from app.db.client import db
@@ -19,13 +20,19 @@ from app.models.analysis import (
 from app.services.analysis.cache import AnalysisCache
 from app.services.analysis.service import AnalysisError, evaluate_text
 from app.services.analysis_provider import LegalBERTProvider
+from app.services.summary_provider import GeminiSummaryProvider, MockSummaryProvider
 
 router = APIRouter(prefix="/api/v1", tags=["analysis"])
 
-# Instâncias de processo: o modelo é auto-hospedado e carregado preguiçosamente
-# na primeira inferência; o cache vive por processo (D2/D4).
 provider = LegalBERTProvider()
 cache = AnalysisCache()
+
+gemini_key = os.getenv("GEMINI_API_KEY")
+summary_provider = (
+    GeminiSummaryProvider(gemini_key)
+    if gemini_key
+    else MockSummaryProvider()
+)
 
 
 def _to_response(analysis) -> dict:
@@ -34,6 +41,7 @@ def _to_response(analysis) -> dict:
         "analysis_id": analysis.id,
         "status": "completed",
         "score": analysis.score,
+        "summary": analysis.summary,
         "metrics": analysis.metrics,
         "warnings": analysis.warnings,
         "model_version": analysis.modelVersion,
@@ -57,6 +65,7 @@ async def evaluate(payload: AnalysisRequest):
             payload.text,
             payload.lawId,
             provider=provider,
+            summary_provider=summary_provider,
             cache=cache,
             db=db,
         )
