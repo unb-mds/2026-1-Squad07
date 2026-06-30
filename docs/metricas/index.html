@@ -440,10 +440,21 @@
       }
 
       function drawAxes(svg, xAxis, yAxis, innerHeight, margin) {
-        svg
+        const xAxisGroup = svg
           .append("g")
           .attr("transform", `translate(${margin.left},${margin.top + innerHeight})`)
           .call(xAxis);
+
+        // Rotaciona os rótulos do eixo X em -45° quando há mais de 8 semanas/ticks,
+        // evitando que as legendas se sobreponham e fiquem ilegíveis.
+        const xTicks = xAxisGroup.selectAll(".tick text");
+        if (xTicks.size() > 8) {
+          xTicks
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end")
+            .attr("dx", "-0.5em")
+            .attr("dy", "0.25em");
+        }
 
         svg
           .append("g")
@@ -522,7 +533,8 @@
         });
       }
 
-      function drawBarChart(selector, data, xKey, yKey, color) {
+      function drawBarChart(selector, data, xKey, yKey, color, options = {}) {
+        const { tooltip: tooltipFormatter } = options;
         clear(selector);
         const { width, height } = chartSize(selector);
         const margin = { top: 20, right: 16, bottom: 56, left: 48 };
@@ -544,7 +556,9 @@
           .attr("ry", 6)
           .attr("fill", color)
           .attr("class", "interactive-mark bar")
-          .on("mousemove", (event, d) => showTooltip(event, [d[xKey], `Total: ${d[yKey]}`]))
+          .on("mousemove", (event, d) =>
+            showTooltip(event, tooltipFormatter ? tooltipFormatter(d) : [d[xKey], `Total: ${d[yKey]}`]),
+          )
           .on("mouseleave", hideTooltip)
           .transition()
           .duration(1000)
@@ -659,7 +673,8 @@
         return colors[Math.abs(hash) % colors.length];
       }
 
-      function drawTable(selector, rows, columns) {
+      function drawTable(selector, rows, columns, options = {}) {
+        const { limit = 10 } = options;
         clear(selector);
         if (!rows.length) {
           d3.select(selector)
@@ -689,7 +704,7 @@
         const bodyRows = table.append("tbody")
           .attr("class", "divide-y divide-white/5 bg-slate-900/10")
           .selectAll("tr")
-          .data(rows.slice(0, 10))
+          .data(limit === null ? rows : rows.slice(0, limit))
           .join("tr")
           .attr("class", "hover:bg-white/5 transition-colors duration-150");
 
@@ -852,7 +867,17 @@
 
         drawIssuesLine(metrics.issues_per_week || []);
         drawBarChart("#commit-histogram", metrics.commit_message_histogram || [], "range", "count", COLORS.navy);
-        drawBarChart("#coauthors-bar", metrics.coauthors_per_week || [], "week", "count", COLORS.warning);
+        drawBarChart("#coauthors-bar", metrics.coauthors_per_week || [], "week", "count", COLORS.warning, {
+          tooltip: (d) => {
+            const total = d.coauthors ?? d.count ?? 0;
+            const names = Array.isArray(d.details) ? d.details : [];
+            return [
+              d.week,
+              `Coautorias: ${total}`,
+              names.length ? `Membros: ${names.join(", ")}` : "Membros: —",
+            ];
+          },
+        });
         drawHeatmap(metrics.commit_heatmap || []);
         drawStackedIssues(metrics.issues_per_week || []);
 
@@ -908,7 +933,7 @@
           { label: "Issues", value: (row) => row.opened },
           { label: "Concluídas", value: (row) => row.closed },
           { label: "Pendentes", value: (row) => row.pending },
-        ]);
+        ], { limit: null });
         setupMilestoneFilter(metrics.milestone_progress_by_person || []);
         
         // Inicializa ícones do Lucide

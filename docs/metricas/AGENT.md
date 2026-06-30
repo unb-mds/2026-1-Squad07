@@ -163,13 +163,13 @@ A menos que exista solicitação explícita, não faça:
 ### Implementado
 
 - Script coletor em `docs/metricas/collect_metrics.py` (otimizado com Git local para arquivos alterados para evitar Rate Limit e leitura orientada à branch `dev`).
-- Arquivo de dados em `docs/metricas/metrics.json`.
+- Arquivo de dados em `docs/metricas/metrics.json` (atualizado com suporte ao campo unificado de coautoria).
 - Página estática em `docs/metricas/index.html`.
-- Workflow de atualização em `.github/workflows/metrics.yml`.
+- Workflow de atualização em `.github/workflows/metrics.yml` configurado para execução semanal (cron dominical).
 - Publicação via GitHub Pages.
 - Uso de PyGithub para coleta de dados do repositório.
 - Uso de D3.js e TailwindCSS via CDN na página HTML.
-- Coleta de métricas por pessoa, labels, documentação e milestones.
+- Coleta de métricas por pessoa, labels, documentação e milestones integrando Issues e PRs.
 - Exibição das novas métricas no painel com avatares reais do GitHub e exceção de privacidade.
 - Identidade visual escurecida e moderna aplicada ("liquid glass" e LERP).
 - Layout responsivo e adaptado para evitar barra de rolagem horizontal.
@@ -180,7 +180,7 @@ A menos que exista solicitação explícita, não faça:
 - `repository`: repositório analisado.
 - `issues_per_week`: issues abertas e fechadas por semana.
 - `commit_message_histogram`: distribuição de tamanho das mensagens de commit.
-- `coauthors_per_week`: coautores por semana.
+- `coauthors_per_week`: contagem de coautores por semana (`coauthors`/`count`) acompanhada da chave `details`, que lista as duplas de pareamento de cada coautoria na semana no formato `"Autor Principal + Coautor"` para exibição dinâmica na tooltip.
 - `commit_heatmap`: mapa de calor de commits por dia e hora.
 - `top_committers`: ranking de commits por pessoa.
 - `top_pr_authors`: ranking de autores de pull requests.
@@ -192,9 +192,9 @@ A menos que exista solicitação explícita, não faça:
 
 ### Pendente
 
-- Regenerar o `metrics.json` com dados reais das novas métricas.
-- Validar responsividade da página no GitHub Pages.
-- Validar o workflow após merge na `dev`.
+- Regenerar o `metrics.json` com dados reais das novas métricas após workflow em ambiente oficial.
+- Validar responsividade da página diretamente no ambiente do GitHub Pages.
+- Validar o workflow após o merge definitivo na branch `dev`.
 
 ---
 
@@ -232,6 +232,8 @@ Esse plano permanece válido como fundação do dashboard. A diferença é que, 
 - Todos os 8 componentes visuais são renderizados sem erro.
 - Gráficos possuem hover responsivo ao mouse.
 - Tooltips são legíveis e não ficam pequenos demais para os dados apresentados.
+- No gráfico de coautores por semana, a tooltip deve exibir os nomes reais dos coautores da semana (campo `details`), e não apenas a contagem total.
+- Quando um gráfico possuir mais de 8 rótulos no eixo X (ex.: muitas semanas de histórico de coautoria), os rótulos devem ser rotacionados em -45° para evitar sobreposição e garantir a legibilidade.
 - A página é responsiva em desktop e mobile.
 - A mensagem de erro aparece apenas quando o JSON não pode ser carregado.
 - O ranking exibe até 10 pessoas ou todos os registros disponíveis, o que for menor.
@@ -377,37 +379,40 @@ O painel deve destacar contribuições relacionadas à documentação, porque a 
 
 ### Spec
 
-O painel deve mostrar a evolução do trabalho por sprint usando milestones do GitHub. Essa visão deve ajudar a equipe e a professora a entenderem o que foi planejado, concluído e pendente em cada sprint.
+O painel deve mostrar a evolução do trabalho por sprint usando milestones do GitHub. Essa visão deve ajudar a equipe e a professora a entenderem o que foi planejado, concluído e pendente em cada sprint. O progresso das sprints contabiliza de forma unificada tanto as issues comuns quanto os pull requests associados a cada milestone.
 
 ### Métricas planejadas
 
-- Issues por milestone.
-- Issues concluídas por milestone.
-- Issues pendentes por milestone.
-- Distribuição de issues por pessoa dentro da milestone.
+- Issues e PRs por milestone.
+- Items concluídos por milestone.
+- Items pendentes por milestone.
+- Distribuição de issues e PRs por pessoa dentro da milestone.
 
 ### Critérios de aceite
 
-- Milestones sem issues podem ser omitidas.
-- Issues abertas contam como pendentes.
-- Issues fechadas contam como concluídas.
+- **Listagem Abrangente:** Todas as milestones do repositório devem ser listadas, mesmo que não possuam issues associadas, para garantir que as sprints 09 e 10 sejam exibidas corretamente.
+- **Contabilização Unificada:** O progresso das sprints contabiliza de forma integrada e unificada tanto as issues comuns quanto os pull requests associados a cada milestone.
+- Issues e PRs abertos contam como pendentes.
+- Issues fechadas e PRs mergeados/fechados contam como concluídos.
 - A visualização deve permitir comparar progresso entre sprints.
+- **Renderização sem truncamento:** A tabela de progresso por sprint deve exibir todas as milestones coletadas, sem limite de linhas, para que o fluxo não trave em sprints intermediárias (ex.: Sprint 08) e as sprints posteriores (09, 10, ...) também apareçam.
 - A distribuição por pessoa deve aparecer dentro da milestone.
 - A visualização por pessoa deve possuir filtro de sprint/milestone.
 - Após selecionar uma sprint, o painel deve mostrar cada integrante com suas colaborações naquela sprint.
 
 ### Plano
 
-- Expandir a coleta de issues para incluir milestone.
-- Agrupar issues por milestone e status.
-- Agrupar issues por milestone e assignee.
-- Atualizar o JSON com progresso por sprint.
-- Exibir tabela ou gráfico por sprint/milestone.
+- Pré-carregar todas as milestones do repositório para evitar omissões.
+- Expandir a coleta de issues e pulls para registrar suas respectivas milestones de forma unificada.
+- Agrupar itens por milestone e status (`opened`, `closed`, `pending`).
+- Agrupar itens por milestone e assignee.
+- Atualizar o JSON com progresso detalhado por sprint.
+- Exibir tabela ou gráfico por sprint/milestone com suporte a filtros dinâmicos.
 
 ### Tarefas
 
-- [x] Coletar milestone de cada issue.
-- [x] Gerar progresso geral por milestone.
+- [x] Coletar milestone de cada issue e pull request.
+- [x] Gerar progresso geral por milestone de forma pré-carregada.
 - [x] Gerar progresso por pessoa dentro da milestone.
 - [x] Exibir progresso por sprint no painel.
 - [x] Adicionar filtro de sprint/milestone para progresso por pessoa.
@@ -424,7 +429,7 @@ O workflow deve gerar o `metrics.json` automaticamente, usando apenas `GITHUB_TO
 ### Critérios de aceite
 
 - O workflow roda por `workflow_dispatch`.
-- O workflow roda por cron semanal.
+- O workflow roda por cron semanal (configurado para execução dominical).
 - O workflow roda em push na `dev` quando arquivos de métricas forem alterados.
 - O workflow faz commit do `metrics.json` atualizado na `dev`.
 - O workflow não deve gerar loop infinito de commits.
@@ -492,7 +497,7 @@ O acesso oficial ao painel deve acontecer via GitHub Pages. O painel não deve d
     { "range": "200+", "count": 5 }
   ],
   "coauthors_per_week": [
-    { "week": "2026-W18", "count": 4 }
+    { "week": "2026-W18", "coauthors": 2, "count": 2, "details": ["Vinicius Araruna + Victor Amaral"] }
   ],
   "commit_heatmap": [
     { "day": 0, "hour": 10, "count": 8 }
@@ -507,88 +512,3 @@ O acesso oficial ao painel deve acontecer via GitHub Pages. O painel não deve d
     { "username": "usuario", "name": "Usuario", "opened": 10, "closed": 8, "total": 18 }
   ]
 }
-```
-
----
-
-## Schema planejado para evolução
-
-As novas métricas devem ser adicionadas sem remover as chaves atuais, para preservar compatibilidade com o painel existente.
-
-```json
-{
-  "people_metrics": [
-    {
-      "username": "usuario",
-      "name": "Usuario",
-      "issues_opened": 4,
-      "issues_assigned": 6,
-      "issues_assigned_closed": 5,
-      "issues_pending": 1,
-      "prs_opened": 3,
-      "prs_reviewed": 2,
-      "prs_merged": 2,
-      "commits": 12
-    }
-  ],
-  "labels_distribution": [
-    { "label": "documentation", "count": 8 }
-  ],
-  "labels_by_person": [
-    { "username": "usuario", "name": "Usuario", "label": "documentation", "count": 3 }
-  ],
-  "documentation_contributions": [
-    {
-      "username": "usuario",
-      "issues": 2,
-      "pull_requests": 1,
-      "commits": 5,
-      "total": 8
-    }
-  ],
-  "milestone_progress": [
-    {
-      "milestone": "Sprint 08",
-      "opened": 10,
-      "closed": 7,
-      "pending": 3
-    }
-  ],
-  "milestone_progress_by_person": [
-    {
-      "milestone": "Sprint 08",
-      "username": "usuario",
-      "assigned": 3,
-      "closed": 2,
-      "pending": 1
-    }
-  ]
-}
-```
-
----
-
-## Critérios gerais de aceite
-
-- O `AGENT.md` continua explicando como criar o dashboard do zero.
-- O documento explica o estado atual da implementação.
-- Cada funcionalidade possui objetivo, comportamento esperado, critérios de aceite, plano e tarefas.
-- Métricas existentes ficam marcadas como implementadas ou parcialmente implementadas.
-- Novas métricas por pessoa ficam marcadas como pendentes ou evolução planejada.
-- Rankings diretos por pessoa são previstos para facilitar leitura da professora.
-- O acesso oficial é via GitHub Pages.
-- A identidade visual oficial do projeto está documentada e deve orientar o painel.
-- O escopo permanece limitado a métricas, salvo permissão explícita.
-
----
-
-## Validação antes de finalizar uma alteração de métricas
-
-- Conferir se a alteração respeita este `AGENT.md`.
-- Conferir se a branch atual não é `main`.
-- Conferir se arquivos fora do escopo permitido não foram alterados.
-- Validar o schema do `metrics.json`.
-- Validar renderização da página quando houver mudança no HTML.
-- Conferir aplicação da paleta oficial quando houver mudança visual.
-- Conferir o workflow quando houver mudança em coleta ou automação.
-- Registrar no PR quais métricas foram alteradas, adicionadas ou apenas planejadas.
