@@ -99,7 +99,7 @@ Cobertura do frontend:
 **Infraestrutura de Teste Docker**:
 
 * Estágios de Docker específicos para teste adicionados a ambos os Dockerfiles
-* `docker-compose.yml` configurado com serviços `--profile test`
+* `docker-compose.yml` configurado com `--profile test` para serviços de teste e `--profile dev` para a API local
 * Serviço `test-backend`: pytest com relatório de cobertura
 * Serviço `test-frontend`: npm test:coverage
 
@@ -108,6 +108,9 @@ Cobertura do frontend:
 ```bash
 # Todos os testes com Docker
 docker-compose --profile test up --abort-on-container-exit
+
+# API local de desenvolvimento
+docker-compose --profile dev up app
 
 # Apenas backend
 cd backend
@@ -173,7 +176,7 @@ Status:               ✅ PASS (exceeds requirement)
 ### Arquivos Modificados
 
 1. **backend/Dockerfile** - Adicionado estágio de teste com comandos do pytest
-2. **docker-compose.yml** - Adicionados perfis de serviço de teste para CI/CD
+2. **docker-compose.yml** - Adicionados perfis separados para teste e execução local da API
 3. **backend/pytest.ini** - Configuração de cobertura
 
 ---
@@ -188,6 +191,9 @@ docker-compose --profile test build
 
 # Executar todos os testes
 docker-compose --profile test up --abort-on-container-exit
+
+# Executar a API local fora do fluxo de teste
+docker-compose --profile dev up app
 
 ```
 
