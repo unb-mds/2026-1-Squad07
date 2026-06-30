@@ -30,6 +30,19 @@ export type LawSubmissionListItem = {
   textExcerpt: string;
 };
 
+export type ReadabilityRequest = {
+  lawId: string;
+  text: string;
+};
+
+export type ReadabilityResponse = {
+  score: number;
+  classification: string;
+  wordsCount: number;
+  sentencesCount: number;
+  averageSyllables: number;
+};
+
 export function submitLaw(submission: LawSubmission, token?: string | null) {
   return apiRequest<CreatedLaw>("/laws", {
     method: "POST",
@@ -44,4 +57,11 @@ export function listLawSubmissions() {
 
 export function getLaw(id: string) {
   return apiRequest<CreatedLaw>(`/laws/${encodeURIComponent(id)}`);
+}
+
+export function analyzeLawReadability(payload: ReadabilityRequest) {
+  return apiRequest<ReadabilityResponse>("/api/v1/laws/readability", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }

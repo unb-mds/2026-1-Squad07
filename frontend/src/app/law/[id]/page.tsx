@@ -15,15 +15,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
-import { getLaw, type CreatedLaw } from "@/lib/api/laws";
-
-interface ReadabilityResponse {
-  score: number;
-  classification: string;
-  wordsCount: number;
-  sentencesCount: number;
-  averageSyllables: number;
-}
+import {
+  analyzeLawReadability,
+  getLaw,
+  type CreatedLaw,
+  type ReadabilityResponse,
+} from "@/lib/api/laws";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -91,21 +88,10 @@ export default function LawDetailPage() {
       setLoadingReadability(true);
       setErrorReadability("");
       try {
-        // CORREÇÃO: Utiliza o padrão NEXT_PUBLIC_API_URL injetado de forma resiliente
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-        const response = await fetch(`${baseUrl}/api/v1/laws/readability`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ lawId: params.id, text: currentText }),
+        const data = await analyzeLawReadability({
+          lawId: params.id,
+          text: currentText,
         });
-
-        if (!response.ok) {
-          throw new Error("Erro na resposta do servidor de análise.");
-        }
-
-        const data: ReadabilityResponse = await response.json();
         if (active) {
           setReadability(data);
         }
