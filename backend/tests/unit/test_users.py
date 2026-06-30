@@ -21,6 +21,7 @@ def admin_dependency_override():
 
 def test_list_users_rejeita_requisicao_sem_token():
     app.dependency_overrides.pop(users.require_admin_user, None)
+    app.dependency_overrides.pop(users.get_current_user, None)
 
     response = client.get("/users")
 
