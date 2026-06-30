@@ -180,7 +180,7 @@ A menos que exista solicitação explícita, não faça:
 - `repository`: repositório analisado.
 - `issues_per_week`: issues abertas e fechadas por semana.
 - `commit_message_histogram`: distribuição de tamanho das mensagens de commit.
-- `coauthors_per_week`: contagem de coautores por semana incluindo a chave estruturada de dados.
+- `coauthors_per_week`: contagem de coautores por semana (`coauthors`/`count`) acompanhada da chave `details`, que lista os nomes reais dos coautores de cada semana para exibição na tooltip do gráfico.
 - `commit_heatmap`: mapa de calor de commits por dia e hora.
 - `top_committers`: ranking de commits por pessoa.
 - `top_pr_authors`: ranking de autores de pull requests.
@@ -232,6 +232,8 @@ Esse plano permanece válido como fundação do dashboard. A diferença é que, 
 - Todos os 8 componentes visuais são renderizados sem erro.
 - Gráficos possuem hover responsivo ao mouse.
 - Tooltips são legíveis e não ficam pequenos demais para os dados apresentados.
+- No gráfico de coautores por semana, a tooltip deve exibir os nomes reais dos coautores da semana (campo `details`), e não apenas a contagem total.
+- Quando um gráfico possuir mais de 8 rótulos no eixo X (ex.: muitas semanas de histórico de coautoria), os rótulos devem ser rotacionados em -45° para evitar sobreposição e garantir a legibilidade.
 - A página é responsiva em desktop e mobile.
 - A mensagem de erro aparece apenas quando o JSON não pode ser carregado.
 - O ranking exibe até 10 pessoas ou todos os registros disponíveis, o que for menor.
@@ -495,7 +497,7 @@ O acesso oficial ao painel deve acontecer via GitHub Pages. O painel não deve d
     { "range": "200+", "count": 5 }
   ],
   "coauthors_per_week": [
-    { "week": "2026-W18", "coauthors": 4, "count": 4 }
+    { "week": "2026-W18", "coauthors": 4, "count": 4, "details": ["Fulano de Tal", "Ciclana Souza"] }
   ],
   "commit_heatmap": [
     { "day": 0, "hour": 10, "count": 8 }

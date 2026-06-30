@@ -396,6 +396,7 @@ def collect_commit_metrics(
 ]:
     histogram = Counter({label: 0 for label, _, _ in COMMIT_MESSAGE_BUCKETS})
     coauthors_by_week: Counter[str] = Counter()
+    coauthor_names_by_week: defaultdict[str, Counter[str]] = defaultdict(Counter)
     committers: defaultdict[tuple[str, str], int] = defaultdict(int)
     people: dict[tuple[str, str], dict[str, Any]] = {}
     documentation: dict[tuple[str, str], dict[str, Any]] = {}
@@ -452,7 +453,11 @@ def collect_commit_metrics(
             doc_row["total"] += 1
 
         if author_date is not None:
-            coauthors_by_week[iso_week(author_date)] += len(parse_coauthors(message))
+            week = iso_week(author_date)
+            commit_coauthors = parse_coauthors(message)
+            coauthors_by_week[week] += len(commit_coauthors)
+            for coauthor in commit_coauthors:
+                coauthor_names_by_week[week][coauthor] += 1
 
     weeks = week_range(commit_dates)
     commit_message_histogram = [
@@ -462,9 +467,10 @@ def collect_commit_metrics(
     
     coauthors_per_week = [
         {
-            "week": week, 
-            "coauthors": coauthors_by_week[week], 
-            "count": coauthors_by_week[week]
+            "week": week,
+            "coauthors": coauthors_by_week[week],
+            "count": coauthors_by_week[week],
+            "details": [name for name, _ in coauthor_names_by_week[week].most_common()],
         }
         for week in weeks
     ]
