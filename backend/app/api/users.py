@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
-from app.api.dependencies import require_admin_user
+from app.api.dependencies import get_current_user, require_admin_user
 from app.db.client import db
 from app.models.user import UserCreateRequest, UserResponse, UserUpdateRequest
 from app.services.security import hash_password
@@ -8,11 +8,23 @@ from app.services.security import hash_password
 router = APIRouter(
     prefix="/users",
     tags=["users"],
-    dependencies=[Depends(require_admin_user)],
 )
 
 
-@router.post("", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def ensure_profile_access(current_user, user_id: str) -> None:
+    if current_user.id != user_id and current_user.role != "ADMIN":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Apenas o proprio usuario ou administradores podem acessar este perfil.",
+        )
+
+
+@router.post(
+    "",
+    response_model=UserResponse,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(require_admin_user)],
+)
 async def create_user(user: UserCreateRequest):
     """Cria um usuario com senha hasheada."""
     existing_user = await db.user.find_unique(where={"email": user.email})
@@ -28,15 +40,21 @@ async def create_user(user: UserCreateRequest):
     return await db.user.create(data=data)
 
 
-@router.get("", response_model=list[UserResponse])
+@router.get(
+    "",
+    response_model=list[UserResponse],
+    dependencies=[Depends(require_admin_user)],
+)
 async def list_users():
     """Lista todos os usuarios."""
     return await db.user.find_many()
 
 
 @router.get("/{user_id}", response_model=UserResponse)
-async def get_user(user_id: str):
+async def get_user(user_id: str, current_user=Depends(get_current_user)):
     """Busca um usuario pelo id."""
+    ensure_profile_access(current_user, user_id)
+
     user = await db.user.find_unique(where={"id": user_id})
     if not user:
         raise HTTPException(
@@ -48,8 +66,14 @@ async def get_user(user_id: str):
 
 
 @router.patch("/{user_id}", response_model=UserResponse)
-async def update_user(user_id: str, user: UserUpdateRequest):
+async def update_user(
+    user_id: str,
+    user: UserUpdateRequest,
+    current_user=Depends(get_current_user),
+):
     """Atualiza parcialmente um usuario."""
+    ensure_profile_access(current_user, user_id)
+
     existing_user = await db.user.find_unique(where={"id": user_id})
     if not existing_user:
         raise HTTPException(
@@ -75,7 +99,11 @@ async def update_user(user_id: str, user: UserUpdateRequest):
     return await db.user.update(where={"id": user_id}, data=data)
 
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{user_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(require_admin_user)],
+)
 async def delete_user(user_id: str):
     """Remove um usuario pelo id."""
     existing_user = await db.user.find_unique(where={"id": user_id})
