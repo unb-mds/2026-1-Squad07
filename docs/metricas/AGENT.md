@@ -393,6 +393,7 @@ O painel deve mostrar a evolução do trabalho por sprint usando milestones do G
 - Issues e PRs abertos contam como pendentes.
 - Issues fechadas e PRs mergeados/fechados contam como concluídos.
 - A visualização deve permitir comparar progresso entre sprints.
+- **Renderização sem truncamento:** A tabela de progresso por sprint deve exibir todas as milestones coletadas, sem limite de linhas, para que o fluxo não trave em sprints intermediárias (ex.: Sprint 08) e as sprints posteriores (09, 10, ...) também apareçam.
 - A distribuição por pessoa deve aparecer dentro da milestone.
 - A visualização por pessoa deve possuir filtro de sprint/milestone.
 - Após selecionar uma sprint, o painel deve mostrar cada integrante com suas colaborações naquela sprint.

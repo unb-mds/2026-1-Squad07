@@ -659,7 +659,8 @@
         return colors[Math.abs(hash) % colors.length];
       }
 
-      function drawTable(selector, rows, columns) {
+      function drawTable(selector, rows, columns, options = {}) {
+        const { limit = 10 } = options;
         clear(selector);
         if (!rows.length) {
           d3.select(selector)
@@ -689,7 +690,7 @@
         const bodyRows = table.append("tbody")
           .attr("class", "divide-y divide-white/5 bg-slate-900/10")
           .selectAll("tr")
-          .data(rows.slice(0, 10))
+          .data(limit === null ? rows : rows.slice(0, limit))
           .join("tr")
           .attr("class", "hover:bg-white/5 transition-colors duration-150");
 
@@ -908,7 +909,7 @@
           { label: "Issues", value: (row) => row.opened },
           { label: "Concluídas", value: (row) => row.closed },
           { label: "Pendentes", value: (row) => row.pending },
-        ]);
+        ], { limit: null });
         setupMilestoneFilter(metrics.milestone_progress_by_person || []);
         
         // Inicializa ícones do Lucide
