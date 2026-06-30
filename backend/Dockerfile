@@ -14,6 +14,17 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
+FROM base AS test
+
+WORKDIR /app
+
+COPY prisma ./prisma
+RUN prisma generate --schema=prisma/schema.prisma
+
+COPY . .
+
+CMD ["pytest", "tests/unit", "-v", "--tb=short", "--cov=app", "--cov-report=term-missing", "--cov-report=html", "--cov-report=lcov", "--cov-fail-under=75"]
+
 FROM base AS final
 
 WORKDIR /app

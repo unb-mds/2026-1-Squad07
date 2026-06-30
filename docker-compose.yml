@@ -41,5 +41,32 @@ services:
       --port 8000
       --reload
 
+  test-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: test
+    container_name: test_backend
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-app_db}?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    profiles:
+      - test
+
+  test-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: test
+    container_name: test_frontend
+    profiles:
+      - test
+
 volumes:
   postgres_data:
