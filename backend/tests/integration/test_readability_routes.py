@@ -46,10 +46,25 @@ def test_analyze_readability_missing_field():
     assert response.status_code == 422
 
 
+def test_analyze_readability_inelegible_text():
+    payload = {"texto": "  @#$ %^&*  "}
+    response = client.post("/api/v1/laws/readability", json=payload)
+
+    assert response.status_code == 400
+    assert "Texto inválido" in response.json()["detail"]
+
+
 def test_analyze_readability_internal_error():
-    """Garante que exceções inesperadas no serviço retornam 500 com mensagem controlada."""
-    with patch("app.api.laws.calcular_score", side_effect=RuntimeError("erro simulado")):
-        response = client.post("/api/v1/laws/readability", json={"texto": "Texto válido."})
+    with patch(
+        "app.api.laws.calcular_score",
+        side_effect=RuntimeError("erro simulado"),
+    ):
+        response = client.post(
+            "/api/v1/laws/readability", json={"texto": "Texto válido."}
+        )
 
     assert response.status_code == 500
-    assert "Erro interno ao processar legibilidade" in response.json()["detail"]
+    assert (
+        "Erro interno ao processar legibilidade"
+        in response.json()["detail"]
+    )

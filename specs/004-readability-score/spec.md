@@ -90,6 +90,8 @@ Atualmente na Release 1, o score retornado pelo sistema é mockado. Na Release 2
   ```
 
 > **Nota**: O símbolo ordinal `1º` não é contabilizado como palavra, pois a contagem considera apenas tokens estritamente alfabéticos (REQ-004). O articulador `Art.` também é excluído da contagem por ser uma abreviação (REQ-003).
+>
+> **Nota sobre Siglas**: Siglas como STF e AGU têm pronúncias soletradas (S-T-F = 3 sílabas; A-G-U = 3 sílabas) que a contagem baseada em núcleos vocálicos nativos subestima (STF vira 1 e AGU vira 2). Essa é uma limitação estatística inerente aceitável.
 
 ### Saídas
 
@@ -116,7 +118,7 @@ Atualmente na Release 1, o score retornado pelo sistema é mockado. Na Release 2
 ## Casos de Erro e Estados Inválidos
 
 - **ERR-001**: **Dado** um payload malformado (ex: JSON corrompido ou campo `"texto"` tipado como número), **quando** submetido a `POST /api/v1/laws/readability`, **então** retorna `422 Unprocessable Entity`.
-- **ERR-002**: **Dado** um texto composto exclusivamente por caracteres especiais, pontuações ou espaços (ex: `" @#$ %^&* "`), **quando** processado, **então** o sistema trata como texto vazio, retornando `422 Unprocessable Entity` ou um score zerado de forma segura sem lançar erro interno `500`.
+- **ERR-002**: **Dado** um texto composto exclusivamente por caracteres especiais, pontuações ou espaços (ex: `" @#$ %^&* "`), **quando** processado, **então** o sistema lança um erro de negócio resultando em HTTP `400 Bad Request`, impedindo análises de textos sem palavras válidas.
 
 ## Critérios de Sucesso
 

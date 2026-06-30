@@ -55,12 +55,19 @@ async def get_law(law_id: str):
 
 
 @router_v1.post(
-    "/readability", response_model=ReadabilityResponse, status_code=status.HTTP_200_OK
+    "/readability",
+    response_model=ReadabilityResponse,
+    status_code=status.HTTP_200_OK,
 )
 async def analyze_readability(payload: ReadabilityRequest):
-    """Calcula o score de legibilidade técnica de um texto legal usando Flesch-Kincaid."""
+    """Calcula o score de legibilidade técnica do texto legal."""
     try:
         return calcular_score(payload.texto)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

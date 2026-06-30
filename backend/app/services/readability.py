@@ -2,18 +2,24 @@ import re
 
 TRITONGOS_RE = re.compile(r"uai|uei|uia|uio|uou|uem|uam", re.IGNORECASE)
 DITONGOS_RE = re.compile(
-    r"ai|ae|ao|au|ei|eo|eu|oi|oe|ou|ui|iu|ia|ie|io|ua|ue|uo|ão|ãe|õe|[aáã]m$|[eéê]m$",
+    r"ai|ae|ao|au|ei|eo|eu|oi|oe|ou|ui|iu|ia|ie|io|ua|ue|uo|ão|ãe|õe|"
+    r"[aáã]m$|[eéê]m$",
     re.IGNORECASE,
 )
 VOGAIS_RE = re.compile(r"[aeiouyáéíóúâêîôûàèìòùãõäëïöü]", re.IGNORECASE)
 
 PALAVRAS_RE = re.compile(
-    r"[a-zA-ZáéíóúâêîôûàèìòùãõäëïöüçÁÉÍÓÚÂÊÎÔÛÀÈÌÒÙÃÕÄËÏÖÜÇ]+", re.IGNORECASE
+    r"[a-zA-ZáéíóúâêîôûàèìòùãõäëïöüçÁÉÍÓÚÂÊÎÔÛÀÈÌÒÙÃÕÄËÏÖÜÇ]+"
+    r"(?:-[a-zA-ZáéíóúâêîôûàèìòùãõäëïöüçÁÉÍÓÚÂÊÎÔÛÀÈÌÒÙÃÕÄËÏÖÜÇ]+)*",
+    re.IGNORECASE,
 )
 
 
 def contar_palavras(texto: str) -> int:
-    """Conta palavras alfabéticas válidas no texto, ignorando símbolos e pontuações soltas."""
+    """Conta palavras alfabéticas válidas no texto.
+
+    Ignora símbolos e pontuações soltas.
+    """
     if not texto or not texto.strip():
         return 0
 
@@ -22,7 +28,10 @@ def contar_palavras(texto: str) -> int:
 
 
 def contar_frases(texto: str) -> int:
-    """Conta a quantidade de frases no texto, tratando abreviações legislativas e numerais."""
+    """Conta frases no texto.
+
+    Trata abreviações legislativas e numerais.
+    """
     if not texto or not texto.strip():
         return 0
 
@@ -31,13 +40,14 @@ def contar_frases(texto: str) -> int:
     )
 
     texto_temp = re.sub(
-        r"\b(Art|Inc|Al|Par|fl|doc)_TEMP_\s+(\d+[ºoaª]?|[a-zA-Z]|[IVXLCDM]+|único)\.",
+        r"\b(Art|Inc|Al|Par|fl|doc)_TEMP_\s+"
+        r"(\d+[ºoaª]?|[a-zA-Z]|[IVXLCDM]+|único)\.",
         r"\1_TEMP_ \2_TEMP_",
         texto_temp,
         flags=re.IGNORECASE,
     )
 
-    frases = re.split(r"[.!?](?:\s+|\n|$)", texto_temp)
+    frases = re.split(r"[.;!?](?:\s+|\n|$)", texto_temp)
 
     frases = [f for f in frases if f.strip()]
 
@@ -45,7 +55,10 @@ def contar_frases(texto: str) -> int:
 
 
 def contar_silabas(palavra: str) -> int:
-    """Conta as sílabas de uma palavra em português utilizando heurística de núcleos vocálicos."""
+    """Conta as sílabas de uma palavra em português.
+
+    Utiliza heurística de núcleos vocálicos.
+    """
     palavra = palavra.lower().strip()
     if not palavra:
         return 0
@@ -62,7 +75,7 @@ def contar_silabas(palavra: str) -> int:
 
 
 def classificar_score(score: float) -> str:
-    """Classifica o score de legibilidade do Flesch nas faixas correspondentes."""
+    """Classifica o score de legibilidade do Flesch."""
     if score <= 30.0:
         return "Muito dificil"
     elif score <= 50.0:
@@ -74,17 +87,14 @@ def classificar_score(score: float) -> str:
 
 
 def calcular_score(texto: str) -> dict:
-    """Calcula o score de legibilidade Flesch-Kincaid adaptado para português brasileiro."""
+    """Calcula o score de legibilidade adaptado para português."""
     num_palavras = contar_palavras(texto)
     num_frases = contar_frases(texto)
 
     if num_palavras == 0 or num_frases == 0:
-        return {
-            "score": 0.0,
-            "classificacao": "Muito dificil",
-            "metricas": {"palavras": 0, "frases": 0, "silabas": 0},
-        }
-
+        raise ValueError(
+            "Texto inválido para análise " "(não contém palavras válidas)."
+        )
     palavras = PALAVRAS_RE.findall(texto)
     num_silabas = sum(contar_silabas(p) for p in palavras)
 
