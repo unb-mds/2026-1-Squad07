@@ -32,56 +32,69 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ back: jest.fn() }),
 }));
 
-describe("LawDetailPage - score de legibilidade", () => {
+describe("LawDetailPage - análise de qualidade", () => {
   beforeEach(() => {
     mockFetch.mockReset();
     global.fetch = mockFetch;
   });
 
-  it("renderiza o estado de loading da análise de legibilidade", async () => {
+  it("renderiza o estado de loading da análise de qualidade", async () => {
     mockJsonResponse(persistedLaw);
     mockFetch.mockReturnValueOnce(new Promise(() => {}));
 
     render(<LawDetailPage />);
 
     expect(
-      await screen.findByText("Analisando legibilidade do texto..."),
+      await screen.findByText("Analisando qualidade legislativa do texto..."),
     ).toBeInTheDocument();
   });
 
-  it("envia o payload esperado e renderiza score, classificação e métricas detalhadas", async () => {
+  it("envia o payload esperado e renderiza score, métricas e alertas", async () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse({
-      score: 85,
-      classification: "Fácil leitura",
-      wordsCount: 140,
-      sentencesCount: 12,
-      averageSyllables: 2.4,
+      analysis_id: "analysis-123",
+      status: "completed",
+      score: 0.85,
+      metrics: {
+        ambiguidade: 0.18,
+        vagueza: 0.32,
+      },
+      warnings: [
+        {
+          code: "vagueza",
+          message: "Trechos com termos pouco específicos.",
+          confidence: 0.72,
+        },
+      ],
+      model_version: "legal-bert-pt@v0.1.0",
+      cached: false,
     });
 
     render(<LawDetailPage />);
 
-    expect(await screen.findByText("Fácil leitura")).toBeInTheDocument();
+    expect(await screen.findByText("Boa qualidade legislativa")).toBeInTheDocument();
     expect(screen.getByText("85%")).toBeInTheDocument();
-    expect(screen.getByText("140")).toBeInTheDocument();
-    expect(screen.getByText("12")).toBeInTheDocument();
-    expect(screen.getByText("2.4")).toBeInTheDocument();
+    expect(screen.getByText("Ambiguidade")).toBeInTheDocument();
+    expect(screen.getByText("18%")).toBeInTheDocument();
+    expect(screen.getByText("Vagueza - 72%")).toBeInTheDocument();
+    expect(screen.getByText("Trechos com termos pouco específicos.")).toBeInTheDocument();
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     expect(mockFetch).toHaveBeenNthCalledWith(
       2,
-      "http://localhost:8000/api/v1/laws/readability",
+      "http://localhost:8000/api/v1/analysis/evaluate",
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify({
           lawId: "law-123",
           text: persistedLaw.text,
+          type: "bill",
         }),
       }),
     );
 
-    const readabilityHeaders = mockFetch.mock.calls[1][1].headers as Headers;
-    expect(readabilityHeaders.get("Content-Type")).toBe("application/json");
+    const analysisHeaders = mockFetch.mock.calls[1][1].headers as Headers;
+    expect(analysisHeaders.get("Content-Type")).toBe("application/json");
   });
 
   it("exibe mensagem amigável quando a análise falha sem quebrar a exibição da lei", async () => {
@@ -97,7 +110,7 @@ describe("LawDetailPage - score de legibilidade", () => {
       screen.getByText("Artigo primeiro de uma lei de teste para validação."),
     ).toBeInTheDocument();
     expect(
-      await screen.findByText("Análise de Legibilidade Indisponível"),
+      await screen.findByText("Análise de Qualidade Indisponível"),
     ).toBeInTheDocument();
     expect(
       screen.getByText("A solicitação não pôde ser concluída."),
