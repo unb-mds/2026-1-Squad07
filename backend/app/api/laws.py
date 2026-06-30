@@ -1,9 +1,17 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.db.client import db
-from app.models.law import LawListItem, LawResponse, LawSubmissionRequest
+from app.models.law import (
+    LawListItem,
+    LawResponse,
+    LawSubmissionRequest,
+    ReadabilityRequest,
+    ReadabilityResponse,
+)
+from app.services.readability import calcular_score
 
 router = APIRouter(prefix="/laws", tags=["laws"])
+router_v1 = APIRouter(prefix="/api/v1/laws", tags=["laws-v1"])
 
 TEXT_EXCERPT_MAX_LENGTH = 120
 
@@ -44,3 +52,24 @@ async def get_law(law_id: str):
         raise HTTPException(status_code=404, detail="Submissão não encontrada.")
 
     return law
+
+
+@router_v1.post(
+    "/readability",
+    response_model=ReadabilityResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def analyze_readability(payload: ReadabilityRequest):
+    """Calcula o score de legibilidade técnica do texto legal."""
+    try:
+        return calcular_score(payload.texto)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno ao processar legibilidade: {str(e)}",
+        )

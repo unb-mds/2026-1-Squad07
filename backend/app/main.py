@@ -34,5 +34,6 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(laws.router)
+app.include_router(laws.router_v1)
 app.include_router(users.router)
 app.include_router(analysis.router)
