@@ -124,4 +124,3 @@ def test_model_name_le_da_variavel_de_ambiente(monkeypatch):
 
     monkeypatch.delenv("MODEL_NAME", raising=False)
     importlib.reload(analysis_provider)
-

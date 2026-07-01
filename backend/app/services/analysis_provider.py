@@ -151,7 +151,9 @@ class LegalBERTProvider(AnalysisProvider):
         )
 
         current_dir = Path(__file__).resolve().parent  # pragma: no cover
-        local_model_path = current_dir / ".." / "models" / "fine_tuned_legalbert"  # pragma: no cover
+        local_model_path = (
+            current_dir / ".." / "models" / "fine_tuned_legalbert"
+        )  # pragma: no cover
 
         model_to_load = self.model_name  # pragma: no cover
         if (local_model_path / "config.json").exists():  # pragma: no cover
