@@ -52,6 +52,7 @@ from transformers import (
     Trainer,
     TrainingArguments,
 )
+from transformers.modeling_outputs import SequenceClassifierOutput
 
 # Garantir que o diretorio raiz do backend esteja no path para importacoes.
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -248,6 +249,123 @@ class MultiLabelCollator:
 
 
 # ---------------------------------------------------------------------------
+# 3b. Chunking: ver a lei INTEIRA (nao so os primeiros 512 tokens)
+# ---------------------------------------------------------------------------
+@dataclass
+class ChunkingCollator:
+    """Collator que quebra cada documento em janelas (chunks) de ``max_length``.
+
+    Cada exemplo e um documento; o texto e dividido em chunks de ate
+    ``max_length`` tokens (ate ``max_chunks``). Os chunks de todo o batch sao
+    empacotados num unico tensor ``(total_chunks, L)``, com ``doc_index`` ligando
+    cada chunk ao seu documento. O :class:`ChunkPoolingModel` roda o encoder em
+    todos os chunks e faz o pooling por documento. Espelha o chunking + pooling
+    ja usado na inferencia (``LegalBERTProvider``).
+    """
+
+    tokenizer: Any
+    max_length: int = 512
+    max_chunks: int = 6
+
+    def __call__(self, features: list[dict[str, Any]]) -> dict[str, torch.Tensor]:
+        all_ids: list[list[int]] = []
+        all_mask: list[list[int]] = []
+        doc_index: list[int] = []
+        labels: list[list[float]] = []
+
+        for i, feature in enumerate(features):
+            encoded = self.tokenizer(
+                feature["text"],
+                truncation=True,
+                max_length=self.max_length,
+                return_overflowing_tokens=True,
+                add_special_tokens=True,
+            )
+            chunks = encoded["input_ids"][: self.max_chunks]
+            masks = encoded["attention_mask"][: self.max_chunks]
+            for ids, mask in zip(chunks, masks):
+                all_ids.append(ids)
+                all_mask.append(mask)
+                doc_index.append(i)
+            labels.append(feature["labels"])
+
+        max_len = max(len(ids) for ids in all_ids)
+        pad_id = self.tokenizer.pad_token_id or 0
+        total = len(all_ids)
+        input_ids = torch.full((total, max_len), pad_id, dtype=torch.long)
+        attention_mask = torch.zeros((total, max_len), dtype=torch.long)
+        for row, (ids, mask) in enumerate(zip(all_ids, all_mask)):
+            length = len(ids)
+            input_ids[row, :length] = torch.tensor(ids, dtype=torch.long)
+            attention_mask[row, :length] = torch.tensor(mask, dtype=torch.long)
+
+        return {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+            "doc_index": torch.tensor(doc_index, dtype=torch.long),
+            "labels": torch.tensor(labels, dtype=torch.float),
+        }
+
+
+class ChunkPoolingModel(nn.Module):
+    """Envolve o classificador base para treinar em nivel de DOCUMENTO.
+
+    Roda o encoder base em todos os chunks, faz a media (pooling) dos logits por
+    documento e calcula ``BCEWithLogitsLoss`` (com ``pos_weight``) contra o
+    rotulo do documento. Assim o modelo ve a lei inteira e o rotulo bate com a
+    predicao agregada. Os pesos aprendidos ficam no modelo base -- salvo ao final
+    como um ``AutoModelForSequenceClassification`` padrao, que a inferencia
+    carrega e faz o proprio chunking + pooling.
+    """
+
+    def __init__(self, base: Any, pos_weight: torch.Tensor, pool: str = "mean") -> None:
+        super().__init__()
+        self.base = base
+        self.config = base.config
+        self._pos_weight = pos_weight
+        self.pool = pool
+
+    def forward(
+        self,
+        input_ids: torch.Tensor,
+        attention_mask: torch.Tensor,
+        doc_index: torch.Tensor,
+        labels: torch.Tensor | None = None,
+    ) -> SequenceClassifierOutput:
+        outputs = self.base(input_ids=input_ids, attention_mask=attention_mask)
+        chunk_logits = outputs.logits  # (total_chunks, num_labels)
+
+        num_docs = (
+            labels.size(0) if labels is not None else int(doc_index.max().item()) + 1
+        )
+        num_labels = chunk_logits.size(-1)
+        if self.pool == "max":
+            # Max-pool por documento: o rotulo dispara se QUALQUER chunk tem a
+            # evidencia (marcador localizado); evita a diluicao do mean-pool.
+            index = doc_index.unsqueeze(-1).expand(-1, num_labels)
+            pooled = chunk_logits.new_full((num_docs, num_labels), float("-inf"))
+            pooled.scatter_reduce_(
+                0, index, chunk_logits, reduce="amax", include_self=False
+            )
+        else:
+            pooled = chunk_logits.new_zeros(num_docs, num_labels)
+            pooled.index_add_(0, doc_index, chunk_logits)
+            counts = chunk_logits.new_zeros(num_docs)
+            counts.index_add_(
+                0, doc_index, torch.ones_like(doc_index, dtype=pooled.dtype)
+            )
+            pooled = pooled / counts.clamp(min=1.0).unsqueeze(-1)
+
+        loss = None
+        if labels is not None:
+            loss_fct = nn.BCEWithLogitsLoss(
+                pos_weight=self._pos_weight.to(pooled.device)
+            )
+            loss = loss_fct(pooled, labels.float())
+        return SequenceClassifierOutput(loss=loss, logits=pooled)
+
+
+# ---------------------------------------------------------------------------
 # 4. Pesos de classe (pos_weight) a partir do conjunto de TREINO
 # ---------------------------------------------------------------------------
 def compute_class_weights(train_labels: np.ndarray) -> torch.Tensor:
@@ -410,6 +528,30 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help="Ativa gradient checkpointing (economiza VRAM, mais lento).",
     )
     parser.add_argument("--early-stopping-patience", type=int, default=3)
+    parser.add_argument(
+        "--chunking",
+        action="store_true",
+        help=(
+            "Treina em nivel de documento vendo a lei INTEIRA: quebra o texto "
+            "em chunks de --max-length e faz pooling dos logits por documento. "
+            "Use um dataset rotulado no texto inteiro (--label-window full)."
+        ),
+    )
+    parser.add_argument(
+        "--max-chunks",
+        type=int,
+        default=6,
+        help="Numero maximo de chunks por documento no modo --chunking.",
+    )
+    parser.add_argument(
+        "--chunk-pool",
+        choices=["mean", "max"],
+        default="mean",
+        help=(
+            "Como agregar os logits dos chunks: 'mean' (igual a inferencia) ou "
+            "'max' (melhor para evidencia localizada / marcador em um chunk)."
+        ),
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
         "--max-steps",
@@ -456,7 +598,7 @@ def main(argv: Sequence[str] | None = None) -> dict[str, float]:
 
     print(f"[modelo] Carregando tokenizer/modelo: {args.model_name}")
     tokenizer = build_tokenizer(args.model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(
+    base_model = AutoModelForSequenceClassification.from_pretrained(
         args.model_name,
         num_labels=len(LABELS),
         problem_type="multi_label_classification",
@@ -465,26 +607,8 @@ def main(argv: Sequence[str] | None = None) -> dict[str, float]:
     )
     if args.gradient_checkpointing:
         # use_cache e incompativel com gradient checkpointing.
-        model.config.use_cache = False
-
-    train_features = tokenize(
-        [texts[i] for i in split.train_idx],
-        labels[split.train_idx],
-        tokenizer,
-        max_length=args.max_length,
-    )
-    val_features = tokenize(
-        [texts[i] for i in split.val_idx],
-        labels[split.val_idx],
-        tokenizer,
-        max_length=args.max_length,
-    )
-    test_features = tokenize(
-        [texts[i] for i in split.test_idx],
-        labels[split.test_idx],
-        tokenizer,
-        max_length=args.max_length,
-    )
+        base_model.config.use_cache = False
+        base_model.gradient_checkpointing_enable()
 
     pos_weight = compute_class_weights(labels[split.train_idx])
     pos_weight_desc = ", ".join(
@@ -492,13 +616,64 @@ def main(argv: Sequence[str] | None = None) -> dict[str, float]:
     )
     print(f"[loss] pos_weight (do treino): {pos_weight_desc}")
 
-    collator = MultiLabelCollator(tokenizer=tokenizer)
     compute_metrics = build_compute_metrics(threshold=args.threshold)
+    train_len = len(split.train_idx)
+
+    if args.chunking:
+        print(
+            f"[chunking] ligado | max_chunks={args.max_chunks} "
+            f"janela={args.max_length} tokens | pool={args.chunk_pool} "
+            f"(ve a lei inteira via pooling)"
+        )
+
+        def _raw(indices: np.ndarray) -> list[dict[str, Any]]:
+            return [
+                {
+                    "text": texts[i],
+                    "labels": labels[i].astype(np.float32).tolist(),
+                }
+                for i in indices
+            ]
+
+        model: Any = ChunkPoolingModel(base_model, pos_weight, pool=args.chunk_pool)
+        collator: Any = ChunkingCollator(
+            tokenizer=tokenizer,
+            max_length=args.max_length,
+            max_chunks=args.max_chunks,
+        )
+        train_ds: Any = _raw(split.train_idx)
+        val_ds: Any = _raw(split.val_idx) if has_eval else None
+        test_ds: Any = _raw(split.test_idx)
+    else:
+        model = base_model
+        collator = MultiLabelCollator(tokenizer=tokenizer)
+        train_ds = tokenize(
+            [texts[i] for i in split.train_idx],
+            labels[split.train_idx],
+            tokenizer,
+            max_length=args.max_length,
+        )
+        val_ds = (
+            tokenize(
+                [texts[i] for i in split.val_idx],
+                labels[split.val_idx],
+                tokenizer,
+                max_length=args.max_length,
+            )
+            if has_eval
+            else None
+        )
+        test_ds = tokenize(
+            [texts[i] for i in split.test_idx],
+            labels[split.test_idx],
+            tokenizer,
+            max_length=args.max_length,
+        )
 
     # Converte warmup_ratio em warmup_steps explicito (evita a deprecation de
     # `warmup_ratio` no transformers 5.x e mantem o mesmo comportamento).
     effective_batch = args.train_batch_size * args.grad_accum
-    steps_per_epoch = max(1, math.ceil(len(train_features) / effective_batch))
+    steps_per_epoch = max(1, math.ceil(train_len / effective_batch))
     if args.max_steps and args.max_steps > 0:
         total_steps = args.max_steps
     else:
@@ -506,6 +681,11 @@ def main(argv: Sequence[str] | None = None) -> dict[str, float]:
     warmup_steps = int(total_steps * args.warmup_ratio)
 
     eval_strategy = "epoch" if has_eval else "no"
+    # No modo chunking o modelo e um wrapper (nao PreTrainedModel); evitamos
+    # salvar/recarregar checkpoints intermediarios. Rodamos epocas fixas (com
+    # avaliacao por epoca para ver a curva) e salvamos o modelo base ao final.
+    save_strategy = "no" if args.chunking else eval_strategy
+    load_best = has_eval and not args.chunking
     training_args = TrainingArguments(
         output_dir=str(BACKEND_DIR / "scripts" / "_train_output"),
         num_train_epochs=args.epochs,
@@ -513,56 +693,69 @@ def main(argv: Sequence[str] | None = None) -> dict[str, float]:
         per_device_train_batch_size=args.train_batch_size,
         per_device_eval_batch_size=args.eval_batch_size,
         gradient_accumulation_steps=args.grad_accum,
-        gradient_checkpointing=args.gradient_checkpointing,
+        gradient_checkpointing=args.gradient_checkpointing and not args.chunking,
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
         warmup_steps=warmup_steps,
         bf16=use_bf16,
         eval_strategy=eval_strategy,
-        save_strategy=eval_strategy,
+        save_strategy=save_strategy,
         save_total_limit=1,
-        load_best_model_at_end=has_eval,
+        load_best_model_at_end=load_best,
         metric_for_best_model="f1_macro",
         greater_is_better=True,
         logging_steps=1,
         report_to="none",
         seed=args.seed,
+        remove_unused_columns=not args.chunking,
+        label_names=["labels"],
     )
 
     print(
         f"[treino] device={device} bf16={use_bf16} "
         f"batch_por_device={args.train_batch_size} "
         f"grad_accum={args.grad_accum} batch_efetivo={effective_batch} "
-        f"grad_checkpointing={args.gradient_checkpointing}"
+        f"grad_checkpointing={args.gradient_checkpointing} "
+        f"chunking={args.chunking}"
     )
 
     callbacks = []
-    if has_eval and args.early_stopping_patience > 0:
+    if load_best and args.early_stopping_patience > 0:
         callbacks.append(
             EarlyStoppingCallback(early_stopping_patience=args.early_stopping_patience)
         )
 
-    trainer = MultiLabelTrainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_features,
-        eval_dataset=val_features if has_eval else None,
-        data_collator=collator,
-        processing_class=tokenizer,
-        compute_metrics=compute_metrics,
-        callbacks=callbacks,
-        pos_weight=pos_weight,
-    )
+    if args.chunking:
+        trainer: Trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=train_ds,
+            eval_dataset=val_ds,
+            data_collator=collator,
+            processing_class=tokenizer,
+            compute_metrics=compute_metrics,
+            callbacks=callbacks,
+        )
+    else:
+        trainer = MultiLabelTrainer(
+            model=model,
+            args=training_args,
+            train_dataset=train_ds,
+            eval_dataset=val_ds,
+            data_collator=collator,
+            processing_class=tokenizer,
+            compute_metrics=compute_metrics,
+            callbacks=callbacks,
+            pos_weight=pos_weight,
+        )
 
     print("[treino] Iniciando treinamento ...")
     trainer.train()
 
     final_metrics: dict[str, float] = {}
-    if len(test_features) > 0:
+    if len(test_ds) > 0:
         print("[teste] Avaliando no conjunto de teste independente ...")
-        test_metrics = trainer.evaluate(
-            eval_dataset=test_features, metric_key_prefix="test"
-        )
+        test_metrics = trainer.evaluate(eval_dataset=test_ds, metric_key_prefix="test")
         final_metrics = {
             key: value
             for key, value in test_metrics.items()
@@ -581,7 +774,11 @@ def main(argv: Sequence[str] | None = None) -> dict[str, float]:
 
     print(f"[salvar] Salvando modelo em {args.output_dir} ...")
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    trainer.save_model(str(args.output_dir))
+    if args.chunking:
+        # Salva o modelo base padrao; a inferencia faz o proprio chunking.
+        model.base.save_pretrained(str(args.output_dir))
+    else:
+        trainer.save_model(str(args.output_dir))
     tokenizer.save_pretrained(str(args.output_dir))
 
     print("--- Treinamento concluido com sucesso! ---")

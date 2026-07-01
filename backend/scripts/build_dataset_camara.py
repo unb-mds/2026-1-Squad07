@@ -388,8 +388,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=510,
         help=(
-            "Trunca o inteiro teor nesta janela de tokens ANTES de rotular, "
-            "alinhando rotulo e entrada (512 do BERT menos [CLS]/[SEP])."
+            "Janela de tokens usada para rotular quando --label-window=model "
+            "(512 do BERT menos [CLS]/[SEP])."
+        ),
+    )
+    parser.add_argument(
+        "--label-window",
+        choices=["model", "full"],
+        default="model",
+        help=(
+            "Sobre qual trecho calcular os rotulos weak: 'model' = primeiros "
+            "--max-tokens (alinhado a treino de janela unica); 'full' = texto "
+            "inteiro (para treino com chunking, onde o modelo ve a lei toda)."
         ),
     )
     parser.add_argument(
@@ -409,9 +419,14 @@ def main(argv: list[str] | None = None) -> None:
 
     tokenizer = None
     if args.full_text:
+        win = (
+            f"{args.max_tokens} tokens"
+            if args.label_window == "model"
+            else "texto inteiro"
+        )
         print(
             f"[api] modo INTEIRO TEOR (PDF) ligado | max_chars={args.max_chars} "
-            f"| janela de rotulagem={args.max_tokens} tokens"
+            f"| rotulagem={args.label_window} ({win})"
         )
         from transformers import AutoTokenizer
 
@@ -432,11 +447,19 @@ def main(argv: list[str] | None = None) -> None:
         if args.full_text:
             full = fetch_full_text(row["id"], args.max_chars)
             if full:
-                # Alinha o texto a janela do modelo ANTES de rotular, para que
-                # os marcadores contem apenas onde o modelo de fato ve.
-                full = truncate_to_model_window(full, tokenizer, args.max_tokens)
+                # Guarda o texto completo; a rotulagem usa a janela escolhida.
+                # Em --label-window=model os marcadores contam so onde o modelo
+                # de janela unica ve (alinhamento rotulo<->entrada); em 'full'
+                # contam na lei inteira (para o modo chunking do treino).
                 record["text"] = full
-                record["labels"] = weak_label(full)
+                if args.label_window == "model":
+                    label_text = truncate_to_model_window(
+                        full, tokenizer, args.max_tokens
+                    )
+                else:
+                    label_text = full
+                record["labels"] = weak_label(label_text)
+                record["labelWindow"] = args.label_window
                 text_source = "inteiro_teor"
             time.sleep(args.sleep)
         record["textSource"] = text_source
