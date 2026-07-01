@@ -225,7 +225,7 @@ interface AnalysisResponse {
   metrics: Record<string, number>;
 }
 
-export const useAnalysis = (lawId?: number) => {
+export const useAnalysis = (lawId?: string) => {
   const [data, setData] = useState<AnalysisResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -121,7 +121,7 @@ A Release 1 é **demonstrável**. O sistema já submete leis, lista e visualiza.
 {
   "text": "Art. 1º. Esta lei estabelece...",
   "type": "bill",
-  "lawId": 42  // opcional; relaciona análise a uma lei existente
+  "lawId": "uuid-12345"  // opcional; relaciona análise a uma lei existente
 }
 ```
 

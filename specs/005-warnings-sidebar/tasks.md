@@ -224,7 +224,7 @@ describe("useAnalysis", () => {
 
 **Assinatura esperada**:
 ```typescript
-export const useAnalysis = (lawId?: number) => {
+export const useAnalysis = (lawId?: string) => {
   // ... implementação
   return {
     data: AnalysisResponse | null,
@@ -362,28 +362,28 @@ describe("WarningsSidebar", () => {
       { code: "ambiguidade", message: "...", snippet: "...", confidence: 0.92 },
       { code: "vagueza", message: "...", snippet: "...", confidence: 0.65 },
     ];
-    render(<WarningsSidebar warnings={warnings} isLoading={false} textContent="" onWarningClick={jest.fn()} />);
+    render(<WarningsSidebar warnings={warnings} isLoading={false} onWarningClick={jest.fn()} />);
 
     expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
   // TDD-003: Estado vazio
   test("should show empty state message when no warnings", () => {
-    render(<WarningsSidebar warnings={[]} isLoading={false} textContent="" onWarningClick={jest.fn()} />);
+    render(<WarningsSidebar warnings={[]} isLoading={false} onWarningClick={jest.fn()} />);
 
     expect(screen.getByText("Nenhum problema identificado")).toBeInTheDocument();
   });
 
   // TDD-004: Loading state
   test("should show loading spinner while loading", () => {
-    render(<WarningsSidebar warnings={[]} isLoading={true} textContent="" onWarningClick={jest.fn()} />);
+    render(<WarningsSidebar warnings={[]} isLoading={true} onWarningClick={jest.fn()} />);
 
     expect(screen.getByText(/carregando/i)).toBeInTheDocument();
   });
 
   // Error state
   test("should show error message on API error", () => {
-    render(<WarningsSidebar warnings={[]} isLoading={false} error="Erro ao carregar análise" textContent="" onWarningClick={jest.fn()} />);
+    render(<WarningsSidebar warnings={[]} isLoading={false} error="Erro ao carregar análise" onWarningClick={jest.fn()} />);
 
     expect(screen.getByText("Erro ao carregar análise")).toBeInTheDocument();
   });
@@ -459,7 +459,6 @@ describe("WarningsSidebar Integration", () => {
           snippet: "regime",
           confidence: 0.85,
         }]}
-        textContent={textContent}
         onWarningClick={(warning) => {
           // Lógica de highlight aqui
         }}
