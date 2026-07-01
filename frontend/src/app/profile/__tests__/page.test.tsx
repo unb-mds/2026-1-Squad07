@@ -60,7 +60,7 @@ describe("ProfilePage (Client component)", () => {
     });
   });
 
-  it("TC-02: renderiza as informações iniciais do perfil do usuário logado", () => {
+  it("TC-02: renderiza as informações iniciais do perfil do usuário logado", async () => {
     (useAuth as jest.Mock).mockReturnValue({
       user: mockUser,
       token: "mock-jwt-token",
@@ -68,6 +68,10 @@ describe("ProfilePage (Client component)", () => {
     });
 
     render(<ProfilePage />);
+
+    await waitFor(() => {
+      expect(getProfile).toHaveBeenCalled();
+    });
 
     const nameInput = screen.getByLabelText("Nome") as HTMLInputElement;
     const emailInput = screen.getByLabelText("E-mail") as HTMLInputElement;
@@ -88,6 +92,10 @@ describe("ProfilePage (Client component)", () => {
     });
 
     render(<ProfilePage />);
+
+    await waitFor(() => {
+      expect(getProfile).toHaveBeenCalled();
+    });
 
     const nameInput = screen.getByLabelText("Nome");
     const saveButton = screen.getByRole("button", { name: /Salvar Alterações/i });
@@ -164,7 +172,7 @@ describe("ProfilePage (Client component)", () => {
     });
   });
 
-  it("TC-06: cancela as alterações e restaura o nome original", () => {
+  it("TC-06: cancela as alterações e restaura o nome original", async () => {
     (useAuth as jest.Mock).mockReturnValue({
       user: mockUser,
       token: "mock-jwt-token",
@@ -172,6 +180,10 @@ describe("ProfilePage (Client component)", () => {
     });
 
     render(<ProfilePage />);
+
+    await waitFor(() => {
+      expect(getProfile).toHaveBeenCalled();
+    });
 
     const nameInput = screen.getByLabelText("Nome") as HTMLInputElement;
     const cancelButton = screen.getByRole("button", { name: /Cancelar/i });

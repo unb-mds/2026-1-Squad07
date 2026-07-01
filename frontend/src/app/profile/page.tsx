@@ -33,6 +33,7 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
         }
       } catch (err) {
         console.error("Erro ao buscar dados do perfil na API:", err);
+        toast.error("Não foi possível sincronizar seus dados em tempo real.");
       }
     }
 

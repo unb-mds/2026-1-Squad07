@@ -14,6 +14,8 @@ import {
   type AuthUser,
 } from "@/lib/api/auth";
 
+export type { AuthUser };
+
 type AuthContextType = {
   user: AuthUser | null;
   token: string | null;
