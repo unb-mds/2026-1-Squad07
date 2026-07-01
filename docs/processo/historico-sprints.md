@@ -127,7 +127,7 @@ Esta fase transformou o visualizador básico de leis em um assistente inteligent
 ### 📅 Sprint 14: Homologação da R2 e Deploy Contínuo (CD)
 
 * **Foco da Sprint:** Colocar a aplicação em produção e documentar os marcos finais.
-* **O que foi feito (Didaticamente):** Criamos a branch de documentação, o guia de deploy contínuo distribuído (Vercel + Render + Supabase) e aplicamos com sucesso as migrações estruturais do banco de dados na nuvem.
+* **O que foi feito (Didaticamente):** Criamos a branch de documentação, o guia de deploy contínuo distribuído (Vercel + Render + Neon) e aplicamos com sucesso as migrações estruturais do banco de dados na nuvem.
 * **Impacto no Projeto:** Disponibilização pública da plataforma CrivoAI na internet e consolidação das entregas de DevOps.
 * **Status:** Concluído (Fase de Homologação de Deploy).
 

@@ -20,7 +20,7 @@ Adotamos uma hospedagem híbrida de produção para garantir escalabilidade grat
 graph TD
     User([Usuário]) -->|Acessa o site| Frontend[Vercel - Frontend Next.js]
     Frontend -->|Chamadas de API| Backend[Render/Koyeb - API FastAPI Web Service]
-    Backend -->|Persistência Prisma| DB[Supabase/Neon - PostgreSQL]
+    Backend -->|Persistência Prisma| DB[Neon - PostgreSQL]
 ```
 
 ### 1. Frontend (Next.js) $\rightarrow$ Vercel (Hobby Tier)
@@ -33,9 +33,9 @@ O Vercel hospeda o aplicativo cliente. Como o Next.js App Router adota páginas 
 
 O backend processa a classificação de qualidade com o modelo LegalBERT-pt e a orquestração concorrente de resumos via IA (Gemini). É empacotado e executado como um contêiner Docker a partir do `Dockerfile` do projeto.
 
-### 3. Banco de Dados (PostgreSQL) $\rightarrow$ Supabase ou Neon
+### 3. Banco de Dados (PostgreSQL) $\rightarrow$ Neon (Neon.tech)
 
-O banco PostgreSQL é mantido em uma nuvem permanente externa (Supabase ou Neon), livre da limitação de expiração de 90 dias do plano gratuito do Render.
+O banco PostgreSQL é hospedado no **Neon.tech**, um provedor serverless gratuito de PostgreSQL que oferece conectividade IPv4 nativa completa, superando as restrições e custos de IPv6 dedicados do Supabase e livre da expiração do plano de banco do Render.
 
 ---
 
@@ -54,7 +54,7 @@ Estas chaves são cadastradas no painel seguro de cada plataforma:
 
 * **Build Command:** Escolher Docker (compilar a partir do `backend/Dockerfile`).
 * **Environment Variables:**
-  * `DATABASE_URL`: A URL de conexão segura com o PostgreSQL obtida no Supabase/Neon (ex: `postgresql://postgres:senha@host:5432/app_db?sslmode=require`).
+  * `DATABASE_URL`: A URL de conexão segura com o PostgreSQL obtida no Neon (ex: `postgresql://neondb_owner:senha@ep-host.aws.neon.tech/neondb?sslmode=require`).
   * `ENVIRONMENT`: Defina como `production` para desligar as saídas de simulação de IA (Mock).
   * `GEMINI_API_KEY`: Sua chave de API do Google Gemini para a geração dos resumos automáticos.
   * `AUTH_SECRET_KEY`: Uma sequência de caracteres criptograficamente segura para a criptografia dos tokens JWT de autenticação.
