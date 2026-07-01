@@ -47,11 +47,17 @@ async def evaluate_text(
     scored = cache.get(key)
     cached = scored is not None
     if not cached:
+        # Inicia inferência síncrona em uma thread em background (concorrência real)
+        probabilities_task = asyncio.to_thread(provider.analyze, text)
         summary_task = asyncio.create_task(summary_provider.summarize(text))
+
         try:
-            probabilities = provider.analyze(text)
+            probabilities = await probabilities_task
         except Exception as exc:  # noqa: BLE001
+            # Evita leak da task de sumarização se a inferência falhar
+            summary_task.cancel()
             raise AnalysisError(f"Falha na análise do texto: {exc}") from exc
+
         scored = score_analysis(probabilities, strategy=strategy, threshold=threshold)
 
         summary = None
