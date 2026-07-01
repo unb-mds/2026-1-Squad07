@@ -45,6 +45,7 @@ nav:
     - Visão Geral: sdd/index.md
     - Estratégia de TDD para R2: sdd/tdd-estrategia-r2.md
     - Setup da Integração Contínua (CI): dev/ci-setup.md
+    - Plano de Expansão de Treinamento (ML): dev/plano-expansao-ml.md
     - Templates: sdd/templates.md
     - Instalação do Spec Kit: sdd/instalacao.md
     - Catálogo de Specs: sdd/catalogo.md
