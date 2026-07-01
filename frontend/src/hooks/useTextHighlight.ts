@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 export const useTextHighlight = () => {
   const [isHighlighted, setIsHighlighted] = useState(false);
+  const fadeOutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Função auxiliar para remover as tags de destaque de forma limpa
   const removeHighlights = (container: HTMLElement) => {
@@ -22,6 +23,12 @@ export const useTextHighlight = () => {
     if (!text) return false;
     const container = document.getElementById(containerId);
     if (!container) return false;
+
+    // Clear any pending fade-out timeout
+    if (fadeOutTimeoutRef.current) {
+      clearTimeout(fadeOutTimeoutRef.current);
+      fadeOutTimeoutRef.current = null;
+    }
 
     // Remove destaques anteriores no DOM
     removeHighlights(container);
@@ -60,8 +67,9 @@ export const useTextHighlight = () => {
           
           // Adiciona classe para transição suave de fade-out após delay
           if (!preventFadeOut) {
-            setTimeout(() => {
+            fadeOutTimeoutRef.current = setTimeout(() => {
               mark.classList.add("fade-out");
+              fadeOutTimeoutRef.current = null;
             }, 50);
           }
 
@@ -91,11 +99,24 @@ export const useTextHighlight = () => {
   }, []);
 
   const clearHighlight = useCallback(() => {
+    if (fadeOutTimeoutRef.current) {
+      clearTimeout(fadeOutTimeoutRef.current);
+      fadeOutTimeoutRef.current = null;
+    }
+
     const container = document.getElementById("law-content");
     if (!container) return;
 
     removeHighlights(container);
     setIsHighlighted(false);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (fadeOutTimeoutRef.current) {
+        clearTimeout(fadeOutTimeoutRef.current);
+      }
+    };
   }, []);
 
   return { highlightText, clearHighlight, isHighlighted };

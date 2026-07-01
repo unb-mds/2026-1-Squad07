@@ -27,7 +27,6 @@ export interface UseAnalysisState {
 
 export interface WarningsSidebarProps {
   warnings: Warning[];
-  textContent: string;
   isLoading?: boolean;
   error?: string | null;
   onWarningClick?: (warning: Warning) => void;

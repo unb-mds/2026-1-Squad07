@@ -19,7 +19,6 @@ const IntegrationTestWrapper: React.FC<{ warnings: Warning[]; text: string }> = 
       </div>
       <WarningsSidebar
         warnings={warnings}
-        textContent={text}
         isLoading={false}
         error={null}
         onWarningClick={handleWarningClick}

@@ -95,7 +95,7 @@ export const useAnalysis = (lawId?: string) => {
       const updatedData: AnalysisResponse = {
         analysis_id: response.analysis_id,
         text: response.text || text,
-        type: response.type || type,
+        type: (response.type || type) as DocumentType,
         score: response.score ?? 0,
         cached: response.cached ?? false,
         metrics: response.metrics || {},

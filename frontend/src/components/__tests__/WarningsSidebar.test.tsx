@@ -26,7 +26,6 @@ describe("WarningsSidebar", () => {
         warnings={mockWarnings}
         isLoading={false}
         error={null}
-        textContent="Art. 1º estabelece o regime especial a critério."
         onWarningClick={onWarningClick}
       />
     );
@@ -43,7 +42,6 @@ describe("WarningsSidebar", () => {
         warnings={[]}
         isLoading={false}
         error={null}
-        textContent="Texto de lei perfeito."
         onWarningClick={jest.fn()}
       />
     );
@@ -60,7 +58,6 @@ describe("WarningsSidebar", () => {
         warnings={[]}
         isLoading={true}
         error={null}
-        textContent="Texto."
         onWarningClick={jest.fn()}
       />
     );
@@ -76,7 +73,6 @@ describe("WarningsSidebar", () => {
         warnings={[]}
         isLoading={false}
         error="Erro ao carregar análise"
-        textContent="Texto."
         onWarningClick={jest.fn()}
       />
     );

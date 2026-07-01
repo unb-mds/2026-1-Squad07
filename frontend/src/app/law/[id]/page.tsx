@@ -13,7 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
 import {
@@ -94,15 +94,29 @@ export default function LawDetailPage() {
 
   const { data: sidebarAnalysis, loading: sidebarLoadingAnalysis, error: sidebarErrorAnalysis, analyze } = useAnalysis(params.id);
   const { highlightText, clearHighlight } = useTextHighlight();
+  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleWarningClick = (warning: Warning) => {
+    if (highlightTimeoutRef.current) {
+      clearTimeout(highlightTimeoutRef.current);
+      highlightTimeoutRef.current = null;
+    }
     const success = highlightText(warning.snippet, "law-content");
     if (success) {
-      setTimeout(() => {
+      highlightTimeoutRef.current = setTimeout(() => {
         clearHighlight();
+        highlightTimeoutRef.current = null;
       }, 2000);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (highlightTimeoutRef.current) {
+        clearTimeout(highlightTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleWarningHover = (warning: Warning | null) => {
     if (warning) {
@@ -418,7 +432,6 @@ export default function LawDetailPage() {
                   warnings={sidebarAnalysis?.warnings || []}
                   isLoading={sidebarLoadingAnalysis}
                   error={sidebarErrorAnalysis}
-                  textContent={law.text}
                   onWarningClick={handleWarningClick}
                   onWarningHover={handleWarningHover}
                 />
