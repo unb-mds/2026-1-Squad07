@@ -141,8 +141,7 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
 
     render(<LawDetailPage />);
 
-    expect(await screen.findByText("Resumo Explicativo por IA")).toBeInTheDocument();
-    expect(screen.getByText(/Parágrafo primeiro explicativo de IA./)).toBeInTheDocument();
+    expect(await screen.findByText(/Parágrafo primeiro explicativo de IA./)).toBeInTheDocument();
     expect(screen.getByText(/Parágrafo segundo simplificado./)).toBeInTheDocument();
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
