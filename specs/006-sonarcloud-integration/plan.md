@@ -33,13 +33,13 @@ sonar.organization=unb-mds
 sonar.projectKey=unb-mds_2026-1-Squad07
 sonar.projectName=2026-1-Squad07
 
-# Escopo de Código e Testes
+# Escopo de Código e Testes (Usa raízes estáveis para evitar caminhos inexistentes em branches)
 sonar.sources=backend/app,frontend/src
-sonar.tests=backend/tests,frontend/src/app/profile/__tests__,frontend/src/app/law/[id]/page.test.tsx,frontend/src/components/__tests__,frontend/src/__tests__
+sonar.tests=backend/tests,frontend/src
 sonar.test.inclusions=**/*.test.ts,**/*.test.tsx,**/test_*.py
 
 # Padrões de Exclusão de Análise
-sonar.exclusions=node_modules/**,frontend/node_modules/**,.venv/**,backend/prisma/**,frontend/.next/**,frontend/out/**,backend/htmlcov/**,backend/.pytest_cache/**,frontend/coverage/**,backend/tests/**
+sonar.exclusions=node_modules/**,frontend/node_modules/**,.venv/**,backend/prisma/**,frontend/.next/**,frontend/out/**,backend/htmlcov/**,backend/.pytest_cache/**,frontend/coverage/**,backend/tests/**,**/*.test.ts,**/*.test.tsx,**/test_*.py
 
 # Caminhos de Relatórios de Cobertura de Testes
 sonar.python.coverage.reportPaths=backend/coverage.xml
