@@ -11,6 +11,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { Toaster } from "./ui/sonner";
 
 const navItems = [
   { href: "/", label: "Dashboard" },
@@ -130,6 +131,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <main className="flex-1">{children}</main>
         <Footer />
       </div>
+      <Toaster />
     </AuthProvider>
   );
 }

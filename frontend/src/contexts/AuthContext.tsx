@@ -14,12 +14,15 @@ import {
   type AuthUser,
 } from "@/lib/api/auth";
 
+export type { AuthUser };
+
 type AuthContextType = {
   user: AuthUser | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
+  updateUserInSession: (updatedUser: AuthUser) => void;
 };
 
 const SESSION_KEY = "crivoai_session";
@@ -63,6 +66,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null);
   };
 
+  function updateUserInSession(updatedUser: AuthUser) {
+    if (!session) {
+      return;
+    }
+    saveSession({ ...session, user: updatedUser });
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -71,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         register,
         logout,
+        updateUserInSession,
       }}
     >
       {children}

@@ -15,7 +15,7 @@ export function RadialProgress({
   const circumference = 2 * Math.PI * radius;
   const progress = circumference - (value / 100) * circumference;
   const color =
-    value >= 85 ? "text-green-500" : value >= 70 ? "text-yellow-500" : "text-red-500";
+    value >= 70 ? "text-green-500" : value >= 40 ? "text-yellow-500" : "text-red-500";
 
   return (
     <div className="flex flex-col items-center gap-2">
