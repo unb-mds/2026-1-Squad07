@@ -77,6 +77,7 @@ function warningKey(warning: AnalysisWarning) {
 export default function LawDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
   const [law, setLaw] = useState<CreatedLaw | null>(null);
   const [loadingLaw, setLoadingLaw] = useState(true);
   const [errorLaw, setErrorLaw] = useState("");
@@ -94,7 +95,7 @@ export default function LawDetailPage() {
       setLoadingLaw(true);
       setErrorLaw("");
       try {
-        const persistedLaw = await getLaw(params.id);
+        const persistedLaw = await getLaw(id);
         if (active) {
           setLaw(persistedLaw);
         }
@@ -118,7 +119,7 @@ export default function LawDetailPage() {
     return () => {
       active = false;
     };
-  }, [params.id]);
+  }, [id]);
 
   useEffect(() => {
     if (!law) return;
@@ -130,7 +131,7 @@ export default function LawDetailPage() {
       setErrorSummary("");
       setSummary(null);
       try {
-        const persistedSummary = await getLawSummary(params.id);
+        const persistedSummary = await getLawSummary(id);
         if (active) {
           setSummary(persistedSummary);
         }
@@ -154,7 +155,7 @@ export default function LawDetailPage() {
     return () => {
       active = false;
     };
-  }, [law, params.id]);
+  }, [law, id]);
 
   useEffect(() => {
     if (!law) return;
@@ -167,7 +168,7 @@ export default function LawDetailPage() {
       setErrorAnalysis("");
       try {
         const data = await analyzeLawQuality({
-          lawId: params.id,
+          lawId: id,
           text: currentText,
           type: "bill",
         });
@@ -194,10 +195,10 @@ export default function LawDetailPage() {
     return () => {
       active = false;
     };
-  }, [law, params.id]);
+  }, [law, id]);
 
   const scorePercent = scoreToPercent(analysis?.score ?? null);
-  const metrics = Object.entries(analysis?.metrics ?? {});
+  const metrics = analysis ? Object.entries(analysis.metrics) : [];
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-6">
