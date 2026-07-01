@@ -3,7 +3,7 @@
 ## Abordagem
 
 1. Tipar `summary` como campo opcional de `CreatedLaw`.
-2. Criar uma função de API no frontend para consultar o resumo a partir de `GET /api/v1/laws/{id}`, reaproveitando o client configurado por `NEXT_PUBLIC_API_URL`.
+2. Criar uma função de API no frontend para consultar o resumo a partir de `GET /laws/{id}`, reaproveitando o client configurado por `NEXT_PUBLIC_API_URL`.
 3. Adicionar estado local de resumo na `LawDetailPage`, separado do carregamento principal da lei e do score de legibilidade.
 4. Renderizar um card de resumo com estados de carregamento, sucesso e erro.
 5. Atualizar os testes existentes da página para validar o contrato consumido e os estados visuais.

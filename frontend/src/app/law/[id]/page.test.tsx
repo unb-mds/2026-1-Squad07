@@ -20,6 +20,14 @@ const persistedLaw = {
   updatedAt: "2026-06-30T12:00:00Z",
 };
 
+const readabilityResponse = {
+  score: 85,
+  classification: "Fácil leitura",
+  wordsCount: 140,
+  sentencesCount: 12,
+  averageSyllables: 2.4,
+};
+
 function mockJsonResponse(body: unknown, status = 200) {
   mockFetch.mockResolvedValueOnce({
     ok: status >= 200 && status < 300,
@@ -41,6 +49,7 @@ describe("LawDetailPage - score de legibilidade", () => {
 
   it("renderiza o estado de loading da análise de legibilidade", async () => {
     mockJsonResponse(persistedLaw);
+    mockJsonResponse(persistedLaw);
     mockFetch.mockReturnValueOnce(new Promise(() => {}));
 
     render(<LawDetailPage />);
@@ -52,13 +61,8 @@ describe("LawDetailPage - score de legibilidade", () => {
 
   it("envia o payload esperado e renderiza score, classificação e métricas detalhadas", async () => {
     mockJsonResponse(persistedLaw);
-    mockJsonResponse({
-      score: 85,
-      classification: "Fácil leitura",
-      wordsCount: 140,
-      sentencesCount: 12,
-      averageSyllables: 2.4,
-    });
+    mockJsonResponse(persistedLaw);
+    mockJsonResponse(readabilityResponse);
 
     render(<LawDetailPage />);
 
@@ -68,7 +72,25 @@ describe("LawDetailPage - score de legibilidade", () => {
     expect(screen.getByText("12")).toBeInTheDocument();
     expect(screen.getByText("2.4")).toBeInTheDocument();
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
+
+    const readabilityCall = mockFetch.mock.calls.find(
+      ([url]) => url === "http://localhost:8000/api/v1/laws/readability",
+    );
+
+    expect(readabilityCall).toBeDefined();
+    expect(readabilityCall?.[1]).toEqual(
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({
+          lawId: "law-123",
+          text: persistedLaw.text,
+        }),
+      }),
+    );
+
+    const readabilityHeaders = readabilityCall?.[1].headers as Headers;
+    expect(readabilityHeaders.get("Content-Type")).toBe("application/json");
   });
 });
 
@@ -78,26 +100,55 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     global.fetch = mockFetch;
   });
 
+  it("RS-1: exibe loading local do resumo sem ocultar o texto da lei", async () => {
+    mockJsonResponse(persistedLaw);
+    mockFetch.mockReturnValueOnce(new Promise(() => {}));
+    mockJsonResponse(readabilityResponse);
+
+    render(<LawDetailPage />);
+
+    expect(await screen.findByText("Gerando resumo explicativo...")).toBeInTheDocument();
+    expect(
+      screen.getByText("Artigo primeiro de uma lei de teste para validação."),
+    ).toBeInTheDocument();
+  });
+
   it("RS-2: exibe com sucesso o resumo vindo do backend preservando as quebras de linha", async () => {
     const lawWithSummary = {
       ...persistedLaw,
       summary: "Parágrafo primeiro explicativo de IA.\nParágrafo segundo simplificado.",
     };
 
+    mockJsonResponse(persistedLaw);
     mockJsonResponse(lawWithSummary);
-    mockJsonResponse({
-      score: 75,
-      classification: "Leitura Padrão",
-      wordsCount: 100,
-      sentencesCount: 8,
-      averageSyllables: 2.1,
-    });
+    mockJsonResponse(readabilityResponse);
 
     render(<LawDetailPage />);
 
     expect(await screen.findByText("Resumo Explicativo por IA")).toBeInTheDocument();
     expect(screen.getByText(/Parágrafo primeiro explicativo de IA./)).toBeInTheDocument();
     expect(screen.getByText(/Parágrafo segundo simplificado./)).toBeInTheDocument();
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      "http://localhost:8000/laws/law-123",
+      expect.objectContaining({ headers: expect.any(Headers) }),
+    );
+  });
+
+  it("RS-3: exibe erro amigável quando a consulta do resumo falha", async () => {
+    mockJsonResponse(persistedLaw);
+    mockJsonResponse({}, 500);
+    mockJsonResponse(readabilityResponse);
+
+    render(<LawDetailPage />);
+
+    expect(await screen.findByText("Resumo indisponível no momento.")).toBeInTheDocument();
+    expect(screen.getByText("A solicitação não pôde ser concluída.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Artigo primeiro de uma lei de teste para validação."),
+    ).toBeInTheDocument();
   });
 
   it("RS-4: trata amigavelmente o estado em que o resumo é nulo ou ausente", async () => {
@@ -106,8 +157,9 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
       summary: null,
     };
 
+    mockJsonResponse(persistedLaw);
     mockJsonResponse(lawWithoutSummary);
-    mockJsonResponse({}, 500);
+    mockJsonResponse(readabilityResponse);
 
     render(<LawDetailPage />);
 
@@ -115,7 +167,6 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     expect(
       screen.getByText("Resumo indisponível ou ainda não processado para este documento legislativo."),
     ).toBeInTheDocument();
-    
     expect(screen.getByText("Constituição Federal Exemplo")).toBeInTheDocument();
   });
 });

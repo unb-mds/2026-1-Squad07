@@ -12,6 +12,7 @@ export type CreatedLaw = {
   title: string;
   description: string | null;
   text: string;
+  summary?: string | null;
   sourceType: string;
   sourceUrl: string | null;
   jurisdiction: string | null;
@@ -57,6 +58,11 @@ export function listLawSubmissions() {
 
 export function getLaw(id: string) {
   return apiRequest<CreatedLaw>(`/laws/${encodeURIComponent(id)}`);
+}
+
+export async function getLawSummary(id: string) {
+  const law = await getLaw(id);
+  return law.summary ?? null;
 }
 
 export function analyzeLawReadability(payload: ReadabilityRequest) {

@@ -19,14 +19,10 @@ import { apiErrorMessage } from "@/lib/api/client";
 import {
   analyzeLawReadability,
   getLaw,
+  getLawSummary,
   type CreatedLaw,
   type ReadabilityResponse,
 } from "@/lib/api/laws";
-
-// Extensão local do tipo para contornar a ausência temporária do campo no tipo do backend
-interface LawWithSummary extends CreatedLaw {
-  summary?: string | null;
-}
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -44,9 +40,12 @@ function getScoreColorClass(score: number): string {
 export default function LawDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const [law, setLaw] = useState<LawWithSummary | null>(null);
+  const [law, setLaw] = useState<CreatedLaw | null>(null);
   const [loadingLaw, setLoadingLaw] = useState(true);
   const [errorLaw, setErrorLaw] = useState("");
+  const [summary, setSummary] = useState<string | null>(null);
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [errorSummary, setErrorSummary] = useState("");
   const [readability, setReadability] = useState<ReadabilityResponse | null>(null);
   const [loadingReadability, setLoadingReadability] = useState(false);
   const [errorReadability, setErrorReadability] = useState("");
@@ -60,7 +59,7 @@ export default function LawDetailPage() {
       try {
         const persistedLaw = await getLaw(params.id);
         if (active) {
-          setLaw(persistedLaw as LawWithSummary);
+          setLaw(persistedLaw);
         }
       } catch (requestError) {
         if (active) {
@@ -83,6 +82,42 @@ export default function LawDetailPage() {
       active = false;
     };
   }, [params.id]);
+
+  useEffect(() => {
+    if (!law) return;
+
+    let active = true;
+
+    async function fetchSummary() {
+      setLoadingSummary(true);
+      setErrorSummary("");
+      setSummary(null);
+      try {
+        const persistedSummary = await getLawSummary(params.id);
+        if (active) {
+          setSummary(persistedSummary);
+        }
+      } catch (requestError) {
+        if (active) {
+          setErrorSummary(
+            apiErrorMessage(
+              requestError,
+              "Não foi possível carregar o resumo explicativo no momento.",
+            ),
+          );
+        }
+      } finally {
+        if (active) {
+          setLoadingSummary(false);
+        }
+      }
+    }
+
+    void fetchSummary();
+    return () => {
+      active = false;
+    };
+  }, [law, params.id]);
 
   useEffect(() => {
     if (!law) return;
@@ -168,14 +203,24 @@ export default function LawDetailPage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
-              
-              {/* Card de Resumo por IA */}
               <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
                 <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
                   <Sparkles className="size-5 text-purple-600" />
                   Resumo Explicativo por IA
                 </h2>
-                {!law.summary ? (
+                {loadingSummary ? (
+                  <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-600">
+                    <Loader2 className="size-4 animate-spin text-purple-600" />
+                    Gerando resumo explicativo...
+                  </div>
+                ) : errorSummary ? (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <p className="text-sm font-semibold text-amber-800">
+                      Resumo indisponível no momento.
+                    </p>
+                    <p className="mt-1 text-sm text-amber-800">{errorSummary}</p>
+                  </div>
+                ) : !summary ? (
                   <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
                     <p className="text-sm text-amber-800">
                       Resumo indisponível ou ainda não processado para este documento legislativo.
@@ -183,7 +228,7 @@ export default function LawDetailPage() {
                   </div>
                 ) : (
                   <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-slate-600">
-                    {law.summary}
+                    {summary}
                   </div>
                 )}
               </section>

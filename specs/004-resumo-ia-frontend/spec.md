@@ -12,7 +12,7 @@ A página `/law/[id]` precisa substituir qualquer resumo demonstrativo por um re
 ### R1 demonstrável
 
 - Exibir um card de resumo explicativo na página de detalhes da lei.
-- Consumir o campo `summary` do retorno de `GET /api/v1/laws/{id}`.
+- Consumir o campo `summary` do retorno de `GET /laws/{id}`.
 - Tratar carregamento, sucesso e falha do resumo sem bloquear o texto principal.
 - Cobrir os três estados com testes de componente em Jest.
 
@@ -27,7 +27,7 @@ A página `/law/[id]` precisa substituir qualquer resumo demonstrativo por um re
 
 ## Contrato Consumido
 
-O frontend deve consumir `summary?: string | null` no objeto de lei retornado por `GET /api/v1/laws/{id}`. A ausência do campo ou valor vazio deve ser tratada como resumo indisponível, sem quebrar a página.
+O frontend deve consumir `summary?: string | null` no objeto de lei retornado por `GET /laws/{id}`. A ausência do campo ou valor vazio deve ser tratada como resumo indisponível, sem quebrar a página.
 
 ## Critérios de Aceite
 
