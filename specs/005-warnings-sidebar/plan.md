@@ -131,7 +131,6 @@ interface WarningsSidebarProps {
   isLoading?: boolean;
   error?: string | null;
   onWarningClick?: (warning: Warning) => void;
-  textContent: string;    // Texto completo para busca
 }
 
 export const WarningsSidebar: React.FC<WarningsSidebarProps> = ({ ... }) => {
@@ -281,7 +280,6 @@ export default function LawDetailPage({ params }: { params: { id: string } }) {
         warnings={analysis?.warnings || []}
         isLoading={loading}
         error={error}
-        textContent={law.content}
         onWarningClick={(warning) => {
           // Chamar scroll + highlight aqui
         }}

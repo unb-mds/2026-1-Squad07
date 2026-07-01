@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "text": "Art. 1º. Esta lei estabelece o regime especial de apoio.",
   "type": "bill",
-  "lawId": 42
+  "lawId": "uuid-12345"
 }
 ```
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 |-------|------|-------------|-----------|
 | `text` | string | ✓ | Texto legislativo a analisar (mínimo 1 caractere). |
 | `type` | enum | ✓ | Tipo de documento: `"bill"` (projeto de lei) ou `"amendment"` (emenda). |
-| `lawId` | integer | ✗ | ID da lei no banco. Quando informado, resultado é persistido. |
+| `lawId` | string | ✗ | ID da lei no banco (UUID). Quando informado, resultado é persistido. |
 
 #### Resposta do Backend (200 OK)
 
@@ -157,7 +157,7 @@ export interface AnalysisRequest {
   type: DocumentType;
 
   /** (Opcional) ID da lei no banco para persistência */
-  lawId?: number;
+  lawId?: string;
 }
 
 /**
@@ -202,9 +202,6 @@ export interface UseAnalysisState {
 export interface WarningsSidebarProps {
   /** Array de warnings a exibir */
   warnings: Warning[];
-
-  /** Texto completo para busca e highlighting */
-  textContent: string;
 
   /** Indica se está carregando a análise */
   isLoading?: boolean;
@@ -354,7 +351,6 @@ export function LawAnalysisPage() {
     <div className="flex gap-4">
       <WarningsSidebar
         warnings={data?.warnings || []}
-        textContent={lawContent}
         isLoading={loading}
         error={error}
         onWarningClick={handleWarningClick}

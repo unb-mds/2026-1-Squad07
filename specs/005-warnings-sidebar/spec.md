@@ -130,8 +130,7 @@ A Release 1 é **demonstrável**. O sistema já submete leis, lista e visualiza.
 ```json
 {
   "analysis_id": "uuid-12345",
-  "text": "Art. 1º...",
-  "type": "bill",
+  "status": "completed",
   "score": 0.65,
   "cached": false,
   "metrics": {
@@ -144,16 +143,15 @@ A Release 1 é **demonstrável**. O sistema já submete leis, lista e visualiza.
     {
       "code": "ambiguidade",
       "message": "Termo 'regime especial' não é definido no artigo.",
-      "snippet": "Art. 1º estabelece o regime especial...",
       "confidence": 0.92
     },
     {
       "code": "falta_referencia",
       "message": "Referência cruzada incompleta.",
-      "snippet": "Conforme Lei 123/2020, inciso II.",
       "confidence": 0.78
     }
-  ]
+  ],
+  "model_version": "legal-bert-pt@v0.1.0"
 }
 ```
 
