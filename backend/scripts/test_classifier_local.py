@@ -4,8 +4,11 @@ from pathlib import Path
 # Garantir que o diretório raiz do backend esteja no path para importações
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from app.services.analysis.scoring import score_analysis
-from app.services.analysis_provider import LegalBERTProvider, TAXONOMY
+from app.services.analysis.scoring import score_analysis  # noqa: E402
+from app.services.analysis_provider import (  # noqa: E402
+    LegalBERTProvider,
+    TAXONOMY,
+)
 
 
 def test_text(texto, titulo):

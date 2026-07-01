@@ -10,6 +10,7 @@ chunking + pooling por média (decisão D8 / REQ-011).
 from __future__ import annotations
 
 import math
+import os
 from abc import ABC, abstractmethod
 
 # Taxonomia inicial da R2 (REQ-015). Ampliar exige nova ``MODEL_VERSION``.
@@ -40,8 +41,6 @@ CATEGORY_MESSAGES: dict[str, str] = {
 
 # Versão do modelo usada no cache e na persistência (D4).
 MODEL_VERSION = "legalbert-pt-v1"
-
-import os
 
 # Modelo base auto-hospedado (D2/D10). Pode evoluir para um checkpoint
 # fine-tunado sem alterar a interface.
