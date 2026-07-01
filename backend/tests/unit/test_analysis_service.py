@@ -59,7 +59,6 @@ def make_db():
     return SimpleNamespace(analysis=FakeAnalysisDelegate())
 
 
-@pytest.mark.anyio
 async def test_primeira_chamada_computa_e_marca_cached_false():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider()
@@ -85,7 +84,6 @@ async def test_primeira_chamada_computa_e_marca_cached_false():
     assert provider.calls == 1
 
 
-@pytest.mark.anyio
 async def test_segunda_chamada_retorna_cached_true_sem_reprocessar():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider()
@@ -113,7 +111,6 @@ async def test_segunda_chamada_retorna_cached_true_sem_reprocessar():
     assert provider.calls == 1
 
 
-@pytest.mark.anyio
 async def test_persiste_em_analysis_quando_ha_law_id():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider()
@@ -140,7 +137,6 @@ async def test_persiste_em_analysis_quando_ha_law_id():
     assert [w["code"] for w in persisted["warnings"].data] == ["ambiguidade"]
 
 
-@pytest.mark.anyio
 async def test_cache_hit_com_law_id_ainda_persiste():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider()
@@ -173,7 +169,6 @@ async def test_cache_hit_com_law_id_ainda_persiste():
     assert db.analysis.created[0]["cached"] is True
 
 
-@pytest.mark.anyio
 async def test_sem_law_id_nao_persiste():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider()
@@ -192,7 +187,6 @@ async def test_sem_law_id_nao_persiste():
     assert db.analysis.created == []
 
 
-@pytest.mark.anyio
 async def test_falha_do_provider_nao_retorna_score_simulado():
     provider = FakeProvider(error=RuntimeError("modelo indisponível"))
     summary_provider = FakeSummaryProvider()
@@ -212,7 +206,6 @@ async def test_falha_do_provider_nao_retorna_score_simulado():
     assert db.analysis.created == []
 
 
-@pytest.mark.anyio
 async def test_primeira_chamada_gera_resumo_e_persiste():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider(result="Resumo da lei.")
@@ -234,7 +227,6 @@ async def test_primeira_chamada_gera_resumo_e_persiste():
     assert summary_provider.calls == 1
 
 
-@pytest.mark.anyio
 async def test_segunda_chamada_retorna_resumo_do_cache():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider(result="Resumo da lei.")
@@ -262,7 +254,6 @@ async def test_segunda_chamada_retorna_resumo_do_cache():
     assert summary_provider.calls == 1
 
 
-@pytest.mark.anyio
 async def test_falha_na_sumarizacao_nao_derruba_a_analise():
     provider = FakeProvider()
     summary_provider = FakeSummaryProvider(error=SummaryError("Erro no Gemini"))

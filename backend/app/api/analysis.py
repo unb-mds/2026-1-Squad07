@@ -30,10 +30,17 @@ router = APIRouter(prefix="/api/v1", tags=["analysis"])
 provider = LegalBERTProvider()
 cache = AnalysisCache()
 
+environment = os.getenv("ENVIRONMENT", "development")
 gemini_key = os.getenv("GEMINI_API_KEY")
-summary_provider = (
-    GeminiSummaryProvider(gemini_key) if gemini_key else MockSummaryProvider()
-)
+
+if gemini_key:
+    summary_provider = GeminiSummaryProvider(gemini_key)
+elif environment == "production":
+    # Em produção, sem chave, desabilita geração de resumos sem usar mock
+    summary_provider = GeminiSummaryProvider(None)
+else:
+    # Em desenvolvimento ou testes locais, mantém o Mock
+    summary_provider = MockSummaryProvider()
 
 
 def _to_response(analysis) -> dict:

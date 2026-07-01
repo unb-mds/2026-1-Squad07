@@ -7,7 +7,6 @@ from app.services.summary_provider import (
 )
 
 
-@pytest.mark.anyio
 async def test_mock_summary_provider_retorna_resumo():
     provider = MockSummaryProvider()
     resumo = await provider.summarize("Fica instituído o programa legislativo.")
@@ -15,28 +14,24 @@ async def test_mock_summary_provider_retorna_resumo():
     assert "Fica instituído" in resumo
 
 
-@pytest.mark.anyio
 async def test_mock_summary_provider_texto_vazio_lanca_erro():
     provider = MockSummaryProvider()
     with pytest.raises(ValueError):
         await provider.summarize("   ")
 
 
-@pytest.mark.anyio
 async def test_gemini_summary_provider_sem_chave_lanca_erro():
     provider = GeminiSummaryProvider(api_key="")
     with pytest.raises(ValueError):
         await provider.summarize("texto")
 
 
-@pytest.mark.anyio
 async def test_gemini_summary_provider_texto_vazio_lanca_erro():
     provider = GeminiSummaryProvider(api_key="key")
     with pytest.raises(ValueError):
         await provider.summarize("   ")
 
 
-@pytest.mark.anyio
 async def test_gemini_summary_provider_sucesso(monkeypatch):
     class FakeResponse:
         status_code = 200
@@ -63,7 +58,6 @@ async def test_gemini_summary_provider_sucesso(monkeypatch):
     assert len(calls) == 1
 
 
-@pytest.mark.anyio
 async def test_gemini_summary_provider_erro_http(monkeypatch):
     class FakeResponse:
         status_code = 400
@@ -80,7 +74,6 @@ async def test_gemini_summary_provider_erro_http(monkeypatch):
     assert "Erro de API Gemini (400)" in str(exc_info.value)
 
 
-@pytest.mark.anyio
 async def test_gemini_summary_provider_falha_de_rede(monkeypatch):
     async def fake_post(client_self, url, **kwargs):
         raise httpx.ConnectError("Erro de conexao")
