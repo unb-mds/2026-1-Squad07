@@ -67,3 +67,6 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 prisma/debug*.log
+
+# Modelo local treinado do LegalBERT-pt
+backend/app/models/fine_tuned_legalbert/

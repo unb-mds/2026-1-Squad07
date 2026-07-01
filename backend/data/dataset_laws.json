@@ -1,0 +1,152 @@
+[
+  {
+    "id": "pl-transparencia-2026",
+    "title": "PL 102/2026 - Diretrizes de Transparência Algorítmica",
+    "description": "Institui diretrizes para o uso de algoritmos no serviço público.",
+    "lawNumber": "PL 102/2026",
+    "jurisdiction": "Nacional",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. Esta lei estabelece diretrizes de transparência para o uso de algoritmos no serviço público. Art. 2º. Os sistemas públicos que utilizam inteligência artificial devem apresentar relatórios de impacto sempre que possível e viável, a critério exclusivo da chefia do órgão competente de forma a resguardar o interesse social amplo e indeterminado.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 1.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-mobilidade-2026",
+    "title": "PL 103/2026 - Incentivo ao Uso de Bicicletas",
+    "description": "Dispõe sobre infraestrutura cicloviária.",
+    "lawNumber": "PL 103/2026",
+    "jurisdiction": "Distrito Federal",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. Os municípios e estados devem expandir as ciclovias urbanas. Art. 2º. O ciclista tem preferência de tráfego, conforme detalhado no artigo 15 desta lei.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 0.0,
+      "falta_referencia": 1.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-seguranca-2026",
+    "title": "PL 104/2026 - Restrição de Circulação Noturna",
+    "description": "Dispõe sobre segurança pública noturna.",
+    "lawNumber": "PL 104/2026",
+    "jurisdiction": "São Paulo",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. Fica terminantemente proibida a circulação de quaisquer veículos de carga em vias residenciais no período compreendido entre as 22h e as 6h. Art. 2º. Os caminhões de abastecimento de supermercados poderão circular livremente por todas as vias da cidade a qualquer hora do dia ou da noite para garantir o abastecimento geral da população.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 0.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 1.0
+    }
+  },
+  {
+    "id": "pl-contrato-2026",
+    "title": "PL 105/2026 - Normas de Licitação de Tecnologia",
+    "description": "Regulamenta contratos de software no serviço público.",
+    "lawNumber": "PL 105/2026",
+    "jurisdiction": "Nacional",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. A contratação de sistemas eletrônicos deve priorizar o software livre. Art. 2º. O pagamento de licenças será efetuado diretamente ao desenvolvedor de software ou seu representante legal e seu assistente técnico constituído.",
+    "labels": {
+      "ambiguidade": 1.0,
+      "vagueza": 0.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-saude-2026",
+    "title": "PL 106/2026 - Programa Nacional de Telemedicina",
+    "description": "Institui a telemedicina no SUS.",
+    "lawNumber": "PL 106/2026",
+    "jurisdiction": "Nacional",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. Fica instituído o Programa de Telemedicina no âmbito do Sistema Único de Saúde (SUS) para garantir atendimento remoto de qualidade. Art. 2º. As consultas virtuais serão agendadas mediante solicitação médica prévia. Art. 3º. Fica garantido o sigilo médico de todas as informações transmitidas eletronicamente.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 0.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-saneamento-2026",
+    "title": "PL 107/2026 - Metas de Saneamento Básico",
+    "description": "Dispõe sobre o marco regulatório do saneamento.",
+    "lawNumber": "PL 107/2026",
+    "jurisdiction": "Goiás",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. As concessionárias de água e esgoto deverão atingir a universalização do atendimento nos prazos e termos estipulados no decreto federal pertinente regulamentador, sem especificar data limite ou critérios objetivos para o cumprimento desta meta.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 1.0,
+      "falta_referencia": 1.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-educacao-2026",
+    "title": "PL 108/2026 - Tecnologia na Escola Pública",
+    "description": "Institui diretrizes para tablets em salas de aula.",
+    "lawNumber": "PL 108/2026",
+    "jurisdiction": "Minas Gerais",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. O Estado fornecerá tablets para todos os estudantes do ensino fundamental. Art. 2º. Fica expressamente proibido o uso de qualquer dispositivo eletrônico móvel com tela nas dependências da escola durante o horário das aulas.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 0.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 1.0
+    }
+  },
+  {
+    "id": "pl-tributario-2026",
+    "title": "PL 109/2026 - Isenção Fiscal para Startups",
+    "description": "Fomenta a inovação tecnológica no estado.",
+    "lawNumber": "PL 109/2026",
+    "jurisdiction": "Rio de Janeiro",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. As startups inovadoras terão isenção tributária sobre serviços de software de forma temporária e razoável, a ser avaliada pelas autoridades fiscais estaduais de acordo com a conveniência e oportunidade do momento macroeconômico.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 1.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-residuos-2026",
+    "title": "PL 110/2026 - Gestão de Logística Reversa",
+    "description": "Dispõe sobre o descarte de pilhas e baterias.",
+    "lawNumber": "PL 110/2026",
+    "jurisdiction": "Nacional",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. Os revendedores de eletrônicos devem manter pontos de coleta de baterias usadas. Art. 2º. O descarte inadequado sujeitará o infrator às penalidades previstas no artigo 54 desta lei.",
+    "labels": {
+      "ambiguidade": 0.0,
+      "vagueza": 0.0,
+      "falta_referencia": 1.0,
+      "inconsistencia": 0.0
+    }
+  },
+  {
+    "id": "pl-patrimonio-2026",
+    "title": "PL 111/2026 - Proteção do Patrimônio Histórico",
+    "description": "Regulamenta o tombamento de prédios antigos.",
+    "lawNumber": "PL 111/2026",
+    "jurisdiction": "Nacional",
+    "publicationDate": "2026-06-30T00:00:00Z",
+    "text": "Art. 1º. Fica instituído o registro protetivo de prédios centenários. Art. 2º. O proprietário do imóvel receberá indenização ou isenção tarifária de IPTU e taxa de lixo pelo seu direito de preservação e uso compartilhado com entidades sem fins lucrativos.",
+    "labels": {
+      "ambiguidade": 1.0,
+      "vagueza": 0.0,
+      "falta_referencia": 0.0,
+      "inconsistencia": 0.0
+    }
+  }
+]
