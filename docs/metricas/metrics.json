@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T22:49:40+00:00",
+  "generated_at": "2026-07-01T03:43:40+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -79,8 +79,8 @@
     },
     {
       "week": "2026-W27",
-      "opened": 2,
-      "closed": 3
+      "opened": 4,
+      "closed": 18
     }
   ],
   "commit_message_histogram": [
@@ -90,15 +90,15 @@
     },
     {
       "range": "21-50",
-      "count": 136
+      "count": 149
     },
     {
       "range": "51-100",
-      "count": 114
+      "count": 167
     },
     {
       "range": "101-200",
-      "count": 40
+      "count": 44
     },
     {
       "range": "200+",
@@ -281,7 +281,7 @@
     {
       "day": 0,
       "hour": 13,
-      "count": 3
+      "count": 8
     },
     {
       "day": 0,
@@ -316,7 +316,7 @@
     {
       "day": 0,
       "hour": 20,
-      "count": 4
+      "count": 5
     },
     {
       "day": 0,
@@ -396,12 +396,12 @@
     {
       "day": 1,
       "hour": 12,
-      "count": 1
+      "count": 3
     },
     {
       "day": 1,
       "hour": 13,
-      "count": 1
+      "count": 6
     },
     {
       "day": 1,
@@ -411,32 +411,32 @@
     {
       "day": 1,
       "hour": 15,
-      "count": 1
+      "count": 6
     },
     {
       "day": 1,
       "hour": 16,
-      "count": 0
+      "count": 3
     },
     {
       "day": 1,
       "hour": 17,
-      "count": 0
-    },
-    {
-      "day": 1,
-      "hour": 18,
       "count": 4
     },
     {
       "day": 1,
+      "hour": 18,
+      "count": 5
+    },
+    {
+      "day": 1,
       "hour": 19,
-      "count": 0
+      "count": 1
     },
     {
       "day": 1,
       "hour": 20,
-      "count": 6
+      "count": 7
     },
     {
       "day": 1,
@@ -446,22 +446,22 @@
     {
       "day": 1,
       "hour": 22,
-      "count": 13
+      "count": 20
     },
     {
       "day": 1,
       "hour": 23,
-      "count": 9
+      "count": 24
     },
     {
       "day": 2,
       "hour": 0,
-      "count": 8
+      "count": 16
     },
     {
       "day": 2,
       "hour": 1,
-      "count": 6
+      "count": 12
     },
     {
       "day": 2,
@@ -796,12 +796,12 @@
     {
       "day": 4,
       "hour": 20,
-      "count": 1
+      "count": 2
     },
     {
       "day": 4,
       "hour": 21,
-      "count": 0
+      "count": 2
     },
     {
       "day": 4,
@@ -1016,7 +1016,7 @@
     {
       "day": 6,
       "hour": 16,
-      "count": 0
+      "count": 3
     },
     {
       "day": 6,
@@ -1058,37 +1058,37 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "commits": 96
+      "commits": 133
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "commits": 60
+      "commits": 74
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "commits": 54
+      "commits": 58
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 41
+      "commits": 42
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "commits": 26
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "commits": 18
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
       "commits": 18
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "commits": 17
-    },
-    {
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
-      "commits": 13
     },
     {
       "username": "RochaCarla",
@@ -1100,12 +1100,17 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "prs_opened": 21
+      "prs_opened": 23
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "prs_opened": 13
+      "prs_opened": 14
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "prs_opened": 8
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1113,28 +1118,23 @@
       "prs_opened": 7
     },
     {
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
-      "prs_opened": 6
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "prs_opened": 4
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
       "prs_opened": 4
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "prs_opened": 3
     }
   ],
   "top_issue_contributors": [
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "opened": 66,
-      "closed": 38,
-      "total": 104
+      "opened": 68,
+      "closed": 44,
+      "total": 112
     },
     {
       "username": "Paulodemczuk",
@@ -1147,8 +1147,8 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "opened": 4,
-      "closed": 13,
-      "total": 17
+      "closed": 18,
+      "total": 22
     },
     {
       "username": "pedrolrm",
@@ -1161,8 +1161,8 @@
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "opened": 5,
-      "closed": 3,
-      "total": 8
+      "closed": 7,
+      "total": 12
     },
     {
       "username": "valexim",
@@ -1176,26 +1176,26 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "issues_opened": 66,
-      "issues_assigned": 24,
-      "issues_assigned_closed": 17,
-      "issues_pending": 7,
-      "prs_opened": 21,
-      "prs_reviewed": 19,
-      "prs_merged": 16,
-      "commits": 96
+      "issues_opened": 68,
+      "issues_assigned": 25,
+      "issues_assigned_closed": 23,
+      "issues_pending": 2,
+      "prs_opened": 23,
+      "prs_reviewed": 20,
+      "prs_merged": 19,
+      "commits": 133
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues_opened": 4,
       "issues_assigned": 19,
-      "issues_assigned_closed": 17,
-      "issues_pending": 2,
-      "prs_opened": 13,
-      "prs_reviewed": 11,
-      "prs_merged": 12,
-      "commits": 60
+      "issues_assigned_closed": 18,
+      "issues_pending": 1,
+      "prs_opened": 14,
+      "prs_reviewed": 12,
+      "prs_merged": 14,
+      "commits": 74
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1205,41 +1205,41 @@
       "issues_assigned_closed": 13,
       "issues_pending": 2,
       "prs_opened": 7,
-      "prs_reviewed": 7,
+      "prs_reviewed": 11,
       "prs_merged": 7,
-      "commits": 54
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "issues_opened": 19,
-      "issues_assigned": 9,
-      "issues_assigned_closed": 9,
-      "issues_pending": 0,
-      "prs_opened": 3,
-      "prs_reviewed": 5,
-      "prs_merged": 3,
-      "commits": 17
+      "commits": 58
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "issues_opened": 5,
-      "issues_assigned": 14,
-      "issues_assigned_closed": 12,
-      "issues_pending": 2,
-      "prs_opened": 6,
+      "issues_assigned": 15,
+      "issues_assigned_closed": 15,
+      "issues_pending": 0,
+      "prs_opened": 8,
       "prs_reviewed": 3,
+      "prs_merged": 6,
+      "commits": 26
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "issues_opened": 19,
+      "issues_assigned": 10,
+      "issues_assigned_closed": 9,
+      "issues_pending": 1,
+      "prs_opened": 4,
+      "prs_reviewed": 5,
       "prs_merged": 3,
-      "commits": 13
+      "commits": 18
     },
     {
       "username": "valexim",
       "name": "Victor Amaral",
       "issues_opened": 2,
-      "issues_assigned": 8,
+      "issues_assigned": 9,
       "issues_assigned_closed": 8,
-      "issues_pending": 0,
+      "issues_pending": 1,
       "prs_opened": 4,
       "prs_reviewed": 0,
       "prs_merged": 3,
@@ -1255,7 +1255,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 41
+      "commits": 42
     },
     {
       "username": "RochaCarla",
@@ -1268,12 +1268,24 @@
       "prs_reviewed": 0,
       "prs_merged": 0,
       "commits": 1
+    },
+    {
+      "username": "copilot-pull-request-reviewer[bot]",
+      "name": "copilot-pull-request-reviewer[bot]",
+      "issues_opened": 0,
+      "issues_assigned": 0,
+      "issues_assigned_closed": 0,
+      "issues_pending": 0,
+      "prs_opened": 0,
+      "prs_reviewed": 1,
+      "prs_merged": 0,
+      "commits": 0
     }
   ],
   "labels_distribution": [
     {
       "label": "type: feature ✨",
-      "count": 47
+      "count": 48
     },
     {
       "label": "release: mvp",
@@ -1281,7 +1293,7 @@
     },
     {
       "label": "documentation",
-      "count": 32
+      "count": 33
     },
     {
       "label": "priority: high 🔴",
@@ -1289,7 +1301,7 @@
     },
     {
       "label": "area: frontend 🖥️",
-      "count": 24
+      "count": 25
     },
     {
       "label": "area: backend ⚙️",
@@ -1297,7 +1309,7 @@
     },
     {
       "label": "priority: medium 🟠",
-      "count": 21
+      "count": 22
     },
     {
       "label": "rabbit 🐇",
@@ -1312,12 +1324,12 @@
       "count": 14
     },
     {
-      "label": "epic: motor-inteligência-nlp",
-      "count": 11
+      "label": "release: v2",
+      "count": 13
     },
     {
-      "label": "release: v2",
-      "count": 11
+      "label": "epic: motor-inteligência-nlp",
+      "count": 12
     },
     {
       "label": "area: api 🔌",
@@ -1384,6 +1396,12 @@
       "count": 14
     },
     {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "documentation",
+      "count": 11
+    },
+    {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "label": "area: backend ⚙️",
@@ -1396,9 +1414,9 @@
       "count": 11
     },
     {
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
-      "label": "documentation",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "type: feature ✨",
       "count": 10
     },
     {
@@ -1410,7 +1428,7 @@
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "label": "type: feature ✨",
+      "label": "area: frontend 🖥️",
       "count": 9
     },
     {
@@ -1434,12 +1452,6 @@
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "label": "area: frontend 🖥️",
-      "count": 8
-    },
-    {
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
       "label": "status: needs review 👀",
       "count": 8
     },
@@ -1448,6 +1460,12 @@
       "name": "Pedro Luca",
       "label": "release: mvp",
       "count": 8
+    },
+    {
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "label": "priority: medium 🟠",
+      "count": 7
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1464,13 +1482,13 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "priority: medium 🟠",
+      "label": "release: mvp",
       "count": 6
     },
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "label": "release: mvp",
+      "label": "release: v2",
       "count": 6
     },
     {
@@ -1498,12 +1516,6 @@
       "count": 5
     },
     {
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
-      "label": "release: v2",
-      "count": 5
-    },
-    {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "label": "documentation",
@@ -1513,6 +1525,12 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "label": "priority: medium 🟠",
+      "count": 4
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "label": "type: feature ✨",
       "count": 4
     },
     {
@@ -1578,6 +1596,12 @@
     {
       "username": "valexim",
       "name": "Victor Amaral",
+      "label": "area: frontend 🖥️",
+      "count": 4
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
       "label": "documentation",
       "count": 4
     },
@@ -1591,6 +1615,12 @@
       "username": "valexim",
       "name": "Victor Amaral",
       "label": "release: mvp",
+      "count": 4
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "label": "type: feature ✨",
       "count": 4
     },
     {
@@ -1609,12 +1639,6 @@
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "label": "release: v2",
-      "count": 3
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "label": "type: feature ✨",
       "count": 3
     },
     {
@@ -1645,18 +1669,6 @@
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "label": "release: v2",
-      "count": 3
-    },
-    {
-      "username": "valexim",
-      "name": "Victor Amaral",
-      "label": "area: frontend 🖥️",
-      "count": 3
-    },
-    {
-      "username": "valexim",
-      "name": "Victor Amaral",
-      "label": "type: feature ✨",
       "count": 3
     },
     {
@@ -1692,6 +1704,12 @@
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
+      "label": "release: v2",
+      "count": 2
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "label": "to study 📖",
       "count": 2
     },
@@ -1699,6 +1717,12 @@
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "label": "devOps",
+      "count": 2
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "label": "release: v2",
       "count": 2
     },
     {
@@ -1830,6 +1854,12 @@
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
+      "label": "area: frontend 🖥️",
+      "count": 1
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "label": "epic: usm-requirements",
       "count": 1
     },
@@ -1837,12 +1867,6 @@
       "username": "Paulodemczuk",
       "name": "Paulo",
       "label": "release: mvp",
-      "count": 1
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "label": "release: v2",
       "count": 1
     },
     {
@@ -1878,13 +1902,13 @@
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "label": "epic: tdd-testing",
+      "label": "epic: motor-inteligência-nlp",
       "count": 1
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "label": "release: v2",
+      "label": "epic: tdd-testing",
       "count": 1
     },
     {
@@ -1950,6 +1974,12 @@
     {
       "username": "valexim",
       "name": "Victor Amaral",
+      "label": "release: v2",
+      "count": 1
+    },
+    {
+      "username": "valexim",
+      "name": "Victor Amaral",
       "label": "requirement",
       "count": 1
     }
@@ -1958,42 +1988,50 @@
     {
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "issues": 18,
+      "issues": 19,
       "pull_requests": 4,
-      "commits": 46,
-      "total": 68
-    },
-    {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 41,
-      "total": 41
+      "commits": 61,
+      "total": 84
     },
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues": 4,
       "pull_requests": 3,
-      "commits": 31,
-      "total": 38
+      "commits": 37,
+      "total": 44
+    },
+    {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 42,
+      "total": 42
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "issues": 2,
       "pull_requests": 3,
-      "commits": 19,
-      "total": 24
+      "commits": 21,
+      "total": 26
     },
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
       "issues": 3,
       "pull_requests": 3,
-      "commits": 17,
-      "total": 23
+      "commits": 18,
+      "total": 24
+    },
+    {
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "issues": 3,
+      "pull_requests": 1,
+      "commits": 15,
+      "total": 19
     },
     {
       "username": "valexim",
@@ -2002,14 +2040,6 @@
       "pull_requests": 2,
       "commits": 14,
       "total": 16
-    },
-    {
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
-      "issues": 2,
-      "pull_requests": 1,
-      "commits": 10,
-      "total": 13
     },
     {
       "username": "RochaCarla",
@@ -2023,9 +2053,9 @@
   "milestone_progress": [
     {
       "milestone": "Sem milestone",
-      "opened": 66,
-      "closed": 58,
-      "pending": 8
+      "opened": 74,
+      "closed": 70,
+      "pending": 4
     },
     {
       "milestone": "Sprint 08",
@@ -2036,14 +2066,14 @@
     {
       "milestone": "Sprint 09",
       "opened": 11,
-      "closed": 10,
-      "pending": 1
+      "closed": 11,
+      "pending": 0
     },
     {
       "milestone": "Sprint 11",
-      "opened": 11,
-      "closed": 8,
-      "pending": 3
+      "opened": 10,
+      "closed": 10,
+      "pending": 0
     },
     {
       "milestone": "Sprint 01",
@@ -2052,6 +2082,18 @@
       "pending": 0
     },
     {
+      "milestone": "Sprint 12",
+      "opened": 7,
+      "closed": 7,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 10",
+      "opened": 6,
+      "closed": 6,
+      "pending": 0
+    },
+    {
       "milestone": "Sprint 00",
       "opened": 5,
       "closed": 5,
@@ -2064,10 +2106,16 @@
       "pending": 0
     },
     {
-      "milestone": "Sprint 12",
-      "opened": 7,
+      "milestone": "Sprint 07",
+      "opened": 5,
       "closed": 5,
-      "pending": 2
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 13",
+      "opened": 9,
+      "closed": 5,
+      "pending": 4
     },
     {
       "milestone": "Sprint 04",
@@ -2076,18 +2124,6 @@
       "pending": 0
     },
     {
-      "milestone": "Sprint 07",
-      "opened": 5,
-      "closed": 4,
-      "pending": 1
-    },
-    {
-      "milestone": "Sprint 10",
-      "opened": 6,
-      "closed": 4,
-      "pending": 2
-    },
-    {
       "milestone": "Sprint 02",
       "opened": 2,
       "closed": 2,
@@ -2104,12 +2140,6 @@
       "opened": 2,
       "closed": 2,
       "pending": 0
-    },
-    {
-      "milestone": "Sprint 13",
-      "opened": 8,
-      "closed": 0,
-      "pending": 8
     }
   ],
   "milestone_progress_by_person": [
@@ -2117,9 +2147,17 @@
       "milestone": "Sem milestone",
       "username": "ViniciusA05",
       "name": "ViniciusA05",
-      "assigned": 14,
-      "closed": 11,
-      "pending": 3
+      "assigned": 15,
+      "closed": 14,
+      "pending": 1
+    },
+    {
+      "milestone": "Sem milestone",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 7,
+      "closed": 7,
+      "pending": 0
     },
     {
       "milestone": "Sem milestone",
@@ -2131,16 +2169,16 @@
     },
     {
       "milestone": "Sem milestone",
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "assigned": 5,
-      "closed": 5,
-      "pending": 0
+      "closed": 4,
+      "pending": 1
     },
     {
       "milestone": "Sem milestone",
-      "username": "Paulodemczuk",
-      "name": "Paulo",
+      "username": "pedrolrm",
+      "name": "Pedro Luca",
       "assigned": 4,
       "closed": 4,
       "pending": 0
@@ -2149,17 +2187,9 @@
       "milestone": "Sem milestone",
       "username": "valexim",
       "name": "Victor Amaral",
-      "assigned": 4,
+      "assigned": 5,
       "closed": 4,
-      "pending": 0
-    },
-    {
-      "milestone": "Sem milestone",
-      "username": "pedrolrm",
-      "name": "Pedro Luca",
-      "assigned": 3,
-      "closed": 3,
-      "pending": 0
+      "pending": 1
     },
     {
       "milestone": "Sprint 00",
@@ -2475,6 +2505,14 @@
     },
     {
       "milestone": "Sprint 10",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 2,
+      "closed": 2,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 10",
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "assigned": 1,
@@ -2490,12 +2528,12 @@
       "pending": 0
     },
     {
-      "milestone": "Sprint 10",
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
-      "assigned": 2,
-      "closed": 0,
-      "pending": 2
+      "milestone": "Sprint 11",
+      "username": "Pedrop06",
+      "name": "Pedro Paulo Almeida",
+      "assigned": 3,
+      "closed": 3,
+      "pending": 0
     },
     {
       "milestone": "Sprint 11",
@@ -2515,14 +2553,6 @@
     },
     {
       "milestone": "Sprint 11",
-      "username": "Pedrop06",
-      "name": "Pedro Paulo Almeida",
-      "assigned": 3,
-      "closed": 1,
-      "pending": 2
-    },
-    {
-      "milestone": "Sprint 11",
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "assigned": 1,
@@ -2538,19 +2568,19 @@
       "pending": 0
     },
     {
-      "milestone": "Sprint 11",
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "assigned": 1,
-      "closed": 0,
-      "pending": 1
-    },
-    {
       "milestone": "Sprint 12",
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "assigned": 3,
       "closed": 3,
+      "pending": 0
+    },
+    {
+      "milestone": "Sprint 12",
+      "username": "ViniciusA05",
+      "name": "ViniciusA05",
+      "assigned": 2,
+      "closed": 2,
       "pending": 0
     },
     {
@@ -2578,44 +2608,52 @@
       "pending": 0
     },
     {
-      "milestone": "Sprint 12",
-      "username": "ViniciusA05",
-      "name": "ViniciusA05",
-      "assigned": 2,
-      "closed": 0,
-      "pending": 2
-    },
-    {
-      "milestone": "Sprint 13",
-      "username": "Jonathan-Carpaneda",
-      "name": "Jonathan Carpaneda",
-      "assigned": 1,
-      "closed": 0,
-      "pending": 1
-    },
-    {
       "milestone": "Sprint 13",
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
       "assigned": 2,
-      "closed": 0,
-      "pending": 2
+      "closed": 2,
+      "pending": 0
     },
     {
       "milestone": "Sprint 13",
       "username": "ViniciusA05",
       "name": "ViniciusA05",
       "assigned": 3,
-      "closed": 0,
-      "pending": 3
+      "closed": 2,
+      "pending": 1
     },
     {
       "milestone": "Sprint 13",
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "assigned": 2,
+      "closed": 1,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 13",
+      "username": "Jonathan-Carpaneda",
+      "name": "Jonathan Carpaneda",
+      "assigned": 2,
       "closed": 0,
       "pending": 2
+    },
+    {
+      "milestone": "Sprint 13",
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
+    },
+    {
+      "milestone": "Sprint 13",
+      "username": "valexim",
+      "name": "Victor Amaral",
+      "assigned": 1,
+      "closed": 0,
+      "pending": 1
     }
   ]
 }

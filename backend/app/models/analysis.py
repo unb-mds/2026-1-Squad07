@@ -56,6 +56,7 @@ class AnalysisResponse(BaseModel):
     analysis_id: str
     status: AnalysisStatus
     score: float | None = Field(default=None, ge=0, le=1)
+    summary: str | None = None
     metrics: dict[str, float] = Field(default_factory=dict)
     warnings: list[AnalysisWarning] = Field(default_factory=list)
     model_version: str

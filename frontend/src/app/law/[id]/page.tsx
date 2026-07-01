@@ -13,17 +13,19 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
 import {
-  analyzeLawQuality,
   getLaw,
   getLawSummary,
-  type AnalysisResponse,
   type AnalysisWarning,
   type CreatedLaw,
 } from "@/lib/api/laws";
+import { WarningsSidebar } from "@/components/WarningsSidebar";
+import { useAnalysis } from "@/hooks/useAnalysis";
+import { useTextHighlight } from "@/hooks/useTextHighlight";
+import type { Warning } from "@/types/analysis";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -84,9 +86,39 @@ export default function LawDetailPage() {
   const [summary, setSummary] = useState<string | null>(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [errorSummary, setErrorSummary] = useState("");
-  const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
-  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
-  const [errorAnalysis, setErrorAnalysis] = useState("");
+  const { data: analysis, loading: loadingAnalysis, error: errorAnalysis, analyze } = useAnalysis(params.id);
+  const { highlightText, clearHighlight } = useTextHighlight();
+  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleWarningClick = (warning: Warning) => {
+    if (highlightTimeoutRef.current) {
+      clearTimeout(highlightTimeoutRef.current);
+      highlightTimeoutRef.current = null;
+    }
+    const success = highlightText(warning.snippet, "law-content");
+    if (success) {
+      highlightTimeoutRef.current = setTimeout(() => {
+        clearHighlight();
+        highlightTimeoutRef.current = null;
+      }, 2000);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (highlightTimeoutRef.current) {
+        clearTimeout(highlightTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleWarningHover = (warning: Warning | null) => {
+    if (warning) {
+      highlightText(warning.snippet, "law-content", true, true);
+    } else {
+      clearHighlight();
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -157,48 +189,15 @@ export default function LawDetailPage() {
     };
   }, [law, id]);
 
-  useEffect(() => {
-    if (!law) return;
 
-    const currentText = law.text;
-    let active = true;
-
-    async function fetchAnalysis() {
-      setLoadingAnalysis(true);
-      setErrorAnalysis("");
-      try {
-        const data = await analyzeLawQuality({
-          lawId: id,
-          text: currentText,
-          type: "bill",
-        });
-        if (active) {
-          setAnalysis(data);
-        }
-      } catch (requestError) {
-        if (active) {
-          setErrorAnalysis(
-            apiErrorMessage(
-              requestError,
-              "Não foi possível calcular as métricas de qualidade no momento.",
-            ),
-          );
-        }
-      } finally {
-        if (active) {
-          setLoadingAnalysis(false);
-        }
-      }
-    }
-
-    void fetchAnalysis();
-    return () => {
-      active = false;
-    };
-  }, [law, id]);
 
   const scorePercent = scoreToPercent(analysis?.score ?? null);
   const metrics = analysis ? Object.entries(analysis.metrics) : [];
+
+  useEffect(() => {
+    if (!law) return;
+    void analyze(law.text, "bill");
+  }, [law, analyze]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-6">
@@ -280,7 +279,7 @@ export default function LawDetailPage() {
                   <BookOpen className="size-5 text-[#1e3a5f]" />
                   Texto Armazenado
                 </h2>
-                <div className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
+                <div id="law-content" className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
                   {law.text}
                 </div>
               </section>
@@ -382,6 +381,16 @@ export default function LawDetailPage() {
                   <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
                   Aguardando o processamento dos indicadores de qualidade do documento.
                 </section>
+              )}
+
+              {law && (
+                <WarningsSidebar
+                  warnings={analysis?.warnings || []}
+                  isLoading={loadingAnalysis}
+                  error={errorAnalysis}
+                  onWarningClick={handleWarningClick}
+                  onWarningHover={handleWarningHover}
+                />
               )}
             </aside>
           </div>
