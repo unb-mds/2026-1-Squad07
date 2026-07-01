@@ -73,4 +73,5 @@ backend/app/models/fine_tuned_legalbert/
 
 # Pastas temporárias do Hugging Face Trainer
 results/
-logs/
+logs/
+backend/scripts/_train_output/
