@@ -21,6 +21,10 @@ import {
   type CreatedLaw,
   type ReadabilityResponse,
 } from "@/lib/api/laws";
+import { WarningsSidebar } from "@/components/WarningsSidebar";
+import { useAnalysis } from "@/hooks/useAnalysis";
+import { useTextHighlight } from "@/hooks/useTextHighlight";
+import type { Warning } from "@/types/analysis";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -44,6 +48,26 @@ export default function LawDetailPage() {
   const [readability, setReadability] = useState<ReadabilityResponse | null>(null);
   const [loadingReadability, setLoadingReadability] = useState(false);
   const [errorReadability, setErrorReadability] = useState("");
+
+  const { data: analysis, loading: loadingAnalysis, error: errorAnalysis, analyze } = useAnalysis(params.id);
+  const { highlightText, clearHighlight } = useTextHighlight();
+
+  const handleWarningClick = (warning: Warning) => {
+    const success = highlightText(warning.snippet, "law-content");
+    if (success) {
+      setTimeout(() => {
+        clearHighlight();
+      }, 2000);
+    }
+  };
+
+  const handleWarningHover = (warning: Warning | null) => {
+    if (warning) {
+      highlightText(warning.snippet, "law-content", true, true);
+    } else {
+      clearHighlight();
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -117,6 +141,11 @@ export default function LawDetailPage() {
     };
   }, [law, params.id]);
 
+  useEffect(() => {
+    if (!law) return;
+    void analyze(law.text, "bill");
+  }, [law, analyze]);
+
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-6">
       <button
@@ -167,7 +196,7 @@ export default function LawDetailPage() {
                   <BookOpen className="size-5 text-[#1e3a5f]" />
                   Texto Armazenado
                 </h2>
-                <div className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
+                <div id="law-content" className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
                   {law.text}
                 </div>
               </section>
@@ -238,6 +267,17 @@ export default function LawDetailPage() {
                   <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
                   Aguardando o processamento dos indicadores de legibilidade do documento.
                 </section>
+              )}
+
+              {law && (
+                <WarningsSidebar
+                  warnings={analysis?.warnings || []}
+                  isLoading={loadingAnalysis}
+                  error={errorAnalysis}
+                  textContent={law.text}
+                  onWarningClick={handleWarningClick}
+                  onWarningHover={handleWarningHover}
+                />
               )}
             </aside>
           </div>

@@ -176,3 +176,17 @@
     line-height: 1.5;
   }
 }
+
+/* Custom Highlight Effect for warnings */
+mark.highlight {
+  background-color: rgba(253, 224, 71, 0.85); /* yellow-300 */
+  border-radius: 0.125rem;
+  padding: 0; /* sem padding para evitar reflow ou pulos no layout de texto */
+  font-weight: inherit; /* sem alterar largura do texto */
+  color: inherit;
+  transition: background-color 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+mark.highlight.fade-out {
+  background-color: transparent;
+}

@@ -41,6 +41,7 @@ describe("LawDetailPage - score de legibilidade", () => {
   it("renderiza o estado de loading da análise de legibilidade", async () => {
     mockJsonResponse(persistedLaw);
     mockFetch.mockReturnValueOnce(new Promise(() => {}));
+    mockJsonResponse({ warnings: [] });
 
     render(<LawDetailPage />);
 
@@ -58,6 +59,11 @@ describe("LawDetailPage - score de legibilidade", () => {
       sentencesCount: 12,
       averageSyllables: 2.4,
     });
+    mockJsonResponse({
+      analysis_id: "uuid-999",
+      score: 0.9,
+      warnings: [],
+    });
 
     render(<LawDetailPage />);
 
@@ -67,7 +73,7 @@ describe("LawDetailPage - score de legibilidade", () => {
     expect(screen.getByText("12")).toBeInTheDocument();
     expect(screen.getByText("2.4")).toBeInTheDocument();
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
     expect(mockFetch).toHaveBeenNthCalledWith(
       2,
       "http://localhost:8000/api/v1/laws/readability",
@@ -80,6 +86,19 @@ describe("LawDetailPage - score de legibilidade", () => {
       }),
     );
 
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      3,
+      "http://localhost:8000/api/v1/analysis/evaluate",
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({
+          text: persistedLaw.text,
+          type: "bill",
+          lawId: "law-123",
+        }),
+      }),
+    );
+
     const readabilityHeaders = mockFetch.mock.calls[1][1].headers as Headers;
     expect(readabilityHeaders.get("Content-Type")).toBe("application/json");
   });
@@ -87,6 +106,7 @@ describe("LawDetailPage - score de legibilidade", () => {
   it("exibe mensagem amigável quando a análise falha sem quebrar a exibição da lei", async () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse({}, 500);
+    mockJsonResponse({ detail: "Análise falhou" }, 500);
 
     render(<LawDetailPage />);
 
