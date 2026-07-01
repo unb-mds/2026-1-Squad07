@@ -134,4 +134,4 @@ Esta fase transformou o visualizador básico de leis em um assistente inteligent
 ---
 
 ## 📊 Como Validar esta Documentação
-O progresso cronológico destas sprints pode ser verificado de forma automatizada através do **Dashboard de Métricas do Projeto** na pasta [docs/metricas/index.html](file:///C:/Users/vinic/Desktop/MDS/2026-1-Squad07/docs/metricas/index.html), que extrai dados em tempo real dos commits, milestones e issues finalizadas no GitHub.
+O progresso cronológico destas sprints pode ser verificado de forma automatizada através do **Dashboard de Métricas do Projeto** no arquivo [docs/metricas/index.html](../metricas/index.html), que extrai dados em tempo real dos commits, milestones e issues finalizadas no GitHub.
