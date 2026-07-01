@@ -7,10 +7,10 @@ from pathlib import Path
 # Garantir que o diretório raiz do backend esteja no path para importações
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from app.db.client import db
-from app.services.analysis.cache import AnalysisCache
-from app.services.analysis.service import evaluate_text
-from app.services.analysis_provider import LegalBERTProvider
+from app.db.client import db  # noqa: E402
+from app.services.analysis.cache import AnalysisCache  # noqa: E402
+from app.services.analysis.service import evaluate_text  # noqa: E402
+from app.services.analysis_provider import LegalBERTProvider  # noqa: E402
 
 DATASET_PATH = Path(__file__).resolve().parent.parent / "data" / "dataset_laws.json"
 
@@ -76,12 +76,14 @@ async def ingest_catalog():
                 cache=cache,
                 db=db,
             )
-            print(f"  Análise persistida. Score calculado: {analysis_result['score']:.2f}")
+            print(
+                f"  Análise persistida. Score calculado: {analysis_result['score']:.2f}"
+            )
             created_analyses += 1
         except Exception as e:
             print(f"  Erro ao calcular/persistir análise de {item['id']}: {e}")
 
-    print(f"\n--- Ingestão concluída com sucesso! ---")
+    print("\n--- Ingestão concluída com sucesso! ---")
     print(f"Leis Criadas: {created_laws}")
     print(f"Leis Atualizadas: {updated_laws}")
     print(f"Análises Persistidas: {created_analyses}")
