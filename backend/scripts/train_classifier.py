@@ -1,5 +1,4 @@
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -15,9 +14,11 @@ from transformers import (
 # Garantir que o diretório raiz do backend esteja no path para importações
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from app.services.analysis_provider import TAXONOMY, DEFAULT_MODEL_NAME
+from app.services.analysis_provider import TAXONOMY, DEFAULT_MODEL_NAME  # noqa: E402
 
-MODEL_OUTPUT_DIR = Path(__file__).resolve().parent.parent / "app" / "models" / "fine_tuned_legalbert"
+MODEL_OUTPUT_DIR = (
+    Path(__file__).resolve().parent.parent / "app" / "models" / "fine_tuned_legalbert"
+)
 DATASET_PATH = Path(__file__).resolve().parent.parent / "data" / "dataset_laws.json"
 
 
@@ -45,7 +46,7 @@ class LawsDataset(Dataset):
             "input_ids": encoding["input_ids"].squeeze(0),
             "attention_mask": encoding["attention_mask"].squeeze(0),
         }
-        
+
         # Converte as labels para um tensor float de tamanho 4 (multi-label)
         item["labels"] = torch.tensor(self.labels[idx], dtype=torch.float)
         return item
@@ -63,11 +64,9 @@ def load_dataset():
 
     for item in data:
         texts.append(item["text"])
-        
+
         # Garante a ordem exata de acordo com a taxonomia do backend
-        label_vector = [
-            float(item["labels"].get(cat, 0.0)) for cat in TAXONOMY
-        ]
+        label_vector = [float(item["labels"].get(cat, 0.0)) for cat in TAXONOMY]
         labels.append(label_vector)
 
     return texts, labels

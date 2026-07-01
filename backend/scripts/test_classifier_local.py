@@ -11,16 +11,16 @@ from app.services.analysis_provider import LegalBERTProvider, TAXONOMY
 def test_text(texto, titulo):
     print("\n" + "=" * 60)
     print(f"TESTANDO: {titulo}")
-    print(f"Texto: \"{texto}\"")
+    print(f'Texto: "{texto}"')
     print("-" * 60)
-    
+
     # Inicializa o classificador
     provider = LegalBERTProvider()
-    
+
     # Exibir de onde o modelo foi carregado (local ou remoto)
     current_dir = Path(__file__).resolve().parent.parent
     local_model_path = current_dir / "app" / "models" / "fine_tuned_legalbert"
-    
+
     if (local_model_path / "config.json").exists():
         print(f"[*] Modelo CARREGADO LOCALMENTE de: {local_model_path.name}")
     else:
@@ -29,7 +29,7 @@ def test_text(texto, titulo):
     try:
         # Executa inferência
         probs = provider.analyze(texto)
-        
+
         # Executa a regra de scoring para obter score, metrics e warnings
         scored = score_analysis(probs)
 
@@ -40,14 +40,16 @@ def test_text(texto, titulo):
             print(f"  {cat:<18}: [{bar:<20}] {prob * 100:.1f}%")
 
         print(f"\nScore Geral de Qualidade: {scored['score'] * 100:.1f}%")
-        
+
         print("\nAvisos (Warnings) Gerados:")
         if scored["warnings"]:
             for warn in scored["warnings"]:
-                print(f"  - [{warn['code']}] {warn['message']} (Confiança: {warn['confidence'] * 100:.1f}%)")
+                print(
+                    f"  - [{warn['code']}] {warn['message']} (Confiança: {warn['confidence'] * 100:.1f}%)"
+                )
         else:
             print("  Nenhum aviso gerado (texto em boa qualidade técnica).")
-            
+
     except Exception as e:
         print(f"Erro ao analisar o texto: {e}")
     print("=" * 60)
@@ -55,7 +57,7 @@ def test_text(texto, titulo):
 
 def main():
     print("--- Teste do Classificador LegalBERT-pt ---")
-    
+
     # Caso o usuário passe argumentos de linha de comando
     if len(sys.argv) > 1:
         texto = " ".join(sys.argv[1:])
