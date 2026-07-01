@@ -55,6 +55,7 @@ interface RawAnalysisResponse {
   metrics?: Record<string, number>;
   warnings?: RawWarning[];
   model_version?: string;
+  summary?: string | null;
 }
 
 export const useAnalysis = (lawId?: string) => {
@@ -102,6 +103,7 @@ export const useAnalysis = (lawId?: string) => {
         metrics: response.metrics || {},
         warnings,
         model_version: response.model_version || "unknown",
+        summary: response.summary || null,
       };
 
       setData(updatedData);

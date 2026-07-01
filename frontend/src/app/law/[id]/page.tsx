@@ -193,6 +193,7 @@ export default function LawDetailPage() {
 
   const scorePercent = scoreToPercent(analysis?.score ?? null);
   const metrics = analysis ? Object.entries(analysis.metrics) : [];
+  const summaryToShow = analysis?.summary || summary;
 
   useEffect(() => {
     if (!law) return;
@@ -261,7 +262,7 @@ export default function LawDetailPage() {
                     </p>
                     <p className="mt-1 text-sm text-amber-800">{errorSummary}</p>
                   </div>
-                ) : !summary ? (
+                ) : !summaryToShow ? (
                   <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
                     <p className="text-sm text-amber-800">
                       Resumo indisponível ou ainda não processado para este documento legislativo.
@@ -269,7 +270,7 @@ export default function LawDetailPage() {
                   </div>
                 ) : (
                   <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-slate-600">
-                    {summary}
+                    {summaryToShow}
                   </div>
                 )}
               </section>

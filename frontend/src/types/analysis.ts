@@ -17,6 +17,7 @@ export interface AnalysisResponse {
   metrics: Record<WarningCode, number>;
   warnings: Warning[];
   model_version: string;
+  summary?: string | null;
 }
 
 export interface UseAnalysisState {
