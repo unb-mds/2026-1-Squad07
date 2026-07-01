@@ -59,6 +59,36 @@ Estas chaves são cadastradas no painel seguro de cada plataforma:
   * `GEMINI_API_KEY`: Sua chave de API do Google Gemini para a geração dos resumos automáticos.
   * `AUTH_SECRET_KEY`: Uma sequência de caracteres criptograficamente segura para a criptografia dos tokens JWT de autenticação.
   * `ACCESS_TOKEN_EXPIRE_MINUTES`: Tempo de expiração do token de sessão (ex: `60` minutos).
+  * `MODEL_NAME`: ID do repositório do modelo fine-tunado no Hugging Face (ex: `usuario/legalbertpt-crivoai`). **Sem esta variável**, o backend cai no modelo base (`raquelsilveira/legalbertpt_fp`) com cabeça de classificação aleatória e os scores ficam sem sentido. Veja a seção "Publicação do Modelo".
+  * `HF_TOKEN`: Token de leitura do Hugging Face — **obrigatório** porque o repositório do modelo é privado; sem ele o download em runtime falha com 401. (Um token de leitura basta no Render; use um de escrita só na hora do upload.)
+
+---
+
+## 🧠 Publicação do Modelo (LegalBERT-pt fine-tunado)
+
+Os pesos do modelo (`backend/app/models/fine_tuned_legalbert/`, ~435 MB) **não são versionados no git** (`.gitignore`) — grandes demais e mutáveis a cada treino. Portanto o merge do código **não** leva o modelo junto; ele precisa ser publicado separadamente e baixado pelo backend em runtime.
+
+### Fluxo de publicação (após treinar)
+
+1. Autentique-se no Hugging Face na sua máquina (o token **nunca** vai pro git nem pro chat):
+
+   ```bash
+   hf auth login   # ou: huggingface-cli login
+   ```
+
+2. Rode o script de upload apontando para um repositório **privado**:
+
+   ```bash
+   HF_REPO_ID="usuario/legalbertpt-crivoai" python backend/scripts/upload_model.py
+   ```
+
+   O script cria o repo (se não existir) e envia todos os arquivos de `fine_tuned_legalbert/`.
+
+3. No Render, configure `MODEL_NAME=usuario/legalbertpt-crivoai` e `HF_TOKEN=<token de leitura>` e redeploy. O backend carrega o modelo preguiçosamente na primeira análise (`analysis_provider.py`).
+
+> **Atenção (recursos do Render):** LegalBERT-pt + torch consomem memória; valide se o plano do Web Service tem RAM suficiente para carregar o modelo (o tier gratuito de 512 MB é apertado). O primeiro request após um cold start também baixa os ~435 MB do Hugging Face.
+>
+> **Qualidade:** o checkpoint atual foi treinado com rótulos *weak* (F1-macro ~0.53). Segue experimental até a revisão de rótulos GOLD.
 
 ---
 
