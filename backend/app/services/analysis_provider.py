@@ -172,6 +172,7 @@ class LegalBERTProvider(AnalysisProvider):
                 num_labels=len(self.labels),
                 problem_type="multi_label_classification",
                 torch_dtype=torch.bfloat16,  # Carrega em bfloat16 para cortar o uso de RAM pela metade
+                low_cpu_mem_usage=True,      # Evita pico de RAM de carregamento em CPU
             )
         
         # Coleta de lixo forçada para liberar a cache de leitura de tensores do disco da RAM
