@@ -10,10 +10,10 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  
-  --primary: #1e3a5f; 
+
+  --primary: #1e3a5f;
   --primary-foreground: #ffffff;
-  
+
   --secondary: oklch(0.95 0.0058 264.53);
   --secondary-foreground: #1e3a5f;
   --muted: #ececf0;
@@ -29,7 +29,7 @@
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --ring: oklch(0.708 0 0);
-  
+
   /* Cores de Status de Leis */
   --success: #22c55e;
   --warning: #eab308;
@@ -189,4 +189,4 @@ mark.highlight {
 
 mark.highlight.fade-out {
   background-color: transparent;
-}
+}

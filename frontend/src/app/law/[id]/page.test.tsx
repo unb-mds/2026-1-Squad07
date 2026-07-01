@@ -62,7 +62,6 @@ describe("LawDetailPage - análise de qualidade", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse(persistedLaw);
     mockFetch.mockReturnValueOnce(new Promise(() => {}));
-    mockJsonResponse({ warnings: [] });
 
     render(<LawDetailPage />);
 
@@ -75,7 +74,6 @@ describe("LawDetailPage - análise de qualidade", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse(persistedLaw);
     mockJsonResponse(analysisResponse);
-    mockJsonResponse({ warnings: [] }); // Chamada da sidebar
 
     render(<LawDetailPage />);
 
@@ -84,12 +82,12 @@ describe("LawDetailPage - análise de qualidade", () => {
     expect(screen.getByText("Ambiguidade")).toBeInTheDocument();
     expect(screen.getByText("18%")).toBeInTheDocument();
     expect(screen.getByText("Vagueza - 72%")).toBeInTheDocument();
-    expect(screen.getByText("Trechos com termos pouco específicos.")).toBeInTheDocument();
+    expect(screen.getAllByText("Trechos com termos pouco específicos.")[0]).toBeInTheDocument();
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(4));
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
 
     const analysisCall = mockFetch.mock.calls.find(
-      ([url, options]) => 
+      ([url, options]) =>
         url === "http://localhost:8000/api/v1/analysis/evaluate" &&
         options?.body &&
         JSON.parse(options.body).lawId === "law-123"
@@ -100,9 +98,9 @@ describe("LawDetailPage - análise de qualidade", () => {
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify({
-          lawId: "law-123",
           text: persistedLaw.text,
           type: "bill",
+          lawId: "law-123",
         }),
       }),
     );
@@ -125,7 +123,6 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     mockJsonResponse(persistedLaw);
     mockFetch.mockReturnValueOnce(new Promise(() => {}));
     mockJsonResponse(analysisResponse);
-    mockJsonResponse({ warnings: [] }); // Chamada da sidebar
 
     render(<LawDetailPage />);
 
@@ -144,14 +141,13 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse(lawWithSummary);
     mockJsonResponse(analysisResponse);
-    mockJsonResponse({ warnings: [] }); // Chamada da sidebar
 
     render(<LawDetailPage />);
 
     expect(await screen.findByText(/Parágrafo primeiro explicativo de IA./)).toBeInTheDocument();
     expect(screen.getByText(/Parágrafo segundo simplificado./)).toBeInTheDocument();
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(4));
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
     expect(mockFetch).toHaveBeenNthCalledWith(
       2,
       "http://localhost:8000/laws/law-123",
@@ -163,7 +159,6 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse({}, 500);
     mockJsonResponse(analysisResponse);
-    mockJsonResponse({ warnings: [] }); // Chamada da sidebar
 
     render(<LawDetailPage />);
 
@@ -183,7 +178,6 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse(lawWithoutSummary);
     mockJsonResponse(analysisResponse);
-    mockJsonResponse({ warnings: [] }); // Chamada da sidebar
 
     render(<LawDetailPage />);
 

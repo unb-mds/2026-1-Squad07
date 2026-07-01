@@ -25,10 +25,10 @@ describe("WarningCard", () => {
   test("should call onSelect when clicked", () => {
     const onSelect = jest.fn();
     render(<WarningCard warning={mockWarning} onSelect={onSelect} />);
-    
+
     const button = screen.getByRole("button");
     fireEvent.click(button);
-    
+
     expect(onSelect).toHaveBeenCalledTimes(1);
     expect(onSelect).toHaveBeenCalledWith(mockWarning);
   });
@@ -41,7 +41,7 @@ describe("WarningCard", () => {
       snippet: "",
       confidence: 0,
     };
-    
+
     const { container } = render(<WarningCard warning={incomplete} onSelect={jest.fn()} />);
     expect(container).toBeInTheDocument();
     expect(screen.getByText("Vagueza")).toBeInTheDocument();

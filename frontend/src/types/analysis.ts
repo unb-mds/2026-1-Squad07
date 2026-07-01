@@ -16,6 +16,7 @@ export interface AnalysisResponse {
   cached: boolean;
   metrics: Record<WarningCode, number>;
   warnings: Warning[];
+  model_version: string;
 }
 
 export interface UseAnalysisState {

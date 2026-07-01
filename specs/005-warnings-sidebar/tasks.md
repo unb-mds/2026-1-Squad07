@@ -1,8 +1,8 @@
 # Tasks: Sidebar de Warnings — R1
 
-**Spec**: [spec.md](spec.md)  
-**Plan**: [plan.md](plan.md)  
-**Test Plan**: [test-plan.md](test-plan.md)  
+**Spec**: [spec.md](spec.md)
+**Plan**: [plan.md](plan.md)
+**Test Plan**: [test-plan.md](test-plan.md)
 **Data**: 2026-06-30
 
 ## Visão Geral
@@ -47,10 +47,10 @@ T014 (PR e Review)
 
 ### T001: Setup e Estrutura de Pastas
 
-**Tipo**: Setup  
-**Dependência**: Nenhuma  
-**Prioridade**: P0  
-**Esforço**: 0.5h  
+**Tipo**: Setup
+**Dependência**: Nenhuma
+**Prioridade**: P0
+**Esforço**: 0.5h
 **Descrição**: Criar estrutura de pastas e arquivos iniciais.
 
 **Tarefas**:
@@ -68,10 +68,10 @@ T014 (PR e Review)
 
 ### T002: Testes do Hook useTextHighlight
 
-**Tipo**: Teste (RED phase)  
-**Dependência**: T001  
-**Prioridade**: P1  
-**Esforço**: 1.5h  
+**Tipo**: Teste (RED phase)
+**Dependência**: T001
+**Prioridade**: P1
+**Esforço**: 1.5h
 **Descrição**: Escrever testes unitários para o hook `useTextHighlight` antes de implementar.
 
 **Arquivo**: `frontend/src/hooks/__tests__/useTextHighlight.test.ts`
@@ -116,10 +116,10 @@ describe("useTextHighlight", () => {
 
 ### T003: Implementação do Hook useTextHighlight
 
-**Tipo**: Implementação (GREEN + REFACTOR phases)  
-**Dependência**: T002  
-**Prioridade**: P1  
-**Esforço**: 1.5h  
+**Tipo**: Implementação (GREEN + REFACTOR phases)
+**Dependência**: T002
+**Prioridade**: P1
+**Esforço**: 1.5h
 **Descrição**: Implementar `useTextHighlight` para passar nos testes.
 
 **Arquivo**: `frontend/src/hooks/useTextHighlight.ts`
@@ -158,10 +158,10 @@ npm test -- useTextHighlight.test.ts
 
 ### T004: Testes do Hook useAnalysis
 
-**Tipo**: Teste (RED phase)  
-**Dependência**: T001  
-**Prioridade**: P1  
-**Esforço**: 2h  
+**Tipo**: Teste (RED phase)
+**Dependência**: T001
+**Prioridade**: P1
+**Esforço**: 2h
 **Descrição**: Escrever testes unitários para o hook `useAnalysis` (API mock com MSW).
 
 **Arquivo**: `frontend/src/hooks/__tests__/useAnalysis.test.ts`
@@ -214,10 +214,10 @@ describe("useAnalysis", () => {
 
 ### T005: Implementação do Hook useAnalysis
 
-**Tipo**: Implementação (GREEN + REFACTOR phases)  
-**Dependência**: T004  
-**Prioridade**: P1  
-**Esforço**: 1.5h  
+**Tipo**: Implementação (GREEN + REFACTOR phases)
+**Dependência**: T004
+**Prioridade**: P1
+**Esforço**: 1.5h
 **Descrição**: Implementar `useAnalysis` para passar nos testes.
 
 **Arquivo**: `frontend/src/hooks/useAnalysis.ts`
@@ -258,10 +258,10 @@ npm test -- useAnalysis.test.ts
 
 ### T006: Testes do Componente WarningCard
 
-**Tipo**: Teste (RED phase)  
-**Dependência**: T001  
-**Prioridade**: P1  
-**Esforço**: 1h  
+**Tipo**: Teste (RED phase)
+**Dependência**: T001
+**Prioridade**: P1
+**Esforço**: 1h
 **Descrição**: Escrever testes para o componente `WarningCard`.
 
 **Arquivo**: `frontend/src/components/__tests__/WarningCard.test.tsx`
@@ -291,7 +291,7 @@ describe("WarningCard", () => {
   test("should call onSelect when clicked", () => {
     const onSelect = jest.fn();
     const { container } = render(<WarningCard warning={mockWarning} onSelect={onSelect} />);
-    
+
     container.querySelector("button")?.click();
     expect(onSelect).toHaveBeenCalledWith(mockWarning);
   });
@@ -313,10 +313,10 @@ describe("WarningCard", () => {
 
 ### T007: Implementação do Componente WarningCard
 
-**Tipo**: Implementação (GREEN + REFACTOR phases)  
-**Dependência**: T006  
-**Prioridade**: P1  
-**Esforço**: 1h  
+**Tipo**: Implementação (GREEN + REFACTOR phases)
+**Dependência**: T006
+**Prioridade**: P1
+**Esforço**: 1h
 **Descrição**: Implementar `WarningCard` para passar nos testes.
 
 **Arquivo**: `frontend/src/components/WarningCard.tsx`
@@ -344,10 +344,10 @@ npm test -- WarningCard.test.tsx
 
 ### T008: Testes do Componente WarningsSidebar
 
-**Tipo**: Teste (RED phase)  
-**Dependência**: T001  
-**Prioridade**: P1  
-**Esforço**: 2h  
+**Tipo**: Teste (RED phase)
+**Dependência**: T001
+**Prioridade**: P1
+**Esforço**: 2h
 **Descrição**: Escrever testes para o componente principal `WarningsSidebar`.
 
 **Arquivo**: `frontend/src/components/__tests__/WarningsSidebar.test.tsx`
@@ -398,10 +398,10 @@ describe("WarningsSidebar", () => {
 
 ### T009: Implementação do Componente WarningsSidebar
 
-**Tipo**: Implementação (GREEN + REFACTOR phases)  
-**Dependência**: T008, T007  
-**Prioridade**: P1  
-**Esforço**: 1.5h  
+**Tipo**: Implementação (GREEN + REFACTOR phases)
+**Dependência**: T008, T007
+**Prioridade**: P1
+**Esforço**: 1.5h
 **Descrição**: Implementar `WarningsSidebar` para passar nos testes.
 
 **Arquivo**: `frontend/src/components/WarningsSidebar.tsx`
@@ -430,10 +430,10 @@ npm test -- WarningsSidebar.test.tsx
 
 ### T010: Testes de Integração (Componente + Hooks)
 
-**Tipo**: Teste (Integração)  
-**Dependência**: T003, T005, T009  
-**Prioridade**: P1  
-**Esforço**: 2h  
+**Tipo**: Teste (Integração)
+**Dependência**: T003, T005, T009
+**Prioridade**: P1
+**Esforço**: 2h
 **Descrição**: Escrever testes de integração: WarningsSidebar + useAnalysis + useTextHighlight.
 
 **Arquivo**: `frontend/src/components/__tests__/WarningsSidebar.integration.test.tsx`
@@ -449,7 +449,7 @@ describe("WarningsSidebar Integration", () => {
   // TDD-010: Clique em card disparas scroll + highlight
   test("should scroll and highlight text when card is clicked", async () => {
     const textContent = "Art. 1º estabelece o regime. Art. 2º aplica-se a todos.";
-    
+
     render(
       <div id="law-content">{textContent}</div>,
       <WarningsSidebar
@@ -498,10 +498,10 @@ describe("WarningsSidebar Integration", () => {
 
 ### T011: Integração em LawDetail (page.tsx)
 
-**Tipo**: Implementação  
-**Dependência**: T009, T010  
-**Prioridade**: P1  
-**Esforço**: 1h  
+**Tipo**: Implementação
+**Dependência**: T009, T010
+**Prioridade**: P1
+**Esforço**: 1h
 **Descrição**: Integrar `WarningsSidebar` e hooks na página `/law/[id]`.
 
 **Arquivo**: `frontend/src/app/law/[id]/page.tsx`
@@ -530,10 +530,10 @@ npm run build
 
 ### T012: CSS Responsivo
 
-**Tipo**: Implementação (UI/UX)  
-**Dependência**: T011  
-**Prioridade**: P2  
-**Esforço**: 1h  
+**Tipo**: Implementação (UI/UX)
+**Dependência**: T011
+**Prioridade**: P2
+**Esforço**: 1h
 **Descrição**: Implementar responsividade para mobile, tablet, desktop.
 
 **Tarefas**:
@@ -560,10 +560,10 @@ npm run build
 
 ### T013: Validação Manual
 
-**Tipo**: QA  
-**Dependência**: T012  
-**Prioridade**: P1  
-**Esforço**: 1.5h  
+**Tipo**: QA
+**Dependência**: T012
+**Prioridade**: P1
+**Esforço**: 1.5h
 **Descrição**: Teste manual completo da feature.
 
 **Tarefas**:
@@ -595,10 +595,10 @@ npm run build
 
 ### T014: PR, Review e Merge
 
-**Tipo**: Processo  
-**Dependência**: T013  
-**Prioridade**: P0  
-**Esforço**: 1h  
+**Tipo**: Processo
+**Dependência**: T013
+**Prioridade**: P0
+**Esforço**: 1h
 **Descrição**: Abrir Pull Request, solicitar review, resolver feedback, fazer merge.
 
 **Tarefas**:
@@ -606,14 +606,14 @@ npm run build
 - [ ] Escrever mensagem de commit clara:
   ```
   feat(issue-137): Adicionar sidebar de warnings em /law/[id]
-  
+
   - Componente WarningsSidebar com cards de problemas
   - Hook useAnalysis para chamar POST /api/v1/analysis/evaluate
   - Hook useTextHighlight para destacar trechos no texto
   - Responsividade mobile/tablet/desktop
   - Testes unitários e integração (cobertura 85%)
   - Docs: specs/005-warnings-sidebar/
-  
+
   Closes #137
   ```
 - [ ] Push para branch `feat/issue-137-warnings-sidebar`.

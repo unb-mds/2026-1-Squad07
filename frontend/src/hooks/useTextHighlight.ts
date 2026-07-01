@@ -38,7 +38,7 @@ export const useTextHighlight = () => {
       if (node.nodeType === Node.TEXT_NODE) {
         const nodeText = node.nodeValue || "";
         const index = nodeText.toLowerCase().indexOf(text.toLowerCase());
-        
+
         if (index !== -1) {
           const matchText = nodeText.substring(index, index + text.length);
           const beforeText = nodeText.substring(0, index);
@@ -59,12 +59,12 @@ export const useTextHighlight = () => {
           }
 
           node.parentNode?.replaceChild(fragment, node);
-          
+
           // Scroll suave até a marcação se estiver disponível no ambiente
           if (!preventScroll && typeof mark.scrollIntoView === "function") {
             mark.scrollIntoView({ behavior: "smooth", block: "center" });
           }
-          
+
           // Adiciona classe para transição suave de fade-out após delay
           if (!preventFadeOut) {
             fadeOutTimeoutRef.current = setTimeout(() => {
@@ -93,7 +93,7 @@ export const useTextHighlight = () => {
       setIsHighlighted(true);
       return true;
     }
-    
+
     setIsHighlighted(false);
     return false;
   }, []);

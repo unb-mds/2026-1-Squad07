@@ -18,7 +18,7 @@ Estruturar a implementação do componente `WarningsSidebar`, definir arquitetur
 3. **`useTextHighlight.ts`**: Hook customizado para buscar e destacar trechos no DOM.
 4. **`useAnalysis.ts`**: Hook para chamar `POST /api/v1/analysis/evaluate` e gerenciar estado.
 
-**Justificativa**: 
+**Justificativa**:
 - Cada componente tem uma responsabilidade clara.
 - Hooks reutilizáveis em outras partes do app (ex: diff de leis).
 - Facilita testes isolados.
@@ -55,7 +55,7 @@ Alternativa rejeitada: Usar library de highlight (ex: `react-highlight-words`) �
 
 ### D5: Responsividade
 
-**Decisão**: 
+**Decisão**:
 - Desktop (≥ 1024px): Sidebar fixo na lateral (30% de largura).
 - Tablet (768px–1023px): Sidebar reduzido (20%) ou em drawer.
 - Mobile (< 768px): Drawer/modal com botão toggle.

@@ -29,7 +29,7 @@ Validar que o componente `WarningsSidebar` renderiza corretamente warnings do Le
   ]
   ```
 - *Procedimento*: Renderizar componente e buscar elementos DOM.
-- *Resultado esperado*: 
+- *Resultado esperado*:
   - 3 cards visíveis (seletor `.warning-card`).
   - Cada card contém: código (ex: "ambiguidade"), mensagem, snippet e confiança formatada como "%".
   - Confiança exibida como "92%" (confidence \* 100).
@@ -44,7 +44,7 @@ Validar que o componente `WarningsSidebar` renderiza corretamente warnings do Le
 **TDD-003 (Happy Path)**:
 - *Tipo*: Unitário
 - *Procedimento*: Renderizar com `warnings: []`.
-- *Resultado esperado*: 
+- *Resultado esperado*:
   - Mensagem "Nenhum problema identificado" exibida (seletor `.empty-state`).
   - Cards não renderizados.
   - Ícone ou visual diferenciado (ex: checkmark).
@@ -64,14 +64,14 @@ Validar que o componente `WarningsSidebar` renderiza corretamente warnings do Le
 **TDD-006 (Search e Find)**:
 - *Tipo*: Unitário
 - *Procedimento*: Chamar `highlightText("Art. 1º...", "Art.")` com texto no DOM (input ou div).
-- *Resultado esperado*: 
+- *Resultado esperado*:
   - Texto encontrado e envolvido em `<mark>` ou classe CSS `.highlight`.
   - Função retorna `true` (sucesso).
 
 **TDD-007 (Clear Highlight)**:
 - *Tipo*: Unitário
 - *Procedimento*: Após highlight, chamar `clearHighlight()`.
-- *Resultado esperado*: 
+- *Resultado esperado*:
   - `<mark>` ou `.highlight` removido do DOM.
   - `isHighlighted` volta para `false`.
 
@@ -88,7 +88,7 @@ Validar que o componente `WarningsSidebar` renderiza corretamente warnings do Le
 
 **TDD-009 (Happy Path - Fetch e Renderização)**:
 - *Tipo*: Integração (React Testing Library + MSW mock API)
-- *Setup*: 
+- *Setup*:
   - Mock de `POST /api/v1/analysis/evaluate` retornando:
     ```json
     {

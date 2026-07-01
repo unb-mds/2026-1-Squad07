@@ -98,7 +98,7 @@ A Release 1 é **demonstrável**. O sistema já submete leis, lista e visualiza.
 
 1. **Dado** que um card é exibido com trecho `"Art. 1º estabelece..."`,
    **quando** clico no card,
-   **então**: 
+   **então**:
    - A página faz scroll até o trecho.
    - O trecho é destacado com cor de fundo (ex: amarelo).
    - O highlight desaparece após 2 segundos.

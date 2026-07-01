@@ -30,7 +30,7 @@ function deriveSnippet(text: string, code: WarningCode): string {
       return text.substring(start, end).trim();
     }
   }
-  
+
   // Fallback: pega os primeiros 50 caracteres sem cortar a última palavra
   let fallbackEnd = Math.min(text.length, 50);
   while (fallbackEnd < text.length && text[fallbackEnd] !== " " && text[fallbackEnd] !== "\n") {
@@ -54,6 +54,7 @@ interface RawAnalysisResponse {
   cached?: boolean;
   metrics?: Record<string, number>;
   warnings?: RawWarning[];
+  model_version?: string;
 }
 
 export const useAnalysis = (lawId?: string) => {
@@ -100,6 +101,7 @@ export const useAnalysis = (lawId?: string) => {
         cached: response.cached ?? false,
         metrics: response.metrics || {},
         warnings,
+        model_version: response.model_version || "unknown",
       };
 
       setData(updatedData);

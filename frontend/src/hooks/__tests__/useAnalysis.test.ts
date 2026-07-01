@@ -51,12 +51,12 @@ describe("useAnalysis", () => {
     expect(result.current.loading).toBe(false);
     expect(result.current.error).toBeNull();
     expect(result.current.data).not.toBeNull();
-    
+
     // Verifica que o snippet foi derivado corretamente a partir do texto
     const warning = result.current.data?.warnings[0];
     expect(warning?.code).toBe("ambiguidade");
     expect(warning?.snippet).toContain("regime especial");
-    
+
     // Verifica se fetch foi chamado com payload correto
     expect(mockFetch).toHaveBeenCalledTimes(1);
     const [url, options] = mockFetch.mock.calls[0];

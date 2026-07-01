@@ -35,7 +35,7 @@ describe("useTextHighlight", () => {
   // TDD-006: Buscar e encontrar texto
   test("should find and highlight text in DOM", () => {
     const { result } = renderHook(() => useTextHighlight());
-    
+
     let success = false;
     act(() => {
       success = result.current.highlightText("regime especial", "law-content");
@@ -53,11 +53,11 @@ describe("useTextHighlight", () => {
   // TDD-007: Limpar highlight
   test("should clear highlight after calling clearHighlight", () => {
     const { result } = renderHook(() => useTextHighlight());
-    
+
     act(() => {
       result.current.highlightText("regime especial", "law-content");
     });
-    
+
     expect(container.querySelector("mark.highlight")).toBeInTheDocument();
     expect(result.current.isHighlighted).toBe(true);
 
@@ -73,7 +73,7 @@ describe("useTextHighlight", () => {
   // Teste adicional: texto não encontrado
   test("should return false if text is not found", () => {
     const { result } = renderHook(() => useTextHighlight());
-    
+
     let success = true;
     act(() => {
       success = result.current.highlightText("inexistente", "law-content");

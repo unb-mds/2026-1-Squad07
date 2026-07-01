@@ -1,6 +1,6 @@
 # Contracts: API e Tipos — Warnings Sidebar
 
-**Spec**: [spec.md](spec.md)  
+**Spec**: [spec.md](spec.md)
 **Plan**: [plan.md](plan.md)
 
 ## Contrato de API HTTP
@@ -31,13 +31,16 @@ Content-Type: application/json
 | `type` | enum | ✓ | Tipo de documento: `"bill"` (projeto de lei) ou `"amendment"` (emenda). |
 | `lawId` | integer | ✗ | ID da lei no banco. Quando informado, resultado é persistido. |
 
-#### Resposta (200 OK)
+#### Resposta do Backend (200 OK)
+
+> [!NOTE]
+> **Divisão de Responsabilidade (Snippet Derivation)**:
+> O backend do CrivoAI retorna a lista de alertas (`warnings`) sem o campo `snippet`. O campo `snippet` é derivado e injetado localmente pelo frontend (dentro do hook `useAnalysis`) a partir do texto original usando heurísticas de palavras-chave, atendendo ao contrato do componente visual. Os campos `text` e `type` na resposta do backend também são opcionais.
 
 ```json
 {
   "analysis_id": "550e8400-e29b-41d4-a716-446655440000",
-  "text": "Art. 1º. Esta lei estabelece o regime especial de apoio.",
-  "type": "bill",
+  "status": "completed",
   "score": 0.68,
   "cached": false,
   "metrics": {
@@ -50,39 +53,40 @@ Content-Type: application/json
     {
       "code": "ambiguidade",
       "message": "Termo 'regime especial' não é definido no artigo.",
-      "snippet": "Art. 1º. Esta lei estabelece o regime especial",
       "confidence": 0.92
     },
     {
       "code": "falta_referencia",
       "message": "Referência cruzada incompleta ou não especificada.",
-      "snippet": "regime especial de apoio",
       "confidence": 0.78
     }
-  ]
+  ],
+  "model_version": "legal-bert-pt@v0.1.0"
 }
 ```
 
-**Campos da resposta**:
+**Campos da resposta do Backend**:
 
 | Campo | Tipo | Descrição |
 |-------|------|-----------|
 | `analysis_id` | UUID | ID único da análise. |
-| `text` | string | Texto submetido (eco). |
-| `type` | enum | Tipo submetido (echo). |
-| `score` | float (0.0–1.0) | Score geral de qualidade (1 - média de problemas). |
+| `status` | string | Estado da análise (`"pending"`, `"completed"`, `"failed"`). |
+| `score` | float (0.0–1.0) | Score geral de qualidade. |
 | `cached` | boolean | Indica se resultado veio do cache. |
 | `metrics` | object | Probabilidade por categoria: `{ "ambiguidade": 0.92, ... }`. |
-| `warnings` | array | Array de problemas encontrados (veja estrutura abaixo). |
+| `warnings` | array | Array de problemas encontrados no backend (sem snippet). |
+| `model_version` | string | Versão do modelo classificador utilizado. |
+| `text` | string (opcional) | Texto legislativo analisado. |
+| `type` | enum (opcional) | Tipo de documento legislativo. |
 
-**Estrutura de Warning**:
+**Estrutura de Warning do Backend**:
 
 | Campo | Tipo | Descrição |
 |-------|------|-----------|
-| `code` | string | Código único: `"ambiguidade"`, `"vagueza"`, `"falta_referencia"`, `"inconsistencia"`. |
-| `message` | string | Descrição legível do problema (ex: "Termo vago não clarificado"). |
-| `snippet` | string | Trecho do texto onde o problema foi encontrado. |
+| `code` | string | Código único do problema (`"ambiguidade"`, `"vagueza"`, `"falta_referencia"`, `"inconsistencia"`). |
+| `message` | string | Descrição legível do problema. |
 | `confidence` | float (0.0–1.0) | Confiança da predição (ex: 0.92 = 92%). |
+| *`snippet`* | *string* | **Não retornado pelo Backend**. Injetado localmente pelo Frontend no mapeamento de tipos. |
 
 #### Respostas de Erro
 
@@ -131,13 +135,13 @@ export type DocumentType = "bill" | "amendment";
 export interface Warning {
   /** Código único do problema */
   code: WarningCode;
-  
+
   /** Descrição legível do problema */
   message: string;
-  
+
   /** Trecho do texto onde o problema foi encontrado */
   snippet: string;
-  
+
   /** Confiança da predição (0.0 a 1.0) */
   confidence: number;
 }
@@ -148,10 +152,10 @@ export interface Warning {
 export interface AnalysisRequest {
   /** Texto legislativo a analisar */
   text: string;
-  
+
   /** Tipo de documento */
   type: DocumentType;
-  
+
   /** (Opcional) ID da lei no banco para persistência */
   lawId?: number;
 }
@@ -162,22 +166,22 @@ export interface AnalysisRequest {
 export interface AnalysisResponse {
   /** ID único da análise */
   analysis_id: string;
-  
+
   /** Texto submetido (echo) */
   text: string;
-  
+
   /** Tipo submetido (echo) */
   type: DocumentType;
-  
+
   /** Score geral de qualidade (0.0 a 1.0) */
   score: number;
-  
+
   /** Indica se resultado veio do cache */
   cached: boolean;
-  
+
   /** Probabilidade por categoria */
   metrics: Record<WarningCode, number>;
-  
+
   /** Array de problemas encontrados */
   warnings: Warning[];
 }
@@ -198,19 +202,19 @@ export interface UseAnalysisState {
 export interface WarningsSidebarProps {
   /** Array de warnings a exibir */
   warnings: Warning[];
-  
+
   /** Texto completo para busca e highlighting */
   textContent: string;
-  
+
   /** Indica se está carregando a análise */
   isLoading?: boolean;
-  
+
   /** Mensagem de erro (se houver) */
   error?: string | null;
-  
+
   /** Callback disparado ao clicar em um card */
   onWarningClick?: (warning: Warning) => void;
-  
+
   /** ID do container contendo o texto (padrão: "law-content") */
   contentContainerId?: string;
 }
@@ -221,7 +225,7 @@ export interface WarningsSidebarProps {
 export interface WarningCardProps {
   /** Warning a renderizar */
   warning: Warning;
-  
+
   /** Callback ao clicar no card */
   onSelect: (warning: Warning) => void;
 }
@@ -232,10 +236,10 @@ export interface WarningCardProps {
 export interface UseTextHighlightState {
   /** Função para destacar texto no DOM */
   highlightText: (text: string, containerId?: string) => boolean;
-  
+
   /** Função para remover highlight */
   clearHighlight: () => void;
-  
+
   /** Indica se há highlight ativo */
   isHighlighted: boolean;
 }
@@ -280,7 +284,7 @@ export function MyComponent() {
 
   if (loading) return <p>Analisando...</p>;
   if (error) return <p>Erro: {error}</p>;
-  
+
   return (
     <div>
       <h2>Score: {data?.score.toFixed(2)}</h2>
@@ -330,7 +334,7 @@ import { useTextHighlight } from "@/hooks/useTextHighlight";
 export function LawAnalysisPage() {
   const lawId = 42;
   const lawContent = "Art. 1º. Esta lei estabelece...";
-  
+
   const { data, loading, error, analyze } = useAnalysis(lawId);
   const { highlightText, clearHighlight } = useTextHighlight();
 
