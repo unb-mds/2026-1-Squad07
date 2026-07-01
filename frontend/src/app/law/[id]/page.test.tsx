@@ -82,12 +82,15 @@ describe("LawDetailPage - análise de qualidade", () => {
     expect(screen.getByText("Ambiguidade")).toBeInTheDocument();
     expect(screen.getByText("18%")).toBeInTheDocument();
     expect(screen.getByText("Vagueza - 72%")).toBeInTheDocument();
-    expect(screen.getByText("Trechos com termos pouco específicos.")).toBeInTheDocument();
+    expect(screen.getAllByText("Trechos com termos pouco específicos.")[0]).toBeInTheDocument();
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
 
     const analysisCall = mockFetch.mock.calls.find(
-      ([url]) => url === "http://localhost:8000/api/v1/analysis/evaluate",
+      ([url, options]) =>
+        url === "http://localhost:8000/api/v1/analysis/evaluate" &&
+        options?.body &&
+        JSON.parse(options.body).lawId === "law-123"
     );
 
     expect(analysisCall).toBeDefined();
@@ -95,9 +98,9 @@ describe("LawDetailPage - análise de qualidade", () => {
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify({
-          lawId: "law-123",
           text: persistedLaw.text,
           type: "bill",
+          lawId: "law-123",
         }),
       }),
     );
