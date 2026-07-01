@@ -31,17 +31,26 @@ export type LawSubmissionListItem = {
   textExcerpt: string;
 };
 
-export type ReadabilityRequest = {
-  lawId: string;
+export type AnalysisRequest = {
+  lawId?: string;
   text: string;
+  type: "bill" | "amendment";
 };
 
-export type ReadabilityResponse = {
-  score: number;
-  classification: string;
-  wordsCount: number;
-  sentencesCount: number;
-  averageSyllables: number;
+export type AnalysisWarning = {
+  code: string;
+  message: string;
+  confidence: number;
+};
+
+export type AnalysisResponse = {
+  analysis_id: string;
+  status: "pending" | "completed" | "failed";
+  score: number | null;
+  metrics: Record<string, number>;
+  warnings: AnalysisWarning[];
+  model_version: string;
+  cached: boolean;
 };
 
 export function submitLaw(submission: LawSubmission, token?: string | null) {
@@ -65,8 +74,8 @@ export async function getLawSummary(id: string) {
   return law.summary ?? null;
 }
 
-export function analyzeLawReadability(payload: ReadabilityRequest) {
-  return apiRequest<ReadabilityResponse>("/api/v1/laws/readability", {
+export function analyzeLawQuality(payload: AnalysisRequest) {
+  return apiRequest<AnalysisResponse>("/api/v1/analysis/evaluate", {
     method: "POST",
     body: JSON.stringify(payload),
   });

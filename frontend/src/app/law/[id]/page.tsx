@@ -17,11 +17,12 @@ import { useEffect, useState } from "react";
 import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
 import {
-  analyzeLawReadability,
+  analyzeLawQuality,
   getLaw,
   getLawSummary,
+  type AnalysisResponse,
+  type AnalysisWarning,
   type CreatedLaw,
-  type ReadabilityResponse,
 } from "@/lib/api/laws";
 
 function formattedDate(value: string) {
@@ -37,6 +38,42 @@ function getScoreColorClass(score: number): string {
   return "bg-red-100 text-red-800 border-red-300";
 }
 
+function scoreToPercent(score: number | null): number {
+  return score === null ? 0 : Math.round(score * 100);
+}
+
+function classifyScore(score: number | null): string {
+  if (score === null) return "Sem score calculado";
+
+  const percent = scoreToPercent(score);
+  if (percent >= 70) return "Boa qualidade legislativa";
+  if (percent >= 40) return "Requer atenção";
+  return "Revisão recomendada";
+}
+
+function formatMetricName(code: string): string {
+  const labels: Record<string, string> = {
+    ambiguity: "Ambiguidade",
+    ambiguidade: "Ambiguidade",
+    vagueness: "Vagueza",
+    vagueza: "Vagueza",
+    missing_reference: "Falta de referência",
+    falta_referencia: "Falta de referência",
+    inconsistency: "Inconsistência",
+    inconsistencia: "Inconsistência",
+  };
+
+  return labels[code] ?? code.replace(/_/g, " ");
+}
+
+function formatProbability(value: number): string {
+  return `${Math.round(value * 100)}%`;
+}
+
+function warningKey(warning: AnalysisWarning) {
+  return `${warning.code}-${warning.message}`;
+}
+
 export default function LawDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
@@ -46,9 +83,9 @@ export default function LawDetailPage() {
   const [summary, setSummary] = useState<string | null>(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [errorSummary, setErrorSummary] = useState("");
-  const [readability, setReadability] = useState<ReadabilityResponse | null>(null);
-  const [loadingReadability, setLoadingReadability] = useState(false);
-  const [errorReadability, setErrorReadability] = useState("");
+  const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
+  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
+  const [errorAnalysis, setErrorAnalysis] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -125,38 +162,42 @@ export default function LawDetailPage() {
     const currentText = law.text;
     let active = true;
 
-    async function fetchReadability() {
-      setLoadingReadability(true);
-      setErrorReadability("");
+    async function fetchAnalysis() {
+      setLoadingAnalysis(true);
+      setErrorAnalysis("");
       try {
-        const data = await analyzeLawReadability({
+        const data = await analyzeLawQuality({
           lawId: params.id,
           text: currentText,
+          type: "bill",
         });
         if (active) {
-          setReadability(data);
+          setAnalysis(data);
         }
       } catch (requestError) {
         if (active) {
-          setErrorReadability(
+          setErrorAnalysis(
             apiErrorMessage(
               requestError,
-              "Não foi possível calcular as métricas de legibilidade no momento.",
+              "Não foi possível calcular as métricas de qualidade no momento.",
             ),
           );
         }
       } finally {
         if (active) {
-          setLoadingReadability(false);
+          setLoadingAnalysis(false);
         }
       }
     }
 
-    void fetchReadability();
+    void fetchAnalysis();
     return () => {
       active = false;
     };
   }, [law, params.id]);
+
+  const scorePercent = scoreToPercent(analysis?.score ?? null);
+  const metrics = Object.entries(analysis?.metrics ?? {});
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-6">
@@ -243,71 +284,102 @@ export default function LawDetailPage() {
                 </div>
               </section>
 
-              {loadingReadability ? (
+              {loadingAnalysis ? (
                 <section className="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-12 text-sm font-semibold text-slate-600 shadow-md">
                   <Loader2 className="size-5 animate-spin text-[#1e3a5f]" />
-                  Analisando legibilidade do texto...
+                  Analisando qualidade legislativa do texto...
                 </section>
-              ) : errorReadability ? (
+              ) : errorAnalysis ? (
                 <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-                  <div className="flex gap-2 items-center text-amber-800 font-bold mb-1">
+                  <div className="mb-1 flex items-center gap-2 font-bold text-amber-800">
                     <AlertTriangle className="size-5" />
-                    <h3>Análise de Legibilidade Indisponível</h3>
+                    <h3>Análise de Qualidade Indisponível</h3>
                   </div>
-                  <p className="text-sm text-slate-600">{errorReadability}</p>
+                  <p className="text-sm text-slate-600">{errorAnalysis}</p>
                 </section>
-              ) : readability ? (
+              ) : analysis ? (
                 <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
                   <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-slate-800">
                     <BarChart3 className="size-5 text-[#1e3a5f]" />
-                    Métricas de Legibilidade Real
+                    Análise de Qualidade Legislativa
                   </h2>
-                  <div className="flex flex-col items-center justify-center gap-6 sm:flex-row sm:justify-around border-b border-slate-100 pb-6 mb-6">
-                    <RadialProgress value={readability.score} label="Score de Legibilidade" />
+                  <div className="mb-6 flex flex-col items-center justify-center gap-6 border-b border-slate-100 pb-6 sm:flex-row sm:justify-around">
+                    <RadialProgress value={scorePercent} label="Score de Qualidade" />
                     <div className="text-center sm:text-left">
                       <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Classificação</p>
-                      <p className="text-xl font-bold text-slate-800 mt-1">{readability.classification}</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center">
-                      <p className="text-xs font-semibold text-slate-500 uppercase">Palavras</p>
-                      <p className="mt-2 text-2xl font-bold text-slate-800">{readability.wordsCount}</p>
-                    </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center">
-                      <p className="text-xs font-semibold text-slate-500 uppercase">Frases</p>
-                      <p className="mt-2 text-2xl font-bold text-slate-800">{readability.sentencesCount}</p>
-                    </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center">
-                      <p className="text-xs font-semibold text-slate-500 uppercase">Sílabas Médias</p>
-                      <p className="mt-2 text-2xl font-bold text-slate-800">
-                        {readability.averageSyllables.toFixed(1)}
+                      <p className="mt-1 text-xl font-bold text-slate-800">
+                        {classifyScore(analysis.score)}
+                      </p>
+                      <p className="mt-2 text-xs text-slate-500">
+                        Modelo {analysis.model_version}
+                        {analysis.cached ? " - resultado em cache" : ""}
                       </p>
                     </div>
+                  </div>
+                  <p className="mb-3 text-xs text-slate-500">
+                    As métricas indicam a probabilidade de problema detectado em cada categoria.
+                  </p>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {metrics.length > 0 ? (
+                      metrics.map(([code, value]) => (
+                        <div key={code} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+                          <p className="text-xs font-semibold uppercase text-slate-500">
+                            {formatMetricName(code)}
+                          </p>
+                          <p className="mt-2 text-2xl font-bold text-slate-800">
+                            {formatProbability(value)}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-600 sm:col-span-2">
+                        Nenhuma métrica detalhada foi retornada para esta análise.
+                      </p>
+                    )}
+                  </div>
+                  <div className="mt-6 space-y-3">
+                    <h3 className="text-sm font-bold uppercase text-slate-500">Alertas</h3>
+                    {analysis.warnings.length > 0 ? (
+                      analysis.warnings.map((warning) => (
+                        <div
+                          key={warningKey(warning)}
+                          className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-slate-700"
+                        >
+                          <p className="font-semibold text-amber-800">
+                            {formatMetricName(warning.code)} - {formatProbability(warning.confidence)}
+                          </p>
+                          <p className="mt-1">{warning.message}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                        Nenhum alerta acima do limiar foi identificado.
+                      </p>
+                    )}
                   </div>
                 </section>
               ) : null}
             </div>
 
             <aside className="space-y-6">
-              {readability && !loadingReadability && !errorReadability ? (
+              {analysis && !loadingAnalysis && !errorAnalysis ? (
                 <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md">
                   <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
                     Pontuação Obtida
                   </p>
                   <span
-                    className={`inline-block rounded-full px-8 py-7 text-5xl font-black border-2 ${getScoreColorClass(readability.score)}`}
+                    className={`inline-block rounded-full border-2 px-8 py-7 text-5xl font-black ${getScoreColorClass(scorePercent)}`}
                   >
-                    {readability.score}
+                    {scorePercent}
                   </span>
                   <p className="mt-4 text-xs text-slate-500">
-                    A cor reflete o nível de complexidade textual analisado.
+                    A cor reflete a qualidade estimada pelo classificador.
                   </p>
                 </section>
               ) : (
                 <section className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm text-slate-700">
                   <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
-                  Aguardando o processamento dos indicadores de legibilidade do documento.
+                  Aguardando o processamento dos indicadores de qualidade do documento.
                 </section>
               )}
             </aside>
