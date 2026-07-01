@@ -10,6 +10,7 @@ chunking + pooling por média (decisão D8 / REQ-011).
 from __future__ import annotations
 
 import math
+import os
 from abc import ABC, abstractmethod
 
 # Taxonomia inicial da R2 (REQ-015). Ampliar exige nova ``MODEL_VERSION``.
@@ -43,7 +44,7 @@ MODEL_VERSION = "legalbert-pt-v1"
 
 # Modelo base auto-hospedado (D2/D10). Pode evoluir para um checkpoint
 # fine-tunado sem alterar a interface.
-DEFAULT_MODEL_NAME = "raquelsilveira/legalbertpt_fp"
+DEFAULT_MODEL_NAME = os.getenv("MODEL_NAME", "raquelsilveira/legalbertpt_fp")
 
 # Limite de tokens do BERT; textos maiores são divididos (D8).
 MAX_TOKENS = 512
@@ -142,16 +143,26 @@ class LegalBERTProvider(AnalysisProvider):
         """Carrega tokenizer e modelo sob demanda (auto-hospedado, D2)."""
         if self._tokenizer is not None and self._model is not None:
             return
+        from pathlib import Path  # pragma: no cover
         from transformers import (  # pragma: no cover
             AutoModelForSequenceClassification,
             AutoTokenizer,
         )
 
+        current_dir = Path(__file__).resolve().parent  # pragma: no cover
+        local_model_path = (
+            current_dir / ".." / "models" / "fine_tuned_legalbert"
+        )  # pragma: no cover
+
+        model_to_load = self.model_name  # pragma: no cover
+        if (local_model_path / "config.json").exists():  # pragma: no cover
+            model_to_load = str(local_model_path.resolve())  # pragma: no cover
+
         if self._tokenizer is None:  # pragma: no cover
-            self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            self._tokenizer = AutoTokenizer.from_pretrained(model_to_load)
         if self._model is None:  # pragma: no cover
             self._model = AutoModelForSequenceClassification.from_pretrained(
-                self.model_name,
+                model_to_load,
                 num_labels=len(self.labels),
                 problem_type="multi_label_classification",
             )

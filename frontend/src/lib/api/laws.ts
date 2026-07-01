@@ -61,8 +61,10 @@ export function submitLaw(submission: LawSubmission, token?: string | null) {
   });
 }
 
-export function listLawSubmissions() {
-  return apiRequest<LawSubmissionListItem[]>("/laws");
+export function listLawSubmissions(sourceType: string = "USER_UPLOAD") {
+  return apiRequest<LawSubmissionListItem[]>(
+    `/laws?source_type=${encodeURIComponent(sourceType)}`,
+  );
 }
 
 export function getLaw(id: string) {

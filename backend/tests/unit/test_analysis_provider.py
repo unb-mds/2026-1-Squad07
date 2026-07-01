@@ -109,3 +109,18 @@ def test_texto_sem_tokens_levanta_erro(monkeypatch):
 
     with pytest.raises(ValueError):
         provider.analyze("")
+
+
+def test_model_name_le_da_variavel_de_ambiente(monkeypatch):
+    """PR-7: o nome do modelo remoto lê da variável de ambiente MODEL_NAME."""
+    import importlib
+    from app.services import analysis_provider
+
+    monkeypatch.setenv("MODEL_NAME", "teste/modelo-customizado")
+    importlib.reload(analysis_provider)
+
+    provider = analysis_provider.LegalBERTProvider()
+    assert provider.model_name == "teste/modelo-customizado"
+
+    monkeypatch.delenv("MODEL_NAME", raising=False)
+    importlib.reload(analysis_provider)

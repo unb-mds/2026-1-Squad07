@@ -156,3 +156,31 @@ def test_get_law_retorna_404_quando_nao_encontra(monkeypatch):
     response = client.get("/laws/law-inexistente")
 
     assert response.status_code == 404
+
+
+def test_list_law_submissions_com_source_type_catalog(monkeypatch):
+    """Verifica que a listagem com source_type=CATALOG consulta o banco corretamente."""
+    fake_law_delegate = FakeLawDelegate()
+    monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
+
+    response = client.get("/laws?source_type=CATALOG")
+
+    assert response.status_code == 200
+    assert fake_law_delegate.find_many_args == {
+        "where": {"sourceType": "CATALOG"},
+        "order": {"createdAt": "desc"},
+    }
+
+
+def test_list_law_submissions_com_source_type_invalido_usa_user_upload(monkeypatch):
+    """Verifica que valor invalido para source_type faz fallback para USER_UPLOAD."""
+    fake_law_delegate = FakeLawDelegate()
+    monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
+
+    response = client.get("/laws?source_type=INVALIDO")
+
+    assert response.status_code == 200
+    assert fake_law_delegate.find_many_args == {
+        "where": {"sourceType": "USER_UPLOAD"},
+        "order": {"createdAt": "desc"},
+    }
