@@ -137,7 +137,7 @@ class LegalBERTProvider(AnalysisProvider):
         with torch.no_grad():  # pragma: no cover
             input_ids = torch.tensor([chunk])  # pragma: no cover
             outputs = self._model(input_ids=input_ids)  # pragma: no cover
-            return outputs.logits[0].tolist()  # pragma: no cover
+            return outputs.logits[0].to(torch.float32).tolist()  # pragma: no cover
 
     def _ensure_loaded(self) -> None:
         """Carrega tokenizer e modelo sob demanda (auto-hospedado, D2)."""
@@ -171,6 +171,7 @@ class LegalBERTProvider(AnalysisProvider):
                 model_to_load,
                 num_labels=len(self.labels),
                 problem_type="multi_label_classification",
+                torch_dtype=torch.bfloat16,  # Carrega em bfloat16 para cortar o uso de RAM pela metade
             )
         
         # Coleta de lixo forçada para liberar a cache de leitura de tensores do disco da RAM
