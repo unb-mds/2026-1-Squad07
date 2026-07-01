@@ -35,3 +35,6 @@ safetensors==0.8.0
 
 # Split estratificado multi-label (MultilabelStratifiedShuffleSplit).
 iterative-stratification==0.1.9
+
+# Extracao de texto de PDFs (inteiro teor) em build_dataset_camara.py --full-text.
+pypdf==6.4.0

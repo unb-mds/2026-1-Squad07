@@ -21,13 +21,20 @@ e validar o pipeline em escala, mas:
   nao necessariamente a qualidade juridica real do texto.
 * Antes de considerar o modelo pronto para producao, os rotulos devem ser
   revisados por humanos (Fase 1 do ``docs/dev/plano-expansao-ml.md``).
-* A ``ementa`` e um resumo curto; o texto integral ("inteiro teor") fica atras
-  de PDFs (campo ``urlInteiroTeor``) e nao e extraido aqui — melhoria futura.
+* Por padrao usa a ``ementa`` (resumo curto). Com ``--full-text``, extrai o
+  texto integral ("inteiro teor") do PDF em ``urlInteiroTeor`` (via pypdf),
+  caindo de volta para a ementa quando a extracao falha. Cada registro guarda
+  ``textSource`` = ``inteiro_teor`` ou ``ementa``.
 
 Uso::
 
+    # ementa (rapido)
     .venv\\Scripts\\python.exe scripts\\build_dataset_camara.py \\
-        --target 550 --out data\\dataset_laws_camara.json --include-seed
+        --target 550 --include-seed
+
+    # inteiro teor (PDF) com fallback para ementa
+    .venv\\Scripts\\python.exe scripts\\build_dataset_camara.py \\
+        --target 550 --include-seed --full-text
 """
 
 from __future__ import annotations
@@ -235,6 +242,78 @@ def build_record(row: dict[str, Any]) -> dict[str, Any] | None:
     }
 
 
+def _clean_pdf_text(text: str, max_chars: int) -> str:
+    """Limpa o texto extraido do PDF: remove artefatos e normaliza espacos.
+
+    Caracteres da Area de Uso Privado (U+E000-U+F8FF) sao artefatos de fontes
+    embutidas em PDFs (ex.: simbolo de grau vindo como glifo privado); viram
+    espaco. O texto e cortado em ``max_chars`` (o treino so usa 512 tokens, os
+    primeiros dispositivos ja bastam).
+    """
+    cleaned = "".join(" " if 0xE000 <= ord(ch) <= 0xF8FF else ch for ch in text)
+    cleaned = " ".join(cleaned.split())
+    return cleaned[:max_chars]
+
+
+def truncate_to_model_window(text: str, tokenizer: Any, max_tokens: int) -> str:
+    """Corta o texto na janela de tokens que o modelo realmente ve.
+
+    CRITICO para o alinhamento rotulo<->entrada: os rotulos fracos sao
+    calculados sobre o texto, mas o modelo trunca em 512 tokens. Se um marcador
+    so aparece depois do corte, o rotulo fica sem sinal aprendivel. Aqui usamos
+    o offset mapping do tokenizer para fatiar o texto ORIGINAL exatamente onde a
+    janela do modelo termina, garantindo que o rotulo seja calculado sobre o
+    mesmo trecho que o modelo enxerga.
+    """
+    encoding = tokenizer(
+        text,
+        return_offsets_mapping=True,
+        truncation=True,
+        max_length=max_tokens,
+        add_special_tokens=True,
+    )
+    last_char = 0
+    for start, end in encoding["offset_mapping"]:
+        if end > last_char:
+            last_char = end
+    return text[:last_char] if last_char else text
+
+
+def fetch_full_text(prop_id: int, max_chars: int) -> str | None:
+    """Baixa e extrai o texto do inteiro teor (PDF) de uma proposicao.
+
+    Faz a chamada de detalhe para obter ``urlInteiroTeor``, baixa o documento
+    e extrai o texto com ``pypdf``. Retorna ``None`` em qualquer falha (sem
+    link, nao-PDF, PDF escaneado/vazio, erro de rede) para que o chamador possa
+    cair de volta para a ementa.
+    """
+    try:
+        from io import BytesIO
+
+        from pypdf import PdfReader
+
+        detail = _http_get_json(f"{API_BASE}/proposicoes/{prop_id}")["dados"]
+        url = detail.get("urlInteiroTeor")
+        if not url:
+            return None
+
+        request = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0 (CrivoAI dataset builder)"},
+        )
+        with urllib.request.urlopen(request, timeout=60) as response:
+            data = response.read()
+        if data[:4] != b"%PDF":  # HTML/DOC/RTF — nao tratados aqui
+            return None
+
+        reader = PdfReader(BytesIO(data))
+        raw = " ".join((page.extract_text() or "") for page in reader.pages)
+        cleaned = _clean_pdf_text(raw, max_chars)
+        return cleaned if len(cleaned) >= 200 else None
+    except Exception:  # noqa: BLE001 - PDF/rede sao best-effort; ha fallback
+        return None
+
+
 def load_seed() -> list[dict[str, Any]]:
     """Carrega o dataset-semente curado (rotulos GOLD) para mesclar."""
     if not SEED_DATASET.exists():
@@ -285,6 +364,40 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=0.35,
         help="Fracao maxima de exemplos sem nenhuma tag (para nao desbalancear).",
     )
+    parser.add_argument(
+        "--full-text",
+        action="store_true",
+        help=(
+            "Extrai o inteiro teor (PDF) em vez da ementa, com fallback para "
+            "a ementa quando a extracao falha. Requer pypdf."
+        ),
+    )
+    parser.add_argument(
+        "--max-chars",
+        type=int,
+        default=8000,
+        help="Limite bruto de caracteres extraidos do PDF (modo --full-text).",
+    )
+    parser.add_argument(
+        "--tokenizer",
+        default="raquelsilveira/legalbertpt_fp",
+        help="Tokenizer usado para alinhar o texto a janela do modelo.",
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=510,
+        help=(
+            "Trunca o inteiro teor nesta janela de tokens ANTES de rotular, "
+            "alinhando rotulo e entrada (512 do BERT menos [CLS]/[SEP])."
+        ),
+    )
+    parser.add_argument(
+        "--sleep",
+        type=float,
+        default=0.15,
+        help="Pausa (s) entre downloads de inteiro teor (cortesia com a API).",
+    )
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args(argv)
 
@@ -294,15 +407,40 @@ def main(argv: list[str] | None = None) -> None:
     print("--- Coleta Camara + weak labels (CrivoAI) ---")
     print(f"[api] anos={args.years} alvo>={args.target}")
 
+    tokenizer = None
+    if args.full_text:
+        print(
+            f"[api] modo INTEIRO TEOR (PDF) ligado | max_chars={args.max_chars} "
+            f"| janela de rotulagem={args.max_tokens} tokens"
+        )
+        from transformers import AutoTokenizer
+
+        tokenizer = AutoTokenizer.from_pretrained(args.tokenizer)
+
     records: list[dict[str, Any]] = []
     seen_texts: set[str] = set()
     max_zero = int(args.target * args.max_zero_frac)
     zero_count = 0
+    source_tally = {"inteiro_teor": 0, "ementa": 0}
 
     for row in fetch_proposicoes(args.years):
         record = build_record(row)
         if record is None:
             continue
+
+        text_source = "ementa"
+        if args.full_text:
+            full = fetch_full_text(row["id"], args.max_chars)
+            if full:
+                # Alinha o texto a janela do modelo ANTES de rotular, para que
+                # os marcadores contem apenas onde o modelo de fato ve.
+                full = truncate_to_model_window(full, tokenizer, args.max_tokens)
+                record["text"] = full
+                record["labels"] = weak_label(full)
+                text_source = "inteiro_teor"
+            time.sleep(args.sleep)
+        record["textSource"] = text_source
+
         key = record["text"][:200]
         if key in seen_texts:
             continue
@@ -313,11 +451,25 @@ def main(argv: list[str] | None = None) -> None:
 
         seen_texts.add(key)
         records.append(record)
+        source_tally[text_source] += 1
         if is_zero:
             zero_count += 1
 
+        if len(records) % 50 == 0:
+            print(
+                f"[progresso] {len(records)}/{args.target} "
+                f"(inteiro_teor={source_tally['inteiro_teor']}, "
+                f"ementa={source_tally['ementa']})"
+            )
+
         if len(records) >= args.target:
             break
+
+    if args.full_text:
+        print(
+            f"[fonte] inteiro_teor={source_tally['inteiro_teor']} | "
+            f"ementa(fallback)={source_tally['ementa']}"
+        )
 
     if args.include_seed:
         seed = load_seed()
