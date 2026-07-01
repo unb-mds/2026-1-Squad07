@@ -41,9 +41,11 @@ CATEGORY_MESSAGES: dict[str, str] = {
 # Versão do modelo usada no cache e na persistência (D4).
 MODEL_VERSION = "legalbert-pt-v1"
 
+import os
+
 # Modelo base auto-hospedado (D2/D10). Pode evoluir para um checkpoint
 # fine-tunado sem alterar a interface.
-DEFAULT_MODEL_NAME = "raquelsilveira/legalbertpt_fp"
+DEFAULT_MODEL_NAME = os.getenv("MODEL_NAME", "raquelsilveira/legalbertpt_fp")
 
 # Limite de tokens do BERT; textos maiores são divididos (D8).
 MAX_TOKENS = 512

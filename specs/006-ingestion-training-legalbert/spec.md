@@ -27,7 +27,8 @@ Como o modelo remoto base é inicializado com uma cabeça de classificação lin
 - Dataset inicial rotulado em formato JSON `backend/data/dataset_laws.json` contendo exemplos de proposições legislativas anotadas para treino e catálogo.
 - Script de fine-tuning `backend/scripts/train_classifier.py` que treina a cabeça de classificação multi-label do LegalBERT-pt utilizando Hugging Face `Trainer`/PyTorch, salvando o modelo ajustado localmente.
 - Script de ingestão `backend/scripts/ingest_catalog.py` que popula as tabelas `Law` (com `sourceType = CATALOG`) e `Analysis` no banco de dados.
-- Alteração no `LegalBERTProvider` (`backend/app/services/analysis_provider.py`) para carregar o modelo ajustado localmente a partir de `backend/app/models/fine_tuned_legalbert` se ele estiver presente.
+- Alteração no `LegalBERTProvider` (`backend/app/services/analysis_provider.py`) para carregar o modelo ajustado localmente a partir de `backend/app/models/fine_tuned_legalbert` se ele estiver presente, e ler o nome do modelo remoto a partir da variável de ambiente `MODEL_NAME`.
+- Script de upload `backend/scripts/upload_model.py` para publicar os pesos do modelo ajustado localmente em um repositório no Hugging Face Hub.
 - Atualização da rota `GET /laws` do backend (`backend/app/api/laws.py`) e do client de API do frontend para permitir a listagem e o filtro de leis do catálogo.
 - Atualização do arquivo `.gitignore` do repositório para evitar o versionamento de arquivos de pesos binários gerados pelo treino.
 - Testes unitários para o script de treinamento, ingestão e validações da API.
@@ -49,6 +50,8 @@ Como o modelo remoto base é inicializado com uma cabeça de classificação lin
 - **REQ-007**: O frontend Next.js DEVE permitir que o usuário liste as leis do catálogo e veja as suas análises reais.
 - **REQ-008**: O arquivo `.gitignore` DEVE excluir a pasta `backend/app/models/fine_tuned_legalbert/`.
 - **REQ-009**: A cobertura de código de backend dos novos scripts e arquivos modificados DEVE ser `>= 90%`.
+- **REQ-010**: O sistema DEVE permitir a parametrização do nome do modelo remoto através da variável de ambiente `MODEL_NAME`.
+- **REQ-011**: O sistema DEVE disponibilizar o script `upload_model.py` para automatizar a publicação do modelo ajustado local no Hugging Face Hub.
 
 ## Critérios de Aceite
 
@@ -58,3 +61,5 @@ Como o modelo remoto base é inicializado com uma cabeça de classificação lin
 - **SC-004**: A rota `GET /laws?source_type=CATALOG` retorna as leis ingeridas no catálogo.
 - **SC-005**: O frontend lista corretamente as leis do catálogo e renderiza suas pontuações e warnings reais.
 - **SC-006**: Os testes unitários e de integração passam com sucesso e respeitam a cobertura estabelecida.
+- **SC-007**: O script `upload_model.py` funciona e permite enviar pesos ao Hugging Face.
+- **SC-008**: Definir `MODEL_NAME` altera o modelo remoto consultado pelo `LegalBERTProvider`.

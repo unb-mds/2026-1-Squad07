@@ -55,3 +55,23 @@ npm run dev
 ```
 
 Abra `http://localhost:3000` no seu navegador, acesse os detalhes de uma lei do catálogo e verifique que as pontuações e classificações de erros (`ambiguidade`, `vagueza`, `falta_referencia`, `inconsistencia`) mostram os valores e warnings reais gerados pelo classificador ajustado.
+
+## Passo 4: Fazer Upload do Modelo para o Hugging Face (Deploy / Produção)
+
+Para evitar que outros membros do time ou servidores (como o Vercel) precisem rodar o script de treinamento localmente, você pode subir o modelo treinado local diretamente para o Hugging Face Hub:
+
+```bash
+# Executar o script de upload (a partir da raiz do backend)
+python scripts/upload_model.py
+```
+
+O script solicitará o ID do repositório no Hugging Face (ex: `seu-usuario/crivoai-legalbert-classifier`) e seu token de acesso de escrita (`HF Write Token`).
+
+Após o upload, configure a variável de ambiente no seu ambiente de nuvem ou Vercel:
+
+```text
+MODEL_NAME=seu-usuario/crivoai-legalbert-classifier
+```
+
+Isso garante que o backend FastAPI fará o download e carregamento direto deste modelo treinado automaticamente, eliminando a necessidade de treinamento local.
+
