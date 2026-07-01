@@ -104,7 +104,6 @@ def main():
         logging_dir="./logs",
         logging_steps=1,
         learning_rate=2e-5,
-        no_cuda=True,  # Forçar uso de CPU por padrão para compatibilidade
         use_cpu=True,
     )
 
