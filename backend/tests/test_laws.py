@@ -144,6 +144,7 @@ def test_get_law_retorna_detalhe_persistido(monkeypatch):
     assert fake_law_delegate.find_unique_args == {"id": "law-123"}
     assert response.json()["id"] == "law-123"
     assert response.json()["text"] == "Art. 1 Esta lei promove transparencia."
+    assert response.json()["summary"] is None
     assert response.json()["lawNumber"] == "PL 123/2026"
 
 

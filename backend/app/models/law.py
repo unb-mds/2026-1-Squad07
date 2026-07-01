@@ -35,6 +35,7 @@ class LawResponse(BaseModel):
     title: str
     description: str | None
     text: str
+    summary: str | None = None
     sourceType: str
     sourceUrl: str | None
     jurisdiction: str | None

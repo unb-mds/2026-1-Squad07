@@ -10,6 +10,7 @@ import {
   FileText,
   Hash,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import { apiErrorMessage } from "@/lib/api/client";
 import {
   analyzeLawQuality,
   getLaw,
+  getLawSummary,
   type AnalysisResponse,
   type AnalysisWarning,
   type CreatedLaw,
@@ -75,9 +77,13 @@ function warningKey(warning: AnalysisWarning) {
 export default function LawDetailPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
   const [law, setLaw] = useState<CreatedLaw | null>(null);
   const [loadingLaw, setLoadingLaw] = useState(true);
   const [errorLaw, setErrorLaw] = useState("");
+  const [summary, setSummary] = useState<string | null>(null);
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [errorSummary, setErrorSummary] = useState("");
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
   const [errorAnalysis, setErrorAnalysis] = useState("");
@@ -89,7 +95,7 @@ export default function LawDetailPage() {
       setLoadingLaw(true);
       setErrorLaw("");
       try {
-        const persistedLaw = await getLaw(params.id);
+        const persistedLaw = await getLaw(id);
         if (active) {
           setLaw(persistedLaw);
         }
@@ -113,7 +119,43 @@ export default function LawDetailPage() {
     return () => {
       active = false;
     };
-  }, [params.id]);
+  }, [id]);
+
+  useEffect(() => {
+    if (!law) return;
+
+    let active = true;
+
+    async function fetchSummary() {
+      setLoadingSummary(true);
+      setErrorSummary("");
+      setSummary(null);
+      try {
+        const persistedSummary = await getLawSummary(id);
+        if (active) {
+          setSummary(persistedSummary);
+        }
+      } catch (requestError) {
+        if (active) {
+          setErrorSummary(
+            apiErrorMessage(
+              requestError,
+              "Não foi possível carregar o resumo explicativo no momento.",
+            ),
+          );
+        }
+      } finally {
+        if (active) {
+          setLoadingSummary(false);
+        }
+      }
+    }
+
+    void fetchSummary();
+    return () => {
+      active = false;
+    };
+  }, [law, id]);
 
   useEffect(() => {
     if (!law) return;
@@ -126,7 +168,7 @@ export default function LawDetailPage() {
       setErrorAnalysis("");
       try {
         const data = await analyzeLawQuality({
-          lawId: params.id,
+          lawId: id,
           text: currentText,
           type: "bill",
         });
@@ -153,10 +195,10 @@ export default function LawDetailPage() {
     return () => {
       active = false;
     };
-  }, [law, params.id]);
+  }, [law, id]);
 
   const scorePercent = scoreToPercent(analysis?.score ?? null);
-  const metrics = Object.entries(analysis?.metrics ?? {});
+  const metrics = analysis ? Object.entries(analysis.metrics) : [];
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-6">
@@ -203,6 +245,36 @@ export default function LawDetailPage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
+                  <Sparkles className="size-5 text-purple-600" />
+                  Resumo Explicativo por IA
+                </h2>
+                {loadingSummary ? (
+                  <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-600">
+                    <Loader2 className="size-4 animate-spin text-purple-600" />
+                    Gerando resumo explicativo...
+                  </div>
+                ) : errorSummary ? (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <p className="text-sm font-semibold text-amber-800">
+                      Resumo indisponível no momento.
+                    </p>
+                    <p className="mt-1 text-sm text-amber-800">{errorSummary}</p>
+                  </div>
+                ) : !summary ? (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <p className="text-sm text-amber-800">
+                      Resumo indisponível ou ainda não processado para este documento legislativo.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-slate-600">
+                    {summary}
+                  </div>
+                )}
+              </section>
+
               <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
                 <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-800">
                   <BookOpen className="size-5 text-[#1e3a5f]" />

@@ -49,8 +49,8 @@ Atualmente na Release 1, o score retornado pelo sistema é mockado. Na Release 2
 
 **Critérios de aceite**:
 
-1. **Dado** um payload válido com `"texto": "Art. 1º. Esta lei estabelece regras claras."`,  
-   **quando** enviado para `POST /api/v1/laws/readability`,  
+1. **Dado** um payload válido com `"texto": "Art. 1º. Esta lei estabelece regras claras."`,
+   **quando** enviado para `POST /api/v1/laws/readability`,
    **então** o endpoint retorna status `200 OK` e um objeto com o `score` (float entre 0 e 100), `classificacao` (string) e `metricas` (contendo `palavras`, `frases`, `silabas` como inteiros).
 
 ### Cenário 2 - Submissão de texto vazio ou inválido (Prioridade: P1)
@@ -59,13 +59,13 @@ Atualmente na Release 1, o score retornado pelo sistema é mockado. Na Release 2
 
 **Critérios de aceite**:
 
-1. **Dado** um payload com campo `"texto"` vazio `""` ou ausente,  
-   **quando** enviado para `POST /api/v1/laws/readability`,  
+1. **Dado** um payload com campo `"texto"` vazio `""` ou ausente,
+   **quando** enviado para `POST /api/v1/laws/readability`,
    **então** o backend retorna status `422 Unprocessable Entity` com detalhes da validação.
 
 ## Requisitos
 
-- **REQ-001**: O sistema DEVE calcular a facilidade de leitura usando a fórmula adaptada para o português brasileiro:  
+- **REQ-001**: O sistema DEVE calcular a facilidade de leitura usando a fórmula adaptada para o português brasileiro:
   $$Score = 248.835 - 1.015 \times \left(\frac{\text{palavras}}{\text{frases}}\right) - 84.6 \times \left(\frac{\text{sílabas}}{\text{palavras}}\right)$$
 - **REQ-002**: O sistema DEVE classificar o score calculado nas seguintes faixas:
   - $0 \le Score \le 30$: `"Muito dificil"`
