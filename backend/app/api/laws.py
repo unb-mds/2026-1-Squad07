@@ -26,10 +26,13 @@ async def submit_law(law: LawSubmissionRequest):
 
 
 @router.get("", response_model=list[LawListItem])
-async def list_law_submissions():
-    """Lista submissoes legislativas enviadas por usuarios."""
+async def list_law_submissions(source_type: str = "USER_UPLOAD"):
+    """Lista submissoes legislativas enviadas por usuarios ou do catalogo."""
+    if source_type not in ["USER_UPLOAD", "CATALOG"]:
+        source_type = "USER_UPLOAD"
+
     laws = await db.law.find_many(
-        where={"sourceType": "USER_UPLOAD"},
+        where={"sourceType": source_type},
         order={"createdAt": "desc"},
     )
 
