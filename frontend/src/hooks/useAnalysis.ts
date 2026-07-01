@@ -39,6 +39,23 @@ function deriveSnippet(text: string, code: WarningCode): string {
   return text.substring(0, fallbackEnd).trim();
 }
 
+interface RawWarning {
+  code: string;
+  message: string;
+  confidence: number;
+  snippet?: string;
+}
+
+interface RawAnalysisResponse {
+  analysis_id: string;
+  text?: string;
+  type?: string;
+  score?: number;
+  cached?: boolean;
+  metrics?: Record<string, number>;
+  warnings?: RawWarning[];
+}
+
 export const useAnalysis = (lawId?: string) => {
   const [data, setData] = useState<AnalysisResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -55,7 +72,7 @@ export const useAnalysis = (lawId?: string) => {
 
     try {
       // Faz chamada POST para /api/v1/analysis/evaluate
-      const response = await apiRequest<any>("/api/v1/analysis/evaluate", {
+      const response = await apiRequest<RawAnalysisResponse>("/api/v1/analysis/evaluate", {
         method: "POST",
         body: JSON.stringify({
           text,
@@ -65,7 +82,7 @@ export const useAnalysis = (lawId?: string) => {
       });
 
       // Se a resposta contiver warnings, garante que todos possuam o campo snippet
-      const warnings: Warning[] = (response.warnings || []).map((w: any) => {
+      const warnings: Warning[] = (response.warnings || []).map((w: RawWarning) => {
         const snippet = w.snippet || deriveSnippet(text, w.code as WarningCode);
         return {
           code: w.code as WarningCode,

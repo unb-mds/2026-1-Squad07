@@ -27,7 +27,6 @@ export const useTextHighlight = () => {
     removeHighlights(container);
 
     // Busca recursivamente nos nós de texto para aplicar o realce
-    let found = false;
     const walkAndHighlight = (node: Node): boolean => {
       if (node.nodeType === Node.TEXT_NODE) {
         const nodeText = node.nodeValue || "";
@@ -66,7 +65,6 @@ export const useTextHighlight = () => {
             }, 50);
           }
 
-          found = true;
           return true;
         }
       } else if (node.nodeType === Node.ELEMENT_NODE) {

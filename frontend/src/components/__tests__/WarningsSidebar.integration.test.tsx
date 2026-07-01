@@ -6,7 +6,7 @@ import type { Warning } from "@/types/analysis";
 
 // Componente wrapper para testar a integração do Sidebar com o Hook de Highlight
 const IntegrationTestWrapper: React.FC<{ warnings: Warning[]; text: string }> = ({ warnings, text }) => {
-  const { highlightText, clearHighlight } = useTextHighlight();
+  const { highlightText } = useTextHighlight();
 
   const handleWarningClick = (warning: Warning) => {
     highlightText(warning.snippet, "law-content");

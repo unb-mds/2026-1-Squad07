@@ -76,7 +76,7 @@ export const WarningCard: React.FC<WarningCardProps> = ({ warning, onSelect, onH
       {snippet && (
         <div className="w-full bg-slate-50 border-l-2 border-slate-300 p-2 rounded-r-md">
           <p className="text-xs font-serif italic text-slate-600 leading-relaxed whitespace-pre-wrap">
-            "{truncateSnippet(snippet)}"
+            &quot;{truncateSnippet(snippet)}&quot;
           </p>
         </div>
       )}

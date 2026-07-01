@@ -5,7 +5,6 @@ import { AlertCircle, CheckCircle2, Loader2, ShieldAlert } from "lucide-react";
 
 export const WarningsSidebar: React.FC<WarningsSidebarProps> = ({
   warnings,
-  textContent,
   isLoading = false,
   error = null,
   onWarningClick,
