@@ -102,8 +102,11 @@ describe("LawDetailPage - análise de qualidade", () => {
       }),
     );
 
-    const analysisHeaders = analysisCall?.[1].headers as Headers;
-    expect(analysisHeaders.get("Content-Type")).toBe("application/json");
+    const analysisHeaders =
+      analysisCall && analysisCall[1]
+        ? (analysisCall[1].headers as Headers)
+        : undefined;
+    expect(analysisHeaders?.get("Content-Type")).toBe("application/json");
   });
 });
 
