@@ -8,6 +8,7 @@ Contratos conforme `docs/architecture/ai-integration.md`:
 O frontend nunca chama a IA diretamente: toda inferência passa por aqui (D1).
 """
 
+import os
 from fastapi import APIRouter, HTTPException, status
 
 from app.db.client import db
@@ -19,13 +20,27 @@ from app.models.analysis import (
 from app.services.analysis.cache import AnalysisCache
 from app.services.analysis.service import AnalysisError, evaluate_text
 from app.services.analysis_provider import LegalBERTProvider
+from app.services.summary_provider import (
+    GeminiSummaryProvider,
+    MockSummaryProvider,
+)
 
 router = APIRouter(prefix="/api/v1", tags=["analysis"])
 
-# Instâncias de processo: o modelo é auto-hospedado e carregado preguiçosamente
-# na primeira inferência; o cache vive por processo (D2/D4).
 provider = LegalBERTProvider()
 cache = AnalysisCache()
+
+environment = os.getenv("ENVIRONMENT", "development")
+gemini_key = os.getenv("GEMINI_API_KEY")
+
+if gemini_key:
+    summary_provider = GeminiSummaryProvider(gemini_key)
+elif environment == "production":
+    # Em produção, sem chave, desabilita geração de resumos sem usar mock
+    summary_provider = GeminiSummaryProvider(None)
+else:
+    # Em desenvolvimento ou testes locais, mantém o Mock
+    summary_provider = MockSummaryProvider()
 
 
 def _to_response(analysis) -> dict:
@@ -34,6 +49,7 @@ def _to_response(analysis) -> dict:
         "analysis_id": analysis.id,
         "status": "completed",
         "score": analysis.score,
+        "summary": analysis.summary,
         "metrics": analysis.metrics,
         "warnings": analysis.warnings,
         "model_version": analysis.modelVersion,
@@ -43,7 +59,7 @@ def _to_response(analysis) -> dict:
 
 @router.post("/analysis/evaluate", response_model=AnalysisResponse)
 async def evaluate(payload: AnalysisRequest):
-    """Classifica o texto e retorna score, métricas, avisos e versão do modelo."""
+    """Classifica o texto e retorna score e métricas."""
     if payload.lawId is not None:
         law = await db.law.find_unique(where={"id": payload.lawId})
         if law is None:
@@ -57,6 +73,7 @@ async def evaluate(payload: AnalysisRequest):
             payload.text,
             payload.lawId,
             provider=provider,
+            summary_provider=summary_provider,
             cache=cache,
             db=db,
         )
@@ -93,7 +110,7 @@ async def latest_analysis(id: str):
 
 @router.get("/laws/{id}/history", response_model=list[AnalysisHistoryItem])
 async def history(id: str):
-    """Retorna o histórico de análises da lei, da mais recente para a antiga."""
+    """Retorna o histórico de análises da lei."""
     law = await db.law.find_unique(where={"id": id})
     if law is None:
         raise HTTPException(
