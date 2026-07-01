@@ -143,6 +143,12 @@ class LegalBERTProvider(AnalysisProvider):
         """Carrega tokenizer e modelo sob demanda (auto-hospedado, D2)."""
         if self._tokenizer is not None and self._model is not None:
             return
+        
+        import gc  # pragma: no cover
+        import torch  # pragma: no cover
+        # Otimização de alocação de threads e RAM para instâncias serverless (512MB)
+        torch.set_num_threads(1)  # pragma: no cover
+
         from pathlib import Path  # pragma: no cover
         from transformers import (  # pragma: no cover
             AutoModelForSequenceClassification,
@@ -166,3 +172,6 @@ class LegalBERTProvider(AnalysisProvider):
                 num_labels=len(self.labels),
                 problem_type="multi_label_classification",
             )
+        
+        # Coleta de lixo forçada para liberar a cache de leitura de tensores do disco da RAM
+        gc.collect()  # pragma: no cover
