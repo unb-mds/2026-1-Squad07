@@ -38,9 +38,23 @@ Com o modelo treinado, podemos carregar as leis de demonstração e catálogo no
 python scripts/ingest_catalog.py
 ```
 
-## Passo 3: Iniciar e Validar Localmente
+## Passo 3: Testar a Inferência no Terminal (Opcional)
 
-Inicie os servidores de backend e frontend para validar a integração:
+Se desejar testar a inferência real do classificador e ver os resultados numéricos diretamente no terminal (sem subir o servidor HTTP), execute:
+
+```bash
+# Executar a partir da raiz do backend
+python scripts/test_classifier_local.py
+```
+
+Você também pode passar um texto personalizado como argumento:
+```bash
+python scripts/test_classifier_local.py "Art. 1º. Esta regra é muito vaga e obscura sempre que viável."
+```
+
+## Passo 4: Iniciar e Validar Localmente (API & Interface)
+
+Inicie os servidores de backend e frontend para validar a integração de ponta a ponta:
 
 **Backend:**
 ```bash
