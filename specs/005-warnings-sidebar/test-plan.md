@@ -89,21 +89,31 @@ Validar que o componente `WarningsSidebar` renderiza corretamente warnings do Le
 **TDD-009 (Happy Path - Fetch e Renderização)**:
 - *Tipo*: Integração (React Testing Library + MSW mock API)
 - *Setup*:
-  - Mock de `POST /api/v1/analysis/evaluate` retornando:
+  - Mock de `POST /api/v1/analysis/evaluate` retornando (sem o campo `snippet`):
     ```json
     {
       "analysis_id": "uuid-1",
+      "status": "completed",
+      "score": 0.92,
+      "metrics": {
+        "ambiguidade": 0.92,
+        "vagueza": 0.10,
+        "falta_referencia": 0.05,
+        "inconsistencia": 0.02
+      },
       "warnings": [
-        { "code": "ambiguidade", "message": "...", "snippet": "Art. 1º...", "confidence": 0.92 }
-      ]
+        { "code": "ambiguidade", "message": "...", "confidence": 0.92 }
+      ],
+      "model_version": "legal-bert-pt@v0.1.0"
     }
     ```
-  - Renderizar página `/law/1` com componente `LawDetail`.
+  - Renderizar página `/law/law-123` com o componente do detalhe da lei.
 - *Procedimento*: Aguardar renderização da página.
 - *Resultado esperado*:
-  - Requisição POST é disparada com `{ text: "...", type: "bill", lawId: 1 }`.
+  - Requisição POST é disparada com `{ text: "...", type: "bill", lawId: "law-123" }`.
+  - O frontend intercepta a resposta e deriva o `snippet` localmente.
   - WarningsSidebar renderiza com o warning retornado.
-  - Card exibido com código, mensagem, snippet e confiança.
+  - Card exibido com código, mensagem, snippet derivado e confiança.
 
 **TDD-010 (Clique em Card - Scroll + Highlight)**:
 - *Tipo*: Integração
@@ -171,7 +181,7 @@ Art. 2º. Sem prejuízo do disposto no artigo anterior, as disposições desta l
 ## Validação Manual
 
 - [ ] Executar `npm run dev` no frontend.
-- [ ] Acessar `/law/1` (ou criar uma lei antes).
+- [ ] Acessar `/law/law-123` (ou criar uma lei antes).
 - [ ] Verificar se sidebar carrega com warnings da API em < 5s.
 - [ ] Clicar em um card: verificar scroll suave + highlight.
 - [ ] Aguardar 2s: verificar fade-out do highlight.
@@ -192,7 +202,7 @@ npm test -- WarningsSidebar.test.tsx --coverage
 ### Executar Testes de Integração
 
 ```bash
-npm test -- LawDetail.integration.test.tsx --coverage
+npm test -- WarningsSidebar.integration.test.tsx --coverage
 ```
 
 **Resultado esperado**: Testes de API mock, scroll, highlight, erro passando.
