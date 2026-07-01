@@ -29,7 +29,7 @@ Mapeamento de tarefas e status de implementação da integração da análise de
   - Adicionar etapas de download de artefatos (`actions/download-artifact@v4`) para backend e frontend.
   - Integrar a action oficial `sonarsource/sonarcloud-github-action@master` parametrizada com o `SONAR_TOKEN`.
 
-- [ ] **Task 6: Vinculação e Configuração do Token no SonarCloud e GitHub (Administrativa)**
+- [x] **Task 6: Vinculação e Configuração do Token no SonarCloud e GitHub (Administrativa)**
   - Realizar o login na plataforma SonarCloud.
   - Adicionar o repositório `2026-1-Squad07` e obter o token.
   - Salvar o token como a Repository Secret `SONAR_TOKEN` nas configurações do GitHub.
