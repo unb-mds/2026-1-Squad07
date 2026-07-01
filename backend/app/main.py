@@ -19,6 +19,8 @@ app = FastAPI(lifespan=lifespan)
 origins = [
     "http://localhost:3000",
     "http://localhost:8080",
+    "https://crivoai-omega.vercel.app",
+    "https://crivoai.vercel.app",
 ]
 
 
