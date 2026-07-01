@@ -62,10 +62,13 @@ function Header() {
 
           {user ? (
             <div className="flex items-center gap-2">
-              <span className="hidden items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white sm:flex">
+              <Link
+                href="/profile"
+                className="hidden items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/20 sm:flex"
+              >
                 <User className="size-4" />
                 {user.name}
-              </span>
+              </Link>
               <button
                 type="button"
                 onClick={() => {
