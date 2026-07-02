@@ -43,12 +43,8 @@ export default function Home() {
     setError("");
 
     try {
-      const [lawsData, statsData] = await Promise.all([
-        listLawSubmissions(),
-        getLawStatistics(),
-      ]);
+      const lawsData = await listLawSubmissions();
       setSubmissions(lawsData);
-      setStatistics(statsData);
     } catch (requestError) {
       setError(
         apiErrorMessage(
@@ -56,6 +52,13 @@ export default function Home() {
           "Não foi possível carregar os registros persistidos.",
         ),
       );
+    }
+
+    try {
+      const statsData = await getLawStatistics();
+      setStatistics(statsData);
+    } catch (statsError) {
+      console.error("Erro ao carregar estatísticas:", statsError);
     } finally {
       setLoading(false);
     }
