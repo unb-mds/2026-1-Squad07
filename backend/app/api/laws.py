@@ -54,7 +54,17 @@ async def get_law(law_id: str):
     if law is None:
         raise HTTPException(status_code=404, detail="Submissão não encontrada.")
 
-    return law
+    # Busca a análise mais recente para obter o resumo gerado pela IA, caso exista
+    analysis = None
+    if hasattr(db, "analysis"):
+        analysis = await db.analysis.find_first(
+            where={"lawId": law_id},
+            order={"createdAt": "desc"},
+        )
+
+    law_response = LawResponse.model_validate(law)
+    law_response.summary = analysis.summary if analysis else None
+    return law_response
 
 
 @router_v1.post(
