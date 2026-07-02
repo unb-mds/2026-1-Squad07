@@ -1,32 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Sun, Moon } from "lucide-react"; // Reaproveitando os ícones padrões do projeto
+import { Sun, Moon } from "lucide-react";
 
 export function DarkModeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    // Verifica se já existe uma preferência salva ou se o sistema do usuário prefere dark mode
     const savedTheme = localStorage.getItem("theme");
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const activeTheme = savedTheme === "dark" || (!savedTheme && systemPrefersDark) ? "dark" : "light";
+
+    setTheme(activeTheme);
     
-    if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
-      setTheme("dark");
+    if (activeTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
-      setTheme("light");
       document.documentElement.classList.remove("dark");
     }
   }, []);
 
   const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    
+    if (nextTheme === "dark") {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      setTheme("light");
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
