@@ -61,7 +61,6 @@ class LawStatisticsResponse(BaseModel):
     criticalLaws: int
 
 
-
 class ReadabilityRequest(BaseModel):
     texto: str = Field(..., min_length=1)
 

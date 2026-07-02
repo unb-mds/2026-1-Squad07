@@ -23,7 +23,6 @@ def auth_dependency_override():
     app.dependency_overrides.clear()
 
 
-
 class FakeLawDelegate:
     def __init__(self):
         self.created_data = None
@@ -246,18 +245,9 @@ def test_get_statistics_retorna_calculos_reais(monkeypatch):
 
     async def mock_find_many(**kwargs):
         return [
-            SimpleNamespace(
-                id="law-1",
-                analyses=[SimpleNamespace(score=0.85)]
-            ),
-            SimpleNamespace(
-                id="law-2",
-                analyses=[SimpleNamespace(score=0.30)]
-            ),
-            SimpleNamespace(
-                id="law-3",
-                analyses=[]
-            )
+            SimpleNamespace(id="law-1", analyses=[SimpleNamespace(score=0.85)]),
+            SimpleNamespace(id="law-2", analyses=[SimpleNamespace(score=0.30)]),
+            SimpleNamespace(id="law-3", analyses=[]),
         ]
 
     fake_law_delegate.find_many = mock_find_many

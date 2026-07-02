@@ -123,4 +123,3 @@ async def get_law_statistics():
         analyzedLaws=total_analisadas,
         criticalLaws=critical_laws,
     )
-
