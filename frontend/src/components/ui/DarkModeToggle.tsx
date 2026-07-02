@@ -8,7 +8,12 @@ export function DarkModeToggle() {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    // Evita a quebra no ambiente de testes (Jest/jsdom) caso matchMedia não esteja definido
+    const systemPrefersDark = typeof window !== "undefined" && 
+      window.matchMedia && 
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+      
     const activeTheme = savedTheme === "dark" || (!savedTheme && systemPrefersDark) ? "dark" : "light";
 
     // eslint-disable-next-line react-hooks/set-state-in-effect

@@ -286,7 +286,7 @@ export default function LawDetailPage() {
               {loadingAnalysis ? (
                 <section className="flex items-center justify-center gap-3 rounded-2xl border border-border bg-card py-12 text-sm font-semibold text-muted-foreground shadow-md">
                   <Loader2 className="size-5 animate-spin text-primary" />
-                  Analisando qualidade legislativa do text...
+                  Analisando qualidade legislativa do texto...
                 </section>
               ) : errorAnalysis ? (
                 <section className="rounded-2xl border border-[var(--warning)]/20 bg-[var(--warning)]/10 p-6 shadow-sm">
@@ -378,7 +378,7 @@ export default function LawDetailPage() {
               ) : (
                 <section className="flex items-start gap-3 rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
                   <FileText className="mt-0.5 size-5 shrink-0 text-primary" />
-                  Aguardando o processamento dos indicadores de qualidade do documento.
+                  Gerando resumo explicativo...
                 </section>
               )}
 
