@@ -19,7 +19,7 @@ from app.models.analysis import (
 )
 from app.services.analysis.cache import AnalysisCache
 from app.services.analysis.service import AnalysisError, evaluate_text
-from app.services.analysis_provider import LegalBERTProvider
+from app.services.analysis_provider import LegalBERTProvider, TfidfProvider
 from app.services.summary_provider import (
     GeminiSummaryProvider,
     MockSummaryProvider,
@@ -27,7 +27,12 @@ from app.services.summary_provider import (
 
 router = APIRouter(prefix="/api/v1", tags=["analysis"])
 
-provider = LegalBERTProvider()
+# Classificador padrão: TF-IDF leve (sem torch, ~175 MB de RAM, cabe no Render).
+# Defina CLASSIFIER=legalbert para usar o LegalBERT (requer torch + pesos).
+if os.getenv("CLASSIFIER", "tfidf").lower() == "legalbert":
+    provider = LegalBERTProvider()
+else:
+    provider = TfidfProvider()
 cache = AnalysisCache()
 
 environment = os.getenv("ENVIRONMENT", "development")

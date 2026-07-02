@@ -71,6 +71,9 @@ prisma/debug*.log
 # Modelo local treinado do LegalBERT-pt
 backend/app/models/fine_tuned_legalbert/
 
+# Artefato INT8 quantizado (experimental, descartado por perda de qualidade)
+backend/app/models/legalbert_int8/
+
 # Pastas temporárias do Hugging Face Trainer
 results/
 logs/
