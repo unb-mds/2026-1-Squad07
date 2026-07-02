@@ -13,8 +13,11 @@ from app.services.analysis_provider import (
     MAX_TOKENS,
     MODEL_VERSION,
     TAXONOMY,
+    TFIDF_MODEL_VERSION,
     AnalysisProvider,
     LegalBERTProvider,
+    TfidfProvider,
+    _rescale_to_threshold,
     sigmoid,
 )
 
@@ -124,3 +127,66 @@ def test_model_name_le_da_variavel_de_ambiente(monkeypatch):
 
     monkeypatch.delenv("MODEL_NAME", raising=False)
     importlib.reload(analysis_provider)
+
+
+# ---------------------------------------------------------------------------
+# TfidfProvider (classificador leve TF-IDF + LogReg)
+# ---------------------------------------------------------------------------
+class FakePipeline:
+    """Pipeline falso: devolve probabilidades fixas por categoria."""
+
+    def __init__(self, probs):
+        self._probs = probs
+
+    def predict_proba(self, textos):
+        return [list(self._probs)]
+
+
+def _fake_bundle(probs, thresholds):
+    return {
+        "pipeline": FakePipeline(probs),
+        "thresholds": list(thresholds),
+        "labels": list(TAXONOMY),
+        "model_version": TFIDF_MODEL_VERSION,
+    }
+
+
+def test_tfidf_model_version_exposto():
+    """O provider TF-IDF expõe uma versão distinta do LegalBERT."""
+    assert TfidfProvider().model_version == TFIDF_MODEL_VERSION
+    assert TFIDF_MODEL_VERSION != MODEL_VERSION
+
+
+def test_tfidf_analyze_devolve_quatro_categorias():
+    """analyze() devolve as 4 categorias com probabilidades em [0, 1]."""
+    bundle = _fake_bundle([0.2, 0.6, 0.05, 0.9], [0.25, 0.35, 0.43, 0.28])
+    provider = TfidfProvider(bundle=bundle)
+
+    result = provider.analyze("Art. 1o texto de exemplo")
+
+    assert set(result.keys()) == set(TAXONOMY)
+    assert all(0.0 <= v <= 1.0 for v in result.values())
+
+
+def test_tfidf_threshold_calibrado_vira_fronteira_meio():
+    """Prob no threshold da classe mapeia para exatamente 0.5 (D-scoring)."""
+    bundle = _fake_bundle([0.25, 0.35, 0.43, 0.28], [0.25, 0.35, 0.43, 0.28])
+    provider = TfidfProvider(bundle=bundle)
+
+    result = provider.analyze("texto")
+
+    assert all(value == pytest.approx(0.5) for value in result.values())
+
+
+def test_tfidf_texto_vazio_levanta_erro():
+    """Texto vazio/em branco falha explicitamente (D6)."""
+    provider = TfidfProvider(bundle=_fake_bundle([0.5] * 4, [0.5] * 4))
+    with pytest.raises(ValueError):
+        provider.analyze("   ")
+
+
+def test_rescale_monotonico_em_torno_do_threshold():
+    """Abaixo do threshold -> < 0.5; acima -> > 0.5."""
+    assert _rescale_to_threshold(0.1, 0.3) < 0.5
+    assert _rescale_to_threshold(0.3, 0.3) == pytest.approx(0.5)
+    assert _rescale_to_threshold(0.6, 0.3) > 0.5

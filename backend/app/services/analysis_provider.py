@@ -12,6 +12,7 @@ from __future__ import annotations
 import math
 import os
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 # Taxonomia inicial da R2 (REQ-015). Ampliar exige nova ``MODEL_VERSION``.
 TAXONOMY: tuple[str, ...] = (
@@ -166,3 +167,75 @@ class LegalBERTProvider(AnalysisProvider):
                 num_labels=len(self.labels),
                 problem_type="multi_label_classification",
             )
+
+
+# Versão do classificador leve TF-IDF; distinta do LegalBERT para não misturar
+# cache/persistência entre modelos (D4).
+TFIDF_MODEL_VERSION = "tfidf-lexical-v1"
+
+# Artefato treinado por ``scripts/train_tfidf.py`` (versionado no repo, ~3 MB).
+DEFAULT_TFIDF_PATH = (
+    Path(__file__).resolve().parent.parent / "models" / "tfidf_classifier.pkl"
+)
+
+
+def _rescale_to_threshold(prob: float, threshold: float) -> float:
+    """Remapeia ``prob`` para que 0.5 seja a fronteira de decisão calibrada.
+
+    O modelo TF-IDF tem um threshold ótimo POR CLASSE (calibrado na validação),
+    mas a camada de scoring aplica um único limiar (0.5). Este remapeamento
+    monotônico e contínuo garante ``prob >= threshold`` ⇔ ``saída >= 0.5``,
+    preservando a decisão calibrada sem mudar o ``scoring``. As probabilidades
+    resultantes também alimentam o ``score`` (1 - média) de forma coerente.
+    """
+    threshold = min(max(threshold, 1e-6), 1.0 - 1e-6)
+    if prob <= threshold:
+        return 0.5 * (prob / threshold)
+    return 0.5 + 0.5 * (prob - threshold) / (1.0 - threshold)
+
+
+class TfidfProvider(AnalysisProvider):
+    """Classificador leve TF-IDF + Regressão Logística (multi-label).
+
+    Alternativa ao ``LegalBERTProvider`` para o deploy no Render (CPU/512 MB):
+    sem ``torch`` nem download de pesos — carrega um ``pickle`` de ~3 MB
+    versionado no repo. Contra os rótulos atuais (lexicais) iguala/supera o F1 do
+    LegalBERT consumindo uma fração da RAM. Ver ``scripts/train_tfidf.py``.
+    """
+
+    model_version = TFIDF_MODEL_VERSION
+
+    def __init__(
+        self,
+        model_path: str | Path | None = None,
+        *,
+        bundle: dict | None = None,
+    ) -> None:
+        self._model_path = Path(model_path) if model_path else DEFAULT_TFIDF_PATH
+        # Permite injeção nos testes; em produção carrega preguiçosamente.
+        self._bundle = bundle
+
+    def analyze(self, texto: str) -> dict[str, float]:
+        """Classifica o texto e devolve ``{categoria: probabilidade}``."""
+        if not texto or not texto.strip():
+            raise ValueError("Texto vazio para análise.")
+
+        bundle = self._ensure_loaded()
+        pipeline = bundle["pipeline"]
+        thresholds = bundle["thresholds"]
+        labels = bundle["labels"]
+
+        probabilities = pipeline.predict_proba([texto])[0]
+        return {
+            label: _rescale_to_threshold(float(prob), float(threshold))
+            for label, prob, threshold in zip(labels, probabilities, thresholds)
+        }
+
+    def _ensure_loaded(self) -> dict:
+        """Carrega o bundle (pipeline + thresholds + labels) sob demanda."""
+        if self._bundle is None:
+            import pickle
+
+            with open(self._model_path, "rb") as handle:
+                self._bundle = pickle.load(handle)
+        return self._bundle
