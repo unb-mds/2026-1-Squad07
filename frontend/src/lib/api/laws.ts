@@ -29,6 +29,7 @@ export type LawSubmissionListItem = {
   title: string;
   createdAt: string;
   textExcerpt: string;
+  score?: number | null;
 };
 
 export type AnalysisRequest = {
@@ -82,3 +83,14 @@ export function analyzeLawQuality(payload: AnalysisRequest) {
     body: JSON.stringify(payload),
   });
 }
+
+export type LawStatistics = {
+  averageScore: number;
+  analyzedLaws: number;
+  criticalLaws: number;
+};
+
+export function getLawStatistics() {
+  return apiRequest<LawStatistics>("/api/v1/laws/statistics");
+}
+
