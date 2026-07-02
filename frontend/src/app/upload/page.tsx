@@ -11,7 +11,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRef, useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiErrorMessage } from "@/lib/api/client";
 import { submitLaw } from "@/lib/api/laws";
@@ -19,6 +19,20 @@ import { submitLaw } from "@/lib/api/laws";
 export default function UploadLawPage() {
   const router = useRouter();
   const { token } = useAuth();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!token) {
+        router.replace("/login");
+      } else {
+        setCheckingAuth(false);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [token, router]);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     lawNumber: "",
@@ -85,6 +99,13 @@ export default function UploadLawPage() {
     } finally {
       setIsSubmitting(false);
     }
+  if (checkingAuth) {
+    return (
+      <div className="flex min-h-96 items-center justify-center gap-2">
+        <Loader2 className="size-6 animate-spin text-[#1e3a5f]" />
+        <span className="text-sm font-medium text-slate-600">Verificando permissões...</span>
+      </div>
+    );
   }
 
   return (
