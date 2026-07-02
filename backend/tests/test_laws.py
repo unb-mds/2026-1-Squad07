@@ -1,12 +1,27 @@
+import pytest
 from datetime import datetime, timezone
 from types import SimpleNamespace
 
 from fastapi.testclient import TestClient
 
 from app.api import laws
+from app.api.dependencies import get_current_user
 from app.main import app
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def auth_dependency_override():
+    app.dependency_overrides[get_current_user] = lambda: SimpleNamespace(
+        id="user-123",
+        name="User Teste",
+        email="user@test.com",
+        role="COMMON",
+    )
+    yield
+    app.dependency_overrides.clear()
+
 
 
 class FakeLawDelegate:
@@ -93,9 +108,24 @@ def test_submit_law_cria_lei_como_user_upload(monkeypatch):
         "text": "Art. 1 Esta lei estabelece regras de transparencia publica.",
         "isPublic": False,
         "sourceType": "USER_UPLOAD",
+        "uploadedByUserId": "user-123",
     }
     assert response.json()["id"] == "law-123"
     assert response.json()["sourceType"] == "USER_UPLOAD"
+    assert response.json()["uploadedByUserId"] == "user-123"
+
+
+def test_submit_law_rejeita_usuario_deslogado():
+    """Verifica que a criacao de lei exige autenticacao."""
+    app.dependency_overrides.clear()  # Simula estar deslogado
+    response = client.post(
+        "/laws",
+        json={
+            "title": "Sem login",
+            "text": "Texto qualquer",
+        },
+    )
+    assert response.status_code == 401
 
 
 def test_submit_law_exige_titulo_e_texto():
@@ -116,6 +146,7 @@ def test_list_law_submissions_retorna_resumo_das_submissoes(monkeypatch):
     assert fake_law_delegate.find_many_args == {
         "where": {"sourceType": "USER_UPLOAD"},
         "order": {"createdAt": "desc"},
+        "include": {"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
     }
     assert response.json() == [
         {
@@ -123,12 +154,14 @@ def test_list_law_submissions_retorna_resumo_das_submissoes(monkeypatch):
             "title": "Projeto de Lei sobre transparencia",
             "createdAt": "2026-05-21T10:00:00Z",
             "textExcerpt": "A" * 120,
+            "score": None,
         },
         {
             "id": "law-1",
             "title": "Submissao antiga",
             "createdAt": "2026-05-20T10:00:00Z",
             "textExcerpt": "Texto menor para exibicao direta.",
+            "score": None,
         },
     ]
 
@@ -169,6 +202,7 @@ def test_list_law_submissions_com_source_type_catalog(monkeypatch):
     assert fake_law_delegate.find_many_args == {
         "where": {"sourceType": "CATALOG"},
         "order": {"createdAt": "desc"},
+        "include": {"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
     }
 
 
@@ -183,6 +217,7 @@ def test_list_law_submissions_com_source_type_invalido_usa_user_upload(monkeypat
     assert fake_law_delegate.find_many_args == {
         "where": {"sourceType": "USER_UPLOAD"},
         "order": {"createdAt": "desc"},
+        "include": {"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
     }
 
 
@@ -202,3 +237,52 @@ def test_get_law_retorna_resumo_se_existe_analise(monkeypatch):
     assert response.status_code == 200
     assert response.json()["id"] == "law-123"
     assert response.json()["summary"] == "Resumo recuperado."
+
+
+def test_get_statistics_retorna_calculos_reais(monkeypatch):
+    """Verifica que o endpoint de estatisticas faz calculo correto dos scores."""
+    fake_law_delegate = FakeLawDelegate()
+
+    async def mock_find_many(**kwargs):
+        return [
+            SimpleNamespace(
+                id="law-1",
+                analyses=[SimpleNamespace(score=0.85)]
+            ),
+            SimpleNamespace(
+                id="law-2",
+                analyses=[SimpleNamespace(score=0.30)]
+            ),
+            SimpleNamespace(
+                id="law-3",
+                analyses=[]
+            )
+        ]
+
+    fake_law_delegate.find_many = mock_find_many
+    monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
+
+    response = client.get("/api/v1/laws/statistics")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["analyzedLaws"] == 2
+    assert data["averageScore"] == 0.575
+    assert data["criticalLaws"] == 1
+
+
+def test_get_statistics_sem_analises_retorna_zeros(monkeypatch):
+    """Verifica que estatisticas sem analises retornam valores zerados."""
+    fake_law_delegate = FakeLawDelegate()
+
+    async def mock_find_many(**kwargs):
+        return []
+
+    fake_law_delegate.find_many = mock_find_many
+    monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
+
+    response = client.get("/api/v1/laws/statistics")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["analyzedLaws"] == 0
+    assert data["averageScore"] == 0.0
+    assert data["criticalLaws"] == 0
