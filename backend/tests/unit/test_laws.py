@@ -184,3 +184,24 @@ def test_list_law_submissions_com_source_type_invalido_usa_user_upload(monkeypat
         "where": {"sourceType": "USER_UPLOAD"},
         "order": {"createdAt": "desc"},
     }
+
+
+def test_get_law_retorna_resumo_se_existe_analise(monkeypatch):
+    """Verifica que o resumo da lei é preenchido se houver análise recente."""
+    fake_law_delegate = FakeLawDelegate()
+    
+    class FakeAnalysisDelegate:
+        async def find_first(self, **kwargs):
+            return SimpleNamespace(summary="Resumo recuperado.")
+            
+    mock_db = SimpleNamespace(
+        law=fake_law_delegate,
+        analysis=FakeAnalysisDelegate()
+    )
+    monkeypatch.setattr(laws, "db", mock_db)
+
+    response = client.get("/laws/law-123")
+
+    assert response.status_code == 200
+    assert response.json()["id"] == "law-123"
+    assert response.json()["summary"] == "Resumo recuperado."
