@@ -18,11 +18,7 @@ import {
   listLawSubmissions,
   type LawSubmissionListItem,
 } from "@/lib/api/laws";
-import {
-  demoAnalyses,
-  demoDashboard,
-  scoreClass,
-} from "@/lib/demo-analysis";
+import { demoDashboard, demoAnalyses, scoreClass } from "@/lib/demo-analysis";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
@@ -37,17 +33,18 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadSubmissions = useCallback(async () => {
+  const loadDashboardData = useCallback(async () => {
     setLoading(true);
     setError("");
 
     try {
-      setSubmissions(await listLawSubmissions());
+      const submissionsData = await listLawSubmissions();
+      setSubmissions(submissionsData);
     } catch (requestError) {
       setError(
         apiErrorMessage(
           requestError,
-          "Não foi possível carregar os registros persistidos.",
+          "Não foi possível carregar os registros do painel.",
         ),
       );
     } finally {
@@ -57,11 +54,11 @@ export default function Home() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      void loadSubmissions();
+      void loadDashboardData();
     }, 0);
 
     return () => window.clearTimeout(timer);
-  }, [loadSubmissions]);
+  }, [loadDashboardData]);
 
   function handleSearch() {
     const term = inputRef.current?.value.trim();
@@ -107,7 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ALTERADO: Adicionado 'dark:bg-none dark:bg-card dark:border dark:border-border' para se adaptar à nova cor */}
       <section className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-br from-[#1e3a5f] to-[#2d5a8c] dark:bg-none dark:bg-card dark:border dark:border-border p-6 text-white shadow-xl sm:p-8 transition-colors">
         <h2 className="text-center text-2xl font-bold dark:text-foreground">Consulte uma Submissão</h2>
         <p className="mb-6 mt-2 text-center text-sm text-blue-200 dark:text-muted-foreground">
@@ -134,6 +130,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Grid e cards restaurados para exibição padrão sem necessidade de login */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <article className="rounded-2xl border border-border bg-card p-6 shadow-md lg:col-span-2">
           <div className="mb-5 flex items-center justify-between gap-4">
@@ -161,7 +158,7 @@ export default function Home() {
               </p>
               <button
                 type="button"
-                onClick={() => void loadSubmissions()}
+                onClick={() => void loadDashboardData()}
                 className="mt-4 flex items-center gap-2 font-semibold text-primary"
               >
                 <RefreshCw className="size-4" />
