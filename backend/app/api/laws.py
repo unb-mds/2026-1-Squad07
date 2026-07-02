@@ -49,7 +49,7 @@ async def list_law_submissions(source_type: str = "USER_UPLOAD"):
             title=law.title,
             createdAt=law.createdAt,
             textExcerpt=law.text[:TEXT_EXCERPT_MAX_LENGTH],
-            score=law.analyses[0].score if law.analyses else None,
+            score=law.analyses[0].score if getattr(law, "analyses", None) else None,
         )
         for law in laws
     ]

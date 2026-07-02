@@ -35,18 +35,19 @@ class FakeLawDelegate:
         self.created_data = data
         now = datetime(2026, 5, 20, 12, 0, tzinfo=timezone.utc)
 
-        return SimpleNamespace(
-            id="law-123",
-            createdAt=now,
-            updatedAt=now,
-            description=None,
-            sourceUrl=None,
-            jurisdiction=None,
-            lawNumber=None,
-            publicationDate=None,
-            uploadedByUserId=None,
-            **data,
-        )
+        res = {
+            "id": "law-123",
+            "createdAt": now,
+            "updatedAt": now,
+            "description": None,
+            "sourceUrl": None,
+            "jurisdiction": None,
+            "lawNumber": None,
+            "publicationDate": None,
+            "uploadedByUserId": None,
+        }
+        res.update(data)
+        return SimpleNamespace(**res)
 
     async def find_many(self, **kwargs):
         """Simula a listagem de leis persistidas no banco."""
