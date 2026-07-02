@@ -99,6 +99,8 @@ export default function UploadLawPage() {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
   if (checkingAuth) {
     return (
       <div className="flex min-h-96 items-center justify-center gap-2">
