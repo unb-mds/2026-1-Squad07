@@ -14,11 +14,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RadialProgress } from "@/components/RadialProgress";
 import { apiErrorMessage } from "@/lib/api/client";
-import {
-  listLawSubmissions,
-  type LawSubmissionListItem,
-} from "@/lib/api/laws";
-import { demoDashboard, demoAnalyses, scoreClass } from "@/lib/demo-analysis";
+import { listLawSubmissions, getLawStatistics, type LawSubmissionListItem, type LawStatistics } from "@/lib/api/laws";
+import { useAuth } from "@/contexts/AuthContext";
 
 function formattedDate(value: string) {
   return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
@@ -26,10 +23,18 @@ function formattedDate(value: string) {
   );
 }
 
+function getScoreColorClass(score: number): string {
+  if (score >= 85) return "bg-green-50 text-green-700";
+  if (score >= 70) return "bg-yellow-50 text-yellow-700";
+  return "bg-red-50 text-red-700";
+}
+
 export default function Home() {
   const router = useRouter();
+  const { user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
   const [submissions, setSubmissions] = useState<LawSubmissionListItem[]>([]);
+  const [statistics, setStatistics] = useState<LawStatistics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -38,8 +43,8 @@ export default function Home() {
     setError("");
 
     try {
-      const submissionsData = await listLawSubmissions();
-      setSubmissions(submissionsData);
+      const lawsData = await listLawSubmissions();
+      setSubmissions(lawsData);
     } catch (requestError) {
       setError(
         apiErrorMessage(
@@ -47,6 +52,13 @@ export default function Home() {
           "Não foi possível carregar os registros do painel.",
         ),
       );
+    }
+
+    try {
+      const statsData = await getLawStatistics();
+      setStatistics(statsData);
+    } catch (statsError) {
+      console.error("Erro ao carregar estatísticas:", statsError);
     } finally {
       setLoading(false);
     }
@@ -78,27 +90,27 @@ export default function Home() {
 
       <section className="mx-auto max-w-4xl space-y-5">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Indicadores simulados para demonstração
+          Indicadores de Qualidade Legislativa
         </p>
         <article className="flex flex-col items-center justify-center gap-6 rounded-2xl border border-border bg-card p-6 text-center shadow-md sm:flex-row sm:p-8 sm:text-left">
-          <RadialProgress value={demoDashboard.averageScore} size={168} strokeWidth={14} />
+          <RadialProgress value={statistics ? Math.round(statistics.averageScore * 100) : 0} size={168} strokeWidth={14} />
           <div className="max-w-md">
             <div className="mb-3 flex items-center justify-center gap-2 text-foreground sm:justify-start">
               <TrendingUp className="size-5 text-primary" />
               <h2 className="text-xl font-bold">Média Geral das Leis</h2>
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Base demonstrativa de {demoDashboard.analyzedLaws} textos legislativos brasileiros.
+              Base real de {statistics?.analyzedLaws ?? 0} textos legislativos analisados.
             </p>
           </div>
         </article>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <article className="rounded-2xl border border-border bg-card p-6 shadow-md">
-            <p className="text-3xl font-black text-foreground">{demoDashboard.analyzedLaws}</p>
+            <p className="text-3xl font-black text-foreground">{statistics?.analyzedLaws ?? 0}</p>
             <p className="mt-1 text-sm font-medium text-muted-foreground">Leis Analisadas</p>
           </article>
           <article className="rounded-2xl border border-border bg-card p-6 shadow-md">
-            <p className="text-3xl font-black text-destructive">{demoDashboard.criticalLaws}</p>
+            <p className="text-3xl font-black text-destructive">{statistics?.criticalLaws ?? 0}</p>
             <p className="mt-1 text-sm font-medium text-muted-foreground">Leis Críticas</p>
           </article>
         </div>
@@ -132,7 +144,7 @@ export default function Home() {
 
       {/* Grid e cards restaurados para exibição padrão sem necessidade de login */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <article className="rounded-2xl border border-border bg-card p-6 shadow-md lg:col-span-2">
+        <article className={`rounded-2xl border border-border bg-card p-6 shadow-md ${user ? "lg:col-span-2" : "lg:col-span-3"}`}>
           <div className="mb-5 flex items-center justify-between gap-4">
             <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
               <BookOpen className="size-5 text-primary" />
@@ -188,11 +200,11 @@ export default function Home() {
                       Registrada em {formattedDate(law.createdAt)}
                     </span>
                   </span>
-                  {demoAnalyses[law.id] && (
+                  {law.score !== undefined && law.score !== null && (
                     <span
-                      className={`rounded-full px-3 py-1 text-sm font-black ${scoreClass(demoAnalyses[law.id].score)}`}
+                      className={`rounded-full px-3 py-1 text-sm font-black ${getScoreColorClass(Math.round(law.score * 100))}`}
                     >
-                      {demoAnalyses[law.id].score}
+                      {Math.round(law.score * 100)}%
                     </span>
                   )}
                 </button>
@@ -201,24 +213,26 @@ export default function Home() {
           )}
         </article>
 
-        <article className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card p-6 text-center shadow-md">
-          <div className="rounded-2xl bg-muted p-4">
-            <FileText className="size-10 text-primary" />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-foreground">Submeter Nova Lei</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Envie ou cole um texto legislativo para persistir no banco.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => router.push("/upload")}
-            className="w-full rounded-xl bg-primary py-3 text-sm font-bold text-primary-foreground shadow-md transition-colors hover:opacity-90"
-          >
-            Registrar Texto
-          </button>
-        </article>
+        {user && (
+          <article className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card p-6 text-center shadow-md">
+            <div className="rounded-2xl bg-muted p-4">
+              <FileText className="size-10 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-foreground">Submeter Nova Lei</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Envie ou cole um texto legislativo para persistir no banco.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => router.push("/upload")}
+              className="w-full rounded-xl bg-primary py-3 text-sm font-bold text-primary-foreground shadow-md transition-colors hover:opacity-90"
+            >
+              Registrar Texto
+            </button>
+          </article>
+        )}
       </section>
     </div>
   );

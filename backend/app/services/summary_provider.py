@@ -39,10 +39,12 @@ class GeminiSummaryProvider(SummaryProvider):
     def __init__(
         self,
         api_key: str | None = None,
-        model_name: str = "gemini-1.5-flash",
+        model_name: str | None = None,
     ) -> None:
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
-        self.model_name = model_name
+        self.model_name = model_name or os.getenv(
+            "GEMINI_MODEL_NAME", "gemini-1.5-flash"
+        )
 
     async def summarize(self, texto: str) -> str:
         limpo = texto.strip()
@@ -59,18 +61,29 @@ class GeminiSummaryProvider(SummaryProvider):
         )
 
         prompt = (
-            "Você é um assistente jurídico "
-            "especializado em simplificar textos legais.\n"
-            "Escreva um resumo curto (parágrafo único, "
-            "máximo 3 sentenças) em linguagem clara e "
-            "acessível do seguinte texto legislativo:\n\n"
-            f"{limpo}"
+            "Você é um assistente jurídico especializado em simplificar "
+            "textos legais para o cidadão comum.\n"
+            "Com base no texto legislativo fornecido, escreva um resumo "
+            "explicativo conciso (parágrafo único, de 1 a 3 sentenças) "
+            "que seja informativo e fácil de entender.\n"
+            "O resumo DEVE identificar claramente:\n"
+            "1. O objetivo principal e o tema central do documento "
+            "(ex: o que está sendo regulamentado, instituído ou proibido).\n"
+            "2. As principais medidas ou regras estabelecidas.\n\n"
+            "Instruções importantes:\n"
+            "- Use linguagem direta, acessível e sem jargões jurídicos "
+            "excessivos.\n"
+            "- Evite resumos extremamente genéricos (como 'Esta lei cria "
+            "regras' ou 'Este artigo altera a legislação'). Seja específico "
+            "sobre o conteúdo do texto.\n"
+            "- Mantenha o tom neutro e profissional.\n\n"
+            f"Texto legislativo:\n{limpo}"
         )
 
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
-                "maxOutputTokens": 150,
+                "maxOutputTokens": 250,
                 "temperature": 0.1,
             },
         }
