@@ -12,13 +12,13 @@
         <meta name="author" content="Squad 07">
       
       
-        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/dev/ci-setup.html">
+        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/requisitos/business_rules_r2.html">
       
       
-        <link rel="prev" href="../sdd/tdd-estrategia-r2.html">
+        <link rel="prev" href="acceptance_criteria_r2.html">
       
       
-        <link rel="next" href="plano-expansao-ml.html">
+        <link rel="next" href="../user_story_map.html">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Setup da Integração Contínua (CI) - CrivoAI - Qualidade Legislativa</title>
+        <title>Regras de Negócio (R2) - CrivoAI - Qualidade Legislativa</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setup-da-integracao-continua-ci-e-qualidade-de-codigo" class="md-skip">
+        <a href="#documento-de-regras-de-negocio-business-rules" class="md-skip">
           Ir para o conteúdo
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup da Integração Contínua (CI)
+              Regras de Negócio (R2)
             
           </span>
         </div>
@@ -341,8 +341,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -353,11 +355,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -378,7 +380,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -396,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requisitos/requisitos_funcionais.html" class="md-nav__link">
+      <a href="requisitos_funcionais.html" class="md-nav__link">
         
   
   
@@ -424,7 +426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requisitos/requisitos_nao_funcionais.html" class="md-nav__link">
+      <a href="requisitos_nao_funcionais.html" class="md-nav__link">
         
   
   
@@ -452,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requisitos/rastreabilidade.html" class="md-nav__link">
+      <a href="rastreabilidade.html" class="md-nav__link">
         
   
   
@@ -480,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requisitos/acceptance_criteria_r2.html" class="md-nav__link">
+      <a href="acceptance_criteria_r2.html" class="md-nav__link">
         
   
   
@@ -505,10 +507,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../requisitos/business_rules_r2.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regras de Negócio (R2)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="business_rules_r2.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -524,6 +553,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-regras-de-autoria-e-propriedade-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Regras de Autoria e Propriedade (Ownership)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-regras-de-validacao-de-entrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Regras de Validação de Entrada
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-regras-de-scoring-e-avaliacao-agente-de-ia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Regras de Scoring e Avaliação (Agente de IA)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-regras-de-retencao-de-dados-data-retention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Regras de Retenção de Dados (Data Retention)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-regras-de-privacidade-e-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Regras de Privacidade e Segurança
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -767,8 +871,6 @@
       
   
   
-    
-  
   
   
     
@@ -781,11 +883,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -806,7 +908,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -877,37 +979,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Setup da Integração Contínua (CI)
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="ci-setup.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../dev/ci-setup.html" class="md-nav__link">
         
   
   
@@ -923,148 +998,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Índice">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Índice
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#por-que-este-documento-existe" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Por que este documento existe
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#como-se-relaciona-com-o-projeto" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Como se relaciona com o projeto
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fluxo-do-pipeline-do-github-actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fluxo do Pipeline do GitHub Actions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Fluxo do Pipeline do GitHub Actions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-code-quality-qualidade-de-codigo-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Code Quality (Qualidade de Código Backend)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-testes-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Testes Backend
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-testes-frontend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Testes Frontend
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#como-executar-as-validacoes-localmente" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Como Executar as Validações Localmente
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Como Executar as Validações Localmente">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-validando-o-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Validando o Backend
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-validando-o-frontend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Validando o Frontend
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#integracao-futura-planejada-sonarcloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Integração Futura Planejada (SonarCloud)
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1077,7 +1010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plano-expansao-ml.html" class="md-nav__link">
+      <a href="../dev/plano-expansao-ml.html" class="md-nav__link">
         
   
   
@@ -1105,7 +1038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="deploy.html" class="md-nav__link">
+      <a href="../dev/deploy.html" class="md-nav__link">
         
   
   
@@ -1458,80 +1391,73 @@
 
 
 
-<h1 id="setup-da-integracao-continua-ci-e-qualidade-de-codigo">Setup da Integração Contínua (CI) e Qualidade de Código</h1>
-<h2 id="por-que-este-documento-existe">Por que este documento existe</h2>
-<p>Este documento descreve a configuração e o funcionamento do pipeline de Integração Contínua (CI) do <strong>CrivoAI</strong>. Ele serve como um guia para que os desenvolvedores entendam quais validações rodam a cada Pull Request e como reproduzir essas checagens em seus ambientes de desenvolvimento locais.</p>
-<h2 id="como-se-relaciona-com-o-projeto">Como se relaciona com o projeto</h2>
-<p>A garantia de qualidade no CrivoAI baseia-se na execução automática de linters, testes unitários e testes de integração em todas as branches que almejam integração na branch <code>dev</code> ou <code>main</code>. O CI atua como a barreira automatizada que garante a estabilidade do sistema à medida que novas regras de negócio e integrações de IA são implementadas.</p>
+<h1 id="documento-de-regras-de-negocio-business-rules">Documento de Regras de Negócio (Business Rules)</h1>
+<p><strong>Contexto:</strong> Release 2 (Persistência, CRUD de Usuários e Agente de IA NLP)</p>
+<p>Este documento define as regras de negócio essenciais que guiarão a implementação da Release 2. Estas regras garantem que o "Score de Qualidade Legislativa" seja calculado e armazenado de forma consistente, segura e alinhada aos objetivos do produto.</p>
 <hr />
-<h2 id="fluxo-do-pipeline-do-github-actions">Fluxo do Pipeline do GitHub Actions</h2>
-<p>O workflow está configurado em <code>.github/workflows/main.yml</code> e dispara automaticamente sob duas condições:</p>
-<ol>
-<li>Em qualquer <strong>Pull Request</strong> direcionado às branches <code>main</code> e <code>dev</code>.</li>
-<li>Em qualquer <strong>Push</strong> direto nas branches <code>main</code> e <code>dev</code>.</li>
-</ol>
-<p>O pipeline é composto por 3 estágios principais estruturados em Jobs interdependentes:</p>
-<div class="mermaid">graph TD
-    A[Code Quality: Black &amp; Flake8] --&gt; B[Testes Backend: Pytest + Postgres]
-    A --&gt; C[Testes Frontend: Jest + ESLint]</div>
-<h3 id="1-code-quality-qualidade-de-codigo-backend">1. Code Quality (Qualidade de Código Backend)</h3>
-<p>Executa a validação de formatação e estilo no código Python do backend.</p>
+<h2 id="1-regras-de-autoria-e-propriedade-ownership">1. Regras de Autoria e Propriedade (Ownership)</h2>
+<p>Esta seção estabelece as permissões e o controle sobre os textos submetidos e as análises geradas.</p>
 <ul>
-<li><strong>Black:</strong> Garante que o código do backend segue o estilo estrito do Black.</li>
-<li><strong>Flake8:</strong> Valida regras de estilo PEP 8 adicionais, impondo o limite máximo de 88 caracteres por linha.</li>
+<li><strong>Vinculação de Conta:</strong> Apenas usuários autenticados (com perfil cadastrado) podem salvar o histórico de submissões.</li>
+<li><strong>Cota para Não Autenticados:</strong> Usuários não logados podem realizar análises em uma cota limitada (inicialmente fixada em 3 análises por dia), mas estas não serão persistidas em nenhum histórico.<ul>
+<li><em>Nota de UX/Implementação:</em> O mecanismo exato de limitação (rastreamento por IP, Cookies ou LocalStorage) poderá ser refinado durante o desenvolvimento para mitigar falsos positivos de estouro de cota em redes que compartilham o mesmo IP público via NAT (como campus universitários e ambientes corporativos).</li>
 </ul>
-<h3 id="2-testes-backend">2. Testes Backend</h3>
-<p>Executa tanto os testes unitários quanto os de integração do backend.</p>
-<ul>
-<li>Inicializa um serviço Dockerizado do banco PostgreSQL (<code>postgres:16-alpine</code>) em tempo de execução para os testes de integração.</li>
-<li>Configura e gera o cliente Prisma (<code>prisma generate</code> e <code>prisma db push</code>).</li>
-<li>Roda a suíte completa de testes com o <code>pytest</code> (unitários e integrados) com cobertura configurada.</li>
+</li>
+<li><strong>Isolamento de Dados (Tenant-level):</strong> Um usuário só pode visualizar, editar ou excluir leis e análises que ele mesmo submeteu. O acesso aos registros de outros usuários é estritamente proibido, garantindo a privacidade das pautas em estudo.</li>
+<li><strong>Edição de Perfil:</strong> O usuário tem propriedade total sobre seus dados cadastrais (CRUD de perfil), podendo atualizar suas informações ou solicitar a exclusão de sua conta a qualquer momento.</li>
 </ul>
-<h3 id="3-testes-frontend">3. Testes Frontend</h3>
-<p>Executa linters e a suíte de testes do frontend.</p>
+<h2 id="2-regras-de-validacao-de-entrada">2. Regras de Validação de Entrada</h2>
+<p>Para garantir a estabilidade do sistema e evitar custos excessivos ou falhas no processamento do Agente de IA, as entradas devem obedecer a critérios estritos antes de serem enviadas ao back-end.</p>
 <ul>
-<li><strong>ESLint:</strong> Roda a análise de estilo e boas práticas de TypeScript/React.</li>
-<li><strong>Jest:</strong> Executa os testes unitários e de componentes do Next.js coletando cobertura de código.</li>
+<li><strong>Formatos Aceitos (R2):</strong> O sistema aceitará apenas texto plano (<code>text/plain</code>) via campo de submissão (copy/paste). (Upload de PDF/Docx está restrito ao Roadmap futuro).</li>
+<li><strong>Limites de Caracteres:</strong><ul>
+<li><strong>Mínimo:</strong> 300 caracteres. Textos menores não possuem contexto suficiente para uma análise estatística e semântica confiável pelo NLP.</li>
+<li><strong>Máximo:</strong> 50.000 caracteres por submissão. Textos que excederem esse limite devem retornar um erro de validação sugerindo o fracionamento da lei, evitando <em>timeouts</em> e limites de <em>tokens</em> na janela de contexto da IA.</li>
+</ul>
+</li>
+<li><strong>Idioma:</strong> O sistema validará e processará exclusivamente textos em Português do Brasil (PT-BR).</li>
+</ul>
+<h2 id="3-regras-de-scoring-e-avaliacao-agente-de-ia">3. Regras de Scoring e Avaliação (Agente de IA)</h2>
+<p>O cálculo do "Score de Qualidade Legislativa" deve ser determinístico a partir dos dados retornados pelo agente de inteligência artificial.</p>
+<ul>
+<li><strong>Representação e Escala do Score:</strong> <ul>
+<li>Na camada de persistência (Banco de Dados) e nos contratos de comunicação (Schemas Pydantic da API), o score é tratado estritamente como um valor do tipo <code>float</code> variando na escala de <strong>0.0 a 1.0</strong> (conforme especificações do PR #128).</li>
+<li>Para fins de exibição na interface do usuário (Frontend), o valor deve ser multiplicado por 100, apresentando o indicador final em uma escala percentual de <strong>0 a 100</strong>.</li>
+</ul>
+</li>
+<li><strong>Pesos dos Critérios de Avaliação e Mapeamento da Taxonomia:</strong><ul>
+<li><strong>Clareza Textual e Legibilidade (40%):</strong> Calculado com base em métricas clássicas de legibilidade (como o Índice de Flesch-Kincaid adaptado para o português) combinadas com a frequência de ocorrências da taxonomia de <code>vagueza</code> apontada pela IA.</li>
+<li><strong>Ambiguidade e Contradição (30%):</strong> Penalização associada diretamente às volumetrias das categorias <code>ambiguidade</code> e <code>inconsistencia</code> detectadas pelo processamento lógico do agente.</li>
+<li><strong>Tamanho e Complexidade Estrutural (15%):</strong> Avaliação do tamanho de frases, extensão de parágrafos e profundidade de incisos ou alíneas.</li>
+<li><strong>Uso de Referências (15%):</strong> Alimentado diretamente pelo mapeamento da taxonomia de <code>falta_referencia</code>, penalizando proposições que citem outros dispositivos legais de forma inválida, ausente ou corrompida.</li>
+</ul>
+</li>
+<li><strong>Limites de Aceitação (Faixas de Interface):</strong><ul>
+<li><strong>0 a 49 (Crítico / Equivalente a 0.0 - 0.49 na API):</strong> Alta complexidade ou forte ambiguidade. Necessita reescrita severa.</li>
+<li><strong>50 a 74 (Atenção / Equivalente a 0.50 - 0.74 na API):</strong> Leitura moderadamente difícil. Requer ajustes em trechos específicos (destacados via <em>highlights</em>).</li>
+<li><strong>75 a 100 (Adequado / Equivalente a 0.75 - 1.0 na API):</strong> Alta clareza textual e aderência aos padrões legislativos.</li>
+</ul>
+</li>
+<li><strong>Retorno Estruturado:</strong> O Agente de IA está estritamente proibido de retornar texto livre para a interface. Todas as detecções de erro devem ser mapeadas em formato JSON, contendo a string original, a justificativa da ambiguidade e a posição (índice) para a renderização dos <em>highlights</em> no Front-end.</li>
+</ul>
+<h2 id="4-regras-de-retencao-de-dados-data-retention">4. Regras de Retenção de Dados (Data Retention)</h2>
+<p>Políticas de ciclo de vida das análises e gestão do banco de dados (Prisma ORM).</p>
+<ul>
+<li><strong>Retenção de Histórico:</strong> As análises salvas no perfil de um usuário ativo serão retidas por tempo indeterminado, até que o próprio usuário as exclua.</li>
+<li><strong>Direito ao Esquecimento:</strong> Caso um usuário delete sua conta (CRUD de perfil), todos os textos submetidos, scores gerados e dados pessoais atrelados ao seu ID devem ser excluídos em cascata (Hard Delete) de todos os bancos de dados em um prazo máximo de 72 horas.</li>
+<li><strong>Logs de Inferência (Testes e Mitigação de Alucinação):</strong> Para fins de evolução do motor de IA e validação do TDD, metadados genéricos de submissões (tamanho do texto, tempo de resposta, score gerado) poderão ser mantidos por até 90 dias em formato totalmente anonimizado.</li>
+</ul>
+<h2 id="5-regras-de-privacidade-e-seguranca">5. Regras de Privacidade e Segurança</h2>
+<p>Requisitos de proteção para o tráfego e armazenamento das proposições legislativas em análise.</p>
+<ul>
+<li><strong>Criptografia de Senhas:</strong> Todas as senhas de usuários devem ser obrigatoriamente hasheadas (ex: bcrypt ou Argon2) antes de serem salvas via Prisma no banco de dados. Senhas em texto plano são estritamente proibidas.</li>
+<li><strong>Privacidade no Processamento NLP:</strong> É expressamente proibido o uso dos textos inseridos pelos usuários para o treinamento contínuo de modelos de fundação públicos (LLMs externos). O provedor do agente de IA deve garantir que os dados de inferência sejam efêmeros (Zero Data Retention API).</li>
+<li><strong>Proteção de Rotas:</strong> Todos os endpoints do FastAPI relacionados ao CRUD de perfil e submissão de textos devem estar protegidos por tokens de autorização (ex: JWT) com tempo de expiração curto.</li>
 </ul>
 <hr />
-<h2 id="como-executar-as-validacoes-localmente">Como Executar as Validações Localmente</h2>
-<p>Antes de abrir um Pull Request, os desenvolvedores devem rodar as ferramentas de linting e testes em suas máquinas locais para evitar falhas no pipeline do GitHub.</p>
-<h3 id="1-validando-o-backend">1. Validando o Backend</h3>
-<p>Acesse o diretório do backend:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>backend
-</code></pre></div>
-<p><strong>Verificação de Estilo (Black &amp; Flake8):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Executa a checagem do Black</span>
-black<span class="w"> </span>--check<span class="w"> </span>.
-
-<span class="c1"># Executa o linter Flake8</span>
-flake8<span class="w"> </span>.<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">88</span><span class="w"> </span>--extend-ignore<span class="o">=</span>E501,W503
-</code></pre></div>
-<p><strong>Execução dos Testes e Geração de Cobertura:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Executa todos os testes locais com o relatório de cobertura no terminal</span>
-pytest<span class="w"> </span>--cov<span class="o">=</span>app<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
-
-<span class="c1"># Executa os testes gerando os relatórios em HTML (pasta htmlcov/) e LCOV (arquivo coverage.lcov)</span>
-pytest<span class="w"> </span>--cov<span class="o">=</span>app<span class="w"> </span>--cov-report<span class="o">=</span>html<span class="w"> </span>--cov-report<span class="o">=</span>lcov<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
-</code></pre></div>
-<h3 id="2-validando-o-frontend">2. Validando o Frontend</h3>
-<p>Acesse o diretório do frontend:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>frontend
-</code></pre></div>
-<p><strong>Verificação de Lint:</strong></p>
-<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>lint
-</code></pre></div>
-<p><strong>Execução de Testes locais:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Executa a suíte de testes</span>
-npm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
-
-<span class="c1"># Executa os testes coletando cobertura de código</span>
-npm<span class="w"> </span>run<span class="w"> </span>test:coverage
-</code></pre></div>
-<hr />
-<h2 id="integracao-futura-planejada-sonarcloud">Integração Futura Planejada (SonarCloud)</h2>
-<p>A integração com o <strong>SonarQube/SonarCloud</strong> está planejada e mapeada para o projeto, aguardando a configuração dos tokens organizacionais (<code>SONAR_TOKEN</code>) sob a organização <code>unb-mds</code> no GitHub.</p>
-<p>Quando ativado, o fluxo passará a coletar automaticamente os relatórios de cobertura do pytest (<code>coverage.xml</code>) e do Jest (<code>lcov.info</code>) e enviará para o painel de análise estática de vulnerabilidades e Quality Gate do SonarCloud.</p>
+<p><strong>Rastreabilidade:</strong>
+* <strong>RFs Vinculados:</strong> Submissão de leis, Dashboard de métricas, Autenticação, CRUD de perfil.
+* <strong>RNFs Vinculados:</strong> Segurança (JWT, bcrypt), Desempenho (limite de caracteres), Confiabilidade (mitigação de alucinação de IA via testes baseados na taxonomia do PR #128).</p>
 
 
 
