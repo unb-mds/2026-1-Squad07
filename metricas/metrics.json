@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-02T06:40:08+00:00",
+  "generated_at": "2026-07-03T00:37:55+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -90,19 +90,19 @@
     },
     {
       "range": "21-50",
-      "count": 154
+      "count": 174
     },
     {
       "range": "51-100",
-      "count": 194
+      "count": 217
     },
     {
       "range": "101-200",
-      "count": 60
+      "count": 62
     },
     {
       "range": "200+",
-      "count": 12
+      "count": 13
     }
   ],
   "coauthors_per_week": [
@@ -610,7 +610,7 @@
     {
       "day": 3,
       "hour": 6,
-      "count": 2
+      "count": 3
     },
     {
       "day": 3,
@@ -685,22 +685,22 @@
     {
       "day": 3,
       "hour": 21,
-      "count": 6
+      "count": 21
     },
     {
       "day": 3,
       "hour": 22,
-      "count": 1
+      "count": 12
     },
     {
       "day": 3,
       "hour": 23,
-      "count": 6
+      "count": 22
     },
     {
       "day": 4,
       "hour": 0,
-      "count": 6
+      "count": 9
     },
     {
       "day": 4,
@@ -1067,26 +1067,26 @@
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "commits": 91
+      "commits": 116
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "commits": 71
+      "commits": 74
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 44
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "commits": 26
+      "commits": 45
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
+      "commits": 43
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
       "commits": 26
     },
     {
@@ -1109,22 +1109,22 @@
     {
       "username": "pedrolrm",
       "name": "Pedro Luca",
-      "prs_opened": 14
+      "prs_opened": 17
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
-      "prs_opened": 11
+      "prs_opened": 12
     },
     {
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "prs_opened": 8
+      "prs_opened": 10
     },
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
-      "prs_opened": 4
+      "prs_opened": 5
     },
     {
       "username": "valexim",
@@ -1185,7 +1185,7 @@
       "issues_assigned_closed": 24,
       "issues_pending": 1,
       "prs_opened": 26,
-      "prs_reviewed": 20,
+      "prs_reviewed": 21,
       "prs_merged": 22,
       "commits": 143
     },
@@ -1196,10 +1196,10 @@
       "issues_assigned": 19,
       "issues_assigned_closed": 19,
       "issues_pending": 0,
-      "prs_opened": 14,
+      "prs_opened": 17,
       "prs_reviewed": 14,
-      "prs_merged": 14,
-      "commits": 91
+      "prs_merged": 17,
+      "commits": 116
     },
     {
       "username": "Jonathan-Carpaneda",
@@ -1208,22 +1208,10 @@
       "issues_assigned": 15,
       "issues_assigned_closed": 15,
       "issues_pending": 0,
-      "prs_opened": 11,
+      "prs_opened": 12,
       "prs_reviewed": 12,
-      "prs_merged": 10,
-      "commits": 71
-    },
-    {
-      "username": "Paulodemczuk",
-      "name": "Paulo",
-      "issues_opened": 19,
-      "issues_assigned": 10,
-      "issues_assigned_closed": 10,
-      "issues_pending": 0,
-      "prs_opened": 4,
-      "prs_reviewed": 6,
-      "prs_merged": 4,
-      "commits": 26
+      "prs_merged": 11,
+      "commits": 74
     },
     {
       "username": "Pedrop06",
@@ -1232,9 +1220,21 @@
       "issues_assigned": 15,
       "issues_assigned_closed": 15,
       "issues_pending": 0,
-      "prs_opened": 8,
+      "prs_opened": 10,
       "prs_reviewed": 3,
-      "prs_merged": 6,
+      "prs_merged": 7,
+      "commits": 43
+    },
+    {
+      "username": "Paulodemczuk",
+      "name": "Paulo",
+      "issues_opened": 19,
+      "issues_assigned": 10,
+      "issues_assigned_closed": 10,
+      "issues_pending": 0,
+      "prs_opened": 5,
+      "prs_reviewed": 6,
+      "prs_merged": 5,
       "commits": 26
     },
     {
@@ -1259,7 +1259,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 44
+      "commits": 45
     },
     {
       "username": "RochaCarla",
@@ -2002,32 +2002,32 @@
       "name": "Pedro Luca",
       "issues": 5,
       "pull_requests": 3,
-      "commits": 44,
-      "total": 52
+      "commits": 46,
+      "total": 54
     },
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 44,
-      "total": 44
+      "commits": 45,
+      "total": 45
     },
     {
       "username": "Jonathan-Carpaneda",
       "name": "Jonathan Carpaneda",
       "issues": 2,
       "pull_requests": 5,
-      "commits": 28,
-      "total": 35
+      "commits": 29,
+      "total": 36
     },
     {
       "username": "Paulodemczuk",
       "name": "Paulo",
       "issues": 3,
-      "pull_requests": 3,
+      "pull_requests": 4,
       "commits": 22,
-      "total": 28
+      "total": 29
     },
     {
       "username": "valexim",
@@ -2057,9 +2057,9 @@
   "milestone_progress": [
     {
       "milestone": "Sem milestone",
-      "opened": 81,
-      "closed": 79,
-      "pending": 2
+      "opened": 87,
+      "closed": 84,
+      "pending": 3
     },
     {
       "milestone": "Sprint 08",
@@ -2159,9 +2159,9 @@
       "milestone": "Sem milestone",
       "username": "Pedrop06",
       "name": "Pedro Paulo Almeida",
-      "assigned": 7,
-      "closed": 7,
-      "pending": 0
+      "assigned": 9,
+      "closed": 8,
+      "pending": 1
     },
     {
       "milestone": "Sem milestone",
