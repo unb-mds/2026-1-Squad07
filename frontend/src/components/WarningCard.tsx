@@ -8,36 +8,31 @@ const getCategoryDetails = (code: string) => {
       return {
         label: "Ambiguidade",
         icon: AlertTriangle,
-        colorClass: "text-amber-500 bg-amber-50 border-amber-200",
-        badgeClass: "bg-amber-100 text-amber-800",
+        badgeClass: "bg-amber-100 text-amber-800 dark:bg-amber-500/10 dark:text-amber-200",
       };
     case "vagueza":
       return {
         label: "Vagueza",
         icon: HelpCircle,
-        colorClass: "text-blue-500 bg-blue-50 border-blue-200",
-        badgeClass: "bg-blue-100 text-blue-800",
+        badgeClass: "bg-blue-100 text-blue-800 dark:bg-blue-500/10 dark:text-blue-200",
       };
     case "falta_referencia":
       return {
         label: "Falta de Referência",
         icon: Link2,
-        colorClass: "text-purple-500 bg-purple-50 border-purple-200",
-        badgeClass: "bg-purple-100 text-purple-800",
+        badgeClass: "bg-purple-100 text-purple-800 dark:bg-purple-500/10 dark:text-purple-200",
       };
     case "inconsistencia":
       return {
         label: "Inconsistência",
         icon: AlertOctagon,
-        colorClass: "text-red-500 bg-red-50 border-red-200",
-        badgeClass: "bg-red-100 text-red-800",
+        badgeClass: "bg-red-100 text-red-800 dark:bg-red-500/10 dark:text-red-200",
       };
     default:
       return {
         label: code.charAt(0).toUpperCase() + code.slice(1),
         icon: AlertTriangle,
-        colorClass: "text-slate-500 bg-slate-50 border-slate-200",
-        badgeClass: "bg-slate-100 text-slate-800",
+        badgeClass: "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200",
       };
   }
 };
@@ -60,7 +55,7 @@ export const WarningCard: React.FC<WarningCardProps> = ({ warning, onSelect, onH
       onClick={() => onSelect(warning)}
       onMouseEnter={() => onHover?.(warning)}
       onMouseLeave={() => onHover?.(null)}
-      className="w-full text-left flex flex-col gap-2 p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:border-border/70 hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-[#1e3a5f]/50 cursor-pointer"
+      className="w-full text-left flex flex-col gap-2 p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:bg-muted/30 hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-primary/40 cursor-pointer"
       aria-label={`Problema de qualidade: ${details.label}. Descrição: ${message}. Confiança: ${confidencePercentage}%. Trecho afetado: ${snippet}`}
     >
       <div className="flex items-center justify-between w-full">
@@ -74,7 +69,7 @@ export const WarningCard: React.FC<WarningCardProps> = ({ warning, onSelect, onH
       {message && <p className="text-sm font-semibold text-foreground leading-snug">{message}</p>}
 
       {snippet && (
-        <div className="w-full bg-muted border-l-2 border-border p-2 rounded-r-md">
+        <div className="w-full bg-muted/60 border-l-2 border-border p-2 rounded-r-md">
           <p className="text-xs font-serif italic text-muted-foreground leading-relaxed whitespace-pre-wrap">
             &quot;{truncateSnippet(snippet)}&quot;
           </p>

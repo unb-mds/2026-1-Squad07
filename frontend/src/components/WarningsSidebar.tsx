@@ -11,7 +11,7 @@ export const WarningsSidebar: React.FC<WarningsSidebarProps> = ({
   onWarningHover,
 }) => {
   return (
-    <aside className="w-full min-w-0 max-w-full h-full flex flex-col border border-border rounded-2xl bg-card overflow-hidden shadow-sm">
+    <aside className="w-full min-w-0 max-w-full h-fit flex flex-col border border-border rounded-2xl bg-card overflow-hidden shadow-sm">
       {/* Header do Sidebar */}
       <div className="p-5 border-b border-border bg-card">
         <h3 className="flex items-center gap-2 text-md font-bold text-foreground">
@@ -32,10 +32,10 @@ export const WarningsSidebar: React.FC<WarningsSidebarProps> = ({
             <p className="text-xs text-muted-foreground mt-1">Isso pode levar alguns segundos.</p>
           </div>
         ) : error ? (
-          <div className="flex flex-col items-center justify-center p-4 py-8 rounded-xl border border-red-200 bg-red-50 text-center">
-            <AlertCircle className="size-10 text-red-500 mb-3" />
-            <p className="text-sm font-bold text-foreground">Falha ao analisar qualidade</p>
-            <p className="text-xs text-red-600 mt-1.5 break-words max-w-xs">{error}</p>
+          <div className="flex flex-col items-center justify-center p-4 py-8 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/20 text-center">
+            <AlertCircle className="size-10 text-red-500 dark:text-red-400 mb-3" />
+            <p className="text-sm font-bold text-red-800 dark:text-red-200">Falha ao analisar qualidade</p>
+            <p className="text-xs text-red-600 dark:text-red-300/90 mt-1.5 break-words max-w-xs">{error}</p>
           </div>
         ) : warnings.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 px-4 rounded-xl border border-dashed border-border bg-card text-center">
