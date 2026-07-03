@@ -46,6 +46,10 @@ class GeminiSummaryProvider(SummaryProvider):
             "GEMINI_MODEL_NAME", "gemini-1.5-flash"
         )
 
+    # Limite de caracteres enviados ao Gemini para evitar payloads que
+    # degradam a qualidade da resposta ou causam timeouts no Render free tier.
+    MAX_INPUT_CHARS = 8_000
+
     async def summarize(self, texto: str) -> str:
         limpo = texto.strip()
         if not limpo:
@@ -53,6 +57,11 @@ class GeminiSummaryProvider(SummaryProvider):
 
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY não configurada no ambiente.")
+
+        # Trunca o texto para o limite máximo antes de enviar ao modelo,
+        # garantindo que o prompt não fique tão grande a ponto de gerar
+        # respostas degeneradas ou exceder o timeout.
+        texto_para_resumo = limpo[: self.MAX_INPUT_CHARS]
 
         url = (
             "https://generativelanguage.googleapis.com/"
@@ -77,19 +86,23 @@ class GeminiSummaryProvider(SummaryProvider):
             "regras' ou 'Este artigo altera a legislação'). Seja específico "
             "sobre o conteúdo do texto.\n"
             "- Mantenha o tom neutro e profissional.\n\n"
-            f"Texto legislativo:\n{limpo}"
+            f"Texto legislativo:\n{texto_para_resumo}"
         )
 
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
-                "maxOutputTokens": 250,
+                # 512 tokens (~400 palavras) garante resumos completos mesmo
+                # para textos legislativos mais complexos.
+                "maxOutputTokens": 512,
                 "temperature": 0.1,
             },
         }
 
         try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
+            # Timeout generoso (30s) para tolerar latência do Render free
+            # tier e eventuais cold starts do serviço Gemini.
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.post(url, json=payload)
 
             if response.status_code != 200:
