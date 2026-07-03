@@ -11,7 +11,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRef, useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiErrorMessage } from "@/lib/api/client";
 import { submitLaw } from "@/lib/api/laws";
@@ -19,6 +19,20 @@ import { submitLaw } from "@/lib/api/laws";
 export default function UploadLawPage() {
   const router = useRouter();
   const { token } = useAuth();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!token) {
+        router.replace("/login");
+      } else {
+        setCheckingAuth(false);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [token, router]);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     lawNumber: "",
@@ -87,22 +101,31 @@ export default function UploadLawPage() {
     }
   }
 
+  if (checkingAuth) {
+    return (
+      <div className="flex min-h-96 items-center justify-center gap-2">
+        <Loader2 className="size-6 animate-spin text-[#1e3a5f]" />
+        <span className="text-sm font-medium text-slate-600">Verificando permissões...</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6 bg-background">
       <div className="flex items-center gap-4">
         <button
           type="button"
           onClick={() => router.push("/")}
-          className="rounded-lg p-2 transition-colors hover:bg-slate-100"
+          className="rounded-lg p-2 transition-colors hover:bg-muted"
           aria-label="Voltar"
         >
-          <ArrowLeft className="size-5 text-slate-600" />
+          <ArrowLeft className="size-5 text-muted-foreground" />
         </button>
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-slate-800">
+          <h1 className="text-3xl font-black tracking-tight text-foreground">
             Avaliar Nova Lei
           </h1>
-          <p className="mt-1 text-slate-500">
+          <p className="mt-1 text-muted-foreground">
             Envie um texto legislativo para persistir uma nova submissão para análise.
           </p>
         </div>
@@ -110,11 +133,11 @@ export default function UploadLawPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-md sm:p-8"
+        className="space-y-6 rounded-2xl border border-border bg-card p-6 shadow-md sm:p-8"
       >
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
-            <Hash className="size-4 text-[#1e3a5f]" />
+          <label className="flex items-center gap-2 text-sm font-bold text-foreground">
+            <Hash className="size-4 text-primary" />
             Número da Lei
           </label>
           <input
@@ -124,14 +147,14 @@ export default function UploadLawPage() {
             onChange={(event) =>
               setFormData({ ...formData, lawNumber: event.target.value })
             }
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#1e3a5f]"
+            className="w-full rounded-xl border border-border bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
-            <Type className="size-4 text-[#1e3a5f]" />
+          <label className="flex items-center gap-2 text-sm font-bold text-foreground">
+            <Type className="size-4 text-primary" />
             Título da Lei
           </label>
           <input
@@ -141,14 +164,14 @@ export default function UploadLawPage() {
             onChange={(event) =>
               setFormData({ ...formData, lawTitle: event.target.value })
             }
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#1e3a5f]"
+            className="w-full rounded-xl border border-border bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
-            <Calendar className="size-4 text-[#1e3a5f]" />
+          <label className="flex items-center gap-2 text-sm font-bold text-foreground">
+            <Calendar className="size-4 text-primary" />
             Data de Publicação (opcional)
           </label>
           <input
@@ -157,19 +180,19 @@ export default function UploadLawPage() {
             onChange={(event) =>
               setFormData({ ...formData, lawDate: event.target.value })
             }
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#1e3a5f]"
+            className="w-full rounded-xl border border-border bg-transparent px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 [color-scheme:light] dark:[color-scheme:dark]"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
-            <Upload className="size-4 text-[#1e3a5f]" />
+          <label className="flex items-center gap-2 text-sm font-bold text-foreground">
+            <Upload className="size-4 text-primary" />
             Upload de Arquivo (opcional)
           </label>
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="w-full rounded-xl border-2 border-dashed border-slate-300 p-8 text-center transition-all hover:border-[#1e3a5f] hover:bg-slate-50"
+            className="w-full rounded-xl border-2 border-dashed border-border p-8 text-center transition-all hover:border-primary hover:bg-muted"
           >
             <input
               ref={fileInputRef}
@@ -178,22 +201,22 @@ export default function UploadLawPage() {
               onChange={handleFileChange}
               className="hidden"
             />
-            <FileText className="mx-auto mb-3 size-12 text-slate-400" />
+            <FileText className="mx-auto mb-3 size-12 text-muted-foreground/60" />
             {selectedFile ? (
               <>
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="text-sm font-semibold text-foreground">
                   {selectedFile.name}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   {(selectedFile.size / 1024).toFixed(1)} KB
                 </p>
               </>
             ) : (
               <>
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="text-sm font-semibold text-foreground">
                   Clique para fazer upload de um arquivo
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   TXT (PDF, DOC e DOCX serão suportados futuramente)
                 </p>
               </>
@@ -202,8 +225,8 @@ export default function UploadLawPage() {
         </div>
 
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
-            <FileText className="size-4 text-[#1e3a5f]" />
+          <label className="flex items-center gap-2 text-sm font-bold text-foreground">
+            <FileText className="size-4 text-primary" />
             Texto da Lei
           </label>
           <textarea
@@ -212,16 +235,16 @@ export default function UploadLawPage() {
             onChange={(event) =>
               setFormData({ ...formData, lawText: event.target.value })
             }
-            className="min-h-52 w-full resize-y rounded-xl border border-slate-300 px-4 py-3 font-serif text-sm outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#1e3a5f]"
+            className="min-h-52 w-full resize-y rounded-xl border border-border bg-transparent px-4 py-3 font-serif text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
             required
           />
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             {formData.lawText.length} caracteres
           </p>
         </div>
 
         {submitError && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+          <div className="rounded-xl border border-[var(--error)] bg-[var(--error)]/10 px-4 py-3 text-sm font-semibold text-[var(--error)]">
             {submitError}
           </div>
         )}
@@ -230,14 +253,14 @@ export default function UploadLawPage() {
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="rounded-xl border border-slate-300 px-6 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50"
+            className="rounded-xl border border-border bg-transparent px-6 py-3 text-sm font-bold text-foreground transition-colors hover:bg-muted"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={!isFormValid || isSubmitting}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#2d5a8c] disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <>

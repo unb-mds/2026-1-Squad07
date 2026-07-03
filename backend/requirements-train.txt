@@ -1,0 +1,40 @@
+# Dependencias de TREINO do classificador LegalBERT-pt (CrivoAI).
+#
+# IMPORTANTE — build de PyTorch CUDA 12.8 (cu128) para GPU NVIDIA Blackwell (sm_120).
+# A wheel do PyTorch ja embute o runtime CUDA; NAO e necessario instalar o
+# CUDA Toolkit completo. Apenas o driver NVIDIA + a build cu128 correta, que e a
+# unica que traz kernels para a arquitetura Blackwell (ex.: RTX 50xx / sm_120).
+#
+# Instalacao do torch a partir do indice oficial cu128 (NAO vem do PyPI padrao):
+#
+#   pip install torch --index-url https://download.pytorch.org/whl/cu128
+#
+# Se a build stable nao expuser sm_120 no seu ambiente, use a nightly cu128:
+#
+#   pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu128
+#
+# Diagnostico validado nesta maquina (Windows 11, Python 3.12):
+#   torch 2.11.0+cu128 | cuda build 12.8 | device RTX 5060 | capability (12, 0)
+#   arch_list inclui sm_120 e o teste real de matmul na GPU passou.
+#
+# As demais dependencias abaixo vem do PyPI padrao.
+
+# --- PyTorch (instalar via indice cu128 acima) ---
+torch==2.11.0+cu128
+
+# --- Stack de treino/avaliacao (PyPI) ---
+transformers==5.12.1
+datasets==5.0.0
+accelerate==1.14.0
+scikit-learn==1.9.0
+scipy==1.18.0
+numpy==2.5.0
+pandas==3.0.3
+tokenizers==0.22.2
+safetensors==0.8.0
+
+# Split estratificado multi-label (MultilabelStratifiedShuffleSplit).
+iterative-stratification==0.1.9
+
+# Extracao de texto de PDFs (inteiro teor) em build_dataset_camara.py --full-text.
+pypdf==6.4.0

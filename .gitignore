@@ -35,9 +35,16 @@ build/
 
 # Testes e Cobertura
 /coverage
+frontend/coverage/
 .pytest_cache/
 htmlcov/
 .tox/
+.coverage
+.coverage.*
+coverage.xml
+coverage.lcov
+*.lcov
+
 
 # MkDocs
 site/
@@ -60,3 +67,14 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 prisma/debug*.log
+
+# Modelo local treinado do LegalBERT-pt
+backend/app/models/fine_tuned_legalbert/
+
+# Artefato INT8 quantizado (experimental, descartado por perda de qualidade)
+backend/app/models/legalbert_int8/
+
+# Pastas temporárias do Hugging Face Trainer
+results/
+logs/
+backend/scripts/_train_output/

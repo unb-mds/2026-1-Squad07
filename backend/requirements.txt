@@ -4,8 +4,12 @@ prisma
 pydantic
 pydantic-settings
 uvicorn
+transformers
+torch
+scikit-learn
 pytest
 pytest-cov
+pytest-asyncio
 httpx
 flake8
 black

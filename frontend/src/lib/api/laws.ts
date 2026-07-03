@@ -12,6 +12,7 @@ export type CreatedLaw = {
   title: string;
   description: string | null;
   text: string;
+  summary?: string | null;
   sourceType: string;
   sourceUrl: string | null;
   jurisdiction: string | null;
@@ -28,6 +29,29 @@ export type LawSubmissionListItem = {
   title: string;
   createdAt: string;
   textExcerpt: string;
+  score?: number | null;
+};
+
+export type AnalysisRequest = {
+  lawId?: string;
+  text: string;
+  type: "bill" | "amendment";
+};
+
+export type AnalysisWarning = {
+  code: string;
+  message: string;
+  confidence: number;
+};
+
+export type AnalysisResponse = {
+  analysis_id: string;
+  status: "pending" | "completed" | "failed";
+  score: number | null;
+  metrics: Record<string, number>;
+  warnings: AnalysisWarning[];
+  model_version: string;
+  cached: boolean;
 };
 
 export function submitLaw(submission: LawSubmission, token?: string | null) {
@@ -38,10 +62,35 @@ export function submitLaw(submission: LawSubmission, token?: string | null) {
   });
 }
 
-export function listLawSubmissions() {
-  return apiRequest<LawSubmissionListItem[]>("/laws");
+export function listLawSubmissions(sourceType: string = "ALL") {
+  return apiRequest<LawSubmissionListItem[]>(
+    `/laws?source_type=${encodeURIComponent(sourceType)}`,
+  );
 }
 
 export function getLaw(id: string) {
   return apiRequest<CreatedLaw>(`/laws/${encodeURIComponent(id)}`);
 }
+
+export async function getLawSummary(id: string) {
+  const law = await getLaw(id);
+  return law.summary ?? null;
+}
+
+export function analyzeLawQuality(payload: AnalysisRequest) {
+  return apiRequest<AnalysisResponse>("/api/v1/analysis/evaluate", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export type LawStatistics = {
+  averageScore: number;
+  analyzedLaws: number;
+  criticalLaws: number;
+};
+
+export function getLawStatistics() {
+  return apiRequest<LawStatistics>("/api/v1/laws/statistics");
+}
+

@@ -14,15 +14,16 @@ export function RadialProgress({
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const progress = circumference - (value / 100) * circumference;
+
   const color =
-    value >= 85 ? "text-green-500" : value >= 70 ? "text-yellow-500" : "text-red-500";
+    value >= 70 ? "text-[var(--success)]" : value >= 40 ? "text-[var(--warning)]" : "text-[var(--error)]";
 
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="relative" style={{ width: size, height: size }}>
         <svg className="-rotate-90" width={size} height={size}>
           <circle
-            className="text-slate-100"
+            className="text-border"
             stroke="currentColor"
             fill="transparent"
             strokeWidth={strokeWidth}
@@ -43,11 +44,11 @@ export function RadialProgress({
             cy={size / 2}
           />
         </svg>
-        <span className="absolute inset-0 flex items-center justify-center text-2xl font-black text-slate-800">
+        <span className="absolute inset-0 flex items-center justify-center text-2xl font-black text-foreground">
           {value}%
         </span>
       </div>
-      {label && <p className="text-center text-sm font-semibold text-slate-600">{label}</p>}
+      {label && <p className="text-center text-sm font-semibold text-muted-foreground">{label}</p>}
     </div>
   );
 }

@@ -10,10 +10,10 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  
-  --primary: #1e3a5f; 
+
+  --primary: #1e3a5f;
   --primary-foreground: #ffffff;
-  
+
   --secondary: oklch(0.95 0.0058 264.53);
   --secondary-foreground: #1e3a5f;
   --muted: #ececf0;
@@ -29,7 +29,7 @@
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --ring: oklch(0.708 0 0);
-  
+
   /* Cores de Status de Leis */
   --success: #22c55e;
   --warning: #eab308;
@@ -45,21 +45,25 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  
+  --card: oklch(0.24 0.03 240.0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
+  --popover: oklch(0.24 0.03 240.0);
   --popover-foreground: oklch(0.985 0 0);
+  
   --primary: oklch(0.985 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  
+  --muted: oklch(0.28 0.02 240.0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
+  
+  --border: oklch(0.32 0.02 240.0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
   --font-weight-medium: 500;
@@ -69,13 +73,14 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  
+  --sidebar: oklch(0.24 0.03 240.0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-border: oklch(0.32 0.02 240.0);
   --sidebar-ring: oklch(0.439 0 0);
 }
 
@@ -175,4 +180,18 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+}
+
+/* Custom Highlight Effect for warnings */
+mark.highlight {
+  background-color: rgba(253, 224, 71, 0.85); /* yellow-300 */
+  border-radius: 0.125rem;
+  padding: 0; /* sem padding para evitar reflow ou pulos no layout de texto */
+  font-weight: inherit; /* sem alterar largura do texto */
+  color: inherit;
+  transition: background-color 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+mark.highlight.fade-out {
+  background-color: transparent;
 }

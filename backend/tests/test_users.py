@@ -97,12 +97,15 @@ class FakeUserDelegate:
 @pytest.fixture(autouse=True)
 def admin_dependency_override():
     app.dependency_overrides[users.require_admin_user] = lambda: make_user(role="ADMIN")
+    app.dependency_overrides[users.get_current_user] = lambda: make_user(role="ADMIN")
     yield
     app.dependency_overrides.pop(users.require_admin_user, None)
+    app.dependency_overrides.pop(users.get_current_user, None)
 
 
 def test_list_users_rejeita_requisicao_sem_token():
     app.dependency_overrides.pop(users.require_admin_user, None)
+    app.dependency_overrides.pop(users.get_current_user, None)
 
     response = client.get("/users")
 
@@ -202,6 +205,30 @@ def test_get_user_retorna_404_quando_nao_encontra(monkeypatch):
     assert response.status_code == 404
 
 
+def test_get_user_permite_usuario_comum_consultar_proprio_perfil(monkeypatch):
+    common_user = make_user(role="COMMON")
+    fake_user_delegate = FakeUserDelegate([common_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    app.dependency_overrides[users.get_current_user] = lambda: common_user
+
+    response = client.get("/users/user-123")
+
+    assert response.status_code == 200
+    assert response.json()["id"] == "user-123"
+
+
+def test_get_user_rejeita_usuario_comum_consultando_outro_perfil(monkeypatch):
+    common_user = make_user(user_id="user-123", role="COMMON")
+    other_user = make_user(user_id="user-456", email="ana@example.com")
+    fake_user_delegate = FakeUserDelegate([common_user, other_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    app.dependency_overrides[users.get_current_user] = lambda: common_user
+
+    response = client.get("/users/user-456")
+
+    assert response.status_code == 403
+
+
 def test_update_user_atualiza_somente_campos_enviados(monkeypatch):
     fake_user_delegate = FakeUserDelegate([make_user()])
     monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
@@ -255,6 +282,43 @@ def test_update_user_rejeita_campos_nulos(monkeypatch):
     response = client.patch("/users/user-123", json={"password": None})
 
     assert response.status_code == 422
+    assert fake_user_delegate.updated_data is None
+
+
+def test_update_user_permite_usuario_comum_atualizar_proprio_perfil(monkeypatch):
+    common_user = make_user(role="COMMON")
+    fake_user_delegate = FakeUserDelegate([common_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    app.dependency_overrides[users.get_current_user] = lambda: common_user
+
+    response = client.patch("/users/user-123", json={"name": "Maria Souza"})
+
+    assert response.status_code == 200
+    assert fake_user_delegate.updated_data == {"name": "Maria Souza"}
+
+
+def test_update_user_rejeita_usuario_comum_alterando_propria_role(monkeypatch):
+    common_user = make_user(role="COMMON")
+    fake_user_delegate = FakeUserDelegate([common_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    app.dependency_overrides[users.get_current_user] = lambda: common_user
+
+    response = client.patch("/users/user-123", json={"role": "ADMIN"})
+
+    assert response.status_code == 403
+    assert fake_user_delegate.updated_data is None
+
+
+def test_update_user_rejeita_usuario_comum_atualizando_outro_perfil(monkeypatch):
+    common_user = make_user(user_id="user-123", role="COMMON")
+    other_user = make_user(user_id="user-456", email="ana@example.com")
+    fake_user_delegate = FakeUserDelegate([common_user, other_user])
+    monkeypatch.setattr(users, "db", SimpleNamespace(user=fake_user_delegate))
+    app.dependency_overrides[users.get_current_user] = lambda: common_user
+
+    response = client.patch("/users/user-456", json={"name": "Ana Souza"})
+
+    assert response.status_code == 403
     assert fake_user_delegate.updated_data is None
 
 

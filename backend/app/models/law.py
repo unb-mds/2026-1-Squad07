@@ -35,6 +35,7 @@ class LawResponse(BaseModel):
     title: str
     description: str | None
     text: str
+    summary: str | None = None
     sourceType: str
     sourceUrl: str | None
     jurisdiction: str | None
@@ -45,8 +46,32 @@ class LawResponse(BaseModel):
     createdAt: datetime
     updatedAt: datetime
 
+
 class LawListItem(BaseModel):
     id: str
     title: str
     createdAt: datetime
     textExcerpt: str
+    score: float | None = None
+
+
+class LawStatisticsResponse(BaseModel):
+    averageScore: float
+    analyzedLaws: int
+    criticalLaws: int
+
+
+class ReadabilityRequest(BaseModel):
+    texto: str = Field(..., min_length=1)
+
+
+class ReadabilityMetrics(BaseModel):
+    palavras: int
+    frases: int
+    silabas: int
+
+
+class ReadabilityResponse(BaseModel):
+    score: float
+    classificacao: str
+    metricas: ReadabilityMetrics

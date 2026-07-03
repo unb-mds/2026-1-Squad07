@@ -36,56 +36,56 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-145px)] items-center justify-center bg-slate-50 px-4 py-12 sm:px-6">
+    <div className="flex min-h-[calc(100vh-145px)] items-center justify-center bg-background px-4 py-12 sm:px-6">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex size-14 items-center justify-center rounded-2xl bg-[#1e3a5f] shadow-lg">
-            <Scale className="size-7 text-white" />
+          <div className="mb-4 inline-flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
+            <Scale className="size-7" />
           </div>
-          <h1 className="text-3xl font-black text-slate-800">
+          <h1 className="text-3xl font-black text-foreground">
             Bem-vindo de volta
           </h1>
-          <p className="mt-2 text-sm text-slate-500">Acesse sua conta no CrivoAI</p>
+          <p className="mt-2 text-sm text-muted-foreground">Acesse sua conta no CrivoAI</p>
         </div>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
+        <section className="rounded-2xl border border-border bg-card p-8 shadow-xl">
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
-              <label className="mb-2 block text-sm font-bold text-slate-700">
+              <label className="mb-2 block text-sm font-bold text-foreground">
                 E-mail
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                <Mail className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   required
-                  className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-[#1e3a5f] focus:bg-white focus:ring-4 focus:ring-blue-100"
+                  className="w-full rounded-xl border-2 border-border bg-muted py-3 pl-11 pr-4 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/60 focus:border-primary focus:bg-card focus:ring-4 focus:ring-primary/10"
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-bold text-slate-700">
+              <label className="mb-2 block text-sm font-bold text-foreground">
                 Senha
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                <Lock className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type="password"
                   placeholder="********"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   required
-                  className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-[#1e3a5f] focus:bg-white focus:ring-4 focus:ring-blue-100"
+                  className="w-full rounded-xl border-2 border-border bg-muted py-3 pl-11 pr-4 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/60 focus:border-primary focus:bg-card focus:ring-4 focus:ring-primary/10"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+              <div className="rounded-xl border border-[var(--error)]/20 bg-[var(--error)]/10 px-4 py-3 text-sm font-semibold text-[var(--error)]">
                 {error}
               </div>
             )}
@@ -93,7 +93,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] py-3.5 font-bold text-white shadow-lg transition-all hover:bg-[#2d5a8c] disabled:opacity-60"
+              className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 font-bold text-primary-foreground shadow-lg transition-all hover:opacity-90 disabled:opacity-60"
             >
               {loading ? (
                 <span className="animate-pulse">Entrando...</span>
@@ -106,10 +106,10 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 border-t border-slate-100 pt-6 text-center">
-            <p className="text-sm text-slate-500">
+          <div className="mt-6 border-t border-border pt-6 text-center">
+            <p className="text-sm text-muted-foreground">
               Não tem uma conta?{" "}
-              <Link href="/register" className="font-bold text-[#1e3a5f] hover:underline">
+              <Link href="/register" className="font-bold text-primary hover:underline">
                 Registre-se gratuitamente
               </Link>
             </p>

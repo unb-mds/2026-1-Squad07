@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-slate-500 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 py-8 text-sm text-muted-foreground bg-background sm:px-6">
           Carregando busca...
         </div>
       }

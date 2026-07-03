@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import auth, health, laws, users
+from app.api import analysis, auth, health, laws, users
 from app.db.client import db
 
 
@@ -19,6 +19,8 @@ app = FastAPI(lifespan=lifespan)
 origins = [
     "http://localhost:3000",
     "http://localhost:8080",
+    "https://crivoai-omega.vercel.app",
+    "https://crivoai.vercel.app",
 ]
 
 
@@ -34,4 +36,6 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(laws.router)
+app.include_router(laws.router_v1)
 app.include_router(users.router)
+app.include_router(analysis.router)
