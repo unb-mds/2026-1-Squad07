@@ -60,7 +60,7 @@ export const WarningCard: React.FC<WarningCardProps> = ({ warning, onSelect, onH
       onClick={() => onSelect(warning)}
       onMouseEnter={() => onHover?.(warning)}
       onMouseLeave={() => onHover?.(null)}
-      className="w-full text-left flex flex-col gap-2 p-4 rounded-xl border border-slate-200 bg-white transition-all duration-200 hover:border-slate-400 hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-[#1e3a5f]/50 cursor-pointer"
+      className="w-full text-left flex flex-col gap-2 p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:border-border/70 hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-[#1e3a5f]/50 cursor-pointer"
       aria-label={`Problema de qualidade: ${details.label}. Descrição: ${message}. Confiança: ${confidencePercentage}%. Trecho afetado: ${snippet}`}
     >
       <div className="flex items-center justify-between w-full">
@@ -68,14 +68,14 @@ export const WarningCard: React.FC<WarningCardProps> = ({ warning, onSelect, onH
           <IconComponent className="size-3.5" />
           {details.label}
         </span>
-        <span className="text-xs font-bold text-slate-500">{confidencePercentage}%</span>
+        <span className="text-xs font-bold text-foreground">{confidencePercentage}%</span>
       </div>
 
-      {message && <p className="text-sm font-semibold text-slate-800 leading-snug">{message}</p>}
+      {message && <p className="text-sm font-semibold text-foreground leading-snug">{message}</p>}
 
       {snippet && (
-        <div className="w-full bg-slate-50 border-l-2 border-slate-300 p-2 rounded-r-md">
-          <p className="text-xs font-serif italic text-slate-600 leading-relaxed whitespace-pre-wrap">
+        <div className="w-full bg-muted border-l-2 border-border p-2 rounded-r-md">
+          <p className="text-xs font-serif italic text-muted-foreground leading-relaxed whitespace-pre-wrap">
             &quot;{truncateSnippet(snippet)}&quot;
           </p>
         </div>
