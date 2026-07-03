@@ -11,7 +11,7 @@ export const WarningsSidebar: React.FC<WarningsSidebarProps> = ({
   onWarningHover,
 }) => {
   return (
-    <aside className="w-full h-full flex flex-col border border-slate-200 rounded-2xl bg-slate-50 overflow-hidden shadow-sm">
+    <aside className="w-full min-w-0 max-w-full h-full flex flex-col border border-slate-200 rounded-2xl bg-slate-50 overflow-hidden shadow-sm">
       {/* Header do Sidebar */}
       <div className="p-5 border-b border-slate-200 bg-white">
         <h3 className="flex items-center gap-2 text-md font-bold text-slate-800">
