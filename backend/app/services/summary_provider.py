@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+import logging
 import os
 import httpx
+
+logger = logging.getLogger(__name__)
 
 
 class SummaryError(Exception):
@@ -111,7 +114,25 @@ class GeminiSummaryProvider(SummaryProvider):
                 )
 
             data = response.json()
-            parts = data["candidates"][0]["content"]["parts"]
+            candidate = data["candidates"][0]
+            finish_reason = candidate.get("finishReason", "UNKNOWN")
+
+            # Loga sempre para facilitar diagnóstico nos logs do Render.
+            logger.info(
+                "Gemini finishReason=%s | input_chars=%d",
+                finish_reason,
+                len(texto_para_resumo),
+            )
+
+            if finish_reason == "MAX_TOKENS":
+                logger.warning(
+                    "Resumo cortado pelo limite de tokens (MAX_TOKENS). "
+                    "Considere aumentar maxOutputTokens. "
+                    "Input chars: %d",
+                    len(texto_para_resumo),
+                )
+
+            parts = candidate["content"]["parts"]
             summary = parts[0]["text"].strip()
             return summary
 
