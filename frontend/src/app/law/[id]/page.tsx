@@ -35,9 +35,9 @@ function formattedDate(value: string) {
 }
 
 function getScoreColorClass(score: number): string {
-  if (score >= 70) return "bg-green-100 text-green-800 border-green-300";
-  if (score >= 40) return "bg-amber-100 text-amber-800 border-amber-300";
-  return "bg-red-100 text-red-800 border-red-300";
+  if (score >= 70) return "bg-[var(--success)]/10 text-[var(--success)] border-[var(--success)]/30";
+  if (score >= 40) return "bg-[var(--warning)]/10 text-[var(--warning)] border-[var(--warning)]/30";
+  return "bg-[var(--error)]/10 text-[var(--error)] border-[var(--error)]/30";
 }
 
 function scoreToPercent(score: number | null): number {
@@ -189,8 +189,6 @@ export default function LawDetailPage() {
     };
   }, [law, id, analysis, summary]);
 
-
-
   const scorePercent = scoreToPercent(analysis?.score ?? null);
   const metrics = analysis ? Object.entries(analysis.metrics) : [];
   const summaryToShow = analysis?.summary || summary;
@@ -205,38 +203,38 @@ export default function LawDetailPage() {
       <button
         type="button"
         onClick={() => router.back()}
-        className="flex items-center gap-2 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-800"
+        className="flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
         Voltar às submissões
       </button>
 
       {loadingLaw ? (
-        <section className="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-20 text-sm font-semibold text-slate-600 shadow-md">
-          <Loader2 className="size-5 animate-spin text-[#1e3a5f]" />
+        <section className="flex items-center justify-center gap-3 rounded-2xl border border-border bg-card py-20 text-sm font-semibold text-muted-foreground shadow-md">
+          <Loader2 className="size-5 animate-spin text-primary" />
           Carregando submissão persistida...
         </section>
       ) : errorLaw || !law ? (
-        <section className="rounded-2xl border border-red-200 bg-white py-20 text-center shadow-md">
-          <AlertCircle className="mx-auto mb-4 size-12 text-red-400" />
-          <h1 className="text-lg font-bold text-slate-700">Falha ao consultar submissão</h1>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-slate-600">{errorLaw}</p>
+        <section className="rounded-2xl border border-destructive/30 bg-card py-20 text-center shadow-md">
+          <AlertCircle className="mx-auto mb-4 size-12 text-destructive" />
+          <h1 className="text-lg font-bold text-foreground">Falha ao consultar submissão</h1>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground">{errorLaw}</p>
         </section>
       ) : (
         <>
-          <section className="rounded-2xl bg-linear-to-r from-[#1e3a5f] to-[#2d5a8c] p-6 text-white shadow-lg">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-200">
+          <section className="rounded-2xl bg-gradient-to-r from-[#1e3a5f] to-[#2d5a8c] dark:bg-none dark:bg-card dark:border dark:border-border p-6 text-white shadow-lg">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-200 dark:text-muted-foreground">
               Submissão Persistida
             </p>
-            <h1 className="text-2xl font-bold leading-snug">{law.title}</h1>
-            <div className="mt-5 flex flex-wrap gap-3 text-sm text-blue-100">
+            <h1 className="text-2xl font-bold leading-snug dark:text-foreground">{law.title}</h1>
+            <div className="mt-5 flex flex-wrap gap-3 text-sm text-blue-100 dark:text-muted-foreground">
               {law.lawNumber && (
-                <span className="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5">
+                <span className="flex items-center gap-1.5 rounded-full bg-white/10 dark:bg-muted px-3 py-1.5">
                   <Hash className="size-4" />
                   {law.lawNumber}
                 </span>
               )}
-              <span className="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5">
+              <span className="flex items-center gap-1.5 rounded-full bg-white/10 dark:bg-muted px-3 py-1.5">
                 <CalendarDays className="size-4" />
                 Registrada em {formattedDate(law.createdAt)}
               </span>
@@ -245,115 +243,115 @@ export default function LawDetailPage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
-              <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
-                  <Sparkles className="size-5 text-purple-600" />
+              <section className="rounded-2xl border border-border bg-card p-6 shadow-md">
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-foreground">
+                  <Sparkles className="size-5 text-purple-500" />
                   Resumo Explicativo por IA
                 </h2>
                 {loadingSummary ? (
-                  <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-600">
-                    <Loader2 className="size-4 animate-spin text-purple-600" />
+                  <div className="flex items-center gap-3 rounded-xl border border-border bg-muted p-4 text-sm font-semibold text-muted-foreground">
+                    <Loader2 className="size-4 animate-spin text-purple-500" />
                     Gerando resumo explicativo...
                   </div>
                 ) : errorSummary ? (
-                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                    <p className="text-sm font-semibold text-amber-800">
+                  <div className="rounded-xl border border-[var(--warning)]/20 bg-[var(--warning)]/10 p-4">
+                    <p className="text-sm font-semibold text-[var(--warning)]">
                       Resumo indisponível no momento.
                     </p>
-                    <p className="mt-1 text-sm text-amber-800">{errorSummary}</p>
+                    <p className="mt-1 text-sm text-[var(--warning)]/80">{errorSummary}</p>
                   </div>
                 ) : !summaryToShow ? (
-                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                    <p className="text-sm text-amber-800">
+                  <div className="rounded-xl border border-[var(--warning)]/20 bg-[var(--warning)]/10 p-4">
+                    <p className="text-sm text-[var(--warning)]">
                       Resumo indisponível ou ainda não processado para este documento legislativo.
                     </p>
                   </div>
                 ) : (
-                  <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-slate-600">
+                  <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed text-muted-foreground">
                     {summaryToShow}
                   </div>
                 )}
               </section>
 
-              <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-                <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-800">
-                  <BookOpen className="size-5 text-[#1e3a5f]" />
+              <section className="rounded-2xl border border-border bg-card p-6 shadow-md">
+                <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-foreground">
+                  <BookOpen className="size-5 text-primary" />
                   Texto Armazenado
                 </h2>
-                <div id="law-content" className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-slate-700">
+                <div id="law-content" className="whitespace-pre-wrap font-serif text-[15px] leading-loose text-foreground/90">
                   {law.text}
                 </div>
               </section>
 
               {loadingAnalysis ? (
-                <section className="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-12 text-sm font-semibold text-slate-600 shadow-md">
-                  <Loader2 className="size-5 animate-spin text-[#1e3a5f]" />
+                <section className="flex items-center justify-center gap-3 rounded-2xl border border-border bg-card py-12 text-sm font-semibold text-muted-foreground shadow-md">
+                  <Loader2 className="size-5 animate-spin text-primary" />
                   Analisando qualidade legislativa do texto...
                 </section>
               ) : errorAnalysis ? (
-                <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-                  <div className="mb-1 flex items-center gap-2 font-bold text-amber-800">
+                <section className="rounded-2xl border border-[var(--warning)]/20 bg-[var(--warning)]/10 p-6 shadow-sm">
+                  <div className="mb-1 flex items-center gap-2 font-bold text-[var(--warning)]">
                     <AlertTriangle className="size-5" />
                     <h3>Análise de Qualidade Indisponível</h3>
                   </div>
-                  <p className="text-sm text-slate-600">{errorAnalysis}</p>
+                  <p className="text-sm text-muted-foreground">{errorAnalysis}</p>
                 </section>
               ) : analysis ? (
-                <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-                  <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-slate-800">
-                    <BarChart3 className="size-5 text-[#1e3a5f]" />
+                <section className="rounded-2xl border border-border bg-card p-6 shadow-md">
+                  <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-foreground">
+                    <BarChart3 className="size-5 text-primary" />
                     Análise de Qualidade Legislativa
                   </h2>
-                  <div className="mb-6 flex flex-col items-center justify-center gap-6 border-b border-slate-100 pb-6 sm:flex-row sm:justify-around">
+                  <div className="mb-6 flex flex-col items-center justify-center gap-6 border-b border-border pb-6 sm:flex-row sm:justify-around">
                     <RadialProgress value={scorePercent} label="Score de Qualidade" />
                     <div className="text-center sm:text-left">
-                      <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Classificação</p>
-                      <p className="mt-1 text-xl font-bold text-slate-800">
+                      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Classificação</p>
+                      <p className="mt-1 text-xl font-bold text-foreground">
                         {classifyScore(analysis.score)}
                       </p>
-                      <p className="mt-2 text-xs text-slate-500">
+                      <p className="mt-2 text-xs text-muted-foreground">
                         Modelo {analysis.model_version}
                         {analysis.cached ? " - resultado em cache" : ""}
                       </p>
                     </div>
                   </div>
-                  <p className="mb-3 text-xs text-slate-500">
+                  <p className="mb-3 text-xs text-muted-foreground">
                     As métricas indicam a probabilidade de problema detectado em cada categoria.
                   </p>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {metrics.length > 0 ? (
                       metrics.map(([code, value]) => (
-                        <div key={code} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-                          <p className="text-xs font-semibold uppercase text-slate-500">
+                        <div key={code} className="rounded-xl border border-border bg-muted p-4">
+                          <p className="text-xs font-semibold uppercase text-muted-foreground">
                             {formatMetricName(code)}
                           </p>
-                          <p className="mt-2 text-2xl font-bold text-slate-800">
+                          <p className="mt-2 text-2xl font-bold text-foreground">
                             {formatProbability(value)}
                           </p>
                         </div>
                       ))
                     ) : (
-                      <p className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-600 sm:col-span-2">
+                      <p className="rounded-xl border border-border bg-muted p-4 text-sm text-muted-foreground sm:col-span-2">
                         Nenhuma métrica detalhada foi retornada para esta análise.
                       </p>
                     )}
                   </div>
                   <div className="mt-6 space-y-3">
-                    <h3 className="text-sm font-bold uppercase text-slate-500">Alertas</h3>
+                    <h3 className="text-sm font-bold uppercase text-muted-foreground">Alertas</h3>
                     {analysis.warnings.length > 0 ? (
                       analysis.warnings.map((warning) => (
                         <div
                           key={warningKey(warning)}
-                          className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-slate-700"
+                          className="rounded-xl border border-[var(--warning)]/20 bg-[var(--warning)]/10 p-4 text-sm text-foreground/90"
                         >
-                          <p className="font-semibold text-amber-800">
+                          <p className="font-semibold text-[var(--warning)]">
                             {formatMetricName(warning.code)} - {formatProbability(warning.confidence)}
                           </p>
                           <p className="mt-1">{warning.message}</p>
                         </div>
                       ))
                     ) : (
-                      <p className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                      <p className="rounded-xl border border-[var(--success)]/20 bg-[var(--success)]/10 p-4 text-sm text-[var(--success)]">
                         Nenhum alerta acima do limiar foi identificado.
                       </p>
                     )}
@@ -364,8 +362,8 @@ export default function LawDetailPage() {
 
             <aside className="space-y-6">
               {analysis && !loadingAnalysis && !errorAnalysis ? (
-                <section className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-md">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
+                <section className="rounded-2xl border border-border bg-card p-6 text-center shadow-md">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                     Pontuação Obtida
                   </p>
                   <span
@@ -373,14 +371,14 @@ export default function LawDetailPage() {
                   >
                     {scorePercent}
                   </span>
-                  <p className="mt-4 text-xs text-slate-500">
+                  <p className="mt-4 text-xs text-muted-foreground">
                     A cor reflete a qualidade estimada pelo classificador.
                   </p>
                 </section>
               ) : (
-                <section className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm text-slate-700">
-                  <FileText className="mt-0.5 size-5 shrink-0 text-[#1e3a5f]" />
-                  Aguardando o processamento dos indicadores de qualidade do documento.
+                <section className="flex items-start gap-3 rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
+                  <FileText className="mt-0.5 size-5 shrink-0 text-primary" />
+                  Gerando resumo explicativo...
                 </section>
               )}
 

@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className="h-full">
       <body
-        className="min-h-full bg-slate-50 text-slate-900 antialiased"
+        className="min-h-full bg-background text-foreground antialiased" 
         suppressHydrationWarning
       >
         <AppShell>{children}</AppShell>

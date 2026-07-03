@@ -20,7 +20,6 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Efeito para buscar dados do perfil em tempo real na API ao carregar a página
   useEffect(() => {
     let active = true;
 
@@ -42,8 +41,7 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
     return () => {
       active = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id, token]);
+  }, [user.id, token, updateUserInSession]);
 
   const handleCancel = () => {
     setName(user.name);
@@ -76,8 +74,8 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
   return (
     <form onSubmit={handleSubmit} className="p-6 space-y-6">
       <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-          <User className="h-4 w-4 text-slate-400" />
+        <label htmlFor="name" className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <User className="h-4 w-4 text-muted-foreground" />
           Nome
         </label>
         <Input
@@ -90,15 +88,16 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
           }}
           aria-invalid={!!error}
           aria-describedby={error ? "name-error" : undefined}
+          className="bg-muted text-foreground border-border focus:border-primary"
         />
         {error && (
-          <p id="name-error" className="text-xs font-medium text-red-500">{error}</p>
+          <p id="name-error" className="text-xs font-medium text-[var(--error)]">{error}</p>
         )}
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-          <Mail className="h-4 w-4 text-slate-400" />
+        <label htmlFor="email" className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <Mail className="h-4 w-4 text-muted-foreground" />
           E-mail
         </label>
         <Input
@@ -106,33 +105,35 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
           type="email"
           value={user.email}
           disabled
+          className="bg-muted text-muted-foreground border-border opacity-70"
         />
       </div>
 
-      <div className="rounded-lg bg-slate-50 p-4 border border-slate-100 flex items-start gap-3">
-        <Shield className="h-5 w-5 text-slate-400 mt-0.5" />
+      <div className="rounded-lg bg-muted p-4 border border-border flex items-start gap-3">
+        <Shield className="h-5 w-5 text-muted-foreground mt-0.5" />
         <div>
-          <h3 className="text-sm font-semibold text-slate-700">Tipo de Conta</h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <h3 className="text-sm font-semibold text-foreground">Tipo de Conta</h3>
+          <p className="text-xs text-muted-foreground mt-0.5">
             Nível de acesso do usuário no sistema CrivoAI.
           </p>
           <div className="mt-2 flex items-center gap-2">
-            <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-bold text-blue-700 border border-blue-200 uppercase">
+            <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-bold text-primary border border-primary/20 uppercase">
               {user.role}
             </span>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-muted-foreground font-medium">
               {user.role === "ADMIN" ? "Administrador" : "Usuário Comum"}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+      <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
         <Button
           type="button"
           variant="outline"
           onClick={handleCancel}
           disabled={isSubmitting}
+          className="border-border text-foreground hover:bg-muted"
         >
           <X className="h-4 w-4" />
           Cancelar
@@ -140,6 +141,7 @@ function ProfileForm({ user, token, updateUserInSession }: ProfileFormProps) {
         <Button
           type="submit"
           disabled={isSubmitting}
+          className="bg-primary text-primary-foreground hover:opacity-90"
         >
           {isSubmitting ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -169,27 +171,22 @@ export default function ProfilePage() {
 
   if (!user || !token) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
+      <div className="flex min-h-[50vh] items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5a8c] px-6 py-8 text-white">
-          <h1 className="text-2xl font-bold">Meu Perfil</h1>
-          <p className="mt-1 text-sm text-blue-100">
+      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5a8c] dark:bg-none dark:bg-card dark:border-b dark:border-border px-6 py-8 text-white">
+          <h1 className="text-2xl font-bold dark:text-foreground">Meu Perfil</h1>
+          <p className="mt-1 text-sm text-blue-100 dark:text-muted-foreground">
             Gerencie as informações básicas da sua conta.
           </p>
         </div>
 
-        {/* 
-          O uso da chave key={user.id} no subcomponente reconstrói completamente
-          o formulário com o estado inicial correto assim que o usuário é carregado,
-          eliminando a necessidade de useEffects sincronizadores síncronos (evita cascading renders).
-        */}
         <ProfileForm 
           user={user} 
           token={token} 
