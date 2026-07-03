@@ -146,7 +146,7 @@ def test_list_law_submissions_retorna_resumo_das_submissoes(monkeypatch):
     assert fake_law_delegate.find_many_args == {
         "where": {"sourceType": "USER_UPLOAD"},
         "order": {"createdAt": "desc"},
-        "include": {"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
+        "include": {"analyses": True},
     }
     assert response.json() == [
         {
@@ -202,7 +202,7 @@ def test_list_law_submissions_com_source_type_catalog(monkeypatch):
     assert fake_law_delegate.find_many_args == {
         "where": {"sourceType": "CATALOG"},
         "order": {"createdAt": "desc"},
-        "include": {"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
+        "include": {"analyses": True},
     }
 
 
@@ -217,7 +217,7 @@ def test_list_law_submissions_com_source_type_invalido_usa_user_upload(monkeypat
     assert fake_law_delegate.find_many_args == {
         "where": {"sourceType": "USER_UPLOAD"},
         "order": {"createdAt": "desc"},
-        "include": {"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
+        "include": {"analyses": True},
     }
 
 

@@ -18,6 +18,15 @@ router_v1 = APIRouter(prefix="/api/v1/laws", tags=["laws-v1"])
 TEXT_EXCERPT_MAX_LENGTH = 120
 
 
+def get_created_at_key(analysis):
+    val = getattr(analysis, "createdAt", None)
+    if val is None:
+        from datetime import datetime, timezone
+
+        return datetime(1970, 1, 1, tzinfo=timezone.utc)
+    return val
+
+
 @router.post("", response_model=LawResponse, status_code=status.HTTP_201_CREATED)
 async def submit_law(
     law: LawSubmissionRequest,
@@ -40,19 +49,28 @@ async def list_law_submissions(source_type: str = "USER_UPLOAD"):
     laws = await db.law.find_many(
         where={"sourceType": source_type},
         order={"createdAt": "desc"},
-        include={"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
+        include={"analyses": True},
     )
 
-    return [
-        LawListItem(
-            id=law.id,
-            title=law.title,
-            createdAt=law.createdAt,
-            textExcerpt=law.text[:TEXT_EXCERPT_MAX_LENGTH],
-            score=law.analyses[0].score if getattr(law, "analyses", None) else None,
+    result = []
+    for law in laws:
+        analyses = getattr(law, "analyses", None)
+        score = None
+        if analyses:
+            sorted_analyses = sorted(analyses, key=get_created_at_key, reverse=True)
+            score = sorted_analyses[0].score
+
+        result.append(
+            LawListItem(
+                id=law.id,
+                title=law.title,
+                createdAt=law.createdAt,
+                textExcerpt=law.text[:TEXT_EXCERPT_MAX_LENGTH],
+                score=score,
+            )
         )
-        for law in laws
-    ]
+
+    return result
 
 
 @router.get("/{law_id}", response_model=LawResponse)
@@ -105,10 +123,15 @@ async def get_law_statistics():
     """Calcula estatísticas de qualidade agregadas a partir do banco."""
     laws = await db.law.find_many(
         where={"sourceType": "USER_UPLOAD"},
-        include={"analyses": {"order": {"createdAt": "desc"}, "take": 1}},
+        include={"analyses": True},
     )
 
-    latest_scores = [law.analyses[0].score for law in laws if law.analyses]
+    latest_scores = []
+    for law in laws:
+        analyses = getattr(law, "analyses", None)
+        if analyses:
+            sorted_analyses = sorted(analyses, key=get_created_at_key, reverse=True)
+            latest_scores.append(sorted_analyses[0].score)
 
     total_analisadas = len(latest_scores)
     if total_analisadas > 0:
