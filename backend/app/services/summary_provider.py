@@ -82,7 +82,10 @@ class GeminiSummaryProvider(SummaryProvider):
             "1. O objetivo principal e o tema central do documento "
             "(ex: o que está sendo regulamentado, instituído ou proibido).\n"
             "2. As principais medidas ou regras estabelecidas.\n\n"
-            "Instruções importantes:\n"
+            "Instruções OBRIGATÓRIAS:\n"
+            "- Responda APENAS com o parágrafo do resumo. "
+            "Não escreva introduções como 'Aqui está o resumo:' "
+            "ou comentários adicionais após o resumo.\n"
             "- Use linguagem direta, acessível e sem jargões jurídicos "
             "excessivos.\n"
             "- Evite resumos extremamente genéricos (como 'Esta lei cria "
@@ -95,9 +98,10 @@ class GeminiSummaryProvider(SummaryProvider):
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
-                # 512 tokens (~400 palavras) garante resumos completos mesmo
-                # para textos legislativos mais complexos.
-                "maxOutputTokens": 512,
+                # 1024 tokens evita que respostas mais detalhadas do modelo
+                # sejam cortadas no meio. Um parágrafo de 3 sentenças usa
+                # em média 80-150 tokens; a margem cobre preâmbulos extras.
+                "maxOutputTokens": 1024,
                 "temperature": 0.1,
             },
         }
