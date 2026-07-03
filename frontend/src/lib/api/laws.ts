@@ -62,7 +62,7 @@ export function submitLaw(submission: LawSubmission, token?: string | null) {
   });
 }
 
-export function listLawSubmissions(sourceType: string = "USER_UPLOAD") {
+export function listLawSubmissions(sourceType: string = "ALL") {
   return apiRequest<LawSubmissionListItem[]>(
     `/laws?source_type=${encodeURIComponent(sourceType)}`,
   );

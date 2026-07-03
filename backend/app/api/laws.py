@@ -41,13 +41,19 @@ async def submit_law(
 
 
 @router.get("", response_model=list[LawListItem])
-async def list_law_submissions(source_type: str = "USER_UPLOAD"):
+async def list_law_submissions(source_type: str = "ALL"):
     """Lista submissoes legislativas enviadas por usuarios ou do catalogo."""
-    if source_type not in ["USER_UPLOAD", "CATALOG"]:
-        source_type = "USER_UPLOAD"
+    # ALL retorna ambos os tipos; qualquer outro valor invalido cai para ALL
+    valid_types = ["USER_UPLOAD", "CATALOG", "ALL"]
+    if source_type not in valid_types:
+        source_type = "ALL"
+
+    where_clause = (
+        {} if source_type == "ALL" else {"sourceType": source_type}
+    )
 
     laws = await db.law.find_many(
-        where={"sourceType": source_type},
+        where=where_clause,
         order={"createdAt": "desc"},
         include={"analyses": True},
     )
@@ -120,9 +126,14 @@ async def analyze_readability(payload: ReadabilityRequest):
     status_code=status.HTTP_200_OK,
 )
 async def get_law_statistics():
-    """Calcula estatísticas de qualidade agregadas a partir do banco."""
+    """Calcula estatisticas de qualidade agregadas a partir do banco.
+
+    Considera leis de qualquer sourceType (USER_UPLOAD e CATALOG), mas
+    apenas as que possuem pelo menos uma analise. Leis sem classificacao
+    nao interferem na media nem nos contadores.
+    """
     laws = await db.law.find_many(
-        where={"sourceType": "USER_UPLOAD"},
+        where={},
         include={"analyses": True},
     )
 
