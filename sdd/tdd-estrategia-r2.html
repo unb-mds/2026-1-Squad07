@@ -12,13 +12,13 @@
         <meta name="author" content="Squad 07">
       
       
-        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/sdd/index.html">
+        <link rel="canonical" href="https://unb-mds.github.io/2026-1-Squad07/sdd/tdd-estrategia-r2.html">
       
       
-        <link rel="prev" href="../architecture/ai-success-metrics.html">
+        <link rel="prev" href="index.html">
       
       
-        <link rel="next" href="tdd-estrategia-r2.html">
+        <link rel="next" href="../dev/ci-setup.html">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Visão Geral - CrivoAI - Qualidade Legislativa</title>
+        <title>Estratégia de TDD para R2 - CrivoAI - Qualidade Legislativa</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sdd-e-tdd" class="md-skip">
+        <a href="#estrategia-de-tdd-para-a-r2" class="md-skip">
           Ir para o conteúdo
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Visão Geral
+              Estratégia de TDD para R2
             
           </span>
         </div>
@@ -765,6 +765,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visão Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -784,7 +812,7 @@
   <span class="md-ellipsis">
     
   
-    Visão Geral
+    Estratégia de TDD para R2
   
 
     
@@ -795,14 +823,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+      <a href="tdd-estrategia-r2.html" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Visão Geral
+    Estratégia de TDD para R2
   
 
     
@@ -828,10 +856,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#objetivo" class="md-nav__link">
+  <a href="#por-que-este-documento-existe" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Objetivo
+        Por que este documento existe
       
     </span>
   </a>
@@ -839,10 +867,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#por-que-isso-existe" class="md-nav__link">
+  <a href="#como-se-relaciona-com-o-projeto" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Por que isso existe
+        Como se relaciona com o projeto
       
     </span>
   </a>
@@ -850,10 +878,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relacao-com-scrum-xp-e-agentes-de-ia" class="md-nav__link">
+  <a href="#o-ciclo-red-green-refactor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relação com Scrum, XP e Agentes de IA
+        O Ciclo Red-Green-Refactor
       
     </span>
   </a>
@@ -861,10 +889,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fluxo-do-squad-07" class="md-nav__link">
+  <a href="#quando-aplicar-tdd-obrigatoriamente" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fluxo do Squad 07
+        Quando aplicar TDD obrigatoriamente
       
     </span>
   </a>
@@ -872,10 +900,127 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relacao-com-r1-e-r2" class="md-nav__link">
+  <a href="#padroes-de-escrita-de-testes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relação com R1 e R2
+        Padrões de escrita de testes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Padrões de escrita de testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arrange-act-assert-aaa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arrange-Act-Assert (AAA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#given-when-then" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Given-When-Then
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-de-testes-no-crivoai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura de testes no CrivoAI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrutura de testes no CrivoAI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-python-pytest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend (Python + pytest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frontend-typescript-jest-react-testing-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend (TypeScript + Jest + React Testing Library)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metas-de-cobertura-para-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metas de cobertura para R2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metas de cobertura para R2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ferramentas-de-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ferramentas de cobertura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sonarqube-qualidade-de-codigo-no-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SonarQube — Qualidade de código no CI/CD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#piramide-de-testes-do-crivoai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pirâmide de testes do CrivoAI
       
     </span>
   </a>
@@ -883,10 +1028,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#regra-central" class="md-nav__link">
+  <a href="#checklist-de-tdd-para-pull-requests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Regra central
+        Checklist de TDD para Pull Requests
       
     </span>
   </a>
@@ -894,10 +1039,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#documentacao-como-produto" class="md-nav__link">
+  <a href="#o-que-nao-fazer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Documentação como produto
+        O que não fazer
       
     </span>
   </a>
@@ -905,10 +1050,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validacao-local" class="md-nav__link">
+  <a href="#relacao-com-cicd" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validação Local
+        Relação com CI/CD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referências
       
     </span>
   </a>
@@ -919,34 +1075,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tdd-estrategia-r2.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Estratégia de TDD para R2
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1368,47 +1496,232 @@
 
 
 
-<h1 id="sdd-e-tdd">SDD e TDD</h1>
-<h2 id="objetivo">Objetivo</h2>
-<p>Esta seção define como o Squad 07 usa <strong>Spec Driven Development (SDD)</strong> e <strong>Test Driven Development (TDD)</strong> para organizar o desenvolvimento do <strong>CrivoAI</strong>.</p>
-<p>O objetivo não é criar burocracia. A intenção é reduzir ambiguidades antes da implementação, melhorar a qualidade da documentação e permitir que devs, PO, Scrum Master, professora e agentes de IA entendam o que deve ser feito antes de alterar código.</p>
-<h2 id="por-que-isso-existe">Por que isso existe</h2>
-<p>O projeto possui várias fontes de informação: issues, MkDocs, Figma, Miro, arquitetura, métricas e decisões feitas durante as sprints. Sem um padrão, cada nova funcionalidade pode nascer com interpretações diferentes.</p>
-<p>O SDD resolve isso criando uma spec antes da implementação. O TDD complementa esse processo exigindo que cada spec tenha critérios de teste ou validação antes das tarefas de código.</p>
-<h2 id="relacao-com-scrum-xp-e-agentes-de-ia">Relação com Scrum, XP e Agentes de IA</h2>
-<p>O SDD não substitui o Scrum usado pelo grupo. Scrum continua organizando backlog, sprints, milestones, papéis, reviews e prioridades. O SDD atua como apoio para transformar issues em especificações claras antes da implementação.</p>
-<p>Na R2, a implementação será apoiada por práticas de XP, como TDD, feedback rápido, simplicidade, refatoração contínua e integração frequente. Nesse fluxo, as specs ajudam a definir o que será desenvolvido e os testes ajudam a validar se o comportamento esperado foi atendido.</p>
-<p>Agentes de IA entram como auxiliares desse processo. O projeto possui instruções para agentes em arquivos <code>AGENTS.md</code>, specs e skills locais. O Codex é a integração inicial configurada no Spec Kit, mas não é a base conceitual do projeto. As instruções devem ser úteis para qualquer agente de IA ou pessoa que precise entender o contexto, revisar documentação, planejar tarefas ou apoiar implementação.</p>
-<h2 id="fluxo-do-squad-07">Fluxo do Squad 07</h2>
-<p>O fluxo padrão é:</p>
-<ol>
-<li>Criar ou atualizar a issue no GitHub.</li>
-<li>Criar uma spec em <code>specs/</code>.</li>
-<li>Escrever <code>spec.md</code> com objetivo, contexto, comportamento esperado e critérios de aceite.</li>
-<li>Criar <code>plan.md</code> com abordagem técnica ou documental.</li>
-<li>Criar <code>test-plan.md</code> antes de gerar tarefas.</li>
-<li>Criar <code>tasks.md</code> com tarefas rastreáveis.</li>
-<li>Implementar apenas depois da spec estar clara.</li>
-<li>Validar com testes automatizados, validação manual ou TDD documental.</li>
-<li>Rodar <code>mkdocs serve</code> sempre que a mudança afetar documentação pública.</li>
-</ol>
-<h2 id="relacao-com-r1-e-r2">Relação com R1 e R2</h2>
-<p>Na R1, o foco é garantir documentação, protótipo, arquitetura, métricas e fluxo mínimo demonstrável. Nem tudo precisa estar implementado, mas tudo precisa estar claro.</p>
-<p>Na R2, o foco será implementação completa. Por isso, toda funcionalidade movida para desenvolvimento deve possuir SDD e TDD em sua composição.</p>
-<h2 id="regra-central">Regra central</h2>
-<p>Nenhuma feature relevante deve ser considerada pronta para implementação se não possuir:</p>
+<h1 id="estrategia-de-tdd-para-a-r2">Estratégia de TDD para a R2</h1>
+<h2 id="por-que-este-documento-existe">Por que este documento existe</h2>
+<p>Este documento define como o Squad 07 aplicará Test-Driven Development (TDD) durante a Release 2 do CrivoAI. A R2 marca a transição da documentação e prototipagem (R1) para a implementação funcional ponta a ponta, incluindo análise real de texto legislativo, cálculo de score e integração com agente de IA.</p>
+<p>Sem uma estratégia clara de TDD, cada desenvolvedor pode adotar interpretações diferentes de quando e como testar, gerando inconsistências, baixa cobertura e dificuldade para revisão de código.</p>
+<h2 id="como-se-relaciona-com-o-projeto">Como se relaciona com o projeto</h2>
+<p>Este documento complementa o fluxo SDD/TDD descrito em <code>docs/sdd/index.md</code>. Enquanto aquele documento descreve o processo de especificação antes da implementação, este define especificamente como os testes devem ser escritos e revisados durante o desenvolvimento da R2.</p>
+<p>A estratégia é derivada do estudo realizado na Sprint 10 (Issue #113) e foi formalizada para orientar o time na Issue #117.</p>
+<hr />
+<h2 id="o-ciclo-red-green-refactor">O Ciclo Red-Green-Refactor</h2>
+<p>Todo desenvolvimento de nova funcionalidade na R2 deve seguir o ciclo TDD:</p>
+<p><strong>RED — Escrever o teste antes</strong></p>
+<p>O desenvolvedor escreve um teste que descreve o comportamento esperado de uma funcionalidade que ainda não existe. O teste deve falhar porque o código de produção ainda não foi implementado. Essa falha é esperada e correta: ela confirma que o teste está testando algo real.</p>
+<p>Se o teste passar sem código implementado, o teste está errado ou testando a coisa errada.</p>
+<p><strong>GREEN — Implementar o mínimo para passar</strong></p>
+<p>O desenvolvedor escreve apenas o código necessário para o teste passar. A solução pode ser simples ou até ingênua nesse momento. O objetivo exclusivo é fazer o teste ficar verde. Soluções hardcoded são aceitáveis enquanto há mais testes a serem escritos.</p>
+<p><strong>REFACTOR — Limpar sem quebrar</strong></p>
+<p>Com os testes passando, o desenvolvedor refatora: melhora legibilidade, elimina duplicação, aplica padrões arquiteturais. Os testes garantem que nenhum comportamento foi alterado durante a limpeza. Se algum teste quebrar durante a refatoração, a mudança introduziu uma regressão.</p>
+<hr />
+<h2 id="quando-aplicar-tdd-obrigatoriamente">Quando aplicar TDD obrigatoriamente</h2>
+<p>TDD é obrigatório nas seguintes situações na R2:</p>
+<p><strong>Novas features:</strong> qualquer funcionalidade nova, endpoint de API, componente com lógica de negócio ou integração com o agente de IA.</p>
+<p><strong>Correção de bugs:</strong> o fluxo correto é escrever um teste que reproduza o bug antes de corrigir. O teste falha com o bug presente e passa após a correção. Isso garante que o bug não retorne.</p>
+<p><strong>Modificação de código existente:</strong> quando a alteração muda o comportamento de uma função ou componente, o teste deve ser atualizado ou escrito antes da mudança.</p>
+<p>TDD é recomendado (mas não obrigatório) para refatorações que não alteram comportamento externo, quando já existe cobertura de testes adequada.</p>
+<hr />
+<h2 id="padroes-de-escrita-de-testes">Padrões de escrita de testes</h2>
+<h3 id="arrange-act-assert-aaa">Arrange-Act-Assert (AAA)</h3>
+<p>Estrutura padrão para testes unitários e de integração. Cada seção tem responsabilidade clara.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_calcular_score_retorna_valor_entre_zero_e_cem</span><span class="p">():</span>
+    <span class="c1"># Arrange — configurar o estado inicial e as dependências</span>
+    <span class="n">texto</span> <span class="o">=</span> <span class="s2">&quot;Art. 1º. Esta lei dispõe sobre o Programa Nacional de Qualidade Legislativa.&quot;</span>
+
+    <span class="c1"># Act — executar a ação que está sendo testada</span>
+    <span class="n">resultado</span> <span class="o">=</span> <span class="n">calcular_score</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+
+    <span class="c1"># Assert — verificar o resultado esperado</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resultado</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">resultado</span> <span class="o">&lt;=</span> <span class="mf">100.0</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;exibe mensagem de erro quando submissão falha&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Arrange</span>
+<span class="w">    </span><span class="nx">mockApi</span><span class="p">.</span><span class="nx">postLei</span><span class="p">.</span><span class="nx">mockRejectedValue</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;Erro de conexão&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Act</span>
+<span class="w">    </span><span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">FormularioSubmissao</span><span class="w"> </span><span class="o">/&gt;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">userEvent</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">screen</span><span class="p">.</span><span class="nx">getByRole</span><span class="p">(</span><span class="s2">&quot;button&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="sr">/enviar/i</span><span class="w"> </span><span class="p">}));</span>
+
+<span class="w">    </span><span class="c1">// Assert</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">screen</span><span class="p">.</span><span class="nx">findByText</span><span class="p">(</span><span class="sr">/erro de conexão/i</span><span class="p">)).</span><span class="nx">toBeInTheDocument</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div>
+<h3 id="given-when-then">Given-When-Then</h3>
+<p>Variante mais próxima da linguagem de negócio, útil para descrever cenários de integração ou E2E:</p>
+<div class="highlight"><pre><span></span><code>Dado: usuário autenticado com token válido
+Quando: submete texto legislativo com título, número e conteúdo
+Então: recebe confirmação de persistência com status 201
+</code></pre></div>
+<hr />
+<h2 id="estrutura-de-testes-no-crivoai">Estrutura de testes no CrivoAI</h2>
+<h3 id="backend-python-pytest">Backend (Python + pytest)</h3>
+<p>Os testes do backend ficam em <code>backend/tests/</code>. A estrutura espelha a de <code>backend/app/</code>:</p>
+<div class="highlight"><pre><span></span><code>backend/
+├── app/
+│   ├── api/
+│   │   ├── auth.py
+│   │   └── laws.py
+│   └── services/
+│       └── score_service.py
+└── tests/
+    ├── unit/
+    │   └── test_score_service.py
+    └── integration/
+        ├── test_auth_routes.py
+        └── test_laws_routes.py
+</code></pre></div>
+<p><strong>Execução:</strong>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>backend
+pytest
+pytest<span class="w"> </span>--cov<span class="o">=</span>app<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+</code></pre></div></p>
+<h3 id="frontend-typescript-jest-react-testing-library">Frontend (TypeScript + Jest + React Testing Library)</h3>
+<p>Os testes ficam próximos aos componentes ou em <code>__tests__/</code>:</p>
+<div class="highlight"><pre><span></span><code>frontend/src/
+├── components/
+│   ├── ScoreBadge/
+│   │   ├── ScoreBadge.tsx
+│   │   └── ScoreBadge.test.tsx
+│   └── FormularioSubmissao/
+│       ├── FormularioSubmissao.tsx
+│       └── FormularioSubmissao.test.tsx
+└── lib/
+    ├── api.ts
+    └── api.test.ts
+</code></pre></div>
+<p><strong>Execução:</strong>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>frontend
+npm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
+npm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--<span class="w"> </span>--coverage
+</code></pre></div></p>
+<hr />
+<h2 id="metas-de-cobertura-para-r2">Metas de cobertura para R2</h2>
+<table>
+<thead>
+<tr>
+<th>Escopo</th>
+<th>Cobertura mínima</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código novo</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Código modificado</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Backend (geral)</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Frontend (geral)</td>
+<td>90%</td>
+</tr>
+</tbody>
+</table>
+<p>A meta de 90% é definida pelo plano de ensino da disciplina e é obrigatória para todos os PRs da R2.</p>
+<p>Cobertura é um indicador, não um objetivo final. Um teste que percorre uma linha de código sem verificar nada não conta como cobertura significativa. O reviewer deve avaliar se os assertions fazem sentido, não apenas se a porcentagem foi atingida.</p>
+<h3 id="ferramentas-de-cobertura">Ferramentas de cobertura</h3>
+<p><strong>Backend — pytest-cov:</strong></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pytest-cov
+pytest<span class="w"> </span>--cov<span class="o">=</span>app<span class="w"> </span>--cov-report<span class="o">=</span>term-missing<span class="w"> </span>--cov-fail-under<span class="o">=</span><span class="m">90</span>
+</code></pre></div>
+<p>A flag <code>--cov-fail-under=90</code> garante que o CI falhe automaticamente se a cobertura cair abaixo da meta. Para relatório HTML:</p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--cov<span class="o">=</span>app<span class="w"> </span>--cov-report<span class="o">=</span>html
+</code></pre></div>
+<p><strong>Frontend — Jest coverage:</strong></p>
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--<span class="w"> </span>--coverage
+</code></pre></div>
+<p>O threshold pode ser fixado no <code>jest.config.js</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">coverageThreshold</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nb">global</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">lines</span><span class="o">:</span><span class="w"> </span><span class="mf">90</span><span class="p">,</span><span class="w"> </span><span class="nx">functions</span><span class="o">:</span><span class="w"> </span><span class="mf">90</span><span class="p">,</span><span class="w"> </span><span class="nx">branches</span><span class="o">:</span><span class="w"> </span><span class="mf">90</span><span class="w"> </span><span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="sonarqube-qualidade-de-codigo-no-cicd">SonarQube — Qualidade de código no CI/CD</h3>
+<blockquote>
+<p><strong>Nota:</strong> SonarQube é uma ferramenta de CI/CD, não um framework de teste. Sua configuração pertence ao pipeline (<code>.github/workflows/</code>). Em relação a cobertura, ele apenas lê e exibe os relatórios gerados pelo pytest-cov e Jest — não executa testes.</p>
+</blockquote>
+<p>O que o SonarQube analisa:</p>
 <ul>
-<li>comportamento esperado;</li>
-<li>critérios de aceite;</li>
-<li>plano de testes ou validação;</li>
-<li>separação entre R1 demonstrável, R2 completa e futuro;</li>
-<li>tarefas rastreáveis à spec e à issue.</li>
+<li><strong>Code smells:</strong> código funcional mas difícil de manter (métodos longos, complexidade alta)</li>
+<li><strong>Bugs:</strong> padrões com alta probabilidade de falha em produção</li>
+<li><strong>Vulnerabilidades:</strong> segredos expostos, injeção SQL, imports inseguros</li>
+<li><strong>Duplicações:</strong> blocos repetidos que devem ser extraídos</li>
+<li><strong>Cobertura:</strong> lida a partir do <code>coverage.xml</code> (pytest-cov) ou <code>lcov.info</code> (Jest)</li>
 </ul>
-<h2 id="documentacao-como-produto">Documentação como produto</h2>
-<p>A documentação também segue TDD. Uma página só deve ser aprovada quando explica por que existe, qual contexto possui, como se conecta ao projeto e como pode ser validada.</p>
-<p>Páginas compostas apenas por links, embeds, imagens ou listas soltas devem receber ajustes antes do merge.</p>
-<h2 id="validacao-local">Validação Local</h2>
-<p>Alterações em documentação devem ser abertas no MkDocs localmente com <code>mkdocs serve</code>. A validação precisa conferir se a página aparece na navegação correta, se o texto está legível, se links e embeds possuem contexto e se não há sobreposição visual.</p>
+<p><strong>Fluxo de integração:</strong></p>
+<div class="highlight"><pre><span></span><code>pytest --cov=app --cov-report=xml  →  coverage.xml
+Jest --coverage                    →  lcov.info
+              ↓
+      CI envia para SonarQube
+              ↓
+   SonarQube exibe painel + Quality Gate
+</code></pre></div>
+<p>O <strong>Quality Gate</strong> do SonarQube pode bloquear merges se a cobertura cair abaixo da meta ou se forem introduzidos bugs e vulnerabilidades críticas. A configuração de Quality Gate e a integração com GitHub Actions deve ser documentada e implementada dentro do escopo de CI/CD do projeto, não aqui.</p>
+<hr />
+<h2 id="piramide-de-testes-do-crivoai">Pirâmide de testes do CrivoAI</h2>
+<div class="highlight"><pre><span></span><code>           /\
+          /E2E\           Playwright — fluxos completos (R2)
+         /------\
+        / Integra-\       pytest + TestClient / MSW — rotas, banco
+       / ção        \
+      /--------------\
+     /   Unitários    \   pytest / Jest — funções, componentes
+    /------------------\
+</code></pre></div>
+<p>A proporção esperada: ~70% unitários, ~20% integração, ~10% E2E.</p>
+<hr />
+<h2 id="checklist-de-tdd-para-pull-requests">Checklist de TDD para Pull Requests</h2>
+<p>Todo PR que inclui implementação na R2 deve atender os itens abaixo antes de ser revisado:</p>
+<p><strong>Sobre os testes:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Testes foram escritos antes ou junto ao código de produção</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Testes são determinísticos (mesmo resultado em qualquer ambiente)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Happy path está coberto</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Pelo menos um edge case ou cenário de erro está coberto</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Nenhum teste depende de estado externo não controlado (banco real, hora do sistema, variável de ambiente ausente)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Mocks e stubs estão usados apenas onde necessário</li>
+</ul>
+<p><strong>Sobre a cobertura:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Coverage mínima de 90% foi atingida para o código alterado</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>pytest</code> passa sem erros e warnings inesperados</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>npm run test</code> passa sem erros</li>
+</ul>
+<p><strong>Sobre a revisão:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> O reviewer avaliou a qualidade dos testes, não apenas a do código</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Testes novos não foram adicionados apenas para aumentar métricas de coverage</li>
+</ul>
+<hr />
+<h2 id="o-que-nao-fazer">O que não fazer</h2>
+<p><strong>Não escrever testes depois da implementação e chamar de TDD.</strong> Testes escritos depois tendem a cobrir apenas o que o código já faz, não o que deveria fazer. TDD real exige a sequência correta: teste → código → refatoração.</p>
+<p><strong>Não usar mocks em excesso.</strong> Mockar tudo além do necessário cria testes que passam mas não detectam problemas reais de integração.</p>
+<p><strong>Não ignorar testes que falham intermitentemente (flaky tests).</strong> Um teste que falha às vezes é tão prejudicial quanto nenhum teste. Corrija ou remova antes de mergear.</p>
+<p><strong>Não considerar coverage como garantia de qualidade.</strong> 100% de coverage com assertions vazias ou triviais é pior que 70% com assertions significativas.</p>
+<hr />
+<h2 id="relacao-com-cicd">Relação com CI/CD</h2>
+<p>Na R2, o pipeline de CI deve executar automaticamente a suite de testes a cada push e bloquear merge se:</p>
+<ul>
+<li>Algum teste falhar</li>
+<li>A cobertura cair abaixo da meta definida</li>
+<li><code>npm run lint</code> ou <code>npm run build</code> falharem</li>
+</ul>
+<p>A configuração de CI está em <code>.github/workflows/</code>. Alterações no pipeline devem seguir as regras do <code>AGENTS.md</code> (análise prévia, sem CI/CD impulsivo).</p>
+<hr />
+<h2 id="referencias">Referências</h2>
+<ul>
+<li><code>estudos/sprint10/estudo_TDD_e_frameworks_de_teste.md</code> — Estudo aprofundado realizado na Sprint 10 (Issue #113)</li>
+<li><code>docs/sdd/index.md</code> — Visão geral do processo SDD/TDD do Squad 07</li>
+<li><code>specs/AGENTS.md</code> — Fluxo obrigatório de specs antes da implementação</li>
+<li>Issue #113 — TDD e Frameworks de Teste (estudo base)</li>
+<li>Issue #117 — Documentar Estratégia de TDD para R2</li>
+<li>CONTRIBUTING.md — Guia de contribuição do projeto</li>
+</ul>
 
 
 
