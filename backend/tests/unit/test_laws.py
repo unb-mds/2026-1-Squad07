@@ -144,7 +144,7 @@ def test_list_law_submissions_retorna_resumo_das_submissoes(monkeypatch):
 
     assert response.status_code == 200
     assert fake_law_delegate.find_many_args == {
-        "where": {"sourceType": "USER_UPLOAD"},
+        "where": {},
         "order": {"createdAt": "desc"},
         "include": {"analyses": True},
     }
@@ -206,8 +206,8 @@ def test_list_law_submissions_com_source_type_catalog(monkeypatch):
     }
 
 
-def test_list_law_submissions_com_source_type_invalido_usa_user_upload(monkeypatch):
-    """Verifica que valor invalido para source_type faz fallback para USER_UPLOAD."""
+def test_list_law_submissions_com_source_type_invalido_usa_all(monkeypatch):
+    """Verifica que valor invalido para source_type faz fallback para ALL."""
     fake_law_delegate = FakeLawDelegate()
     monkeypatch.setattr(laws, "db", SimpleNamespace(law=fake_law_delegate))
 
@@ -215,7 +215,7 @@ def test_list_law_submissions_com_source_type_invalido_usa_user_upload(monkeypat
 
     assert response.status_code == 200
     assert fake_law_delegate.find_many_args == {
-        "where": {"sourceType": "USER_UPLOAD"},
+        "where": {},
         "order": {"createdAt": "desc"},
         "include": {"analyses": True},
     }
