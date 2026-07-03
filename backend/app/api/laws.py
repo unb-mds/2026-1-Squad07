@@ -48,9 +48,7 @@ async def list_law_submissions(source_type: str = "ALL"):
     if source_type not in valid_types:
         source_type = "ALL"
 
-    where_clause = (
-        {} if source_type == "ALL" else {"sourceType": source_type}
-    )
+    where_clause = {} if source_type == "ALL" else {"sourceType": source_type}
 
     laws = await db.law.find_many(
         where=where_clause,

@@ -75,7 +75,7 @@ async def ingest_catalog(args: argparse.Namespace) -> None:
     only_real: bool = args.only_real
     skip_analysis: bool = args.skip_analysis
 
-    print(f"--- Iniciando Ingestão de Leis do Catálogo ---")
+    print("--- Iniciando Ingestao de Leis do Catalogo ---")
     print(f"Dataset : {dataset_path}")
     print(f"Limite  : {limit or 'sem limite'}")
     print(f"Apenas reais: {only_real}")
@@ -151,11 +151,11 @@ async def ingest_catalog(args: argparse.Namespace) -> None:
 
         if existing is None:
             await db.law.create(data={"id": item["id"], **law_payload})
-            print(f"[{i}/{len(laws_data)}] ✓ Criada : {item['title'][:70]}")
+            print(f"[{i}/{len(laws_data)}] OK Criada : {item['title'][:70]}")
             created_laws += 1
         else:
             await db.law.update(where={"id": item["id"]}, data=law_payload)
-            print(f"[{i}/{len(laws_data)}] ~ Atualizada: {item['title'][:70]}")
+            print(f"[{i}/{len(laws_data)}] -- Atualizada: {item['title'][:70]}")
             updated_laws += 1
 
         if skip_analysis:
@@ -173,7 +173,7 @@ async def ingest_catalog(args: argparse.Namespace) -> None:
             )
             print(
                 f"           Score: {analysis_result['score']:.2f} | "
-                f"Resumo: {'✓' if analysis_result.get('summary') else '✗'}"
+                f"Resumo: {'OK' if analysis_result.get('summary') else 'ERRO'}"
             )
             created_analyses += 1
         except Exception as e:
