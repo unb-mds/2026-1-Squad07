@@ -155,13 +155,13 @@ export default function LawDetailPage() {
 
   useEffect(() => {
     if (!law) return;
+    if (summary) return;
 
     let active = true;
 
     async function fetchSummary() {
       setLoadingSummary(true);
       setErrorSummary("");
-      setSummary(null);
       try {
         const persistedSummary = await getLawSummary(id);
         if (active) {
@@ -187,7 +187,7 @@ export default function LawDetailPage() {
     return () => {
       active = false;
     };
-  }, [law, id]);
+  }, [law, id, analysis, summary]);
 
   const scorePercent = scoreToPercent(analysis?.score ?? null);
   const metrics = analysis ? Object.entries(analysis.metrics) : [];

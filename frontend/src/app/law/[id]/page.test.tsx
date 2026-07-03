@@ -74,6 +74,7 @@ describe("LawDetailPage - análise de qualidade", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse(persistedLaw);
     mockJsonResponse(analysisResponse);
+    mockJsonResponse(persistedLaw);
 
     render(<LawDetailPage />);
 
@@ -84,7 +85,7 @@ describe("LawDetailPage - análise de qualidade", () => {
     expect(screen.getByText("Vagueza - 72%")).toBeInTheDocument();
     expect(screen.getAllByText("Trechos com termos pouco específicos.")[0]).toBeInTheDocument();
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3));
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(4));
 
     const analysisCall = mockFetch.mock.calls.find(
       ([url, options]) =>
@@ -178,6 +179,7 @@ describe("LawDetailPage - Resumo Explicativo por IA", () => {
     mockJsonResponse(persistedLaw);
     mockJsonResponse(lawWithoutSummary);
     mockJsonResponse(analysisResponse);
+    mockJsonResponse(lawWithoutSummary);
 
     render(<LawDetailPage />);
 

@@ -6,6 +6,7 @@ pydantic-settings
 uvicorn
 transformers
 torch
+scikit-learn
 pytest
 pytest-cov
 pytest-asyncio

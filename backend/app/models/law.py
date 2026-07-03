@@ -52,6 +52,13 @@ class LawListItem(BaseModel):
     title: str
     createdAt: datetime
     textExcerpt: str
+    score: float | None = None
+
+
+class LawStatisticsResponse(BaseModel):
+    averageScore: float
+    analyzedLaws: int
+    criticalLaws: int
 
 
 class ReadabilityRequest(BaseModel):

@@ -11,6 +11,7 @@ deixando o erro explícito para a camada de API traduzir em 503.
 from __future__ import annotations
 
 import asyncio
+import logging
 from typing import Any
 from uuid import uuid4
 
@@ -24,6 +25,8 @@ from app.services.analysis.scoring import (
 )
 from app.services.analysis_provider import AnalysisProvider
 from app.services.summary_provider import SummaryProvider
+
+logger = logging.getLogger(__name__)
 
 
 class AnalysisError(Exception):
@@ -63,8 +66,8 @@ async def evaluate_text(
         summary = None
         try:
             summary = await summary_task
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.error(f"Erro ao gerar resumo da lei com IA: {exc}", exc_info=True)
 
         scored["summary"] = summary
         cache.set(key, scored)
