@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-12T05:58:27+00:00",
+  "generated_at": "2026-07-19T05:53:05+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -90,7 +90,7 @@
     },
     {
       "range": "21-50",
-      "count": 180
+      "count": 181
     },
     {
       "range": "51-100",
@@ -214,6 +214,12 @@
         "Victor Amaral + Paulo Demczuk",
         "Jonathan Carpaneda + pedrolrm"
       ]
+    },
+    {
+      "week": "2026-W28",
+      "coauthors": 0,
+      "count": 0,
+      "details": []
     }
   ],
   "commit_heatmap": [
@@ -965,7 +971,7 @@
     {
       "day": 6,
       "hour": 5,
-      "count": 0
+      "count": 1
     },
     {
       "day": 6,
@@ -1077,7 +1083,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 48
+      "commits": 49
     },
     {
       "username": "Pedrop06",
@@ -1259,7 +1265,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 48
+      "commits": 49
     },
     {
       "username": "RochaCarla",
@@ -2010,8 +2016,8 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 47,
-      "total": 47
+      "commits": 48,
+      "total": 48
     },
     {
       "username": "Jonathan-Carpaneda",
