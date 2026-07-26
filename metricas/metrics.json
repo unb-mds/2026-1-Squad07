@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-19T05:53:05+00:00",
+  "generated_at": "2026-07-26T06:03:42+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -90,7 +90,7 @@
     },
     {
       "range": "21-50",
-      "count": 181
+      "count": 182
     },
     {
       "range": "51-100",
@@ -217,6 +217,12 @@
     },
     {
       "week": "2026-W28",
+      "coauthors": 0,
+      "count": 0,
+      "details": []
+    },
+    {
+      "week": "2026-W29",
       "coauthors": 0,
       "count": 0,
       "details": []
@@ -971,7 +977,7 @@
     {
       "day": 6,
       "hour": 5,
-      "count": 1
+      "count": 2
     },
     {
       "day": 6,
@@ -1083,7 +1089,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 49
+      "commits": 50
     },
     {
       "username": "Pedrop06",
@@ -1244,6 +1250,18 @@
       "commits": 26
     },
     {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues_opened": 0,
+      "issues_assigned": 0,
+      "issues_assigned_closed": 0,
+      "issues_pending": 0,
+      "prs_opened": 0,
+      "prs_reviewed": 0,
+      "prs_merged": 0,
+      "commits": 50
+    },
+    {
       "username": "valexim",
       "name": "Victor Amaral",
       "issues_opened": 2,
@@ -1254,18 +1272,6 @@
       "prs_reviewed": 0,
       "prs_merged": 3,
       "commits": 23
-    },
-    {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues_opened": 0,
-      "issues_assigned": 0,
-      "issues_assigned_closed": 0,
-      "issues_pending": 0,
-      "prs_opened": 0,
-      "prs_reviewed": 0,
-      "prs_merged": 0,
-      "commits": 49
     },
     {
       "username": "RochaCarla",
@@ -2016,8 +2022,8 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 48,
-      "total": 48
+      "commits": 49,
+      "total": 49
     },
     {
       "username": "Jonathan-Carpaneda",
