@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T03:52:51+00:00",
+  "generated_at": "2026-08-30T08:53:01+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -90,7 +90,7 @@
     },
     {
       "range": "21-50",
-      "count": 186
+      "count": 187
     },
     {
       "range": "51-100",
@@ -247,6 +247,12 @@
     },
     {
       "week": "2026-W33",
+      "coauthors": 0,
+      "count": 0,
+      "details": []
+    },
+    {
+      "week": "2026-W34",
       "coauthors": 0,
       "count": 0,
       "details": []
@@ -991,7 +997,7 @@
     {
       "day": 6,
       "hour": 3,
-      "count": 1
+      "count": 2
     },
     {
       "day": 6,
@@ -1113,7 +1119,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 54
+      "commits": 55
     },
     {
       "username": "Pedrop06",
@@ -1283,7 +1289,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 54
+      "commits": 55
     },
     {
       "username": "valexim",
@@ -2034,20 +2040,20 @@
       "total": 90
     },
     {
+      "username": "github-actions[bot]",
+      "name": "github-actions[bot]",
+      "issues": 0,
+      "pull_requests": 0,
+      "commits": 54,
+      "total": 54
+    },
+    {
       "username": "pedrolrm",
       "name": "Pedro Luca",
       "issues": 5,
       "pull_requests": 3,
       "commits": 46,
       "total": 54
-    },
-    {
-      "username": "github-actions[bot]",
-      "name": "github-actions[bot]",
-      "issues": 0,
-      "pull_requests": 0,
-      "commits": 53,
-      "total": 53
     },
     {
       "username": "Jonathan-Carpaneda",
