@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T07:59:58+00:00",
+  "generated_at": "2026-09-20T08:14:42+00:00",
   "repository": "unb-mds/2026-1-Squad07",
   "issues_per_week": [
     {
@@ -90,7 +90,7 @@
     },
     {
       "range": "21-50",
-      "count": 189
+      "count": 190
     },
     {
       "range": "51-100",
@@ -265,6 +265,12 @@
     },
     {
       "week": "2026-W36",
+      "coauthors": 0,
+      "count": 0,
+      "details": []
+    },
+    {
+      "week": "2026-W37",
       "coauthors": 0,
       "count": 0,
       "details": []
@@ -1029,7 +1035,7 @@
     {
       "day": 6,
       "hour": 7,
-      "count": 5
+      "count": 6
     },
     {
       "day": 6,
@@ -1131,7 +1137,7 @@
     {
       "username": "github-actions[bot]",
       "name": "github-actions[bot]",
-      "commits": 57
+      "commits": 58
     },
     {
       "username": "Pedrop06",
@@ -1301,7 +1307,7 @@
       "prs_opened": 0,
       "prs_reviewed": 0,
       "prs_merged": 0,
-      "commits": 57
+      "commits": 58
     },
     {
       "username": "valexim",
@@ -2056,8 +2062,8 @@
       "name": "github-actions[bot]",
       "issues": 0,
       "pull_requests": 0,
-      "commits": 56,
-      "total": 56
+      "commits": 57,
+      "total": 57
     },
     {
       "username": "pedrolrm",
