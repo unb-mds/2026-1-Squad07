@@ -1,5 +1,8 @@
 # CrivoAI — Monitoramento de Qualidade de Leis
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=unb-mds_2026-1-Squad07&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=unb-mds_2026-1-Squad07)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=unb-mds_2026-1-Squad07&metric=coverage)](https://sonarcloud.io/summary/new_code?id=unb-mds_2026-1-Squad07)
+
 Plataforma para avaliação técnica, legibilidade e consistência de proposições legislativas através de inteligência artificial.
 
 ---

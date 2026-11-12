@@ -61,8 +61,13 @@ jobs:
         working-directory: backend
       - name: Rodar testes com coverage
         run: |
-          pytest tests/ -v --tb=short --cov=app --cov-report=html --cov-report=lcov --cov-report=term-missing --cov-fail-under=90
+          pytest tests/ -v --tb=short --cov=app --cov-report=html --cov-report=xml --cov-report=lcov --cov-report=term-missing --cov-fail-under=90
         working-directory: backend
+      - name: Upload Backend Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: backend/coverage.xml
 
   frontend-tests:
     name: Testes Frontend
@@ -84,3 +89,32 @@ jobs:
       - name: Rodar testes com coverage
         run: npm run test:coverage
         working-directory: frontend
+      - name: Upload Frontend Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: frontend/coverage/lcov.info
+
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+    needs: [tests, frontend-tests]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download Backend Coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-coverage
+          path: backend/
+      - name: Download Frontend Coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-coverage
+          path: frontend/coverage/
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
